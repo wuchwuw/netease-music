@@ -1,8 +1,12 @@
+* {
+  box-sizing: content-box;
+}
 html, body {
   padding: 0;
   margin: 0;
   line-height: 1;
   height: 100%;
+  overflow: hidden;
 }
 
 #app {
@@ -16,13 +20,20 @@ html, body {
 }
 
 .top {
-  flex: 0 0 60px;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background: #f9f9f9;
+  z-index: 1;
 }
 
 .main {
+  padding: 50px 0 60px;
   flex: 1;
   display: flex;
+  height: 100%;
 }
 
 .main-left {
@@ -30,7 +41,28 @@ html, body {
   background: #ededed;
 }
 
+.main-right {
+  align-self: stretch;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .bottom {
-  flex: 0 0 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
   background: #ededed;
 }
+
+.container {
+  width: 765px;
+  margin: 0 auto;
+}
+
+// .triangle {
+//   width: ;
+// }

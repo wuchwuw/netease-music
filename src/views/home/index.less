@@ -14,6 +14,7 @@
 }
 .home-wrap {
   padding: 20px;
+  user-select: none;
 }
 .home-personalized {
   margin-top: 30px;
@@ -21,6 +22,8 @@
 .home-recommend-title {
   font-size: 18px;
   padding-left: 10px;
+  font-weight: 500;
+  margin: 20px 0;
 }
 .home-personalized-content, .home-privatecontent-content, .home-mv-content {
   display: flex;
@@ -28,25 +31,43 @@
 }
 .home-personalized-item {
   width: 133px;
+  height: 173px;
   margin: 0 10px 40px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .home-personalized-img {
   height: 133px;
   width: 133px;
+  border-radius: 5px;
+}
+.home-personalized-text {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 5px;
+  font-weight: 500;
 }
 .home-privatecontent-item {
   width: 170px;
-  margin: 0 10px;
+  margin: 0 10px 40px;
 }
 .home-privatecontent-img {
   height: 95px;
   width: 170px;
+  border-radius: 5px;
+}
+.home-privatecontent-text {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 5px;
+  font-weight: 500;
 }
 
 .home-music-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 40px;
 }
 .home-music-item {
   width: 365px;
@@ -54,17 +75,53 @@
   display: flex;
   align-items: center;
   padding-left: 10px;
+  border-radius: 5px;
+  &:hover {
+    background: #F5F5F5;
+  }
 }
 .home-music-img {
   height: 60px;
   width: 60px;
+  border-radius: 5px;
+}
+.home-music-num {
+  margin: 0 10px;
+  color: #C0C0C0;
+  font-size: 12px;
+}
+.home-music-info {
+  flex: 1;
+  .home-music-name {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .home-music-artist {
+    font-size: 12px;
+    margin-top: 10px;
+  }
 }
 
 .home-mv-item {
   width: 170px;
-  margin: 0 10px;
+  margin: 0 10px 40px;
 }
 .home-mv-img {
   height: 95px;
   width: 170px;
+  border-radius: 5px;
+}
+.home-mv-text {
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+.home-mv-artist {
+  color: #999999;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.home-icon-arrow {
+  font-size: 20px !important;
+  font-weight: 500;
 }

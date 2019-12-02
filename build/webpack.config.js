@@ -22,9 +22,10 @@ const config = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      // 'components': resolve('src/components'),
-      // 'common': resolve('src/common'),
-      // 'store': resolve('src/store'),
+      'COMPONENTS': resolve('src/components'),
+      'API': resolve('src/api'),
+      'ASSETS': resolve('src/assets'),
+      'STYLE': resolve('src/style')
       // 'api': resolve('src/api'),
       // 'base': resolve('src/base'),
       // 'router': resolve('src/router')

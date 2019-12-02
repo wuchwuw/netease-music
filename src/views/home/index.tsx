@@ -62,49 +62,51 @@ export function Home () {
         </Carousel>
       </div>
       <div className="home-personalized">
-        <div className="home-recommend-title">推荐歌单</div>
+        <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-personalized-content">
           { personalized.map((item: any, index) => (
             <div key={index} className="home-personalized-item">
               <img className="home-personalized-img" src={item.picUrl} alt=""/>
-              <div>{item.name}</div>
+              <div className="home-personalized-text">{item.name}</div>
             </div>
           ))}
         </div>
       </div>
       <div className="home-privatecontent">
-        <div className="home-recommend-title">独家放送</div>
+        <div className="home-recommend-title">独家放送<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-privatecontent-content">
           { privatecontent.map((item: any, index) => (
             <div key={index} className="home-privatecontent-item">
               <img className="home-privatecontent-img" src={item.picUrl} alt=""/>
-              <div>{item.name}</div>
+              <div className="home-privatecontent-text">{item.name}</div>
             </div>
           ))}
         </div>
       </div>
       <div className="home-music">
-        <div className="home-recommend-title">最新音乐</div>
+        <div className="home-recommend-title">最新音乐<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-music-content">
           { song.map((item: any, index) => (
             <div key={index} className="home-music-item">
               <img className="home-music-img" src={item.song.album.picUrl} alt=""/>
               <div className="home-music-num">{'0' + (index + 1)}</div>
               <div className="home-music-info">
-                <div className="home-music-name">{item.name}</div>
-                <div className="home-music-artist">{item.song.artists[0].name}</div>
+                <div className="home-music-name text-overflow">{item.name}</div>
+                <div className="home-music-artist text-overflow">{item.song.artists[0].name}</div>
               </div>
+              { !!item.song.mvid && <i className="iconfont icon-mv"></i> }
             </div>
           ))}
         </div>
       </div>
       <div className="home-mv">
-        <div className="home-recommend-title">推荐MV</div>
+        <div className="home-recommend-title">推荐MV<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-mv-content">
           { mv.map((item: any, index) => (
             <div key={index} className="home-mv-item">
               <img className="home-mv-img" src={item.cover} alt=""/>
-              <div>{item.name}</div>
+              <div className="home-mv-text text-overflow">{item.name}</div>
+              <div className="home-mv-artist text-overflow">{item.artistName}</div>
             </div>
           ))}
         </div>

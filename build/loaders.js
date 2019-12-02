@@ -41,6 +41,14 @@ module.exports = [
       'style-loader',
       'css-loader'
     ]
+  },
+  {
+    test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
+    loader: 'url-loader',
+    options: {
+      limit: 1,
+      name: `/fonts/[name].[hash].[ext]`
+    }
   }
   // {
   //   test: /\.styl$/,

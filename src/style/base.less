@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+html, body {
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  height: 100%;
+  overflow: hidden;
+  color: #333333;
+  font-size: 15px;
+}
+
+#app {
+  height: 100%;
+}
+
+.appwrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.top {
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #f9f9f9;
+  z-index: 1;
+}
+
+.main {
+  padding: 50px 0 60px;
+  flex: 1;
+  display: flex;
+  height: 100%;
+}
+
+.main-left {
+  flex: 0 0 200px;
+  background: #ededed;
+}
+
+.main-right {
+  align-self: stretch;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.bottom {
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background: #fff;
+}
+
+.container {
+  width: 805px;
+  margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+  background-color: #fff;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e1e1e1;
+  border-radius: 5px;
+}
+
+.text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

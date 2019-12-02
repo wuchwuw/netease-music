@@ -4,12 +4,18 @@ import './left-bar.less'
 export default function LeftBar () {
   return (
     <div className='leftbar-wrap'>
-      <div className="leftbar-user">未登录</div>
-      <div className="leftbar-item">发现音乐</div>
-      <div className="leftbar-item">私人FM</div>
-      <div className="leftbar-item">视频</div>
-      <div className="leftbar-item">朋友</div>
+      <div className="leftbar-user">
+        <div className="leftbar-login"><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span></div>
+      <div className="leftbar-item active">
+        <i className="iconfont iconcnneteasemusic" style={{ fontWeight: 100 }}></i>发现音乐
+      </div>
+      <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
+      <div className="leftbar-item"><i className="iconfont icon-mv"></i>视频</div>
+      <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div>
+      {/* <div className="leftbar-item-title">我的音乐</div>
+      <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
       <div className="leftbar-item-title">创建的歌单</div>
+      <div className="leftbar-item"><i className="iconfont iconxin"></i>我喜欢的音乐</div>
     </div>
   )
 }

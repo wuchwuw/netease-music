@@ -1,3 +1,8 @@
+@import '~STYLE/mixin.less';
+@import '~STYLE/color.less';
+.leftbar-wrap {
+  user-select: none;
+}
 .leftbar-user {
   height: 60px;
   display: flex;
@@ -9,6 +14,30 @@
   align-items: center;
   padding-left: 20px;
   font-size: 14px;
+  i {
+    margin-right: 8px;
+  }
+  &:hover {
+    background: #e2e2e2;
+  }
+  &.active {
+    background: #e2e2e2;
+    color: @color-main;
+    i {
+      color: @color-main;
+    }
+  }
+}
+.iconcnneteasemusic {
+  height: 20px;
+  font-size: 18px !important;
+}
+.icon-mv {
+  width: 20px;
+  font-size: 18px !important;
+}
+.iconfriend {
+  font-size: 20px !important;
 }
 
 .leftbar-item-title {
@@ -17,4 +46,23 @@
   align-items: center;
   padding-left: 20px;
   font-size: 12px;
+  margin-bottom: 5px;
+}
+.leftbar-login {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  text-align: center;
+  line-height: 40px;
+  margin: 0 10px;
+  i {
+    font-size: 14px;
+    color: #fff;
+  }
+}
+.leftbar-triangle {
+  .triangle(#8e8e8e, 4px);
+  display: inline-block;
+  margin-left: 8px;
 }

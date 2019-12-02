@@ -1,0 +1,89 @@
+@import '~STYLE/color.less';
+.player-wrap {
+  height: 100%;
+  position: relative;
+  min-width: 1000px;
+}
+.player-progress-wrap {
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.player-progress-default {
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+}
+.player-progress-icon {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  position: absolute;
+  background: red;
+  top: -5px;
+  left: -5px;
+}
+.player-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+}
+.player-song {
+  position: absolute;
+  left: 10px;
+  display: flex;
+  .player-song-img {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+  }
+  .player-song-info {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-left: 10px;
+    .player-song-name {
+      font-size: 13px;
+    }
+    .player-song-duration {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  }
+}
+.player-control {
+  display: flex;
+  align-items: center;
+  .iconbofang {
+    font-size: 45px;
+    margin: 0 20px;
+    color: @color-main;
+  }
+  .iconforward, .iconforward1 {
+    font-size: 18px;
+    color: @color-main;
+  }
+  .iconxin {
+    font-size: 18px;
+    margin-right: 25px;
+  }
+}
+
+.player-action {
+  position: absolute;
+  right: 25px;
+  display: flex;
+  i {
+    margin-left: 15px;
+  }
+  .icon1 {
+    font-size: 18px;
+  }
+}

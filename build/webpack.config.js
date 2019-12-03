@@ -81,14 +81,7 @@ const config = {
   },
   devtool: isProd ? '' : 'cheap-module-eval-source-map',
   devServer: {
-    // 使用HTML5历史记录API
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    // 所有文件都使用 gzip compression来压缩
-    compress: true,
-    // 绕过主机检查
-    disableHostCheck: true
+    historyApiFallback: true
   }
 }
 

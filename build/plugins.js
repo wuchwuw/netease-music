@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { resolve } = require('./util')
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // const WorkboxPlugin = require('workbox-webpack-plugin')
@@ -17,7 +18,7 @@ let plugins = [
   new HtmlWebpackPlugin({
     // favicon: resolve('src/favicon.ico'),
     filename: 'index.html',
-    template: 'public/index.html',
+    template: resolve('public/index.html'),
     inject: true
   })
   // new WorkboxPlugin.InjectManifest({

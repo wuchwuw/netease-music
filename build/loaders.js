@@ -24,12 +24,11 @@ module.exports = [
     use: [
       { loader: 'style-loader' },
       {
-        loader: "css-loader",
-        options: {
-          sourceMap: true,
-          modules: true
-          // localIdentName: "[local]___[hash:base64:5]"
-        }
+        loader: "css-loader"
+        // options: {
+        //   sourceMap: true,
+        //   modules: true
+        // }
       },
       {
         loader: "less-loader"

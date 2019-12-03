@@ -2,8 +2,9 @@ import App from '../app'
 import HomeRecomend from '../views/home/recomend/recomend'
 import HomeAlbum from '../views/home/album/album'
 import Home from '../views/home/index'
+import Playlist from '../views/playlist/playlist'
 import { RouteConfig } from 'react-router-config'
-import { createRedirect } from './redirect' 
+import { createRedirect } from './redirect'
 
 const routes: RouteConfig[] = [
   {
@@ -18,6 +19,10 @@ const routes: RouteConfig[] = [
         path: '/home',
         exact: true,
         component: createRedirect('/home/index')
+      },
+      {
+        path: '/playlist',
+        component: Playlist
       },
       {
         path: '/home',

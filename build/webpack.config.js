@@ -25,7 +25,8 @@ const config = {
       'COMPONENTS': resolve('src/components'),
       'API': resolve('src/api'),
       'ASSETS': resolve('src/assets'),
-      'STYLE': resolve('src/style')
+      'STYLE': resolve('src/style'),
+      'VIEWS': resolve('src/views')
       // 'api': resolve('src/api'),
       // 'base': resolve('src/base'),
       // 'router': resolve('src/router')
@@ -78,7 +79,17 @@ const config = {
       }
     }
   },
-  devtool: isProd ? '' : 'cheap-module-eval-source-map'
+  devtool: isProd ? '' : 'cheap-module-eval-source-map',
+  devServer: {
+    // 使用HTML5历史记录API
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    // 所有文件都使用 gzip compression来压缩
+    compress: true,
+    // 绕过主机检查
+    disableHostCheck: true
+  }
 }
 
 module.exports = config

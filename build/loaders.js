@@ -20,21 +20,30 @@ module.exports = [
     include: [resolve('src')]
   },
   {
-    test: /\.styl$/,
-    use: [
-      'style-loader',
-      'css-loader',
-      'stylus-loader'
-    ]
-  },
-  {
     test: /\.less$/,
     use: [
-      'style-loader',
-      'css-loader',
-      'less-loader'
+      { loader: 'style-loader' },
+      {
+        loader: "css-loader",
+        options: {
+          sourceMap: true,
+          modules: true
+          // localIdentName: "[local]___[hash:base64:5]"
+        }
+      },
+      {
+        loader: "less-loader"
+      }
     ]
   },
+  // {
+  //   test: /\.less$/,
+  //   use: [
+  //     'style-loader',
+  //     'css-loader',
+  //     'less-loader'
+  //   ]
+  // },
   {
     test: /\.css$/,
     use: [

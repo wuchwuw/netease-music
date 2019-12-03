@@ -1,16 +1,36 @@
 import React from 'react'
 import './top-bar.less'
+import { NavLink } from 'react-router-dom'
 
-export default function TopBar () {
+interface TopBarProps {
+  currentTab: string
+}
+
+const homeSubPagePathMap: any = {
+  '/home/index': '个性推荐',
+  '/home/album': '歌单',
+  '/home/radio': '主播电台',
+  '/home/rank': '排行榜',
+  '/home/singer': '歌手',
+  '/home/song': '最新音乐'
+}
+
+const TopBar: React.SFC<TopBarProps> = (props) => {
   function renderTopbarContent () {
     return (
       <>
-        <div className="topbar-content-item active">个性推荐</div>
-        <div className="topbar-content-item">歌单</div>
-        <div className="topbar-content-item">主播电台</div>
-        <div className="topbar-content-item">排行榜</div>
-        <div className="topbar-content-item">歌手</div>
-        <div className="topbar-content-item">最新音乐</div>
+        {
+          Object.keys(homeSubPagePathMap).map((key: any, index: any) => (
+            <NavLink 
+              to={key} 
+              activeClassName="active" 
+              className="topbar-content-item"
+              key={key}
+            >
+                {homeSubPagePathMap[key]}
+            </NavLink>
+          ))
+        }
       </>
     )
   }
@@ -37,3 +57,5 @@ export default function TopBar () {
     </div>
   )
 }
+
+export default TopBar

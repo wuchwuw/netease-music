@@ -1,14 +1,20 @@
 import React from 'react'
 import './left-bar.less'
+import { NavLink } from 'react-router-dom'
 
-export default function LeftBar () {
+interface LeftBarProps {
+  setTab: React.Dispatch<React.SetStateAction<string>>
+}
+
+const LeftBar: React.SFC<LeftBarProps> = (props) => {
   return (
     <div className='leftbar-wrap'>
       <div className="leftbar-user">
-        <div className="leftbar-login"><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span></div>
-      <div className="leftbar-item active">
-        <i className="iconfont iconcnneteasemusic" style={{ fontWeight: 100 }}></i>发现音乐
+        <div className="leftbar-login"><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
       </div>
+      <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
+        <i className="iconfont iconcnneteasemusic" style={{ fontWeight: 100 }}></i>发现音乐
+      </NavLink>
       <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
       <div className="leftbar-item"><i className="iconfont icon-mv"></i>视频</div>
       <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div>
@@ -19,3 +25,5 @@ export default function LeftBar () {
     </div>
   )
 }
+
+export default LeftBar

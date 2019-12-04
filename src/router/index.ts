@@ -21,7 +21,7 @@ const routes: RouteConfig[] = [
         component: createRedirect('/home/index')
       },
       {
-        path: '/playlist',
+        path: '/playlist/:id',
         component: Playlist
       },
       {

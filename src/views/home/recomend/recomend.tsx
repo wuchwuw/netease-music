@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Carousel } from 'antd'
+// import { Carousel } from 'antd'
 import './recomend.less'
 import api from 'API'
 
@@ -53,11 +53,11 @@ const HomeRecomend: React.SFC = () => {
   return (
     <div className="container home-wrap">
       <div className="home-banner-wrap">
-        <Carousel autoplay>
+        {/* <Carousel autoplay>
           {banners.map((item: any, index: any) => (
             <img className="home-banner-img" key={index} src={item.imageUrl} alt=""/>
           ))}
-        </Carousel>
+        </Carousel> */}
       </div>
       <div className="home-personalized">
         <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>

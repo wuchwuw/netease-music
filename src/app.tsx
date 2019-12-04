@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import LeftBar from './compontens/left-bar/left-bar'
-import TopBar from './compontens/top-bar/top-bar'
-import Player from './compontens/player/player'
+import LeftBar from './components/left-bar/left-bar'
+import TopBar from './components/top-bar/top-bar'
+import Player from './components/player/player'
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 
 const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import './recomend.less'
 import api from 'API'
 
-const HomeRecomend: React.SFC = () => {
+const HomeRecomend: React.SFC = (props) => {
   const [ banners, setBanners ] = useState([])
   const [ personalized, setPersonalized ] = useState([])
   const [ privatecontent, setPrivatecontent ] = useState([])
@@ -49,6 +49,9 @@ const HomeRecomend: React.SFC = () => {
   }
   // function getArtistName (artists: Object[]) {
   // }
+  function go (id) {
+    props.history.push(`/playlist/${id}`)
+  }
 
   return (
     <div className="container home-wrap">
@@ -63,7 +66,7 @@ const HomeRecomend: React.SFC = () => {
         <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-personalized-content">
           { personalized.map((item: any, index) => (
-            <div key={index} className="home-personalized-item">
+            <div key={index} onClick={(e) => go(item.id)} className="home-personalized-item">
               <img className="home-personalized-img" src={item.picUrl} alt=""/>
               <div className="home-personalized-text">{item.name}</div>
             </div>

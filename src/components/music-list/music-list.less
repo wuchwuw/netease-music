@@ -29,6 +29,11 @@
       width: 5%;
     }
   }
+  &:not(:first-child) {
+    &:hover {
+      background: #F2F2F2;
+    }
+  }
 }
 .music-list-item-action {
   > span {
@@ -38,10 +43,6 @@
   > i {
     height: 18px;
     cursor: pointer;
+    color: #C0C0C0;
   }
-}
-.test1 {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './playlist.less'
 import MusicList from 'COMPONENTS/music-list/music-list'
+import Comment from 'COMPONENTS/comment/comment'
 import api from 'API'
 import { match } from 'react-router'
+import dayjs from 'dayjs'
+import classNames from 'classnames'
 // import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 
 interface PlaylistProps {
@@ -13,16 +16,15 @@ interface PlaylistQueryParams {
 }
 
 const Playlist: React.SFC<PlaylistProps> = (props) => {
+  const [ tab, setTab ] = useState('comment') // list comment des
   const [ playlist, setPlaylist ] = useState({
     creator: {},
     tracks: []
   })
   useEffect(() => {
-    console.log(1)
     getPlaylist()
   }, [])
   async function getPlaylist () {
-    console.log(api)
     const params = {
       id: props.match.params.id
     }
@@ -31,8 +33,17 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
       setPlaylist(res.data.playlist)
     } catch (e) {}
   }
+  function genTabComponent () {
+    if (tab === 'list') {
+      return <MusicList list={playlist.tracks}></MusicList>
+    } else if (tab === 'comment') {
+      return <Comment type="playlist"></Comment>
+    } else {
+      return 
+    }
+  }
   return (
-    <div className="home-wrap">
+    <div className="playlist-wrap">
       <div className="playlist-info-wrap">
         <img className="playlist-img" src={playlist.coverImgUrl} />
         <div className="playlist-info">
@@ -43,14 +54,14 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
           <div className="playlist-info-user">
             <img className="playlist-info-user-avatar" src={playlist.creator.avatarUrl} alt=""/>
             <span className="playlist-info-user-name">{playlist.creator.nickname}</span>
-            <span className="playlist-info-user-create">2015-2-2创建</span>
+            <span className="playlist-info-user-create">{dayjs(playlist.createTime).format('YYYY-MM-DD')}创建</span>
           </div>
           <div className="playlist-info-action">
             <div className="playlist-info-action-playall">
               <div><i className="iconfont iconbofang" ></i>播放全部</div>
-              <i className="iconfont iconxin"></i>
+              <i className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont iconxin"></i>收藏(0)</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏(0)</div>
           </div>
           <div className="playlist-info-num">
             <div>标签:华语/流行/治愈</div>
@@ -60,11 +71,11 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
         </div>
       </div>
       <div className="playlist-tab">
-        <span className="active">歌曲列表</span>
-        <span>评论(402)</span>
-        <span>专辑详情</span>
+        <span onClick={(e) => setTab('list')} className={tab === 'list' ? 'active' : ''}>歌曲列表</span>
+        <span onClick={(e) => setTab('comment')} className={tab === 'comment' ? 'active' : ''}>评论({playlist.commentCount || 0})</span>
+        <span onClick={(e) => setTab('star')} className={tab === 'star' ? 'active' : ''}>收藏者</span>
       </div>
-      <MusicList list={playlist.tracks}></MusicList>
+      {genTabComponent()}
     </div>
   )
 }

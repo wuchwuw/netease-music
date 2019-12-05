@@ -1,6 +1,11 @@
 @import '~STYLE/color.less';
+.playlist-wrap {
+  padding: 18px 0 30px;
+  min-width: 800px;
+}
 .playlist-info-wrap {
   display: flex;
+  padding-left: 30px;
 }
 .playlist-img {
   height: 200px;
@@ -57,7 +62,7 @@
 .playlist-info-action-playall {
   height: 30px;
   width: 140px;
-  background: @color-main;
+  background: linear-gradient(to right, #FC5045, #D53A32); 
   display: flex;
   align-items: center;
   border-radius: 20px;
@@ -71,6 +76,11 @@
     justify-content: center;
     color: #fff;
     border-right: 1px solid rgba(255, 255, 255, .2);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    &:hover {
+      background: @color-main
+    }
     i {
       margin-right: 3px;
     }
@@ -81,6 +91,11 @@
     height: 30px;
     line-height: 30px;
     color: #fff;
+    &:hover {
+      background: @color-main;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
   }
 }
 
@@ -104,7 +119,7 @@
 
 .playlist-tab {
   display: flex;
-  margin-top: 32px;
+  margin: 32px 30px 0;
   border-bottom: 1px solid #F3F3F3;
   > span {
     margin-right: 30px;

@@ -6,13 +6,13 @@ const MusicList: React.SFC = (props: any) => {
   useEffect(() => {
     console.log(props)
   })
+  function padZero(n) {
+    return n <= 9 ? `0${n}` : n
+  }
   function getTime (time: any) {
     time = (time / 1000).toFixed(0)
     let min = Math.floor(time / 60)
     let s = time - min * 60
-    function padZero(n) {
-      return n <= 9 ? `0${n}` : n
-    }
     return `${padZero(min)}:${padZero(s)}`
   }
   return (
@@ -26,9 +26,9 @@ const MusicList: React.SFC = (props: any) => {
       </li>
       {
         props.list.map((item: any, index: any) => (
-          <li key={item.al.id} className="music-list-item">
+          <li key={item.id} className="music-list-item">
             <div className="music-list-item-action">
-              <span>01</span>
+              <span>{padZero(index + 1)}</span>
               <i className="iconfont iconxin"></i>
             </div>
             <div>

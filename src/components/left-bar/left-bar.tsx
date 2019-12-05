@@ -13,7 +13,7 @@ const LeftBar: React.SFC<LeftBarProps> = (props) => {
         <div className="leftbar-login"><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
       </div>
       <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
-        <i className="iconfont iconcnneteasemusic" style={{ fontWeight: 100 }}></i>发现音乐
+        <i className="iconfont icon-neteastmusic" style={{ fontWeight: 100 }}></i>发现音乐
       </NavLink>
       <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
       <div className="leftbar-item"><i className="iconfont icon-mv"></i>视频</div>

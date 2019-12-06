@@ -1,11 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './comment.less'
+import api from 'API'
 
 // interface LeftBarProps {
 //   setTab: React.Dispatch<React.SetStateAction<string>>
 // }
+const COMMENT_TYPE_MAP = ['song', 'mv', 'playlist', 'album', 'radio', 'video']
 
 const Comment: React.SFC = (props) => {
+  console.log(props)
+  const [ list, setList ] = useState([])
+  const [ hot, setHot ] = useState([{
+    user: {}
+  }])
+  useEffect(() => {
+    console.log(1)
+    getHotComment()
+  }, [])
+  async function getHotComment () {
+    const params = {
+      id: props.id,
+      type: 2
+    }
+    try {
+      const res = await api.getHotComment(params)
+      setHot(res.data.hotComments)
+    } catch (e) {}
+  }
   return (
     <div>
       <div className="comment-textarea-wrap">
@@ -22,19 +43,27 @@ const Comment: React.SFC = (props) => {
         <div className="comment-hot">
           <div className="comment-title">精彩评论</div>
           <div className="comment-list">
-            <div className="comment-item">
-              <img className="comment-item-user-avatar" src="http://p1.music.126.net/VFd5cboNTbnYsWZ5DBn9bg==/18953381440004340.jpg" alt=""/>
-              <div className="comment-item-info">
-                <div className="comment-item-info-text"><span className="comment-item-info-name">阿斯达十大ad:</span>这可不小众</div>
-                <div className="comment-item-info-action">
-                  <span className="comment-item-info-time">2010年1月22日 02:02</span>
-                  <span>举报</span>
-                  <i className="iconfont icon-zan">1</i>
-                  <i className="iconfont icon-share"></i>
-                  <i className="iconfont icon-comment"></i>
+            {
+              hot.map(comment => (
+                <div key={comment.commentId} className="comment-item">
+                  <img className="comment-item-user-avatar" src={comment.user.avatarUrl} alt=""/>
+                  <div className="comment-item-info">
+              <div className="comment-item-info-text">
+                <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}</div>
+                    <div className="comment-item-info-replay">
+                      <div className="comment-item-info-text"><span className="comment-item-info-name">@阿斯达十大ad:&nbsp;</span>这可不小众</div>
+                    </div>
+                    <div className="comment-item-info-action">
+                      <span className="comment-item-info-time">2010年1月22日 02:02</span>
+                      <span className="comment-item-info-action-report">举报</span>
+                      <i className="iconfont icon-zan">1</i>
+                      <i className="iconfont icon-share"></i>
+                      <i className="iconfont icon-comment"></i>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ))
+            }
           </div>
         </div>
         <div className="comment-new">

@@ -37,7 +37,7 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
     if (tab === 'list') {
       return <MusicList list={playlist.tracks}></MusicList>
     } else if (tab === 'comment') {
-      return <Comment type="playlist"></Comment>
+      return <div style={{ padding: '30px'}}><Comment type="playlist" id={props.match.params.id}></Comment></div>
     } else {
       return 
     }

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import './music-list.less'
+import Song from '../../util/song'
 
-const MusicList: React.SFC = (props: any) => {
-  console.log(props)
-  useEffect(() => {
-    console.log(props)
-  })
-  function padZero(n) {
+interface MusicListProps {
+  list: Song[]
+}
+
+const MusicList: React.SFC<MusicListProps> = (props) => {
+  function padZero(n: number) {
     return n <= 9 ? `0${n}` : n
   }
   function getTime (time: any) {
@@ -25,7 +26,7 @@ const MusicList: React.SFC = (props: any) => {
         <div>时长</div>
       </li>
       {
-        props.list.map((item: any, index: any) => (
+        props.list.map((item: Song, index: number) => (
           <li key={item.id} className="music-list-item">
             <div className="music-list-item-action">
               <span>{padZero(index + 1)}</span>
@@ -38,10 +39,10 @@ const MusicList: React.SFC = (props: any) => {
               <div className="text-overflow" title={item.ar[0].name}>{item.ar[0].name}</div>
             </div>
             <div>
-              <div className="text-overflow" title={item.al.name}>{item.al.name}</div>
+              <div className="text-overflow" title={item.albumName}>{item.albumName}</div>
             </div>
             <div>
-            <div className="text-overflow">{getTime(item.dt)}</div>
+            <div className="text-overflow">{item.duration_string}</div>
             </div>
           </li>
         ))

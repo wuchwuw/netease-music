@@ -4,8 +4,7 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API'
 import { match } from 'react-router'
-import dayjs from 'dayjs'
-import classNames from 'classnames'
+import PlaylistClass from '../../util/playlist'
 // import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 
 interface PlaylistProps {
@@ -16,11 +15,9 @@ interface PlaylistQueryParams {
 }
 
 const Playlist: React.SFC<PlaylistProps> = (props) => {
-  const [ tab, setTab ] = useState('comment') // list comment des
-  const [ playlist, setPlaylist ] = useState({
-    creator: {},
-    tracks: []
-  })
+  const [ tab, setTab ] = useState('list') // list comment des
+  const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
+  console.log(playlist)
   useEffect(() => {
     getPlaylist()
   }, [])
@@ -30,7 +27,7 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
     }
     try {
       const res = await api.getPlaylist(params)
-      setPlaylist(res.data.playlist)
+      setPlaylist(new PlaylistClass(res.data.playlist))
     } catch (e) {}
   }
   function genTabComponent () {
@@ -39,7 +36,7 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
     } else if (tab === 'comment') {
       return <div style={{ padding: '30px'}}><Comment type="playlist" id={props.match.params.id}></Comment></div>
     } else {
-      return 
+      return
     }
   }
   return (
@@ -54,18 +51,18 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
           <div className="playlist-info-user">
             <img className="playlist-info-user-avatar" src={playlist.creator.avatarUrl} alt=""/>
             <span className="playlist-info-user-name">{playlist.creator.nickname}</span>
-            <span className="playlist-info-user-create">{dayjs(playlist.createTime).format('YYYY-MM-DD')}创建</span>
+            <span className="playlist-info-user-create">{playlist.createTimeString}创建</span>
           </div>
           <div className="playlist-info-action">
             <div className="playlist-info-action-playall">
               <div><i className="iconfont iconbofang" ></i>播放全部</div>
               <i className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏(0)</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏({playlist.shareCount})</div>
           </div>
           <div className="playlist-info-num">
-            <div>标签:华语/流行/治愈</div>
-            <div>歌曲数: 222  播放数: 2222</div>
+            <div>标签: {playlist.tag_string}</div>
+            <div>歌曲数: {playlist.trackCount}  播放数: {playlist.playCount_string}</div>
             <div>简介: 你知道吗...</div>
           </div>
         </div>

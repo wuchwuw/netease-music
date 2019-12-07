@@ -26,7 +26,8 @@ const config = {
       'API': resolve('src/api'),
       'ASSETS': resolve('src/assets'),
       'STYLE': resolve('src/style'),
-      'VIEWS': resolve('src/views')
+      'VIEWS': resolve('src/views'),
+      'UTIL': resolve('src/utl')
       // 'api': resolve('src/api'),
       // 'base': resolve('src/base'),
       // 'router': resolve('src/router')

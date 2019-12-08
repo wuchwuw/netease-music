@@ -1,7 +1,11 @@
 import React from 'react'
 import './player.less'
+import { useSelector } from 'react-redux'
+import Song from '../../util/song'
 
 export default function Player () {
+  const currentSong: Song = useSelector(state => state.currentSong)
+  console.log(currentSong)
   return (
     <div className="player-wrap">
       <div className="player-progress-wrap">
@@ -11,10 +15,10 @@ export default function Player () {
       </div>
       <div className="player-content">
         <div className="player-song">
-          <img className="player-song-img" src="https://p2.music.126.net/MW4c6muvi4BumqpoMW_e7A==/109951164522119612.jpg" alt=""/>
+          <img className="player-song-img" src={currentSong.picUrl+'?param=40y40'} alt=""/>
           <div className="player-song-info">
-            <div className="player-song-name">2019年十一月最热新歌TOP50</div>
-            <div className="player-song-duration">00:00 / 00:00</div>
+            <div className="player-song-name">{currentSong.name}</div>
+             <div className="player-song-duration">00:00 / {currentSong.duration_string}</div>
           </div>
         </div>
         <div className="player-control">
@@ -29,6 +33,7 @@ export default function Player () {
           <i className="iconfont icon1"></i>
         </div>
       </div>
+      <audio id="player-audio"></audio>
     </div>
   )
 }

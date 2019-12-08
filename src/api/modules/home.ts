@@ -18,5 +18,8 @@ export default {
   },
   getTopList () {
     return axios.get('top/playlist', { params: { limit: 10, order: 'hot' }})
+  },
+  getSongUrl (params) {
+    return axios.get('song/url', { params })
   }
 }

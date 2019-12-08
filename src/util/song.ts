@@ -1,4 +1,5 @@
 import { getSongTime } from './util'
+import api from 'API'
 
 interface SongArtist {
   id: number
@@ -31,5 +32,12 @@ export default class Song {
     return getSongTime(this.duration)
   }
 
-  getSongUrl () {}
+  async getSongUrl () {
+    try {
+      let res = await api.getSongUrl({ id: this.id })
+      let audio = document.querySelector('#player-audio')
+      audio!.src = res.data.data[0].url
+      audio.play()
+    } catch (e) {}
+  }
 }

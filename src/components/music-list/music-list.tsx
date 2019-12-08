@@ -1,20 +1,19 @@
 import React, { useEffect } from 'react'
 import './music-list.less'
 import Song from '../../util/song'
+import { useDispatch } from 'react-redux'
+import { SET_CURRENT_SONG } from '../../store/reducers'
+import { padZero } from '../../util/util'
 
 interface MusicListProps {
   list: Song[]
 }
 
 const MusicList: React.SFC<MusicListProps> = (props) => {
-  function padZero(n: number) {
-    return n <= 9 ? `0${n}` : n
-  }
-  function getTime (time: any) {
-    time = (time / 1000).toFixed(0)
-    let min = Math.floor(time / 60)
-    let s = time - min * 60
-    return `${padZero(min)}:${padZero(s)}`
+  const dispatch = useDispatch()
+  function setSong (song) {
+    dispatch({ type: SET_CURRENT_SONG, currentSong: song })
+    song.getSongUrl()
   }
   return (
     <ul className="music-list">
@@ -27,7 +26,7 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
       </li>
       {
         props.list.map((item: Song, index: number) => (
-          <li key={item.id} className="music-list-item">
+          <li onClick={() => setSong(item) } key={item.id} className="music-list-item">
             <div className="music-list-item-action">
               <span>{padZero(index + 1)}</span>
               <i className="iconfont iconxin"></i>

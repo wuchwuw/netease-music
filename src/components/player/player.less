@@ -5,19 +5,30 @@
   min-width: 1000px;
 }
 .player-progress-wrap {
-  height: 1px;
+  height: 10px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  &:hover {
+    .player-progress-icon {
+      visibility: visible;
+    }
+  }
 }
 .player-progress-default {
-  height: 1px;
+  height: 2px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   background: #F5F5F5;
+}
+.player-progress {
+  position: absolute;
+  top: 0;
+  height: 2px;
+  background: @color-main;
 }
 .player-progress-icon {
   height: 10px;
@@ -26,7 +37,8 @@
   position: absolute;
   background: @color-main;
   top: -5px;
-  left: -5px;
+  right: -5px;
+  visibility: hidden;
 }
 .player-content {
   height: 100%;

@@ -29,7 +29,7 @@ export default class Song {
 
   get duration_string (): string {
     if (!this.duration) return ''
-    return getSongTime(this.duration)
+    return getSongTime(this.duration / 1000)
   }
 
   async getSongUrl () {

@@ -3,8 +3,8 @@ export function padZero(n: number) {
 }
 
 export function getSongTime (time: number) {
-  time = Math.ceil(time / 1000)
-  let min = Math.floor(time / 60)
-  let s = time - min * 60
+  time = Math.ceil(time)
+  const min = Math.floor(time / 60)
+  const s = time - min * 60
   return `${padZero(min)}:${padZero(s)}`
 }

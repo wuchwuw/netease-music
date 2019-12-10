@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import { Carousel } from 'antd'
 import './recomend.less'
 import api from 'API'
+import Slider from 'COMPONENTS/slider/slider.tsx'
 
 const HomeRecomend: React.SFC = (props) => {
   const [ banners, setBanners ] = useState([])
@@ -56,18 +57,14 @@ const HomeRecomend: React.SFC = (props) => {
   return (
     <div className="container home-wrap">
       <div className="home-banner-wrap">
-        {/* <Carousel autoplay>
-          {banners.map((item: any, index: any) => (
-            <img className="home-banner-img" key={index} src={item.imageUrl} alt=""/>
-          ))}
-        </Carousel> */}
+        <Slider images={banners}></Slider>
       </div>
       <div className="home-personalized">
         <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-personalized-content">
           { personalized.map((item: any, index) => (
             <div key={index} onClick={(e) => go(item.id)} className="home-personalized-item">
-              <img className="home-personalized-img" src={item.picUrl} alt=""/>
+              <img className="home-personalized-img" src={item.picUrl+'?param=133y133'} alt=""/>
               <div className="home-personalized-text">{item.name}</div>
             </div>
           ))}
@@ -78,7 +75,7 @@ const HomeRecomend: React.SFC = (props) => {
         <div className="home-privatecontent-content">
           { privatecontent.map((item: any, index) => (
             <div key={index} className="home-privatecontent-item">
-              <img className="home-privatecontent-img" src={item.picUrl} alt=""/>
+              <img className="home-privatecontent-img" src={item.picUrl+'?param=170y95'} alt=""/>
               <div className="home-privatecontent-text">{item.name}</div>
             </div>
           ))}
@@ -89,7 +86,7 @@ const HomeRecomend: React.SFC = (props) => {
         <div className="home-music-content">
           { song.map((item: any, index) => (
             <div key={index} className="home-music-item">
-              <img className="home-music-img" src={item.song.album.picUrl} alt=""/>
+              <img className="home-music-img" src={item.song.album.picUrl+'?param=60y60'} alt=""/>
               <div className="home-music-num">{'0' + (index + 1)}</div>
               <div className="home-music-info">
                 <div className="home-music-name text-overflow">{item.name}</div>
@@ -105,7 +102,7 @@ const HomeRecomend: React.SFC = (props) => {
         <div className="home-mv-content">
           { mv.map((item: any, index) => (
             <div key={index} className="home-mv-item">
-              <img className="home-mv-img" src={item.cover} alt=""/>
+              <img className="home-mv-img" src={item.cover+'?param=170y95'} alt=""/>
               <div className="home-mv-text text-overflow">{item.name}</div>
               <div className="home-mv-artist text-overflow">{item.artistName}</div>
             </div>

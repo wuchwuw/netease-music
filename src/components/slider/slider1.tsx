@@ -27,19 +27,19 @@ const Slider: React.SFC = (props) => {
     let lastChild = items[items.length - 1].cloneNode(true)
     wrap.insertBefore(lastChild, items[0])
     wrap.appendChild(firstChild)
-    wrap.addEventListener('transitionend', () => {
-      let { currentLeft, len, windowWidth } = shared
-      if (currentLeft > windowWidth * len) {
-        currentLeft = windowWidth
-        transitionWrap(-currentLeft, 0)
-        updateShared({ currentLeft })
-      } else if (currentLeft === 0){
-        currentLeft = windowWidth * len
-        transitionWrap(-currentLeft, 0)
-        updateShared({ currentLeft })
-      }
-    })
-    loopStart()
+    // wrap.addEventListener('transitionend', () => {
+    //   let { currentLeft, len, windowWidth } = shared
+    //   if (currentLeft > windowWidth * len) {
+    //     currentLeft = windowWidth
+    //     transitionWrap(-currentLeft, 0)
+    //     updateShared({ currentLeft })
+    //   } else if (currentLeft === 0){
+    //     currentLeft = windowWidth * len
+    //     transitionWrap(-currentLeft, 0)
+    //     updateShared({ currentLeft })
+    //   }
+    // })
+    // loopStart()
   }
 
   function transitionWrap (left, duration) {
@@ -69,8 +69,8 @@ const Slider: React.SFC = (props) => {
     console.log(props.images)
     if (props.images.length) {
       shared = {
-        windowWidth: 765,
-        currentLeft: 765,
+        windowWidth: 756,
+        currentLeft: 756,
         wrap: document.getElementById('slider-wrap'),
         items: document.getElementsByClassName('slider-item'),
         len: props.images.length

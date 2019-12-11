@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import './music-list.less'
-import Song from '../../util/song'
-import { useDispatch } from 'react-redux'
-import { SET_CURRENT_SONG } from '../../store/reducers'
-import { padZero } from '../../util/util'
+import Song from 'UTIL/song'
+import { useDispatch, useSelector } from 'react-redux'
+import { padZero } from 'UTIL/util'
+import { SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_STATUS } from 'STORE/player/types'
+import classnames from 'classnames'
+import { RootState } from 'STORE/index'
 
 interface MusicListProps {
   list: Song[]
@@ -11,8 +13,11 @@ interface MusicListProps {
 
 const MusicList: React.SFC<MusicListProps> = (props) => {
   const dispatch = useDispatch()
-  function setSong (song) {
+  const currentSong = useSelector((state: RootState) => state.player.currentSong)
+  function setSong (song: Song) {
     dispatch({ type: SET_CURRENT_SONG, currentSong: song })
+    dispatch({ type: SET_PLAYLIST, playlist: props.list })
+    dispatch({ type: SET_PLAY_STATUS, playing: true })
     song.getSongUrl()
   }
   return (
@@ -26,16 +31,16 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
       </li>
       {
         props.list.map((item: Song, index: number) => (
-          <li onClick={() => setSong(item) } key={item.id} className="music-list-item">
+          <li onDoubleClick={() => setSong(item) } key={item.id} className="music-list-item">
             <div className="music-list-item-action">
               <span>{padZero(index + 1)}</span>
               <i className="iconfont iconxin"></i>
             </div>
             <div>
-              <div className="text-overflow" title={item.name}>{item.name}</div>
+              <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>{item.name}</div>
             </div>
             <div>
-              <div className="text-overflow" title={item.ar[0].name}>{item.ar[0].name}</div>
+              <div className="text-overflow" title={item.artistName}>{item.artistName}</div>
             </div>
             <div>
               <div className="text-overflow" title={item.albumName}>{item.albumName}</div>

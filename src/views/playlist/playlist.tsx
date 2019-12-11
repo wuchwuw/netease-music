@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import './playlist.less'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
-import api from 'API'
+import api from 'API/index'
 import { match } from 'react-router'
-import PlaylistClass from '../../util/playlist'
+import PlaylistClass from 'UTIL/playlist'
 // import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 
 interface PlaylistProps {
@@ -62,7 +62,7 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
           </div>
           <div className="playlist-info-num">
             <div>标签: {playlist.tag_string}</div>
-            <div>歌曲数: {playlist.trackCount}  播放数: {playlist.playCount_string}</div>
+            <div>歌曲数: {playlist.trackCount}&nbsp;&nbsp;&nbsp;播放数: {playlist.playCount_string}</div>
             <div>简介: 你知道吗...</div>
           </div>
         </div>

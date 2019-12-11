@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import './comment.less'
-import api from 'API'
+import api from 'API/index'
 import dayjs from 'dayjs'
 
-// interface LeftBarProps {
-//   setTab: React.Dispatch<React.SetStateAction<string>>
-// }
+interface CommentProps {
+  id: string
+  type: string
+}
 const COMMENT_TYPE_MAP = ['song', 'mv', 'playlist', 'album', 'dj', 'video']
 
-const Comment: React.SFC = (props) => {
-  console.log(props)
+const Comment: React.SFC<CommentProps> = (props) => {
   const [ list, setList ] = useState([{
     user: {},
     beReplied: []

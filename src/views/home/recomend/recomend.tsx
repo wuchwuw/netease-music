@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 // import { Carousel } from 'antd'
 import './recomend.less'
-import api from 'API'
+import api from 'API/index'
 import Slider from 'COMPONENTS/slider/slider.tsx'
+import { RouteChildrenProps } from 'react-router'
 
-const HomeRecomend: React.SFC = (props) => {
+const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
   const [ banners, setBanners ] = useState([])
   const [ personalized, setPersonalized ] = useState([])
   const [ privatecontent, setPrivatecontent ] = useState([])
@@ -50,7 +51,7 @@ const HomeRecomend: React.SFC = (props) => {
   }
   // function getArtistName (artists: Object[]) {
   // }
-  function go (id) {
+  function go (id: number) {
     props.history.push(`/playlist/${id}`)
   }
 

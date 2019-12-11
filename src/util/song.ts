@@ -1,5 +1,5 @@
-import { getSongTime } from './util'
-import api from 'API'
+import { getSongTime } from 'UTIL/util'
+import api from 'API/index'
 
 interface SongArtist {
   id: number
@@ -16,7 +16,7 @@ export default class Song {
   albumName: string
   duration: number
 
-  constructor ({ id, name, al, ar, mv, dt }: any) {
+  constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
     this.id = id
     this.name = name
     this.ar = ar
@@ -32,12 +32,24 @@ export default class Song {
     return getSongTime(this.duration / 1000)
   }
 
+  get artistName (): string {
+    if (!this.ar.length) return ''
+    return this.ar.reduce((name, item) => {
+      return name + '/' + item.name
+    }, '').substring(1)
+  }
+
   async getSongUrl () {
     try {
       let res = await api.getSongUrl({ id: this.id })
+      // return res.data.data[0].url
       let audio = document.querySelector('#player-audio')
       audio!.src = res.data.data[0].url
       audio.play()
     } catch (e) {}
   }
 }
+
+// export function createSong ({ id, name, al, ar, mv, dt }: any): Song {
+//   return new Song()
+// }

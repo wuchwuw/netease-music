@@ -1,4 +1,5 @@
 export const state = {
   currentSong: {},
-  playing: false
+  playing: false,
+  playlist: []
 }

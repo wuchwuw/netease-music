@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './album.less'
-import api from 'API'
+import api from 'API/index'
 
 const HomeAlbum: React.SFC = () => {
   const [ top, setTop ] = useState([])

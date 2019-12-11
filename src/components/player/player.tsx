@@ -1,52 +1,78 @@
 import React, { useState, useRef } from 'react'
 import './player.less'
 import { useSelector } from 'react-redux'
-import Song from '../../util/song'
-import { getSongTime } from '../../util/util'
+import { getSongTime } from 'UTIL/util'
+import { RootState } from 'STORE/index'
+import { useDispatch } from 'react-redux'
+import { SET_PLAY_STATUS, PLAY_NEXT, PLAY_PREV } from 'STORE/player/types'
+import classnames from 'classnames'
 
 export default function Player () {
-  const currentSong: Song = useSelector(state => state.currentSong)
+  const currentSong = useSelector((state: RootState) => state.player.currentSong)
+  const playing = useSelector((state: RootState) => state.player.playing)
+  const dispatch = useDispatch()
   const [currentTime, setCurrentTime] = useState(0)
   const [precent, setPrecent] = useState(0)
   const [moved, setMoved] = useState(false)
   const [pageX, setPageX] = useState(0)
   const [left, setLeft] = useState(0)
-  const progressRef = useRef(null)
-  const progressWrapRef = useRef(null)
-  const audioRef = useRef(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+  const progressWrapRef = useRef<HTMLDivElement>(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
 
-  function onPointerDown (e) {
+  function onPointerDown (e: React.PointerEvent<HTMLDivElement>) {
     e.persist()
-    console.log(e)
     setMoved(true)
     setPageX(e.pageX)
-    setLeft(precent / 100 * progressWrapRef.current.clientWidth)
-    console.log(progressWrapRef.current.clientWidth)
+    setLeft(precent / 100 * progressWrapRef.current!.clientWidth)
   }
-  function onPointerMove (e) {
+  function onPointerMove (e: React.PointerEvent<HTMLDivElement>) {
     e.persist()
-    // console.log(moved)
-    // console.log(pageX)
-    // console.log(e.target.pageX )
     if (!moved) return
     const diffX = e.pageX - pageX
-    const currentPrecent = (left + diffX) / (progressWrapRef.current.clientWidth / 100)
-    console.log(currentPrecent)
-    console.log(diffX)
-    console.log(left)
+    const currentPrecent = (left + diffX) / (progressWrapRef.current!.clientWidth / 100)
     setPrecent(currentPrecent)
   }
-  function onPointerUp (e) {
-    audioRef.current.currentTime = precent / 100 * currentSong.duration / 1000
+  function onPointerUp (e: React.PointerEvent<HTMLDivElement>) {
+    audioRef.current!.currentTime = precent / 100 * currentSong.duration / 1000
     setMoved(false)
   }
 
-  function onTimeUpdate (e) {
-    setCurrentTime(e.target.currentTime)
+  function onTimeUpdate (e: React.SyntheticEvent<HTMLAudioElement>) {
+    setCurrentTime((e.target as HTMLAudioElement).currentTime)
     if (!moved) {
-      setPrecent(e.target.currentTime / (currentSong.duration / 100000))
+      setPrecent((e.target as HTMLAudioElement).currentTime / (currentSong.duration / 100000))
     }
   }
+  function getCurrentTime () {
+    return currentSong.duration ? `${getSongTime(currentTime)} / ${currentSong.duration_string}` : ''
+  }
+  function getSongName () {
+    return currentSong.name ? `${currentSong.name} - ${currentSong.artistName}` : ''
+  }
+
+  function play () {
+    if (playing) {
+      dispatch({ type: SET_PLAY_STATUS, playing: false })
+      audioRef.current!.pause()
+    } else {
+      dispatch({ type: SET_PLAY_STATUS, playing: true })
+      audioRef.current!.play()
+    }
+  }
+
+  function next () {
+    dispatch({ type: PLAY_NEXT })
+  }
+
+  function prev () {
+    dispatch({ type: PLAY_PREV })
+  }
+
+  function onEnd () {
+    next()
+  }
+
   return (
     <div className="player-wrap">
       <div ref={progressWrapRef} className="player-progress-wrap">
@@ -65,15 +91,15 @@ export default function Player () {
         <div className="player-song">
           <img className="player-song-img" src={currentSong.picUrl+'?param=40y40'} alt=""/>
           <div className="player-song-info">
-            <div className="player-song-name">{currentSong.name}</div>
-             <div className="player-song-duration">{getSongTime(currentTime)} / {currentSong.duration_string}</div>
+            <div className="player-song-name">{getSongName()}</div>
+            <div className="player-song-duration">{getCurrentTime()}</div>
           </div>
         </div>
         <div className="player-control">
           <i className="iconfont iconxin"></i>
-          <i className="iconfont iconforward"></i>
-          <i className="iconfont iconbofang"></i>
-          <i className="iconfont iconforward1"></i>
+          <i onClick={prev} className="iconfont iconforward"></i>
+          <i onClick={play} className={classnames('iconfont', { 'iconbofang': !playing, 'iconzanting': playing })}></i>
+          <i onClick={next} className="iconfont iconforward1"></i>
         </div>
         <div className="player-action">
           <i className="iconfont iconxunhuan"></i>
@@ -81,7 +107,7 @@ export default function Player () {
           <i className="iconfont icon1"></i>
         </div>
       </div>
-      <audio ref={audioRef} id="player-audio" onTimeUpdate={onTimeUpdate}></audio>
+      <audio ref={audioRef} id="player-audio" onTimeUpdate={onTimeUpdate} onEnded={onEnd}></audio>
     </div>
   )
 }

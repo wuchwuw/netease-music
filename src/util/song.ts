@@ -39,15 +39,25 @@ export default class Song {
     }, '').substring(1)
   }
 
-  async getSongUrl () {
-    try {
-      let res = await api.getSongUrl({ id: this.id })
-      // return res.data.data[0].url
-      let audio = document.querySelector('#player-audio')
-      audio!.src = res.data.data[0].url
-      audio.play()
-    } catch (e) {}
-  }
+  // async getSongUrl () {
+  //   try {
+  //     let res = await api.getSongUrl({ id: this.id })
+  //     // return res.data.data[0].url
+  //     let audio = document.querySelector('#player-audio')
+  //     audio!.src = res.data.data[0].url
+  //     audio.play()
+  //   } catch (e) {}
+  // }
+}
+
+export async function play (currentSong: Song) {
+  try {
+    let audio = document.querySelector('#player-audio')
+    audio.currentTime = 0
+    let res = await api.getSongUrl({ id: currentSong.id })
+    audio!.src = res.data.data[0].url
+    audio.play()
+  } catch (e) {}
 }
 
 // export function createSong ({ id, name, al, ar, mv, dt }: any): Song {

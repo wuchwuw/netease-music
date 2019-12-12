@@ -83,7 +83,8 @@ const config = {
   },
   devtool: isProd ? '' : 'cheap-module-eval-source-map',
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    publicPath: '/'
   }
 }
 

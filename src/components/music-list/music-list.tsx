@@ -18,7 +18,6 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
     dispatch({ type: SET_CURRENT_SONG, currentSong: song })
     dispatch({ type: SET_PLAYLIST, playlist: props.list })
     dispatch({ type: SET_PLAY_STATUS, playing: true })
-    song.getSongUrl()
   }
   return (
     <ul className="music-list">

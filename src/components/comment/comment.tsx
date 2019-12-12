@@ -4,10 +4,10 @@ import api from 'API/index'
 import dayjs from 'dayjs'
 
 interface CommentProps {
-  id: string
+  id: number
   type: string
 }
-const COMMENT_TYPE_MAP = ['song', 'mv', 'playlist', 'album', 'dj', 'video']
+const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']
 
 const Comment: React.SFC<CommentProps> = (props) => {
   const [ list, setList ] = useState([{

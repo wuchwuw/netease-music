@@ -116,6 +116,7 @@
   z-index: 1;
   background: #f9f9f9;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .player-wrap {
   width: 865px;
@@ -149,6 +150,18 @@
   width: 333px;
   background: #fff;
   border-radius: 50%;
+  background: url('~ASSETS/images/album_default.jpg');
+  background-size: cover;
+  border: 15px solid #F0EFF0;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > img {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+  }
 }
 .player-info-name {
   font-size: 22px;
@@ -170,6 +183,7 @@
   border-right: 1px solid #F0EFF0;
   height: 320px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .player-info-lyrics-item {
   color: #656465;

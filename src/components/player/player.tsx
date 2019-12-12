@@ -77,11 +77,10 @@ export default function Player () {
   }
 
   function setFullScreen () {
-    console.log(1)
     dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
   }
   const id = '3073492173'
-  const CommentComponent = useMemo(() => <Comment type="playlist" id={id} />, [id]);
+  const CommentComponent = useMemo(() => <Comment type="music" id={currentSong.id} />, [currentSong.id]);
   return (
     <>
       <div className="mini-player-wrap">
@@ -123,7 +122,9 @@ export default function Player () {
         <div className="player">
           <div className="player-wrap">
             <div className="player-cd-wrap">
-              <div className="player-cd"></div>
+              <div className="player-cd">
+                <img src={currentSong.picUrl+'?param=200y200'} alt=""/>
+              </div>
               <div className="player-action">
                 <i className="iconfont iconxin"></i>
                 <i className="iconfont iconxin"></i>
@@ -132,10 +133,10 @@ export default function Player () {
               </div>
             </div>
             <div className="player-info">
-              <div className="player-info-name">棉被</div>
+              <div className="player-info-name">{currentSong.name}</div>
               <div className="player-info-album">
-                <div>专辑:<span>十大电台</span></div>
-                <div>歌手:<span>金玟岐</span></div>
+                <div>专辑:<span>{currentSong.albumName}</span></div>
+                <div>歌手:<span>{currentSong.artistName}</span></div>
                 <div>来源:<span>这些生活必需品</span></div>
               </div>
               <div className="player-info-lyrics">
@@ -156,6 +157,7 @@ export default function Player () {
           </div>
           <div className="player-other-info">
             <div className="player-other-comment">
+              <div>听友评论<span>(已有0条评论)</span></div>
               {CommentComponent}
             </div>
             <div className="player-other-list">

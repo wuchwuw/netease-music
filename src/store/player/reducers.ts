@@ -1,14 +1,14 @@
-import { 
-  PlayerState, 
-  PlayerActionTypes, 
-  SET_CURRENT_SONG, 
-  SET_PLAYLIST, 
-  SET_PLAY_STATUS, 
-  PLAY_NEXT, 
+import {
+  PlayerState,
+  PlayerActionTypes,
+  SET_CURRENT_SONG,
+  SET_PLAYLIST,
+  SET_PLAY_STATUS,
+  PLAY_NEXT,
   PLAY_PREV,
   PLAYER_FULL_SCREEN
 } from './types'
-import Song from 'UTIL/song'
+import Song, { play } from 'UTIL/song'
 
 const initialState: PlayerState = {
   currentSong: new Song({}),
@@ -21,6 +21,7 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
   switch (action.type) {
     case SET_CURRENT_SONG:
       state.currentSong = action.currentSong
+      play(state.currentSong)
       return state
     case SET_PLAYLIST:
       state.playlist = action.playlist
@@ -39,6 +40,7 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
             currentIndex ++
           }
           state.currentSong = state.playlist[currentIndex]
+          play(state.currentSong)
         }
       }
       return state
@@ -53,6 +55,7 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
             currentIndex --
           }
           state.currentSong = state.playlist[currentIndex]
+          play(state.currentSong)
         }
       }
       return state

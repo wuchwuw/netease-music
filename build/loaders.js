@@ -51,11 +51,19 @@ module.exports = [
     ]
   },
   {
-    test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
+    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
     loader: 'url-loader',
     options: {
       limit: 1,
       name: `/fonts/[name].[hash].[ext]`
+    }
+  },
+  {
+    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+    loader: 'url-loader',
+    options: {
+      name: `[name].[hash].[ext]`,
+      limit: 2000
     }
   }
   // {

@@ -1,22 +1,24 @@
 @import '~STYLE/color.less';
-.player-wrap {
+.mini-player-wrap {
   height: 100%;
   position: relative;
   min-width: 1000px;
+  z-index: 2;
+  background: #fff;
 }
-.player-progress-wrap {
+.mini-player-progress-wrap {
   height: 10px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   &:hover {
-    .player-progress-icon {
+    .mini-player-progress-icon {
       visibility: visible;
     }
   }
 }
-.player-progress-default {
+.mini-player-progress-default {
   height: 2px;
   position: absolute;
   top: 0;
@@ -24,13 +26,13 @@
   right: 0;
   background: #F5F5F5;
 }
-.player-progress {
+.mini-player-progress {
   position: absolute;
   top: 0;
   height: 2px;
   background: @color-main;
 }
-.player-progress-icon {
+.mini-player-progress-icon {
   height: 10px;
   width: 10px;
   border-radius: 50%;
@@ -40,37 +42,38 @@
   right: -5px;
   visibility: hidden;
 }
-.player-content {
+.mini-player-content {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-left: 10px;
 }
-.player-song {
+.mini-player-song {
   position: absolute;
   left: 10px;
   display: flex;
-  .player-song-img {
+  .mini-player-song-img {
     height: 40px;
     width: 40px;
     border-radius: 5px;
+    cursor: pointer;
   }
-  .player-song-info {
+  .mini-player-song-info {
     display: flex;
     flex-direction: column;
     align-self: center;
     margin-left: 10px;
-    .player-song-name {
+    .mini-player-song-name {
       font-size: 13px;
     }
-    .player-song-duration {
+    .mini-player-song-duration {
       font-size: 12px;
       margin-top: 5px;
     }
   }
 }
-.player-control {
+.mini-player-control {
   display: flex;
   align-items: center;
   .iconbofang, .iconzanting {
@@ -91,7 +94,7 @@
   }
 }
 
-.player-action {
+.mini-player-action {
   position: absolute;
   right: 25px;
   display: flex;
@@ -101,4 +104,139 @@
   .icon1 {
     font-size: 18px;
   }
+}
+
+.player {
+  background: #fff;
+  position: fixed;
+  top: 50px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background: #f9f9f9;
+  overflow-y: auto;
+}
+.player-wrap {
+  width: 865px;
+  margin: 0 auto;
+  display: flex;
+  padding-top: 30px;
+}
+.player-cd-wrap {
+  margin-right: 70px;
+}
+.player-info {
+  flex: 1;
+}
+.player-action {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  i {
+    height: 40px;
+    width: 40px;
+    background: #F0EFF0;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 50%;
+  }
+}
+.player-cd {
+  height: 333px;
+  width: 333px;
+  background: #fff;
+  border-radius: 50%;
+}
+.player-info-name {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.player-info-album {
+  display: flex;
+  > div {
+    width: 33.33%;
+    font-size: 13px;
+  }
+  span {
+    margin-left: 10px;
+  }
+}
+.player-info-lyrics {
+  margin-top: 30px;
+  padding: 10px 0;
+  border-right: 1px solid #F0EFF0;
+  height: 320px;
+  overflow-y: auto;
+}
+.player-info-lyrics-item {
+  color: #656465;
+  &.active {
+    font-size: 16px;
+    color: #333333;
+  }
+}
+.player-other-info {
+  display: flex;
+  width: 865px;
+  margin: 60px auto 0;
+}
+.player-other-comment {
+  width: 570px;
+}
+.player-other-list {
+  margin-left: 47px;
+  width: 270px;
+}
+.player-other-list-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.player-other-list-item {
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  &:hover {
+    background: #F5F5F5;
+  }
+}
+.player-other-list-avatar {
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.player-other-list-playlist, .player-other-list-song, .player-other-list-like {
+  margin-bottom: 35px;
+}
+.player-other-list-info {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+player-other-list-info-name {
+  font-size: 14px;
+}
+.player-other-list-info-text {
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.player-slider-enter {
+  transform: translateY(100%);
+}
+.player-slider-enter-active {
+  transform: translateY(0);
+  transition: transform 500ms;
+}
+.player-slider-exit {
+  transform: translateY(0);
+}
+.player-slider-exit-active {
+  transform: translateY(100%);
+  transition: transform 500ms;
 }

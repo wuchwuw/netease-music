@@ -5,14 +5,16 @@ import {
   SET_PLAYLIST, 
   SET_PLAY_STATUS, 
   PLAY_NEXT, 
-  PLAY_PREV
+  PLAY_PREV,
+  PLAYER_FULL_SCREEN
 } from './types'
 import Song from 'UTIL/song'
 
 const initialState: PlayerState = {
   currentSong: new Song({}),
   playlist: [],
-  playing: false
+  playing: false,
+  fullScreen: false
 }
 
 export function playerReducer (state = initialState, action: PlayerActionTypes): PlayerState {
@@ -53,6 +55,9 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
           state.currentSong = state.playlist[currentIndex]
         }
       }
+      return state
+    case PLAYER_FULL_SCREEN:
+      state.fullScreen = action.fullScreen
       return state
     default:
       return state

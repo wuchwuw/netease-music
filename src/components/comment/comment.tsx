@@ -20,7 +20,9 @@ const Comment: React.SFC<CommentProps> = (props) => {
   }])
   useEffect(() => {
     // getHotComment()
-    getComment()
+    setTimeout(() => {
+      getComment()
+    }, 500);
   }, [])
   // async function getHotComment () {
   //   const params = {

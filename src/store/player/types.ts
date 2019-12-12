@@ -5,6 +5,7 @@ export const SET_PLAYLIST = 'SET_PLAYLIST'
 export const SET_PLAY_STATUS = 'SET_PLAY_STATUS'
 export const PLAY_NEXT = 'PLAY_NEXT'
 export const PLAY_PREV = 'PLAY_PREV'
+export const PLAYER_FULL_SCREEN = 'PLAYER_FULL_SCREEN'
 
 interface SetCurrentSongAction {
   type: typeof SET_CURRENT_SONG
@@ -29,10 +30,16 @@ interface PLAY_PREV {
   type: typeof PLAY_PREV
 }
 
+interface PLAYER_FULL_SCREEN {
+  type: typeof PLAYER_FULL_SCREEN,
+  fullScreen: boolean
+}
+
 export interface PlayerState {
   currentSong: Song
   playing: boolean,
-  playlist: Song[]
+  playlist: Song[],
+  fullScreen: boolean
 }
 
 export type PlayerActionTypes = 
@@ -40,4 +47,5 @@ export type PlayerActionTypes =
   SetPlaylistAction | 
   SetPlayStatusAction | 
   PLAY_NEXT | 
-  PLAY_PREV
+  PLAY_PREV |
+  PLAYER_FULL_SCREEN

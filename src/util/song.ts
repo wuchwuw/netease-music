@@ -1,5 +1,6 @@
 import { getSongTime } from 'UTIL/util'
 import api from 'API/index'
+import Lyric from './lyric-parser'
 
 interface SongArtist {
   id: number
@@ -15,6 +16,7 @@ export default class Song {
   albumId: number
   albumName: string
   duration: number
+  lyric: any
 
   constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
     this.id = id
@@ -25,6 +27,7 @@ export default class Song {
     this.albumId = al.id
     this.albumName = al.name
     this.duration = dt
+    this.lyric = null
   }
 
   get duration_string (): string {
@@ -39,6 +42,12 @@ export default class Song {
     }, '').substring(1)
   }
 
+  async getLyric () {
+    try {
+      let res = await api.getLyric(this.id)
+      this.lyric = new Lyric(res.data.lrc.lyric)
+    } catch (e) {}
+  }
   // async getSongUrl () {
   //   try {
   //     let res = await api.getSongUrl({ id: this.id })

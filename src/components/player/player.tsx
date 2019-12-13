@@ -1,13 +1,13 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef } from 'react'
 import './player.less'
 import { useSelector } from 'react-redux'
 import { getSongTime } from 'UTIL/util'
 import { RootState } from 'STORE/index'
 import { useDispatch } from 'react-redux'
 import { SET_PLAY_STATUS, PLAY_NEXT, PLAY_PREV, PLAYER_FULL_SCREEN } from 'STORE/player/types'
-import Comment from 'COMPONENTS/comment/comment'
 import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
+import FullScreenPlayer from './full-screen-player'
 
 export default function Player () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -79,8 +79,7 @@ export default function Player () {
   function setFullScreen () {
     dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
   }
-  const id = '3073492173'
-  const CommentComponent = useMemo(() => <Comment type="music" id={currentSong.id} />, [currentSong.id]);
+
   return (
     <>
       <div className="mini-player-wrap">
@@ -119,81 +118,7 @@ export default function Player () {
         <audio ref={audioRef} id="player-audio" onTimeUpdate={onTimeUpdate} onEnded={onEnd}></audio>
       </div>
       <CSSTransition in={fullScreen} timeout={500} unmountOnExit classNames="player-slider">
-        <div className="player">
-          <div className="player-wrap">
-            <div className="player-cd-wrap">
-              <div className="player-cd">
-                <img src={currentSong.picUrl+'?param=200y200'} alt=""/>
-              </div>
-              <div className="player-action">
-                <i className="iconfont iconxin"></i>
-                <i className="iconfont iconxin"></i>
-                <i className="iconfont iconxin"></i>
-                <i className="iconfont iconxin"></i>
-              </div>
-            </div>
-            <div className="player-info">
-              <div className="player-info-name">{currentSong.name}</div>
-              <div className="player-info-album">
-                <div>专辑:<span>{currentSong.albumName}</span></div>
-                <div>歌手:<span>{currentSong.artistName}</span></div>
-                <div>来源:<span>这些生活必需品</span></div>
-              </div>
-              <div className="player-info-lyrics">
-                <p className="player-info-lyrics-item active">作曲 : 金玟岐</p>
-                <p className="player-info-lyrics-item">作词 : 金玟岐</p>
-                <p className="player-info-lyrics-item">制作人/编曲：薛琳可</p>
-                <p className="player-info-lyrics-item">你是掌心的天地</p>
-                <p className="player-info-lyrics-item">你是我视线所及</p>
-                <p className="player-info-lyrics-item">你是我流落荒岛指定伴侣</p>
-                <p className="player-info-lyrics-item">我要和你在一起</p>
-                <p className="player-info-lyrics-item">你这裡有黄金屋</p>
-                <p className="player-info-lyrics-item">你这裡有颜如玉</p>
-                <p className="player-info-lyrics-item">你身体住满我朋友亲戚</p>
-                <p className="player-info-lyrics-item">我怎么忍心放下你</p>
-                <p className="player-info-lyrics-item">我天生有一些长情</p>
-              </div>
-            </div>
-          </div>
-          <div className="player-other-info">
-            <div className="player-other-comment">
-              <div>听友评论<span>(已有0条评论)</span></div>
-              {CommentComponent}
-            </div>
-            <div className="player-other-list">
-              <div className="player-other-list-playlist">
-                <div className="player-other-list-title">包含这首歌的歌单</div>
-                <div className="player-other-list-item">
-                  <img className="player-other-list-avatar" src="https://p3.music.126.net/yeLMBHft3oDrpg8G_fjIRA==/109951163603810637.jpg?param=35y35" alt=""/>
-                  <div className="player-other-list-info">
-                    <div className="player-other-list-info-name text-overflow">日子有点苦的时候，听这些歌在</div>
-                    <div className="player-other-list-info-text">2222万</div>
-                  </div>
-                </div>
-              </div>
-              <div className="player-other-list-song">
-                <div className="player-other-list-title">相似歌曲</div>
-                <div className="player-other-list-item">
-                  <img className="player-other-list-avatar" src="https://p3.music.126.net/yeLMBHft3oDrpg8G_fjIRA==/109951163603810637.jpg?param=35y35" alt=""/>
-                  <div className="player-other-list-info">
-                    <div className="player-other-list-info-name text-overflow">日子有点苦的时候，听这些歌在</div>
-                    <div className="player-other-list-info-text">2222万</div>
-                  </div>
-                </div>
-              </div>
-              <div className="player-other-list-like">
-                <div className="player-other-list-title">喜欢这首歌的人</div>
-                <div className="player-other-list-item">
-                  <img className="player-other-list-avatar" src="https://p3.music.126.net/yeLMBHft3oDrpg8G_fjIRA==/109951163603810637.jpg?param=35y35" alt=""/>
-                  <div className="player-other-list-info">
-                    <div className="player-other-list-info-name text-overflow">日子有点苦的时候，听这些歌在点苦的时候，听这些歌 </div>
-                    <div className="player-other-list-info-text">2222万</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <FullScreenPlayer></FullScreenPlayer>
       </CSSTransition>
     </>
   )

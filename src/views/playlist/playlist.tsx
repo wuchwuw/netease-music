@@ -55,7 +55,7 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
           </div>
           <div className="playlist-info-action">
             <div className="playlist-info-action-playall">
-              <div><i className="iconfont iconbofang" ></i>播放全部</div>
+              <div><i className="iconfont icon-play" ></i>播放全部</div>
               <i className="iconfont icon-add"></i>
             </div>
             <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏({playlist.shareCount})</div>

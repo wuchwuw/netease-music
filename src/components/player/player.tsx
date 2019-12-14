@@ -106,7 +106,7 @@ export default function Player () {
           <div className="mini-player-control">
             <i className="iconfont iconxin"></i>
             <i onClick={prev} className="iconfont iconforward"></i>
-            <i onClick={play} className={classnames('iconfont', { 'iconbofang': !playing, 'iconzanting': playing })}></i>
+            <i onClick={play} className={classnames('iconfont', { 'icon-play': !playing, 'iconzanting': playing })}></i>
             <i onClick={next} className="iconfont iconforward1"></i>
           </div>
           <div className="mini-player-action">

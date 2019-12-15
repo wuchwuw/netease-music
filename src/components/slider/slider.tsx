@@ -1,90 +1,51 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './slider.less'
 import classnames from 'classnames'
 
-function setStyle (el, styleName, style) {
-  el && (el.style[styleName] = style)
-}
-
 const Slider: React.SFC = (props) => {
-  let shared = {}
-  function initSlider () {
-    let { wrap, items, len, windowWidth, currentLeft } = shared
-    const loopLength = len + 2
-    handleLoop(wrap, items)
-    setStyle(wrap, 'width', `${windowWidth * loopLength}px`)
-    transitionWrap(-currentLeft, 0)
-    for (let i = 0; i < items.length; i++) {
-      // setStyle(items[i], 'transform', `translate3d(${i * 756}px, 0px, 0px)`)
-      setStyle(items[i], 'width', `${windowWidth}px`)
-    }
-    // this.loopStart()
-  }
+  const [currentIndex, setCurrentIndex] = useState(1)
+  const [prevIndex, setPrevIndex] = useState(0)
+  const [nextIndex, setNextIndex] = useState(2)
+  let timer = null
 
-  function handleLoop () {
-    let { wrap, items } = shared
-    let firstChild = items[0].cloneNode(true)
-    let lastChild = items[items.length - 1].cloneNode(true)
-    wrap.insertBefore(lastChild, items[0])
-    wrap.appendChild(firstChild)
-    wrap.addEventListener('transitionend', () => {
-      let { currentLeft, len, windowWidth } = shared
-      if (currentLeft > windowWidth * len) {
-        currentLeft = windowWidth
-        transitionWrap(-currentLeft, 0)
-        updateShared({ currentLeft })
-      } else if (currentLeft === 0){
-        currentLeft = windowWidth * len
-        transitionWrap(-currentLeft, 0)
-        updateShared({ currentLeft })
-      }
-    })
-    loopStart()
-  }
-
-  function transitionWrap (left, duration) {
-    let { wrap } = shared
-    setStyle(wrap, 'transitionDuration', `${duration}ms`)
-    setStyle(wrap, 'transform', `translate3d(${left}px, 0px, 0px)`)
-  }
   function loopStart () {
-    setInterval(() => {
+    timer = setInterval(() => {
       next()
     }, 4000)
   }
-  function next () {
-    let { wrap, windowWidth, currentLeft } = shared
-    currentLeft += windowWidth
-    transitionWrap(-currentLeft, 300)
-    // updateCurrentIndex(true)
-    updateShared({ currentLeft })
-  }
-  function updateShared (o) {
-    Object.keys(o).forEach(key => {
-      shared[key] = o[key]
+  function next (index) {
+    setCurrentIndex(prev => {
+      return round(index ? index : prev + 1)
     })
+    setPrevIndex(prev => round(prev + 1))
+    setNextIndex(prev => round(prev + 1))
   }
-  
+  function round (num) {
+    return num > props.images.length - 1 ? 0 : num
+  }
+
   useEffect(() => {
-    console.log(props.images)
     if (props.images.length) {
-      shared = {
-        windowWidth: 765,
-        currentLeft: 765,
-        wrap: document.getElementById('slider-wrap'),
-        items: document.getElementsByClassName('slider-item'),
-        len: props.images.length
-      }
-      initSlider()
+      loopStart()
+    }
+    return function cleanup () {
+      clearInterval(timer)
     }
   }, [props.images])
 
   return (
-    <div id="slider">
+    <div id="slider"onClick={()=> setCurrentIndex(5)}>
       <div id="slider-wrap">
         {
-          props.images.map((item: any) => (
-            <div className="slider-item" key={item.imageUrl}>
+          props.images.map((item: any, index: any) => (
+            <div
+              className={classnames("slider-item", {
+                'left': index === prevIndex,
+                'right': index === nextIndex,
+                'active': index === currentIndex
+              })}
+              key={index}
+            >
               <img className="slider-img" src={item.imageUrl} alt="" />
             </div>
           ))

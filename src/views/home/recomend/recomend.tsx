@@ -4,59 +4,57 @@ import './recomend.less'
 import api from 'API/index'
 import Slider from 'COMPONENTS/slider/slider.tsx'
 import { RouteChildrenProps } from 'react-router'
+import { CSSTransition } from 'react-transition-group'
+
+let loaded = false
+let bannersCache = []
+let personalizedCache = []
+let privatecontentCache = []
+let mvCache = []
+let songCache = []
 
 const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
-  const [ banners, setBanners ] = useState([])
-  const [ personalized, setPersonalized ] = useState([])
-  const [ privatecontent, setPrivatecontent ] = useState([])
-  const [ mv, setMv ] = useState([])
-  const [ song, setSong ] = useState([])
+  const [banners, setBanners] = useState(bannersCache)
+  const [personalized, setPersonalized] = useState(personalizedCache)
+  const [privatecontent, setPrivatecontent] = useState(privatecontentCache)
+  const [mv, setMv] = useState(mvCache)
+  const [song, setSong] = useState(songCache)
+  const [visible, setVisible] = useState(loaded)
   useEffect(() => {
-    getBanners()
-    getPersonalized()
-    getPrivatecontent()
-    getNewMv()
-    getNewSong()
+    if (!loaded) {
+      getRecomend()
+    }
   }, [])
 
-  async function getBanners () {
-    try {
-      const res = await api.getBanner()
-      setBanners(res.data.banners)
-    } catch (e) {}
+  function getRecomend () {
+    Promise.all([
+      api.getBanner(),
+      api.getPersonalized(),
+      api.getPrivatecontent(),
+      api.getNewMv(),
+      api.getNewSong(),
+    ]).then(res => {
+      setBanners(bannersCache = res[0].data.banners)
+      setPersonalized(personalizedCache = res[1].data.result.slice(0, 10))
+      setPrivatecontent(privatecontentCache = res[2].data.result)
+      setMv(mvCache = res[3].data.data.slice(0, 4))
+      setSong(songCache = res[4].data.result)
+      setVisible(loaded = true)
+    })
   }
-  async function getPersonalized () {
-    try {
-      const res = await api.getPersonalized()
-      setPersonalized(res.data.result.slice(0, 10))
-    } catch (e) {}
-  }
-  async function getPrivatecontent () {
-    try {
-      const res = await api.getPrivatecontent()
-      setPrivatecontent(res.data.result)
-    } catch (e) {}
-  }
-  async function getNewMv () {
-    try {
-      const res = await api.getNewMv()
-      setMv(res.data.data.slice(0, 4))
-    } catch (e) {}
-  }
-  async function getNewSong () {
-    try {
-      const res = await api.getNewSong()
-      setSong(res.data.result)
-    } catch (e) {}
-  }
-  // function getArtistName (artists: Object[]) {
-  // }
+
   function go (id: number) {
     props.history.push(`/playlist/${id}`)
   }
 
   return (
     <div className="container home-wrap">
+      <CSSTransition in={!visible} timeout={500} unmountOnExit classNames="fade">
+        <div className="home-loading">
+          <i className="iconfont icon-default"></i>
+          <p>正在生成个性化推荐...</p>
+        </div>
+      </CSSTransition>
       <div className="home-banner-wrap">
         <Slider images={banners}></Slider>
       </div>
@@ -65,8 +63,10 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
         <div className="home-personalized-content">
           { personalized.map((item: any, index) => (
             <div key={index} onClick={(e) => go(item.id)} className="home-personalized-item">
+              <div className="home-personalized-playcount"><i className="iconfont iconsanjiaoxing"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
               <img className="home-personalized-img" src={item.picUrl+'?param=133y133'} alt=""/>
               <div className="home-personalized-text">{item.name}</div>
+              <div className="home-personalized-play-icon"><i className="iconfont iconsanjiaoxing"></i></div>
             </div>
           ))}
         </div>
@@ -103,6 +103,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
         <div className="home-mv-content">
           { mv.map((item: any, index) => (
             <div key={index} className="home-mv-item">
+              <div className="home-mv-playcount"><i className="iconfont iconsanjiaoxing"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
               <img className="home-mv-img" src={item.cover+'?param=170y95'} alt=""/>
               <div className="home-mv-text text-overflow">{item.name}</div>
               <div className="home-mv-artist text-overflow">{item.artistName}</div>
@@ -117,4 +118,4 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
   )
 }
 
-export default HomeRecomend 
+export default HomeRecomend

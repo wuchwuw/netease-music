@@ -1,12 +1,5 @@
-.ant-carousel {
-  text-align: center;
-  width: 600px;
-  background: #364d79;
-  overflow: hidden;
-}
-.ant-carousel .slick-slide h3 {
-  color: #fff;
-}
+
+@import '~STYLE/color.less';
 .home-banner-wrap {
   display: flex;
   align-items: center;
@@ -15,6 +8,7 @@
 .home-wrap {
   padding: 20px;
   user-select: none;
+  position: relative;
 }
 .home-personalized {
   margin-top: 30px;
@@ -35,6 +29,42 @@
   margin: 0 10px 40px;
   border-radius: 5px;
   overflow: hidden;
+  position: relative;
+  &:hover {
+    .home-personalized-play-icon {
+      opacity: 0.6;
+    }
+  }
+}
+.home-personalized-play-icon {
+  position: absolute;
+  right: 10px;
+  bottom: 53px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  opacity: 0;
+  transition: opacity .3s;
+  i {
+    color: @color-main
+  }
+}
+.home-personalized-playcount, .home-mv-playcount {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #fff;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  i {
+    font-weight: bold;
+    margin-right: 3px;
+  }
 }
 .home-personalized-img {
   height: 133px;
@@ -105,6 +135,7 @@
 .home-mv-item {
   width: 170px;
   margin: 0 10px 40px;
+  position: relative;
 }
 .home-mv-img {
   height: 95px;
@@ -124,4 +155,21 @@
 .home-icon-arrow {
   font-size: 20px !important;
   font-weight: 500;
+}
+.home-loading {
+  position: absolute;
+  background: #fff;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 100px;
+  .icon-default {
+    font-size: 100px;
+    color: @color-main;
+  }
 }

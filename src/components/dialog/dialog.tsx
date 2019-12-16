@@ -15,14 +15,14 @@ const Dialog: React.SFC<DialogProps> = ({
 }, ref) => {
   const [visible, setVisible] = useState(false)
 
-  useImperativeHandle(ref, () => ({
-    open: () => {
-      setVisible(true)
-    },
-    close: () => {
-      setVisible(false)
-    }
-  }))
+  // useImperativeHandle(ref, () => ({
+  //   open: () => {
+  //     setVisible(true)
+  //   },
+  //   close: () => {
+  //     setVisible(false)
+  //   }
+  // }))
 
   return (
     <CSSTransition in={visible} timeout={500} unmountOnExit classNames="dialog-transition">

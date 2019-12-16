@@ -23,10 +23,13 @@ const LeftBar: React.SFC<LeftBarProps> = (props) => {
       <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
       <div className="leftbar-item-title">创建的歌单</div>
       <div className="leftbar-item"><i className="iconfont iconxin"></i>我喜欢的音乐</div>
-      {/* <Dialog
+      <Dialog
         title={'新建歌单'}
         width={470}
-      ></Dialog> */}
+      >
+        <input placeholder="请输入新建歌单标题" type="text"/>
+        <div>创建</div>
+      </Dialog>
     </div>
   )
 }

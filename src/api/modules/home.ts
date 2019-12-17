@@ -21,5 +21,8 @@ export default {
   },
   getSongUrl (params: any) {
     return axios.get('song/url', { params })
+  },
+  getRecomendDj () {
+    return axios.get('personalized/djprogram')
   }
 }

@@ -24,7 +24,7 @@
       "VIEWS/*": ["src/views/*"],
       "STORE/*": ["src/store/*"],
       "UTIL/*": ["src/util/*"]
-    }
+		}
 	},
 	"include": [
     "src/**/*"

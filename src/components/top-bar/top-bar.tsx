@@ -2,10 +2,6 @@ import React from 'react'
 import './top-bar.less'
 import { NavLink } from 'react-router-dom'
 
-interface TopBarProps {
-  currentTab: string
-}
-
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
   '/home/album': '歌单',
@@ -15,7 +11,7 @@ const homeSubPagePathMap: any = {
   '/home/song': '最新音乐'
 }
 
-const TopBar: React.SFC<TopBarProps> = (props) => {
+const TopBar: React.SFC = (props) => {
   function renderTopbarContent () {
     return (
       <>

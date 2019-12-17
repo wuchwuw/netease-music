@@ -1,38 +1,38 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useState } from 'react'
 import './dialog.less'
 import { CSSTransition } from 'react-transition-group'
+import { UseDialogProps } from '.'
+
+export function useDialog () {
+  const [visible, setVisible] = useState(false)
+  const show = () => setVisible(true)
+  const hide = () => setVisible(false)
+  const toggle = () => setVisible(!visible)
+
+  return {
+    visible,
+    show,
+    hide,
+    toggle
+  }
+}
 
 interface DialogProps {
   width: number
-  title: string
+  title?: string
   children: React.ReactNode
 }
 
-const Dialog: React.SFC<DialogProps> = ({
-  width = 100,
-  title = '',
-  children
-}, ref) => {
-  const [visible, setVisible] = useState(false)
-
-  // useImperativeHandle(ref, () => ({
-  //   open: () => {
-  //     setVisible(true)
-  //   },
-  //   close: () => {
-  //     setVisible(false)
-  //   }
-  // }))
-
+const Dialog: React.SFC<DialogProps & UseDialogProps> = (props) => {
   return (
-    <CSSTransition in={visible} timeout={500} unmountOnExit classNames="dialog-transition">
+    <CSSTransition in={props.visible} timeout={300} unmountOnExit classNames="fade">
       <div className="dialog-wrap">
-        <div className="dialog-content-wrap" style={{ width: `${width}px`}}>
-          <span className="dialog-close"><i className="iconfont icon-close"></i></span>
+        <div className="dialog-content-wrap" style={{ width: `${props.width}px`}}>
+          <span className="dialog-close" onClick={() => props.close()}><i className="iconfont icon-close"></i></span>
           <div className="dialog-header">
-            {title}
+            {props.title}
           </div>
-          <div className="dialog-content">{children}</div>
+          <div className="dialog-content">{props.children}</div>
         </div>
       </div>
     </CSSTransition>

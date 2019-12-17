@@ -1,1 +1,55 @@
-// todo
+@import '~STYLE/color.less';
+.login-dialog-wrap {
+  padding: 30px;
+}
+
+.login-dialog-img {
+  width: 100%;
+}
+
+.login-dialog-form {
+  border: 1px solid #DADADA;
+  border-radius: 5px;
+  margin-top: 40px;
+}
+
+.login-dialog-form-item {
+  height: 38px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  input {
+    width: 0;
+    flex: 1;
+    outline: none;
+    border: none;
+  }
+  &:first-child {
+    border-bottom: 1px solid #DADADA;
+  }
+  i {
+    margin-right: 5px;
+  }
+}
+
+.login-dialog-btn {
+  height: 40xp;
+  line-height: 40px;
+  background: @color-main;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 30px;
+}
+.login-dialog-tip {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #999999;
+  line-height: 1.5;
+  font-weight: 400;
+  span {
+    color: @color-main;
+    cursor: pointer;
+    border-bottom: 1px solid @color-main;
+  }
+}

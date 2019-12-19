@@ -34,7 +34,7 @@ const Slider: React.SFC = (props) => {
   }, [props.images])
 
   return (
-    <div id="slider"onClick={()=> setCurrentIndex(5)}>
+    <div id="slider"onClick={()=> next(5)}>
       <div id="slider-wrap">
         {
           props.images.map((item: any, index: any) => (

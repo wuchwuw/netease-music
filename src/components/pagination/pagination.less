@@ -1,0 +1,27 @@
+@import '~STYLE/color.less';
+
+.pagination-container {
+  display: flex;
+}
+
+.pagination-item {
+  height: 24px;
+  width: 24px;
+  border-radius: 5px;
+  border: 1px solid #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  .icon-arrow {
+    &.rorate {
+      transform: rotate(180deg);
+    }
+  }
+  &.pagination-item-active {
+    background: @color-main;
+    color: #fff;
+  }
+}

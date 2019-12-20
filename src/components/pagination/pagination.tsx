@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './pagination.less'
 
 interface PaginationProps {
-  defaultCurrentPage: number
+  defaultCurrentPage?: number
   pageSize: number
   total: number
   onChange: (currentPage: number) => void

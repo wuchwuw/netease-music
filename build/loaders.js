@@ -4,16 +4,16 @@ const { resolve } = require('./util')
 // const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = [
-  // {
-  //   test: /\.(js|jsx)$/,
-  //   enforce: 'pre',
-  //   loader: 'eslint-loader',
-  //   options: {
-  //     emitWarning: true, // eslint警告
-  //     formatter: require('eslint-friendly-formatter')
-  //   },
-  //   exclude: /node_modules/
-  // },
+  {
+    test: /\.(ts|tsx)$/,
+    enforce: 'pre',
+    loader: 'eslint-loader',
+    options: {
+      emitWarning: true, // eslint警告
+      formatter: require('eslint-friendly-formatter')
+    },
+    exclude: /node_modules/
+  },
   {
     test: /\.(ts|tsx|js|jsx)$/,
     loader: 'babel-loader',

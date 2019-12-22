@@ -6,7 +6,6 @@ import Slider from 'COMPONENTS/slider/slider.tsx'
 import { RouteChildrenProps } from 'react-router'
 import { CSSTransition } from 'react-transition-group'
 import notificationApi from 'COMPONENTS/notification/index'
-import Pagination from 'COMPONENTS/pagination/pagination'
 
 let loaded = false
 let bannersCache = []
@@ -55,7 +54,6 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
 
   return (
     <div className="container home-wrap">
-      <Pagination></Pagination>
       <CSSTransition in={!visible} timeout={500} unmountOnExit classNames="fade">
         <div className="home-loading">
           <i className="iconfont icon-default"></i>

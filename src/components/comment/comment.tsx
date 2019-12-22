@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './comment.less'
 import api from 'API/index'
 import dayjs from 'dayjs'
+import Pagination from 'COMPONENTS/pagination/pagination'
 
 interface CommentProps {
   id: number
@@ -126,6 +127,9 @@ const Comment: React.SFC<CommentProps> = (props) => {
             }
           </div>
         </div>
+      </div>
+      <div className="pagination-wrap">
+        <Pagination total={500} pageSize={10} onChange={() => {}}></Pagination>
       </div>
     </div>
   )

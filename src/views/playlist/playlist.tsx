@@ -10,9 +10,6 @@ import PlaylistClass from 'UTIL/playlist'
 interface PlaylistProps {
   match: match<PlaylistQueryParams>
 }
-interface PlaylistQueryParams {
-  id: string
-}
 
 const Playlist: React.SFC<PlaylistProps> = (props) => {
   const [ tab, setTab ] = useState('list') // list comment des
@@ -20,7 +17,7 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
   console.log(playlist)
   useEffect(() => {
     getPlaylist()
-  }, [])
+  }, [props.match.params.id])
   async function getPlaylist () {
     const params = {
       id: props.match.params.id

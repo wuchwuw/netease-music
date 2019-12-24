@@ -7,6 +7,7 @@ import api from 'API/index'
 
 const FullScrrenPlayer: React.SFC = () => {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
+  const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const CommentComponent = useMemo(() => <Comment type="music" id={currentSong.id} />, [currentSong.id]);
   const [simiPlaylist, setSimiPlaylist] = useState([])
   const [simiSong, setSimiSong] = useState([])

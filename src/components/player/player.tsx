@@ -77,6 +77,7 @@ export default function Player () {
   }
 
   function setFullScreen () {
+    if (!currentSong.id) return
     dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
   }
 

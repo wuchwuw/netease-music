@@ -1,6 +1,9 @@
 import React from 'react'
 import './top-bar.less'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
+import { RootState } from 'STORE/index'
+import { useSelector, useDispatch } from 'react-redux'
+import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -12,14 +15,20 @@ const homeSubPagePathMap: any = {
 }
 
 const TopBar: React.SFC = (props) => {
+  const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
+  const dispatch = useDispatch()
+
   function renderTopbarContent () {
+    if (/playlist/.test(props.location.pathname) || fullScreen) {
+      return <></>
+    }
     return (
       <>
         {
           Object.keys(homeSubPagePathMap).map((key: any, index: any) => (
-            <NavLink 
-              to={key} 
-              activeClassName="active" 
+            <NavLink
+              to={key}
+              activeClassName="active"
               className="topbar-content-item"
               key={key}
             >
@@ -33,10 +42,17 @@ const TopBar: React.SFC = (props) => {
   return (
     <div className="topbar-wrap">
       <div className="topbar-arrow">
-        <div className="topbar-arrow-wrap">
-          <i className="iconfont icon-arrow topbar-arrow-left"></i>
-          <i className="iconfont icon-arrow"></i>
-        </div>
+        {
+          !fullScreen ?
+            <div className="topbar-arrow-wrap left">
+              <i className="iconfont icon-arrow topbar-arrow-left"></i>
+              <i className="iconfont icon-arrow"></i>
+            </div>
+          :
+            <div className="topbar-arrow-wrap right">
+              <i onClick={() => { dispatch({type: PLAYER_FULL_SCREEN, fullScreen: false}) }} className="iconfont icon-arrow topbar-arrow-down"></i>
+            </div>
+        }
       </div>
       <div className="topbar-content">{renderTopbarContent()}</div>
       <div className="topbar-search">
@@ -54,4 +70,4 @@ const TopBar: React.SFC = (props) => {
   )
 }
 
-export default TopBar
+export default withRouter(TopBar)

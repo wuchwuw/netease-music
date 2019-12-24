@@ -8,9 +8,14 @@
   width: 200px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 }
 .topbar-arrow-wrap {
+  &.left {
+    margin-left: auto;
+  }
+  &.right {
+    margin-right: auto;
+  }
   i {
     display: inline-block;
     height: 25px;
@@ -28,6 +33,10 @@
 .topbar-arrow-left {
   transform: rotate(180deg);
   margin-right: 10px;
+}
+.topbar-arrow-down {
+  transform: rotate(90deg);
+  margin-left: 20px;
 }
 .topbar-content {
   display: flex;

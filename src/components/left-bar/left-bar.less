@@ -2,6 +2,7 @@
 @import '~STYLE/color.less';
 .leftbar-wrap {
   user-select: none;
+  height: 100%;
 }
 .leftbar-user {
   height: 60px;
@@ -78,4 +79,8 @@
   .triangle(#8e8e8e, 4px);
   display: inline-block;
   margin-left: 8px;
+}
+.leftbar-playlist {
+  overflow-y: auto;
+  height: calc(100% - 60px);
 }

@@ -22,7 +22,7 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/playlist/:id',
-        component: Playlist
+        component: Playlist,
       },
       {
         path: '/home',

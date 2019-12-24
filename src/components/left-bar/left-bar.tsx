@@ -23,12 +23,12 @@ const LeftBar: React.SFC = () => {
     try {
       let { data: { playlist }} = await api.getUserPlaylist({ uid: user.userId })
       playlist.length && (playlist[0].name = '我喜欢的音乐')
-      setPlaylist(playlist.filter(item => !item.subscribed))
-      setSubPlaylist(playlist.filter(item => item.subscribed))
+      setPlaylist(playlist.filter(item => item.creator.userId === user.userId))
+      setSubPlaylist(playlist.filter(item => item.creator.userId !== user.userId))
     } catch (e) {}
   }
 
-  
+
 
   return (
     <div className='leftbar-wrap'>
@@ -42,28 +42,32 @@ const LeftBar: React.SFC = () => {
           <div className="leftbar-login" onClick={() => dialogProps.toggle()}><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
         </div>
       }
-      <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
-        <i className="iconfont icon-neteastmusic" style={{ fontWeight: 100 }}></i>发现音乐
-      </NavLink>
-      <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
-      <div className="leftbar-item"><i className="iconfont icon-mv"></i>视频</div>
-      <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div>
-      {/* <div className="leftbar-item-title">我的音乐</div>
-      <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
-      <div className="leftbar-item-title">创建的歌单</div>
-      {
-        playlist.map(item => (
-          <NavLink to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
-            <i className="iconfont icon-playlist"></i><div>{item.name}</div>
-          </NavLink>
-        ))
-      }
-      <div className="leftbar-item-title">收藏的歌单</div>
-      {
-        subPlaylist.map(item => (
-          <div className="leftbar-item"><i className="iconfont icon-playlist"></i><div>{item.name}</div></div>
-        ))
-      }
+      <div className="leftbar-playlist">
+        <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
+          <i className="iconfont icon-neteastmusic" style={{ fontWeight: 100 }}></i>发现音乐
+        </NavLink>
+        <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
+        <div className="leftbar-item"><i className="iconfont icon-mv"></i>视频</div>
+        <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div>
+        {/* <div className="leftbar-item-title">我的音乐</div>
+        <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
+        <div className="leftbar-item-title">创建的歌单</div>
+        {
+          playlist.map(item => (
+            <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
+              <i className="iconfont icon-playlist"></i><div>{item.name}</div>
+            </NavLink>
+          ))
+        }
+        <div className="leftbar-item-title">收藏的歌单</div>
+        {
+          subPlaylist.map(item => (
+            <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
+              <i className="iconfont icon-playlist"></i><div>{item.name}</div>
+            </NavLink>
+          ))
+        }
+      </div>
       <LoginDialog {...dialogProps}></LoginDialog>
     </div>
   )

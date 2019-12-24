@@ -9,13 +9,12 @@ import configureStore from './store/index'
 const store = configureStore()
 
 const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
-  const [currentTab, setCuttentTab] = useState('index')
   return (
     <Provider store={store}>
       <div className="appwrap">
-        <div className="top"><TopBar currentTab={currentTab}/></div>
+        <div className="top"><TopBar/></div>
         <div className="main">
-          <div className="main-left"><LeftBar setTab={setCuttentTab}></LeftBar></div>
+          <div className="main-left"><LeftBar></LeftBar></div>
           <div className="main-right">
             {renderRoutes(route!.routes)}
           </div>

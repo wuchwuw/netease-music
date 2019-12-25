@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './spin.less'
 
 interface SpinProps {
@@ -8,11 +8,33 @@ interface SpinProps {
 }
 
 const Spin: React.SFC<SpinProps> = (props) => {
+  const [spin, setSpin] = useState(props.loading)
+  const shouldDely = !!props.delay
+  useEffect(() => {
+    if (props.loading) {
+      setSpin(props.loading)
+    } else {
+      if (shouldDely) {
+        setTimeout(() => {
+          setSpin(props.loading)
+        }, props.delay)
+      } else {
+        setSpin(props.loading)
+      }
+    }
+  }, [props.loading])
   return (
     <div className="spin-container">
       {
-        props.loading ?
-          <div className="spin-content">加载中</div>
+        spin ?
+          <div className="spin-content">
+            <div className="spinner">
+              <div className="spinner-loading">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+              </div>
+            </div>
+            <span>加载中</span>
+          </div>
           :
           <>{props.children}</>
       }

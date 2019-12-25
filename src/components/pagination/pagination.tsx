@@ -15,9 +15,8 @@ const Pagination: React.SFC<PaginationProps> = ({
   total = 0,
   onChange
 }) => {
-  const [currentPage, setCurrentPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
   const page = Math.floor(total / pageSize) + 1
-  console.log(page)
   function goPage (page: number) {
     setCurrentPage(page)
   }
@@ -30,6 +29,25 @@ const Pagination: React.SFC<PaginationProps> = ({
 
     let left
     let right
+
+    if (page <= 10) {
+      left = 1
+      right = page
+      for (let i = left; i <= right; i ++) {
+        pageList.push(
+          <li className={classnames(
+            'pagination-item',
+            { 'pagination-item-active': currentPage === i}
+          )}
+          onClick={() => { goPage(i) }}
+          >
+            {i}
+          </li>
+        )
+      }
+      return pageList
+    }
+
     if (currentPage >= 5 && currentPage <= page - 5) {
       left = currentPage - 2
       right = currentPage + 2

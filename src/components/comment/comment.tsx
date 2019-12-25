@@ -130,9 +130,12 @@ const Comment: React.SFC<CommentProps> = (props) => {
                 ))
               }
             </div>
-            <div className="pagination-wrap">
-              <Pagination total={500} pageSize={60} onChange={() => {}}></Pagination>
-            </div>
+            {
+              total >= 60 &&
+              <div className="pagination-wrap">
+                <Pagination total={total} pageSize={60} onChange={() => {}}></Pagination>
+              </div>
+            }
           </div>
         </Spin>
       </div>

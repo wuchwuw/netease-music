@@ -5,7 +5,7 @@ export default {
     return axios.get('banner')
   },
   getPersonalized () {
-    return axios.get('personalized')
+    return axios.get('personalized', { withCredentials: true })
   },
   getPrivatecontent () {
     return axios.get('personalized/privatecontent')

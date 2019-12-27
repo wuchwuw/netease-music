@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './comment.less'
 import api from 'API/index'
-import dayjs from 'dayjs'
 import Pagination from 'COMPONENTS/pagination/pagination'
 import Spin from 'COMPONENTS/spin/spin'
+import CommentCls, { createCommentList } from 'UTIL/comment'
 
 interface CommentProps {
   id: number
@@ -14,49 +14,76 @@ const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']
 const Comment: React.SFC<CommentProps> = (props) => {
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
-  const [list, setList] = useState([{
-    user: {},
-    beReplied: []
-  }])
-  const [ hot, setHot ] = useState([{
-    user: {},
-    beReplied: []
-  }])
+  const [list, setList] = useState<CommentCls[]>(createCommentList([]))
+  const [hot, setHot] = useState<CommentCls[]>(createCommentList([]))
+  const PAGE_SIZE = 60
+  
   useEffect(() => {
     getComment()
   }, [])
-  // async function getHotComment () {
-  //   const params = {
-  //     id: props.id,
-  //     type: 2,
-  //     limit: 10
-  //   }
-  //   try {
-  //     const res = await api.getHotComment(params)
-  //     setHot(res.data.hotComments)
-  //   } catch (e) {}
-  // }
+
   async function getComment () {
     setLoading(true)
     const params = {
       type: props.type,
       params: {
         id: props.id,
-        limit: 60
+        limit: PAGE_SIZE
       }
     }
     try {
       const res = await api.getComment(params)
-      setList(res.data.comments)
-      setHot(res.data.hotComments)
+      setList(createCommentList(res.data.comments))
+      setHot(createCommentList(res.data.hotComments))
       setTotal(res.data.total)
       setLoading(false)
     } catch (e) {}
   }
+
+  function genCommentNode (title: string, list: CommentCls[]) {
+    return (
+      <>
+        <div className="comment-title">{title}</div>
+        <div className="comment-list">
+          {
+            list.map(comment => (
+              <div key={comment.commentId + comment.parentCommentId} className="comment-item">
+                <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=35y35'} alt=""/>
+                <div className="comment-item-info">
+                  <div className="comment-item-info-text">
+                    <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}
+                  </div>
+                  {
+                    !!comment.replied && (
+                      <div className="comment-item-info-replay">
+                        <div className="comment-item-info-text">
+                          <span className="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}
+                        </div>
+                      </div>
+                    )
+                  }
+                  <div className="comment-item-info-action">
+                    <span className="comment-item-info-time">{comment.timeFormat}</span>
+                    <span className="comment-item-info-action-report">举报</span>
+                    <i className="iconfont icon-zan">
+                      <span className="comment-item-info-like">{comment.likedCount}</span>
+                    </i>
+                    <i className="iconfont icon-share"></i>
+                    <i className="iconfont icon-comment"></i>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </>
+    )
+  }
+
   return (
     <div>
       <div className="comment-textarea-wrap">
-        <textarea className="comment-textarea" placeholder="输入评论或@朋友" name=""></textarea>
+        <textarea className="comment-textarea" placeholder="输入评论或@朋友"></textarea>
         <span className="comment-textarea-reset">140</span>
       </div>
       <div className="comment-textarea-action">
@@ -66,77 +93,27 @@ const Comment: React.SFC<CommentProps> = (props) => {
         <span className="comment-textarea-action-btn">评论</span>
       </div>
       <div className="comment-content">
-        <Spin loading={loading} delay={500}>
-          <div className="comment-hot">
-            <div className="comment-title">精彩评论</div>
-            <div className="comment-list">
-              {
-                hot.map(comment => (
-                  <div key={comment.commentId} className="comment-item">
-                    <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=35y35'} alt=""/>
-                    <div className="comment-item-info">
-                  <div className="comment-item-info-text">
-                      <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}</div>
-                      {
-                        !!comment.beReplied.length && (
-                          <div className="comment-item-info-replay">
-                            <div className="comment-item-info-text"><span className="comment-item-info-name">@{comment.beReplied[0].user.nickname}:&nbsp;</span>{comment.beReplied[0].content}</div>
-                          </div>
-                        )
-                      }
-                      <div className="comment-item-info-action">
-                        <span className="comment-item-info-time">{dayjs(comment.time).format('YYYY年MM月DD日 HH:MM')}</span>
-                        <span className="comment-item-info-action-report">举报</span>
-                        <i className="iconfont icon-zan">
-                          <span className="comment-item-info-like">{comment.likedCount}</span>
-                        </i>
-                        <i className="iconfont icon-share"></i>
-                        <i className="iconfont icon-comment"></i>
-                      </div>
+        <Spin loading={loading} delay={300}>
+          {
+            (hot.length && list.length) ? (
+              <>
+                <div className="comment-hot">
+                  {genCommentNode('精彩评论', hot)}
+                </div>
+                <div className="comment-new">
+                  {genCommentNode('最新评论', list)}
+                  {
+                    total >= PAGE_SIZE &&
+                    <div className="pagination-wrap">
+                      <Pagination total={total} pageSize={PAGE_SIZE} onChange={() => {}}></Pagination>
                     </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-          <div className="comment-new">
-            <div className="comment-title">最新评论</div>
-            <div className="comment-list">
-            {
-                list.map(comment => (
-                  <div key={comment.commentId + comment.parentCommentId} className="comment-item">
-                    <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=35y35'} alt=""/>
-                    <div className="comment-item-info">
-                  <div className="comment-item-info-text">
-                      <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}</div>
-                      {
-                        !!comment.beReplied.length && (
-                          <div className="comment-item-info-replay">
-                            <div className="comment-item-info-text"><span className="comment-item-info-name">@{comment.beReplied[0].user.nickname}:&nbsp;</span>{comment.beReplied[0].content}</div>
-                          </div>
-                        )
-                      }
-                      <div className="comment-item-info-action">
-                        <span className="comment-item-info-time">2010年1月22日 02:02</span>
-                        <span className="comment-item-info-action-report">举报</span>
-                        <i className="iconfont icon-zan">
-                          <span className="comment-item-info-like">{comment.likedCount}</span>
-                        </i>
-                        <i className="iconfont icon-share"></i>
-                        <i className="iconfont icon-comment"></i>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-            {
-              total >= 60 &&
-              <div className="pagination-wrap">
-                <Pagination total={total} pageSize={60} onChange={() => {}}></Pagination>
-              </div>
-            }
-          </div>
+                  }
+                </div>
+              </>
+            )
+            :
+            <div className="comment-nodata">还没有评论，快来抢沙发~</div>
+          }
         </Spin>
       </div>
     </div>

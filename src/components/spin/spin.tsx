@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './spin.less'
 
 interface SpinProps {
-  children: React.ReactNodeArray
+  children: React.ReactNode
   loading: boolean
   delay: number
 }

@@ -17,7 +17,7 @@ const Comment: React.SFC<CommentProps> = (props) => {
   const [list, setList] = useState<CommentCls[]>(createCommentList([]))
   const [hot, setHot] = useState<CommentCls[]>(createCommentList([]))
   const PAGE_SIZE = 60
-  
+
   useEffect(() => {
     getComment()
   }, [])

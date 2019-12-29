@@ -62,7 +62,7 @@
 .playlist-info-action-playall {
   height: 30px;
   width: 140px;
-  background: linear-gradient(to right, #FC5045, #D53A32); 
+  background: linear-gradient(to right, #FC5045, #D53A32);
   display: flex;
   align-items: center;
   border-radius: 20px;
@@ -121,6 +121,7 @@
   display: flex;
   margin: 32px 30px 0;
   border-bottom: 1px solid #F3F3F3;
+  user-select: none;
   > span {
     margin-right: 30px;
     padding: 8px 0;
@@ -138,6 +139,9 @@
         bottom: 0;
         left: 0;
       }
+    }
+    &:hover {
+      color: @color-main;
     }
   }
 }

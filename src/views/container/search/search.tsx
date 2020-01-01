@@ -3,7 +3,7 @@ import './search.less'
 
 const Search: React.SFC = () => {
   return (
-    <div>
+    <div className="search-container">
     </div>
   )
 }

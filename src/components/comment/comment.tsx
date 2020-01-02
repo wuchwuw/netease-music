@@ -14,8 +14,8 @@ const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']
 const Comment: React.SFC<CommentProps> = (props) => {
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
-  const [list, setList] = useState<CommentCls[]>(createCommentList([]))
-  const [hot, setHot] = useState<CommentCls[]>(createCommentList([]))
+  const [list, setList] = useState<CommentCls[]>([])
+  const [hot, setHot] = useState<CommentCls[]>([])
   const PAGE_SIZE = 60
 
   useEffect(() => {

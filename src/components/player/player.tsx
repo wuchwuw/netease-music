@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react'
 import './player.less'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { getSongTime } from 'UTIL/util'
 import { RootState } from 'STORE/index'
-import { useDispatch } from 'react-redux'
 import { SET_PLAY_STATUS, PLAY_NEXT, PLAY_PREV, PLAYER_FULL_SCREEN } from 'STORE/player/types'
 import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import FullScreenPlayer from './full-screen-player'
+import { SET_PANEL_TYPE } from 'STORE/commen/types'
 
 export default function Player () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -81,6 +81,10 @@ export default function Player () {
     dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
   }
 
+  function setPanelType (type: string) {
+    dispatch({ type: SET_PANEL_TYPE, panelType: type })
+  }
+
   return (
     <>
       <div className="mini-player-wrap">
@@ -112,7 +116,7 @@ export default function Player () {
           </div>
           <div className="mini-player-action">
             <i className="iconfont iconxunhuan"></i>
-            <i className="iconfont iconlist"></i>
+            <i onClick={() => { setPanelType('current-playlist') }} className="iconfont iconlist"></i>
             <i className="iconfont icon1"></i>
           </div>
         </div>

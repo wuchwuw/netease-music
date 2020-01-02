@@ -4,6 +4,7 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
+import { SET_PANEL_TYPE } from 'STORE/commen/types'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -39,6 +40,11 @@ const TopBar: React.SFC = (props) => {
       </>
     )
   }
+
+  function onSearchFocus () {
+    dispatch({ type: SET_PANEL_TYPE, panelType: 'search' })
+  }
+
   return (
     <div className="topbar-wrap">
       <div className="topbar-arrow">
@@ -58,7 +64,7 @@ const TopBar: React.SFC = (props) => {
       <div className="topbar-search">
         <div className="topbar-search-content">
           <i className="iconfont icon-search"></i>
-          <input type="text" placeholder="搜索"/>
+          <input onFocus={() => onSearchFocus() } type="text" placeholder="搜索"/>
         </div>
       </div>
       <div className="topbar-other">

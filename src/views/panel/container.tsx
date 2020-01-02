@@ -9,7 +9,11 @@ import { RootState } from "STORE/index"
 const PanelContainer: React.SFC = (props) => {
   const dispatch = useDispatch()
   const panelType = useSelector((state: RootState) => state.commen.panelType)
-  const nodeList = [document.querySelector('.panel-container'), document.querySelector('.bottom')]
+  const nodeList = [
+    document.querySelector('.panel-container'),
+    document.querySelector('.bottom'),
+    document.querySelector('.topbar-search-content')
+  ]
 
   function genPanelNode (type: string) {
     switch (type) {
@@ -21,7 +25,7 @@ const PanelContainer: React.SFC = (props) => {
         return <Message></Message>
       case 'close':
         return null
-    } 
+    }
   }
 
   function onCurrentPlaylistClick (e: MouseEvent) {

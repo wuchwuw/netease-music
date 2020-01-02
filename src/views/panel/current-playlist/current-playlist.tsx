@@ -29,7 +29,7 @@ const CurrentPlaylist: React.SFC = () => {
   }
 
   return (
-    <div className="current-playlist-wrap">
+    <div className="current-playlist-container">
       <div className="current-playlist-tab">
         {
           Object.keys(CURRENT_PLAYLIST_PANEL_TAB).map(key => (
@@ -39,30 +39,32 @@ const CurrentPlaylist: React.SFC = () => {
           ))
         }
       </div>
-      <div className="currebt-playlist-action">
-        <span className="currebt-playlist-action-title">总{list.length}首</span>
-        <span className="currebt-playlist-action-star"><i className="iconfont icon-star"></i>收藏全部</span>
-        <span className="currebt-playlist-action-delete"><i className="iconfont icon-star"></i>清空</span>
+      <div className="current-playlist-action">
+        <span className="current-playlist-action-title">总{list.length}首</span>
+        <span className="current-playlist-action-star"><i className="iconfont icon-star"></i>收藏全部</span>
+        <span className="current-playlist-action-delete"><i className="iconfont icon-star"></i>清空</span>
       </div>
-      {
-        list.map(item => (
-          <li onDoubleClick={() => setSong(item) } key={item.id} className="current-music-list-item">
-            <div></div>
-            <div>
-              <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>{item.name}</div>
-            </div>
-            <div>
-              <div className="text-overflow" title={item.artistName}>{item.artistName}</div>
-            </div>
-            <div>
-              <i className="iconfont icon-link"></i>
-            </div>
-            <div>
-            <div className="text-overflow">{item.duration_string}</div>
-            </div>
-          </li>
-        ))
-      }
+      <ul className="current-music-list-wrap">
+        {
+          list.map(item => (
+            <li onDoubleClick={() => setSong(item) } key={item.id} className="current-music-list-item">
+              <div></div>
+              <div>
+                <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>{item.name}</div>
+              </div>
+              <div>
+                <div className="text-overflow" title={item.artistName}>{item.artistName}</div>
+              </div>
+              <div>
+                <i className="iconfont icon-link"></i>
+              </div>
+              <div>
+              <div className="text-overflow">{item.duration_string}</div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   )
 }

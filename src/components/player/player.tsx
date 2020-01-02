@@ -81,8 +81,8 @@ export default function Player () {
     dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
   }
 
-  function setPanelType (type: string) {
-    dispatch({ type: SET_PANEL_TYPE, panelType: type })
+  function setPanelType () {
+    dispatch({ type: SET_PANEL_TYPE, panelType: 'current-playlist' })
   }
 
   return (
@@ -116,7 +116,7 @@ export default function Player () {
           </div>
           <div className="mini-player-action">
             <i className="iconfont iconxunhuan"></i>
-            <i onClick={() => { setPanelType('current-playlist') }} className="iconfont iconlist"></i>
+            <i onClick={() => { setPanelType() }} className="iconfont iconlist"></i>
             <i className="iconfont icon1"></i>
           </div>
         </div>

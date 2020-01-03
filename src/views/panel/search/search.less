@@ -3,8 +3,32 @@
   right: 0;
   top: 50px;
   bottom: 60px;
-  width: 420px;
+  width: 360px;
   background: #fff;
   z-index: 10;
   box-shadow: -3px 0px 3px -3px rgba(0, 0, 0, .2);
+}
+.search-panel-title {
+  color: #9A9A9A;
+  padding: 20px;
+}
+.search-panel-keyword {
+  padding: 0 15px;
+  display: flex;
+  flex-wrap: wrap;
+  > span {
+    margin: 0 5px;
+    padding: 7px 15px;
+    border-radius: 20px;
+    border: 1px solid #D9D9D9;
+    margin-bottom: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &:hover {
+      background: #F1F2F2;
+    }
+  }
 }

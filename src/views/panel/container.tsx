@@ -16,16 +16,17 @@ const PanelContainer: React.SFC = (props) => {
   ]
 
   function genPanelNode (type: string) {
-    switch (type) {
-      case 'search':
-        return <Search></Search>
-      case 'current-playlist':
-        return <CurrentPlaylist></CurrentPlaylist>
-      case 'message':
-        return <Message></Message>
-      case 'close':
-        return null
-    }
+    return <Search></Search>
+    // switch (type) {
+    //   case 'search':
+    //     return <Search></Search>
+    //   case 'current-playlist':
+    //     return <CurrentPlaylist></CurrentPlaylist>
+    //   case 'message':
+    //     return <Message></Message>
+    //   case 'close':
+    //     return null
+    // }
   }
 
   function onCurrentPlaylistClick (e: MouseEvent) {

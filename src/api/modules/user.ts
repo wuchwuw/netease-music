@@ -11,7 +11,7 @@ interface UserIdParams {
 
 export default {
   login (params: loginParams) {
-    return axios.get('login/cellphone', { params: params })
+    return axios.get('login/cellphone', { params: params, withCredentials: true })
   },
   getUserPlaylist (params: UserIdParams) {
     return axios.get('user/playlist', { params: params, withCredentials: true })

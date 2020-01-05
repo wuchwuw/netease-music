@@ -16,7 +16,7 @@ const PanelContainer: React.SFC = (props) => {
   ]
 
   function genPanelNode (type: string) {
-    return <Search></Search>
+    return <Message></Message>
     // switch (type) {
     //   case 'search':
     //     return <Search></Search>

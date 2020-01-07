@@ -1,8 +1,9 @@
 import App from '../app'
-import HomeRecomend from '../views/home/recomend/recomend'
-import HomeAlbum from '../views/home/album/album'
-import Home from '../views/home/index'
-import Playlist from '../views/playlist/playlist'
+import HomeRecomend from 'VIEWS/home/recomend/recomend'
+import HomeAlbum from 'VIEWS/home/album/album'
+import Home from 'VIEWS/home/index'
+import Playlist from 'VIEWS/playlist/playlist'
+import Search from 'VIEWS/search/search'
 import { RouteConfig } from 'react-router-config'
 import { createRedirect } from './redirect'
 
@@ -37,6 +38,10 @@ const routes: RouteConfig[] = [
             component: HomeAlbum
           }
         ]
+      },
+      {
+        path: '/search',
+        component: Search
       }
     ]
   }

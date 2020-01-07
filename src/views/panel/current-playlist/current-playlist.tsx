@@ -32,7 +32,7 @@ const CurrentPlaylist: React.SFC = () => {
     <div className="current-playlist-container">
       <div className="current-playlist-tab">
         {
-          Object.keys(CURRENT_PLAYLIST_PANEL_TAB).map(key => (
+          (Object.keys(CURRENT_PLAYLIST_PANEL_TAB) as Array<keyof typeof CURRENT_PLAYLIST_PANEL_TAB>).map((key) => (
             <div onClick={() => selectTab(key)} key={key} className={classnames({ 'active': key === tab })}>
               {CURRENT_PLAYLIST_PANEL_TAB[key]}
             </div>

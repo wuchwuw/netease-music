@@ -5,6 +5,8 @@ import qs from 'qs'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import classnames from 'classnames'
+import Song, { createSongList } from 'UTIL/song'
+import Spin from 'COMPONENTS/spin/spin'
 
 const SEARCH_TAB_TYPE_MAP = {
   song: '单曲',
@@ -30,6 +32,8 @@ const SEARCH_TAB_PARAM_MAP = {
 
 type TabType = keyof typeof SEARCH_TAB_PARAM_MAP
 
+type SearchResultType = Song[] | string[]
+
 enum URLQueryStringKey {
   TAB = 'tab',
   KEYWORDS = 'keywords'
@@ -39,7 +43,10 @@ const Search: React.SFC = () => {
   const keywords = getQueryStringValue(URLQueryStringKey.KEYWORDS) || ''
   const [tab, setTab] = useState<TabType>(getQueryStringValue(URLQueryStringKey.TAB) || 'song')
   const history = useHistory()
-  
+  const [result, setResult] = useState<SearchResultType>([])
+  const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     search()
   }, [keywords, tab])
@@ -52,10 +59,18 @@ const Search: React.SFC = () => {
     }
     try {
       const res = await api.search(params)
-      console.log(res)
+      processResult(res, tab)
     } catch (e) {}
   }
-  
+
+  function processResult (res: any, tab: TabType) {
+    switch (tab) {
+      case 'song':
+        setResult(createSongList(res.result.songs))
+        setCount(res.result.songCount)
+    }
+  }
+
   function onTabSelect (tab: TabType) {
     setTab(tab)
     setQueryStringValue(URLQueryStringKey.TAB, tab, history)
@@ -74,6 +89,11 @@ const Search: React.SFC = () => {
           ))
         }
       </div>
+      <div className="search-content">
+        <Spin loading={loading} delay={200}>
+          {genSearchContent(tab, result)}
+        </Spin>
+      </div>
       <div className="search-multimatch-wrap">
         <span className="search-multimatch-title">最佳匹配</span>
       </div>
@@ -90,5 +110,19 @@ const setQueryStringValue = (key: URLQueryStringKey, value: any, history: H.Hist
   const newSearch = qs.stringify({ ...values, [key]: value })
   history.push(`${location.pathname}?${newSearch}`)
 }
+
+function genSearchContent (tab: TabType, result: SearchResultType) {
+  switch (tab) {
+    case 'song':
+      return genSearchSongContent(result)
+  }
+}
+
+function genSearchSongContent (songs: Song[]) {
+  return (
+    <div className="search-song-content"></div>
+  )
+}
+
 
 export default Search

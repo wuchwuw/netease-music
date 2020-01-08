@@ -69,6 +69,8 @@ export async function play (currentSong: Song) {
   } catch (e) {}
 }
 
-// export function createSong ({ id, name, al, ar, mv, dt }: any): Song {
-//   return new Song()
-// }
+export function createSongList (data: any): Song[] {
+  return data.map((item: any) => {
+    return new Song(item)
+  })
+}

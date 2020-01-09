@@ -8,31 +8,81 @@ import classnames from 'classnames'
 import Song, { createSongList } from 'UTIL/song'
 import Spin from 'COMPONENTS/spin/spin'
 
-const SEARCH_TAB_TYPE_MAP = {
-  song: '单曲',
-  artist: '歌手',
-  album: '专辑',
-  video: '视频',
-  playlist: '歌单',
-  lyric: '歌词',
-  dj: '主播电台',
-  user: '用户'
+enum TabType {
+  SONG = 'song',
+  ARTIST = 'artist',
+  ALBUM = 'album',
+  VIDEO = 'video',
+  PLAYLIST = 'playlist',
+  LYRIC = 'lyric',
+  DJ = 'dj',
+  USER = 'user'
+}
+
+interface SongResult {
+  tab: TabType.SONG
+  result: Song[]
+}
+
+interface ArtistResult {
+  tab: TabType.ARTIST
+  result: string[]
+}
+
+interface AlbumResult {
+  tab: TabType.ALBUM
+  result: string[]
+}
+
+interface VideoResult {
+  tab: TabType.VIDEO
+  result: string[]
+}
+
+interface PlaylistSTResult {
+  tab: TabType.PLAYLIST
+  result: number[]
+}
+
+interface LyricResult {
+  tab: TabType.LYRIC
+  result: string[]
+}
+
+interface DjResult {
+  tab: TabType.DJ
+  result: string[]
+}
+
+interface UserResult {
+  tab: TabType.USER
+  result: string[]
+}
+
+const SEARCH_TAB_NAME_MAP = {
+  [TabType.SONG]: '单曲',
+  [TabType.ARTIST]: '歌手',
+  [TabType.ALBUM]: '专辑',
+  [TabType.VIDEO]: '视频',
+  [TabType.PLAYLIST]: '歌单',
+  [TabType.LYRIC]: '歌词',
+  [TabType.DJ]: '主播电台',
+  [TabType.USER]: '用户'
 }
 
 const SEARCH_TAB_PARAM_MAP = {
-  song: 1,
-  artist: 100,
-  album: 10,
-  video: 1014,
-  playlist: 1000,
-  lyric: 1006,
-  dj: 1009,
-  user: 1002
+  [TabType.SONG]: 1,
+  [TabType.ARTIST]: 100,
+  [TabType.ALBUM]: 10,
+  [TabType.VIDEO]: 1014,
+  [TabType.PLAYLIST]: 1000,
+  [TabType.LYRIC]: 1006,
+  [TabType.DJ]: 1009,
+  [TabType.USER]: 1002
 }
 
-type TabType = keyof typeof SEARCH_TAB_PARAM_MAP
-
-type SearchResultType = Song[] | string[]
+type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistSTResult | LyricResult | DjResult | UserResult
+type ResultType = Song[] | string[] | number[]
 
 enum URLQueryStringKey {
   TAB = 'tab',
@@ -41,10 +91,10 @@ enum URLQueryStringKey {
 
 const Search: React.SFC = () => {
   const keywords = getQueryStringValue(URLQueryStringKey.KEYWORDS) || ''
-  const [tab, setTab] = useState<TabType>(getQueryStringValue(URLQueryStringKey.TAB) || 'song')
+  const [tab, setTab] = useState<TabType>(getQueryStringValue(URLQueryStringKey.TAB) || TabType.SONG)
   const history = useHistory()
-  const [result, setResult] = useState<SearchResultType>([])
-  const [count, setCount] = useState(0)
+  const [result, setResult] = useState<ResultType>([])
+  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -65,9 +115,9 @@ const Search: React.SFC = () => {
 
   function processResult (res: any, tab: TabType) {
     switch (tab) {
-      case 'song':
+      case TabType.SONG:
         setResult(createSongList(res.result.songs))
-        setCount(res.result.songCount)
+        setTotal(res.result.songCount)
     }
   }
 
@@ -84,18 +134,16 @@ const Search: React.SFC = () => {
       </div>
       <div className="search-tab">
         {
-          (Object.keys(SEARCH_TAB_TYPE_MAP) as TabType[]).map(key => (
-            <span key={key} onClick={() => onTabSelect(key)} className={classnames('search-tab-item', {'active': key === tab})}>{SEARCH_TAB_TYPE_MAP[key]}</span>
+          (Object.keys(SEARCH_TAB_NAME_MAP) as TabType[]).map(key => (
+            <span key={key} onClick={() => onTabSelect(key)} className={classnames('search-tab-item', {'active': key === tab})}>{SEARCH_TAB_NAME_MAP[key]}</span>
           ))
         }
       </div>
       <div className="search-content">
         <Spin loading={loading} delay={200}>
-          {genSearchContent(tab, result)}
+          {/* 联合类型的一种 */}
+          {genSearchContent({ tab, result } as SearchResult)}
         </Spin>
-      </div>
-      <div className="search-multimatch-wrap">
-        <span className="search-multimatch-title">最佳匹配</span>
       </div>
     </div>
   )
@@ -111,10 +159,12 @@ const setQueryStringValue = (key: URLQueryStringKey, value: any, history: H.Hist
   history.push(`${location.pathname}?${newSearch}`)
 }
 
-function genSearchContent (tab: TabType, result: SearchResultType) {
-  switch (tab) {
-    case 'song':
-      return genSearchSongContent(result)
+function genSearchContent (search: SearchResult) {
+  switch (search.tab) {
+    case TabType.SONG:
+      return genSearchSongContent(search.result)
+    case TabType.PLAYLIST:
+      return genSearchPlaylistContent(search.result)
   }
 }
 
@@ -124,5 +174,10 @@ function genSearchSongContent (songs: Song[]) {
   )
 }
 
+function genSearchPlaylistContent (songs: number[]) {
+  return (
+    <div className="search-song-content"></div>
+  )
+}
 
 export default Search

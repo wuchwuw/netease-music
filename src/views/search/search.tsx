@@ -170,7 +170,9 @@ function genSearchContent (search: SearchResult) {
 
 function genSearchSongContent (songs: Song[]) {
   return (
-    <div className="search-song-content"></div>
+    <div className="search-song-content">
+      <div></div>
+    </div>
   )
 }
 

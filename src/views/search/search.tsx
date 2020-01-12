@@ -7,6 +7,8 @@ import * as H from 'history'
 import classnames from 'classnames'
 import Song, { createSongList } from 'UTIL/song'
 import Spin from 'COMPONENTS/spin/spin'
+import MusicList from 'COMPONENTS/music-list/music-list'
+import { ArtistBaseClass, createSearchArtistList } from 'UTIL/artist'
 
 enum TabType {
   SONG = 'song',
@@ -26,12 +28,12 @@ interface SongResult {
 
 interface ArtistResult {
   tab: TabType.ARTIST
-  result: string[]
+  result: ArtistBaseClass[]
 }
 
 interface AlbumResult {
   tab: TabType.ALBUM
-  result: string[]
+  result: ArtistBaseClass[]
 }
 
 interface VideoResult {
@@ -82,7 +84,7 @@ const SEARCH_TAB_PARAM_MAP = {
 }
 
 type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistSTResult | LyricResult | DjResult | UserResult
-type ResultType = Song[] | string[] | number[]
+type ResultType = Song[] | ArtistBaseClass[] | number[]
 
 enum URLQueryStringKey {
   TAB = 'tab',
@@ -95,11 +97,11 @@ const Search: React.SFC = () => {
   const history = useHistory()
   const [result, setResult] = useState<ResultType>([])
   const [total, setTotal] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     search()
-  }, [keywords, tab])
+  }, [tab])
 
   async function search () {
     const params = {
@@ -109,21 +111,70 @@ const Search: React.SFC = () => {
     }
     try {
       const res = await api.search(params)
+      console.log(res)
       processResult(res, tab)
-    } catch (e) {}
+      setLoading(false)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   function processResult (res: any, tab: TabType) {
     switch (tab) {
       case TabType.SONG:
-        setResult(createSongList(res.result.songs))
-        setTotal(res.result.songCount)
+        setResult(createSongList(res.data.result.songs))
+        setTotal(res.data.result.songCount)
+      case TabType.ARTIST:
+        setResult(createSearchArtistList(res.data.result.artists))
+        setTotal(res.data.result.artistCount)
     }
   }
 
   function onTabSelect (tab: TabType) {
     setTab(tab)
+    setLoading(true)
     setQueryStringValue(URLQueryStringKey.TAB, tab, history)
+  }
+
+  function genSearchContent (search: SearchResult) {
+    switch (search.tab) {
+      case TabType.SONG:
+        return genSearchSongContent(search.result)
+      case TabType.ARTIST:
+        return genSearchArtistContent(search.result)
+      case TabType.PLAYLIST:
+        return genSearchPlaylistContent(search.result)
+    }
+  }
+
+  function genSearchSongContent (songs: Song[]) {
+    return (
+      <div className="search-song-content">
+        <MusicList list={songs}></MusicList>
+      </div>
+    )
+  }
+
+  function genSearchArtistContent (artists: ArtistBaseClass[]) {
+    console.log(artists)
+    return (
+      <ul className="search-artist-content">
+        {
+          artists.map(artist => (
+            <li className="search-artist-item" key={artist.id}>
+              <img className="search-artist-item-avatar" src={artist.picUrl+'?param=60y60'} alt=""/>
+              <span className="search-artist-item-name">{artist.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  function genSearchPlaylistContent (songs: number[]) {
+    return (
+      <div className="search-song-content"></div>
+    )
   }
 
   return (
@@ -141,7 +192,6 @@ const Search: React.SFC = () => {
       </div>
       <div className="search-content">
         <Spin loading={loading} delay={200}>
-          {/* 联合类型的一种 */}
           {genSearchContent({ tab, result } as SearchResult)}
         </Spin>
       </div>
@@ -157,29 +207,6 @@ const setQueryStringValue = (key: URLQueryStringKey, value: any, history: H.Hist
   const values = qs.parse(queryString ? queryString.substring(1) : queryString)
   const newSearch = qs.stringify({ ...values, [key]: value })
   history.push(`${location.pathname}?${newSearch}`)
-}
-
-function genSearchContent (search: SearchResult) {
-  switch (search.tab) {
-    case TabType.SONG:
-      return genSearchSongContent(search.result)
-    case TabType.PLAYLIST:
-      return genSearchPlaylistContent(search.result)
-  }
-}
-
-function genSearchSongContent (songs: Song[]) {
-  return (
-    <div className="search-song-content">
-      <div></div>
-    </div>
-  )
-}
-
-function genSearchPlaylistContent (songs: number[]) {
-  return (
-    <div className="search-song-content"></div>
-  )
 }
 
 export default Search

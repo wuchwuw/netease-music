@@ -1,4 +1,4 @@
-export class AlbumBaseClass {
+export class ArtistBaseClass {
   id: number
   name: string
   picUrl: string
@@ -10,8 +10,8 @@ export class AlbumBaseClass {
   }
 }
 
-export function searchAlbumList (data: any): AlbumBaseClass[] {
+export function createSearchArtistList (data: any): ArtistBaseClass[] {
   return data.map((item: any) => {
-    return new AlbumBaseClass(item)
+    return new ArtistBaseClass(item)
   })
 }

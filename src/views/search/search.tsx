@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import './search.less'
 import api from 'API/index'
 import qs from 'qs'
@@ -9,6 +9,8 @@ import Song, { createSongList } from 'UTIL/song'
 import Spin from 'COMPONENTS/spin/spin'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import { ArtistBaseClass, createSearchArtistList } from 'UTIL/artist'
+import { AlbumBaseClass, createSearchAlbumList } from 'UTIL/album'
+import { VideoBaseClass, createSearchVideoList} from 'UTIL/video'
 
 enum TabType {
   SONG = 'song',
@@ -33,12 +35,12 @@ interface ArtistResult {
 
 interface AlbumResult {
   tab: TabType.ALBUM
-  result: ArtistBaseClass[]
+  result: AlbumBaseClass[]
 }
 
 interface VideoResult {
   tab: TabType.VIDEO
-  result: string[]
+  result: VideoBaseClass[]
 }
 
 interface PlaylistSTResult {
@@ -84,7 +86,7 @@ const SEARCH_TAB_PARAM_MAP = {
 }
 
 type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistSTResult | LyricResult | DjResult | UserResult
-type ResultType = Song[] | ArtistBaseClass[] | number[]
+type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[]
 
 enum URLQueryStringKey {
   TAB = 'tab',
@@ -111,7 +113,6 @@ const Search: React.SFC = () => {
     }
     try {
       const res = await api.search(params)
-      console.log(res)
       processResult(res, tab)
       setLoading(false)
     } catch (e) {
@@ -124,9 +125,19 @@ const Search: React.SFC = () => {
       case TabType.SONG:
         setResult(createSongList(res.data.result.songs))
         setTotal(res.data.result.songCount)
+        return
       case TabType.ARTIST:
         setResult(createSearchArtistList(res.data.result.artists))
         setTotal(res.data.result.artistCount)
+        return
+      case TabType.ALBUM:
+        setResult(createSearchAlbumList(res.data.result.albums))
+        setTotal(res.data.result.albumtCount)
+        return
+      case TabType.VIDEO:
+        setResult(createSearchVideoList(res.data.result.videos))
+        setTotal(res.data.result.videoCount)
+        return
     }
   }
 
@@ -142,8 +153,10 @@ const Search: React.SFC = () => {
         return genSearchSongContent(search.result)
       case TabType.ARTIST:
         return genSearchArtistContent(search.result)
-      case TabType.PLAYLIST:
-        return genSearchPlaylistContent(search.result)
+      case TabType.ALBUM:
+        return genSearchAlbumContent(search.result)
+      case TabType.VIDEO:
+        return genSearchVideoContent(search.result)
     }
   }
 
@@ -156,7 +169,6 @@ const Search: React.SFC = () => {
   }
 
   function genSearchArtistContent (artists: ArtistBaseClass[]) {
-    console.log(artists)
     return (
       <ul className="search-artist-content">
         {
@@ -171,9 +183,35 @@ const Search: React.SFC = () => {
     )
   }
 
-  function genSearchPlaylistContent (songs: number[]) {
+  function genSearchAlbumContent (albums: AlbumBaseClass[]) {
     return (
-      <div className="search-song-content"></div>
+      <ul className="search-artist-content">
+        {
+          albums.map(album => (
+            <li className="search-artist-item" key={album.id}>
+              <img className="search-artist-item-avatar" src={album.picUrl+'?param=60y60'} alt=""/>
+              <span className="search-artist-item-name">{album.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  function genSearchVideoContent (videos: VideoBaseClass[]) {
+    return (
+      <div className="search-video-content">
+        <div className="search-video-item">
+          { videos.map(video => (
+            <div key={video.id} className="home-mv-item">
+              <div className="home-mv-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
+              <img className="home-mv-img" src={video.coverUrl+'?param=230y130'} alt=""/>
+              <div className="home-mv-text text-overflow">{video.title}</div>
+              {/* <div className="home-mv-artist text-overflow">{video.artistName}</div> */}
+            </div>
+          ))}
+        </div>
+      </div>
     )
   }
 

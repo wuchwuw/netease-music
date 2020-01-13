@@ -11,6 +11,7 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import { ArtistBaseClass, createSearchArtistList } from 'UTIL/artist'
 import { AlbumBaseClass, createSearchAlbumList } from 'UTIL/album'
 import { VideoBaseClass, createSearchVideoList} from 'UTIL/video'
+import { PlaylistBaseClass, createSearchPlaylist} from 'UTIL/playlist'
 
 enum TabType {
   SONG = 'song',
@@ -45,7 +46,7 @@ interface VideoResult {
 
 interface PlaylistSTResult {
   tab: TabType.PLAYLIST
-  result: number[]
+  result: PlaylistBaseClass[]
 }
 
 interface LyricResult {
@@ -86,7 +87,7 @@ const SEARCH_TAB_PARAM_MAP = {
 }
 
 type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistSTResult | LyricResult | DjResult | UserResult
-type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[]
+type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[] | PlaylistBaseClass[]
 
 enum URLQueryStringKey {
   TAB = 'tab',
@@ -138,13 +139,18 @@ const Search: React.SFC = () => {
         setResult(createSearchVideoList(res.data.result.videos))
         setTotal(res.data.result.videoCount)
         return
+      case TabType.PLAYLIST:
+        setResult(createSearchPlaylist(res.data.result.playlists))
+        setTotal(res.data.result.playlistCount)
+        return
     }
   }
 
-  function onTabSelect (tab: TabType) {
-    setTab(tab)
+  function onTabSelect (currentTab: TabType) {
+    if (tab === currentTab) return
+    setTab(currentTab)
     setLoading(true)
-    setQueryStringValue(URLQueryStringKey.TAB, tab, history)
+    setQueryStringValue(URLQueryStringKey.TAB, currentTab, history)
   }
 
   function genSearchContent (search: SearchResult) {
@@ -157,6 +163,8 @@ const Search: React.SFC = () => {
         return genSearchAlbumContent(search.result)
       case TabType.VIDEO:
         return genSearchVideoContent(search.result)
+      case TabType.PLAYLIST:
+        return genSearchPlaylistContent(search.result)
     }
   }
 
@@ -201,17 +209,30 @@ const Search: React.SFC = () => {
   function genSearchVideoContent (videos: VideoBaseClass[]) {
     return (
       <div className="search-video-content">
-        <div className="search-video-item">
-          { videos.map(video => (
-            <div key={video.id} className="home-mv-item">
-              <div className="home-mv-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
-              <img className="home-mv-img" src={video.coverUrl+'?param=230y130'} alt=""/>
-              <div className="home-mv-text text-overflow">{video.title}</div>
-              {/* <div className="home-mv-artist text-overflow">{video.artistName}</div> */}
-            </div>
-          ))}
-        </div>
+        { videos.map(video => (
+          <div key={video.id} className="search-video-item">
+            <div className="search-video-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
+            <img className="search-video-img" src={video.coverUrl+'?param=230y130'} alt=""/>
+            <div className="search-video-text text-overflow">{video.title}</div>
+            {/* <div className="home-mv-artist text-overflow">{video.artistName}</div> */}
+          </div>
+        ))}
       </div>
+    )
+  }
+
+  function genSearchPlaylistContent (playlists: PlaylistBaseClass[]) {
+    return (
+      <ul className="search-artist-content">
+        {
+          playlists.map(playlist => (
+            <li className="search-artist-item" key={playlist.id}>
+              <img className="search-artist-item-avatar" src={playlist.getCoverImgUrl('60y60')} alt=""/>
+              <span className="search-artist-item-name">{playlist.name}</span>
+            </li>
+          ))
+        }
+      </ul>
     )
   }
 
@@ -230,7 +251,7 @@ const Search: React.SFC = () => {
       </div>
       <div className="search-content">
         <Spin loading={loading} delay={200}>
-          {genSearchContent({ tab, result } as SearchResult)}
+          {!loading && genSearchContent({ tab, result } as SearchResult)}
         </Spin>
       </div>
     </div>

@@ -5,7 +5,6 @@ import dayjs from 'dayjs'
 interface Creator {
   avatarUrl: string
   nickname: string
-  signature: string
 }
 
 export default class PlaylistClass {
@@ -54,4 +53,37 @@ export default class PlaylistClass {
     })
     return res
   }
+}
+
+export class PlaylistBaseClass {
+  id: number
+  name: string
+  trackCount: number
+  coverImgUrl: string
+  creator: Creator
+
+  constructor ({ id, name, trackCount, coverImgUrl, creator = {} }: any) {
+    this.id = id
+    this.name = name
+    this.trackCount = trackCount
+    this.coverImgUrl = coverImgUrl
+    this.creator = creator
+  }
+
+  getCoverImgUrl (size: string) {
+    if (!this.coverImgUrl) return ''
+    return `${this.coverImgUrl}?param=${size}`
+  }
+}
+
+export function createSearchPlaylist (data: any): PlaylistBaseClass[] {
+  return data.map((item: any) => {
+    return new PlaylistBaseClass({
+      id: item.id,
+      name: item.name,
+      trackCount: item.trackCount,
+      coverImgUrl: item.coverImgUrl,
+      creator: item.creator
+    })
+  })
 }

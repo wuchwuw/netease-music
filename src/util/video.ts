@@ -21,7 +21,7 @@ export class VideoBaseClass {
 
 export function createSearchVideoList (data: any): VideoBaseClass[] {
   return data.map((item: any) => {
-    new VideoBaseClass({
+    return new VideoBaseClass({
       id: item.vid,
       duration: item.durationms,
       title: item.title,

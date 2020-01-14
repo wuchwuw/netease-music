@@ -8,10 +8,12 @@ import classnames from 'classnames'
 import Song, { createSongList } from 'UTIL/song'
 import Spin from 'COMPONENTS/spin/spin'
 import MusicList from 'COMPONENTS/music-list/music-list'
-import { ArtistBaseClass, createSearchArtistList } from 'UTIL/artist'
-import { AlbumBaseClass, createSearchAlbumList } from 'UTIL/album'
-import { VideoBaseClass, createSearchVideoList} from 'UTIL/video'
-import { PlaylistBaseClass, createSearchPlaylist} from 'UTIL/playlist'
+import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
+import { AlbumBaseClass, createBaseAlbumList } from 'UTIL/album'
+import { VideoBaseClass, createBaseVideoList} from 'UTIL/video'
+import { PlaylistBaseClass, createBasePlaylist} from 'UTIL/playlist'
+import { DjBaseClass, createBaseDjList } from 'UTIL/dj'
+import { UserBaseClass, createBaseUserList } from 'UTIL/user'
 
 enum TabType {
   SONG = 'song',
@@ -56,12 +58,12 @@ interface LyricResult {
 
 interface DjResult {
   tab: TabType.DJ
-  result: string[]
+  result: DjBaseClass[]
 }
 
 interface UserResult {
   tab: TabType.USER
-  result: string[]
+  result: UserBaseClass[]
 }
 
 const SEARCH_TAB_NAME_MAP = {
@@ -86,8 +88,19 @@ const SEARCH_TAB_PARAM_MAP = {
   [TabType.USER]: 1002
 }
 
+const SEARCH_TAB_LIMIT_MAP = {
+  [TabType.SONG]: 100,
+  [TabType.ARTIST]: 20,
+  [TabType.ALBUM]: 20,
+  [TabType.VIDEO]: 20,
+  [TabType.PLAYLIST]: 22,
+  [TabType.LYRIC]: 20,
+  [TabType.DJ]: 20,
+  [TabType.USER]: 20
+}
+
 type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistSTResult | LyricResult | DjResult | UserResult
-type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[] | PlaylistBaseClass[]
+type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[] | PlaylistBaseClass[] | DjBaseClass[] | UserBaseClass[]
 
 enum URLQueryStringKey {
   TAB = 'tab',
@@ -108,7 +121,7 @@ const Search: React.SFC = () => {
 
   async function search () {
     const params = {
-      limit: 100,
+      limit: SEARCH_TAB_LIMIT_MAP[tab],
       type: SEARCH_TAB_PARAM_MAP[tab],
       keywords
     }
@@ -128,20 +141,28 @@ const Search: React.SFC = () => {
         setTotal(res.data.result.songCount)
         return
       case TabType.ARTIST:
-        setResult(createSearchArtistList(res.data.result.artists))
+        setResult(createBaseArtistList(res.data.result.artists))
         setTotal(res.data.result.artistCount)
         return
       case TabType.ALBUM:
-        setResult(createSearchAlbumList(res.data.result.albums))
-        setTotal(res.data.result.albumtCount)
+        setResult(createBaseAlbumList(res.data.result.albums))
+        setTotal(res.data.result.albumCount)
         return
       case TabType.VIDEO:
-        setResult(createSearchVideoList(res.data.result.videos))
+        setResult(createBaseVideoList(res.data.result.videos))
         setTotal(res.data.result.videoCount)
         return
       case TabType.PLAYLIST:
-        setResult(createSearchPlaylist(res.data.result.playlists))
+        setResult(createBasePlaylist(res.data.result.playlists))
         setTotal(res.data.result.playlistCount)
+        return
+      case TabType.DJ:
+        setResult(createBaseDjList(res.data.result.djRadios))
+        setTotal(res.data.result.djRadiosCount)
+        return
+      case TabType.USER:
+        setResult(createBaseUserList(res.data.result.userprofiles))
+        setTotal(res.data.result.userprofileCount)
         return
     }
   }
@@ -165,6 +186,10 @@ const Search: React.SFC = () => {
         return genSearchVideoContent(search.result)
       case TabType.PLAYLIST:
         return genSearchPlaylistContent(search.result)
+      case TabType.DJ:
+        return genSearchDjContent(search.result)
+      case TabType.USER:
+        return genSearchUserContent(search.result)
     }
   }
 
@@ -236,11 +261,63 @@ const Search: React.SFC = () => {
     )
   }
 
+  function genSearchDjContent (djs: DjBaseClass[]) {
+    return (
+      <ul className="search-artist-content">
+        {
+          djs.map(dj => (
+            <li className="search-artist-item" key={dj.id}>
+              <img className="search-artist-item-avatar" src={dj.picUrl+'?param=60y60'} alt=""/>
+              <span className="search-artist-item-name">{dj.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  function genSearchUserContent (users: UserBaseClass[]) {
+    return (
+      <ul className="search-artist-content">
+        {
+          users.map(user => (
+            <li className="search-artist-item" key={user.userId}>
+              <img className="search-artist-item-avatar" src={user.avatarUrl+'?param=60y60'} alt=""/>
+              <span className="search-artist-item-name">{user.nickname}</span>
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  function getSearchResultText () {
+    if (total === 0) return ''
+    switch (tab) {
+      case TabType.SONG:
+        return `找到 ${total} 首单曲`
+      case TabType.ARTIST:
+        return `找到 ${total} 位歌手`
+      case TabType.ALBUM:
+        return `找到 ${total} 张专辑`
+      case TabType.VIDEO:
+        return `找到 ${total} 个视频`
+      case TabType.PLAYLIST:
+        return `找到 ${total} 个歌单`
+      case TabType.LYRIC:
+        return `找到 ${total} 首歌词`
+      case TabType.DJ:
+        return `找到 ${total} 个电台`
+      case TabType.USER:
+        return `找到 ${total} 位用户`
+    }
+  }
+
   return (
     <div className="search-container">
       <div className="search-keyword-wrap">
         <span className="search-keyword">陈奕迅</span>
-        <span className="search-keyword-num">找到 0 首单曲</span>
+        <span className="search-keyword-num">{getSearchResultText()}</span>
       </div>
       <div className="search-tab">
         {

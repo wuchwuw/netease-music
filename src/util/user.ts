@@ -1,5 +1,3 @@
-class BaseUser {}
-
 export default class User {
   avatarUrl: string
   description: string
@@ -14,15 +12,15 @@ export default class User {
   vipType: number
   birthday: number
 
-  constructor ({ 
-    avatarUrl, 
-    description, 
-    detailDescription, 
-    followed, 
-    nickname, 
-    signature, 
-    followeds, 
-    follows, 
+  constructor ({
+    avatarUrl,
+    description,
+    detailDescription,
+    followed,
+    nickname,
+    signature,
+    followeds,
+    follows,
     userId,
     userType,
     vipType,
@@ -41,4 +39,34 @@ export default class User {
     this.vipType = vipType
     this.birthday = birthday
   }
+}
+
+export class UserBaseClass {
+  userId: number
+  nickname: string
+  avatarUrl: string
+
+  constructor ({ userId, nickname, avatarUrl }: any) {
+    this.userId = userId
+    this.nickname = nickname
+    this.avatarUrl = avatarUrl
+  }
+}
+
+export function createBaseUser (data: any): UserBaseClass {
+  return new UserBaseClass({
+    userId: data.userId,
+    nickname: data.nickname,
+    avatarUrl: data.avatarUrl
+  })
+}
+
+export function createBaseUserList (data: any): UserBaseClass[] {
+  return data.map((item: any) => {
+    return new UserBaseClass({
+      userId: item.userId,
+      nickname: item.nickname,
+      avatarUrl: item.avatarUrl
+    })
+  })
 }

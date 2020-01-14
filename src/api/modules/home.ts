@@ -16,8 +16,8 @@ export default {
   getNewSong () {
     return axios.get('personalized/newsong')
   },
-  getTopList () {
-    return axios.get('top/playlist', { params: { limit: 10, order: 'hot' }})
+  getTopList (params: any) {
+    return axios.get('top/playlist', { params })
   },
   getRecomendDj () {
     return axios.get('personalized/djprogram')

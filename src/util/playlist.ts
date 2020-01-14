@@ -76,7 +76,7 @@ export class PlaylistBaseClass {
   }
 }
 
-export function createSearchPlaylist (data: any): PlaylistBaseClass[] {
+export function createBasePlaylist (data: any): PlaylistBaseClass[] {
   return data.map((item: any) => {
     return new PlaylistBaseClass({
       id: item.id,

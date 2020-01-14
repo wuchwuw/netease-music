@@ -1,3 +1,5 @@
+@import '~STYLE/color.less';
+
 .home-album-hot {
   height: 170px;
   display: flex;
@@ -52,6 +54,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  .home-album-filter-item {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    &.active {
+      color: @color-main;
+      background: rgba(211, 57, 49, .1);
+    }
+  }
 }
 .home-album-filter-btn {
   width: 100px;

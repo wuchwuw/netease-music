@@ -10,7 +10,7 @@ export class ArtistBaseClass {
   }
 }
 
-export function createSearchArtistList (data: any): ArtistBaseClass[] {
+export function createBaseArtistList (data: any): ArtistBaseClass[] {
   return data.map((item: any) => {
     return new ArtistBaseClass(item)
   })

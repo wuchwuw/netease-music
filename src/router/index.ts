@@ -1,6 +1,6 @@
 import App from '../app'
 import HomeRecomend from 'VIEWS/home/recomend/recomend'
-import HomeAlbum from 'VIEWS/home/album/album'
+import HomeAlbum from 'VIEWS/home/playlist/playlist'
 import Home from 'VIEWS/home/index'
 import Playlist from 'VIEWS/playlist/playlist'
 import Search from 'VIEWS/search/search'

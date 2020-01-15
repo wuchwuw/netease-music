@@ -4,6 +4,7 @@ import comment from './modules/comment'
 import commen from './modules/commen'
 import song from './modules/song'
 import user from './modules/user'
+import artist from './modules/artist'
 
 export default {
   ...home,
@@ -11,5 +12,6 @@ export default {
   ...comment,
   ...commen,
   ...song,
-  ...user
+  ...user,
+  ...artist
 }

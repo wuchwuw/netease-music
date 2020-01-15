@@ -10,7 +10,10 @@ export default {
   getPlaylistHighquality (params: any) {
     return axios.get('top/playlist/highquality', { params })
   },
-  getPlaylistToplist () {
+  getToplist () {
     return axios.get('toplist/detail')
+  },
+  getToplistIndex (params: any) {
+    return axios.get('top/list', { params })
   }
 }

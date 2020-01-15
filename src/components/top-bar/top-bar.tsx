@@ -10,8 +10,8 @@ const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
   '/home/album': '歌单',
   '/home/radio': '主播电台',
-  '/home/rank': '排行榜',
-  '/home/singer': '歌手',
+  '/home/toplist': '排行榜',
+  '/home/artist': '歌手',
   '/home/song': '最新音乐'
 }
 

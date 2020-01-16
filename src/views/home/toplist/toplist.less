@@ -22,9 +22,27 @@
 }
 .toplist-netease-item-list {
   margin-left: 30px;
+  flex: 1;
+  font-size: 13px;
 }
 .toplist-netease-item-list-item {
   height: 35px;
   display: flex;
   align-items: center;
+  &:nth-child(odd) {
+    background: #FAFAFA;
+  }
+  &:hover {
+    background: #F2F2F2;
+  }
+  > span {
+    &:nth-child(1) {
+      flex: 0 0 30px;
+      text-align: center;
+    }
+    &:nth-child(3) {
+      margin-left: auto;
+      padding-right: 10px;
+    }
+  }
 }

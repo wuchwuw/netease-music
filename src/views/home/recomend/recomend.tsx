@@ -35,7 +35,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
       api.getPersonalized(),
       api.getPrivatecontent(),
       api.getNewMv(),
-      api.getNewSong(),
+      api.getRecomendNewSong(),
       api.getRecomendDj()
     ]).then(res => {
       setBanners(bannersCache = res[0].data.banners)

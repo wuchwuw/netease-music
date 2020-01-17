@@ -5,6 +5,7 @@ import commen from './modules/commen'
 import song from './modules/song'
 import user from './modules/user'
 import artist from './modules/artist'
+import radio from './modules/radio'
 
 export default {
   ...home,
@@ -13,5 +14,6 @@ export default {
   ...commen,
   ...song,
   ...user,
-  ...artist
+  ...artist,
+  ...radio
 }

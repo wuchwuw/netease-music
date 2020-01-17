@@ -12,7 +12,7 @@ const homeSubPagePathMap: any = {
   '/home/radio': '主播电台',
   '/home/toplist': '排行榜',
   '/home/artist': '歌手',
-  '/home/song': '最新音乐'
+  '/home/new': '最新音乐'
 }
 
 const TopBar: React.SFC = (props) => {

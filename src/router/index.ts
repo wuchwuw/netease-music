@@ -3,6 +3,8 @@ import HomeRecomend from 'VIEWS/home/recomend/recomend'
 import HomeAlbum from 'VIEWS/home/playlist/playlist'
 import HomeToplist from 'VIEWS/home/toplist/toplist'
 import HomeArtist from 'VIEWS/home/artist/artist'
+import HomeNew from 'VIEWS/home/new/new'
+import HomeRadio from 'VIEWS/home/radio/radio'
 import Home from 'VIEWS/home/index'
 import Playlist from 'VIEWS/playlist/playlist'
 import Search from 'VIEWS/search/search'
@@ -46,6 +48,14 @@ const routes: RouteConfig[] = [
           {
             path: '/home/artist',
             component: HomeArtist
+          },
+          {
+            path: '/home/new',
+            component: HomeNew
+          },
+          {
+            path: '/home/radio',
+            component: HomeRadio
           }
         ]
       },

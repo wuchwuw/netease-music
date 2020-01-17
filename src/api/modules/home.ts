@@ -13,7 +13,7 @@ export default {
   getNewMv () {
     return axios.get('mv/first', { params: { limit: 10 } })
   },
-  getNewSong () {
+  getRecomendNewSong () {
     return axios.get('personalized/newsong')
   },
   getTopList (params: any) {

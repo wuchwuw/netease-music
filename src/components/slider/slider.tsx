@@ -46,7 +46,7 @@ const Slider: React.SFC = (props) => {
               })}
               key={index}
             >
-              <img className="slider-img" src={item.imageUrl} alt="" />
+              <img className="slider-img" src={item.imageUrl || item.pic} alt="" />
             </div>
           ))
         }

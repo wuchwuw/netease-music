@@ -10,6 +10,9 @@ import Playlist from 'VIEWS/playlist/playlist'
 import Search from 'VIEWS/search/search'
 import { RouteConfig } from 'react-router-config'
 import { createRedirect } from './redirect'
+import Video from 'VIEWS/video/video/video'
+import VideoContainer from 'VIEWS/video/index'
+import MvRecomend from 'VIEWS/video/mv/mv'
 
 const routes: RouteConfig[] = [
   {
@@ -24,6 +27,11 @@ const routes: RouteConfig[] = [
         path: '/home',
         exact: true,
         component: createRedirect('/home/index')
+      },
+      {
+        path: '/video',
+        exact: true,
+        component: createRedirect('/video/index')
       },
       {
         path: '/playlist/:id',
@@ -62,6 +70,20 @@ const routes: RouteConfig[] = [
       {
         path: '/search',
         component: Search
+      },
+      {
+        path: '/video',
+        component: VideoContainer,
+        routes: [
+          {
+            path: '/video/index',
+            component: Video
+          },
+          {
+            path: '/video/mv',
+            component: MvRecomend
+          }
+        ]
       }
     ]
   }

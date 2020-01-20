@@ -6,6 +6,7 @@ import song from './modules/song'
 import user from './modules/user'
 import artist from './modules/artist'
 import radio from './modules/radio'
+import video from './modules/video'
 
 export default {
   ...home,
@@ -15,5 +16,6 @@ export default {
   ...song,
   ...user,
   ...artist,
-  ...radio
+  ...radio,
+  ...video
 }

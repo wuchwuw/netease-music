@@ -15,25 +15,36 @@ const homeSubPagePathMap: any = {
   '/home/new': '最新音乐'
 }
 
+const viodeSubPagePathMap: any = {
+  '/video/index': '视频',
+  '/video/mv': 'mv'
+}
+
 const TopBar: React.SFC = (props) => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const dispatch = useDispatch()
 
   function renderTopbarContent () {
+    let routePath = {}
     if (/playlist/.test(props.location.pathname) || fullScreen) {
       return <></>
+    }
+    if (/home/.test(props.location.pathname)) {
+      routePath = homeSubPagePathMap
+    } else if (/video/.test(props.location.pathname)) {
+      routePath = viodeSubPagePathMap
     }
     return (
       <>
         {
-          Object.keys(homeSubPagePathMap).map((key: any, index: any) => (
+          Object.keys(routePath).map((key: any, index: any) => (
             <NavLink
               to={key}
               activeClassName="active"
               className="topbar-content-item"
               key={key}
             >
-                {homeSubPagePathMap[key]}
+                {routePath[key]}
             </NavLink>
           ))
         }

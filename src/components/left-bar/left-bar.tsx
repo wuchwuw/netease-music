@@ -47,7 +47,9 @@ const LeftBar: React.SFC = () => {
           <i className="iconfont icon-neteastmusic" style={{ fontWeight: 100 }}></i>发现音乐
         </NavLink>
         <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
-        <div className="leftbar-item"><i className="iconfont icon-mv"></i>视频</div>
+        <NavLink to={'/video'} activeClassName="active" className="leftbar-item">
+          <i className="iconfont icon-mv" style={{ fontWeight: 100 }}></i>视频
+        </NavLink>
         <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div>
         {/* <div className="leftbar-item-title">我的音乐</div>
         <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}

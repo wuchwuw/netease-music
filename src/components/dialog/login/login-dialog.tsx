@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux'
 import User from 'UTIL/user'
 
 const LoignDialog: React.SFC<UseDialogProps> = (props) => {
-
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -19,6 +18,7 @@ const LoignDialog: React.SFC<UseDialogProps> = (props) => {
       let res = await api.login({ phone, password })
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
+      props.close()
     } catch (e) {}
   }
 

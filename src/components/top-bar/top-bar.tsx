@@ -17,7 +17,7 @@ const homeSubPagePathMap: any = {
 
 const viodeSubPagePathMap: any = {
   '/video/index': '视频',
-  '/video/mv': 'mv'
+  '/video/mv': 'MV'
 }
 
 const TopBar: React.SFC = (props) => {

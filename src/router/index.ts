@@ -13,6 +13,7 @@ import { createRedirect } from './redirect'
 import Video from 'VIEWS/video/video/video'
 import VideoContainer from 'VIEWS/video/index'
 import MvRecomend from 'VIEWS/video/mv/mv'
+import Friends from 'VIEWS/friends/friends'
 
 const routes: RouteConfig[] = [
   {
@@ -84,6 +85,10 @@ const routes: RouteConfig[] = [
             component: MvRecomend
           }
         ]
+      },
+      {
+        path: '/friends',
+        component: Friends
       }
     ]
   }

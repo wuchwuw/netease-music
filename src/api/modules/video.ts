@@ -5,6 +5,6 @@ export default {
     return axios.get('video/group/list')
   },
   getViodeList (params: any) {
-    return axios.get('video/group/list', { params })
+    return axios.get('video/group', { params, withCredentials: true })
   }
 }

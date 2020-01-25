@@ -15,5 +15,8 @@ export default {
   },
   getNewMv (params: any) {
     return axios.get('mv/first', { params })
+  },
+  getMvToplist (params: any) {
+    return axios.get('top/mv', { params })
   }
 }

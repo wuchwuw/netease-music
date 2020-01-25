@@ -27,7 +27,7 @@ const Artist: React.SFC = () => {
   return (
     <div className="artist">
       <div className="artist-filter">
-        <div className="artist-filter-item">
+        <div className="commen-filter-item">
           <span>语种:</span>
           <div>
             <span className="active">华语</span>
@@ -36,7 +36,7 @@ const Artist: React.SFC = () => {
             <span>韩国</span>
           </div>
         </div>
-        <div className="artist-filter-item">
+        <div className="commen-filter-item">
           <span>分类:</span>
           <div>
             <span>男歌手</span>
@@ -44,7 +44,7 @@ const Artist: React.SFC = () => {
             <span>乐队组合</span>
           </div>
         </div>
-        <div className="artist-filter-item">
+        <div className="commen-filter-item">
           <span>筛选:</span>
           <div>
             <span>A</span>

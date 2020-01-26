@@ -35,7 +35,7 @@ const MvRecomend: React.SFC = () => {
       <div className="commen-viode-content">
         {
           newMv.map(mv => {
-
+            <div></div>
           })
         }
       </div>

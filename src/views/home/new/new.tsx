@@ -103,10 +103,12 @@ const New: React.SFC = () => {
           ))
         }
       </div>
-      <div>
+      <div className="new-filter">
         <span>全部</span>
         <span>华语</span>
         <span>欧美</span>
+        <span>韩国</span>
+        <span>日本</span>
       </div>
       <div>
         {

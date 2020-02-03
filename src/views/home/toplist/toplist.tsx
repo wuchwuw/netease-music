@@ -38,7 +38,7 @@ const Toplist: React.SFC = () => {
   }
 
   return (
-    <div>
+    <div className="toplist-container">
       <div className="toplist-netease-wrap">
         <div className="toplist-title">官方榜</div>
         <div>
@@ -64,13 +64,15 @@ const Toplist: React.SFC = () => {
       </div>
       <div>
         <div className="toplist-title">全球榜</div>
-        <div className="toplist-world-wrap">
+        <div className="commen-video-content toplist-world-wrap">
           { toplist.slice(4).map((item) => (
-              <div key={item.id} className="home-personalized-item">
-                <div className="home-personalized-playcount"><i className="iconfont icon-triangle"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
-                <img className="home-personalized-img" src={item.coverImgUrl+'?param=250y250'} alt=""/>
-                <div className="home-personalized-text">{item.name}</div>
-                <div className="home-personalized-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+              <div key={item.id} className="commen-video-item commen-video-item-medium">
+                <div className="commen-video-img-wrap">
+                  <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                  <div className="commen-video-playcount"><i className="iconfont icon-triangle"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
+                  <img src={item.coverImgUrl+'?param=250y250'} alt=""/>
+                </div>
+                <div className="commen-video-text">{item.name}</div>
               </div>
             ))}
         </div>

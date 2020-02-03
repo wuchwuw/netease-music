@@ -35,7 +35,7 @@ const Viode: React.SFC = () => {
     } catch (e) {}
   }
   return (
-    <div>
+    <div className="video-container">
       <div className="home-album-filter">
         <div className="home-album-filter-btn">全部视频<i className="iconfont icon-arrow"></i></div>
         <div className="home-album-filter">
@@ -46,12 +46,13 @@ const Viode: React.SFC = () => {
           }
         </div>
       </div>
-      <div className="video-content">
+      <div className="commen-video-content">
         {
           videos.map((video) => (
-            <div className="video-item">
-              <img src={video.data.coverUrl} alt=""/>
-               <div>{video.data.title}</div>
+            <div className="commen-video-item commen-video-item-large">
+              <img src={video.data.coverUrl+'?param=230y130'} alt=""/>
+              <div className="commen-video-text">{video.data.title}</div>
+              <div className="commen-video-artist">{video.data.creator.nickname}</div>
             </div>
           ))
         }

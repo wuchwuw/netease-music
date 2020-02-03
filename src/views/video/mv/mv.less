@@ -1,4 +1,50 @@
+.video-mv-container {
+  width: 755px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
 .video-mv-title {
   display: flex;
   justify-content: space-between;
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.video-mv-toplist {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  margin-top: -15px;
+  height: 550px;
+}
+.video-mv-toplist-item {
+  width: 365px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  border-radius: 5px;
+  position: relative;
+}
+.video-mv-toplist-img {
+  height: 90px;
+  flex: 0 0 90px;
+  border-radius: 5px;
+}
+.video-mv-toplist-info {
+  flex: 1;
+  margin-left: 20px;
+  .video-mv-toplist-name {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .video-mv-toplist-artist {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #999999;
+  }
 }

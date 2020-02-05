@@ -1,3 +1,6 @@
+.newsong {
+  margin-top: 20px;
+}
 .newsong-item {
   display: flex;
   align-items: center;
@@ -9,6 +12,35 @@
   }
   &:hover {
     background: #F2F2F2;
+  }
+  img {
+    border-radius: 5px;
+  }
+  > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &:nth-child(1) {
+      width: 5%;
+    }
+    &:nth-child(2) {
+      width: 60px;
+    }
+    &:nth-child(3) {
+      width: 40%;
+      padding: 0 5px 0 10px;
+    }
+    &:nth-child(4) {
+      width: 20%;
+      padding: 0 5px;
+    }
+    &:nth-child(5) {
+      width: 20%;
+      padding: 0 5px;
+    }
+    &:nth-child(6) {
+      width: 40px;
+    }
   }
 }
 
@@ -32,7 +64,7 @@
   user-select: none;
   > span {
     margin-right: 25px;
-    &:active {
+    &.active {
       font-weight: bold;
     }
     &:hover {

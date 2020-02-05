@@ -5,14 +5,24 @@ import Song, { createSongList } from 'UTIL/song'
 import { createBaseAlbumList, AlbumBaseClass } from 'UTIL/album'
 import './new.less'
 
+const FILTER_TYPE = {
+  '0': '全部',
+  '7': '华语',
+  '96': '欧美',
+  '8': '日本',
+  '16': '韩国'
+}
+
+const CURRENT_PLAYLIST_PANEL_TAB = {
+  song: '新歌速递',
+  album: '新碟上架'
+}
+
 const New: React.SFC = () => {
   const [tab, setTab] = useState('song')
   const [song, setSong] = useState<Song[]>([])
   const [album, setAlbum] = useState<AlbumBaseClass[]>([])
-  const CURRENT_PLAYLIST_PANEL_TAB = {
-    song: '新歌速递',
-    album: '新碟上架'
-  }
+  const [type, setType] = useState('0')
 
   useEffect(() => {
     switch (tab) {
@@ -41,7 +51,7 @@ const New: React.SFC = () => {
   async function getNewSongList () {
     try {
       const params = {
-        type: 0
+        type: type
       }
       const res = await api.getNewSong(params)
       setSong(createSongList(res.data.data))
@@ -82,9 +92,13 @@ const New: React.SFC = () => {
       <div className="newalbum">
         {
           album.map(item => (
-            <div key={item.id} className="newalbum-item">
-              <img className="newalbum-item-pic" src={item.picUrl + '?param=130y130'} alt=""/>
-              <div>{item.name}</div>
+            <div key={item.id} className="commen-video-item commen-video-item-album">
+              <div className="commen-video-img-wrap">
+              <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <img src={item.picUrl + '?param=130y130'} alt=""/>
+              </div>
+              <div className="commen-video-text">{item.name}</div>
+              <div className="commen-video-artist">{item.artistName}</div>
             </div>
           ))
         }
@@ -104,11 +118,11 @@ const New: React.SFC = () => {
         }
       </div>
       <div className="new-filter">
-        <span>全部</span>
-        <span>华语</span>
-        <span>欧美</span>
-        <span>韩国</span>
-        <span>日本</span>
+        {
+          (Object.keys(FILTER_TYPE) as Array<keyof typeof FILTER_TYPE>).map((item) => (
+            <span key={item} className={classnames({ 'active': item === type })}>{FILTER_TYPE[item]}</span>
+          ))
+        }
       </div>
       <div>
         {

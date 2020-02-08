@@ -4,6 +4,7 @@ import api from 'API/index'
 import Song, { createSongList } from 'UTIL/song'
 import { createBaseAlbumList, AlbumBaseClass } from 'UTIL/album'
 import './new.less'
+import Spin from 'COMPONENTS/spin/spin'
 
 const FILTER_TYPE = {
   '0': '全部',
@@ -23,6 +24,7 @@ const New: React.SFC = () => {
   const [song, setSong] = useState<Song[]>([])
   const [album, setAlbum] = useState<AlbumBaseClass[]>([])
   const [type, setType] = useState('0')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     switch (tab) {
@@ -50,23 +52,39 @@ const New: React.SFC = () => {
 
   async function getNewSongList () {
     try {
+      setLoading(true)
       const params = {
         type: type
       }
       const res = await api.getNewSong(params)
       setSong(createSongList(res.data.data))
     } catch (e) {}
+    finally {
+      setLoading(false)
+    }
   }
 
   async function getNewAlbumList () {
     try {
+      setLoading(true)
       const params = {
         type: 0
       }
       const res = await api.getNewAlbum(params)
       setAlbum(createBaseAlbumList(res.data.albums))
     } catch (e) {}
+    finally {
+      setLoading(false)
+    }
   }
+
+  function setFilterType (type) {
+    setType(type)
+  }
+
+  useEffect(() => {
+    getNewSongList()
+  }, [type])
 
   function genSongContent () {
     return (
@@ -119,16 +137,17 @@ const New: React.SFC = () => {
       </div>
       <div className="new-filter">
         {
+          tab === 'song' &&
           (Object.keys(FILTER_TYPE) as Array<keyof typeof FILTER_TYPE>).map((item) => (
-            <span key={item} className={classnames({ 'active': item === type })}>{FILTER_TYPE[item]}</span>
+            <span onClick={() => setFilterType(item)} key={item} className={classnames({ 'active': item === type })}>{FILTER_TYPE[item]}</span>
           ))
         }
       </div>
-      <div>
+      <Spin loading={loading} delay={300}>
         {
           genContent()
         }
-      </div>
+      </Spin>
     </div>
   )
 }

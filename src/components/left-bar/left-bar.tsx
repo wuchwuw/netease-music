@@ -46,7 +46,9 @@ const LeftBar: React.SFC = () => {
         <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
           <i className="iconfont icon-neteastmusic" style={{ fontWeight: 100 }}></i>发现音乐
         </NavLink>
-        <div className="leftbar-item"><i className="iconfont iconxinhao"></i>私人FM</div>
+        <NavLink to={'/fm'} activeClassName="active" className="leftbar-item">
+          <i className="iconfont iconxinhao" style={{ fontWeight: 100 }}></i>私人FM
+        </NavLink>
         <NavLink to={'/video'} activeClassName="active" className="leftbar-item">
           <i className="iconfont icon-mv" style={{ fontWeight: 100 }}></i>视频
         </NavLink>

@@ -14,6 +14,7 @@ import Video from 'VIEWS/video/video/video'
 import VideoContainer from 'VIEWS/video/index'
 import MvRecomend from 'VIEWS/video/mv/mv'
 import Friends from 'VIEWS/friends/friends'
+import FM from 'VIEWS/fm/fm'
 
 const routes: RouteConfig[] = [
   {
@@ -37,6 +38,10 @@ const routes: RouteConfig[] = [
       {
         path: '/playlist/:id',
         component: Playlist,
+      },
+      {
+        path: '/fm',
+        component: FM
       },
       {
         path: '/home',

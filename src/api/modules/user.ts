@@ -18,5 +18,9 @@ export default {
   },
   getUserInfo () {
     return axios.get('user/subcount', { withCredentials: true })
+  },
+  getFM () {
+    // params: { timestamp: +new Date() },
+    return axios.get('/personal_fm', { withCredentials: true })
   }
 }

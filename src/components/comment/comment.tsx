@@ -19,8 +19,9 @@ const Comment: React.SFC<CommentProps> = (props) => {
   const PAGE_SIZE = 60
 
   useEffect(() => {
+    if (!props.id) return
     getComment()
-  }, [])
+  }, [props.id])
 
   async function getComment () {
     setLoading(true)

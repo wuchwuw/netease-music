@@ -1,30 +1,32 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import api from 'API/index'
 import Song, { createSongList } from 'UTIL/song'
 import Comment from 'COMPONENTS/comment/comment'
+import { Map, Collection } from 'immutable'
 import './fm.less'
 
 let FMList: Song[] = []
 
 const FM = () => {
   const [fm, setFM] = useState<Song>(new Song({}))
-  const CommentComponent = useMemo(() => <Comment type="music" id={fm.id} />, [fm.id]);
+  const [lyric, setLyric] = useState({})
+  const CommentComponent = useMemo(() => <Comment type="music" id={fm.id} />, [fm])
 
   useEffect(() => {
     getFM()
   }, [])
 
-  useEffect(() => {
-    fm.getLyric()
-  }, [fm])
-
   async function getFM () {
     try {
       const res = await api.getFM()
       FMList = createSongList(res.data.data)
+      FMList[0].getLyric((lyric: any) => {
+        setLyric(lyric)
+      })
       setFM(FMList[0])
     } catch (e) {}
   }
+
   return (
     <div className="fm-container">
       <div className="fm-song">
@@ -42,7 +44,7 @@ const FM = () => {
           </div>
           <div className="player-info-lyrics">
             {
-              fm.lyric && fm.lyric.lines.map((item: any, index: any) => (
+              lyric.lines && lyric.lines.map((item: any, index: any) => (
                 <p key={index} className="player-info-lyrics-item">{item.txt}</p>
               ))
             }

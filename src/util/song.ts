@@ -42,10 +42,12 @@ export default class Song {
     }, '').substring(1)
   }
 
-  async getLyric () {
+  async getLyric (cb?: any) {
     try {
       let res = await api.getLyric(this.id)
-      this.lyric = new Lyric(res.data.lrc.lyric)
+      const lyric = new Lyric(res.data.lrc.lyric)
+      this.lyric = lyric
+      cb && cb(lyric)
     } catch (e) {}
   }
   // async getSongUrl () {

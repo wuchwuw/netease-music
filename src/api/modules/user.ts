@@ -21,6 +21,6 @@ export default {
   },
   getFM () {
     // params: { timestamp: +new Date() },
-    return axios.get('/personal_fm', { withCredentials: true })
+    return axios.get('/personal_fm', { params: { timestamp: +new Date() }, withCredentials: true })
   }
 }

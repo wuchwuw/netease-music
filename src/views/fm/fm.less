@@ -1,8 +1,9 @@
 @import '~STYLE/color.less';
 
 .fm-container {
-  width: 730px;
+  width: 770px;
   margin: 0 auto;
+  padding: 20px;
 }
 .fm-song {
   display: flex;
@@ -13,5 +14,40 @@
   img {
     width: 100%;
     border-radius: 5px;
+  }
+}
+.fm-info {
+  flex: 1;
+  margin-left: 50px;
+}
+.fm-info-name {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.fm-info-album {
+  display: flex;
+  > div {
+    width: 33.33%;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  span {
+    margin-left: 10px;
+  }
+}
+.fm-info-lyrics {
+  margin: 10px 0;
+  border-right: 1px solid #F0EFF0;
+  height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.fm-info-lyrics-item {
+  color: #656465;
+  &.active {
+    font-size: 16px;
+    color: #333333;
   }
 }

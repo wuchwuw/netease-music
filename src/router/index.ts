@@ -92,7 +92,7 @@ const routes: RouteConfig[] = [
         ]
       },
       {
-        path: '/friends',
+        path: '/activity',
         component: Friends
       }
     ]

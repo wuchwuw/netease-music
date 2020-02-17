@@ -36,16 +36,16 @@ const FM = () => {
           </div>
           <div className="fm-song-cover-prev"></div>
         </div>
-        <div className="player-info">
-          <div className="player-info-name">{fm.name}</div>
-          <div className="player-info-album">
+        <div className="fm-info">
+          <div className="fm-info-name">{fm.name}</div>
+          <div className="fm-info-album">
             <div>专辑:<span>{fm.albumName}</span></div>
             <div>歌手:<span>{fm.artistName}</span></div>
           </div>
-          <div className="player-info-lyrics">
+          <div className="fm-info-lyrics">
             {
               lyric.lines && lyric.lines.map((item: any, index: any) => (
-                <p key={index} className="player-info-lyrics-item">{item.txt}</p>
+                <p key={index} className="fm-info-lyrics-item">{item.txt}</p>
               ))
             }
           </div>

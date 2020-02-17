@@ -29,6 +29,14 @@ const TopBar: React.SFC = (props) => {
     if (/playlist/.test(props.location.pathname) || fullScreen) {
       return <></>
     }
+    if (/activity/.test(props.location.pathname)) {
+      return (
+        <div>
+          <span className="topbar-content-item active">动态</span>
+          <span className="topbar-activity-btn">发动态</span>
+        </div>
+      )
+    }
     if (/home/.test(props.location.pathname)) {
       routePath = homeSubPagePathMap
     } else if (/video/.test(props.location.pathname)) {

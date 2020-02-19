@@ -82,3 +82,13 @@ export function createSongList (data: any): Song[] {
     })
   })
 }
+
+export function createSong (data: any): Song {
+  return new Song({
+    id: data.id,
+    ar: data.artists,
+    al: data.album,
+    dt: data.duration,
+    name: data.name
+  })
+}

@@ -1,15 +1,16 @@
 .activity-container {
   display: flex;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .activity-list {
   flex: 1;
+  padding-right: 20px;
 }
 
 .activity-topic {
   flex: 0 0 240px;
-  border-left: 1px solid #000;
+  border-left: 1px solid #F3F3F3;
 }
 
 .activity-topic-item {
@@ -43,18 +44,77 @@
   margin-top: 5px;
 }
 
-.activity-user {
+.activity-item {
   display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid #F3F3F3;
 }
-.activity-topic-info-name {
-  color: #507DAF;
-  cursor: pointer;
-  &:hover {
-    color: #0B59AF
-  }
-}
+
 .activity-user-avatar {
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  margin-right: 10px;
+}
+.activity-user-info {
+  flex: 1;
+}
+.activity-use-info-name{
+  font-size: 13px;
+  > span {
+    color: #507DAF;
+    cursor: pointer;
+    margin-right: 10px;
+    &:hover {
+      color: #0B59AF
+    }
+  }
+}
+.activity-use-info-time {
+  font-size: 12px;
+  margin: 8px 0 14px;
+  color: #999999;
+}
+.activity-use-info-message {
+  font-size: 13px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.activity-song {
+  display: flex;
+  padding: 10px;
+  background: #F5F5F5;
+  border-radius: 5px;
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+  }
+  .activity-song-info {
+    flex: 1;
+    font-size: 13px;
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:last-child {
+        color: #999999;
+        margin-top: 8px;
+      }
+    }
+  }
+}
+.activity-list-topic {
+  padding: 20px 0 20px 50px;
+  border-bottom: 1px solid #F3F3F3;
+  img {
+    height: 190px;
+    width: 450px;
+    border-radius: 5px;
+  }
 }

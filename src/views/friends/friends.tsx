@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './friends.less'
 import api from 'API/index'
-import { Topic, cretaeActicityList, ActivityClass } from 'UTIL/activity'
+import { Topic, cretaeActicityList, ActivityClassType, ActivityType } from 'UTIL/activity'
 
 const Friends: React.SFC = () => {
-  const [activity, setActivity] = useState<ActivityClass[]>([])
+  const [activity, setActivity] = useState<ActivityClassType[]>([])
   const [topic, setTopic] = useState<Topic[]>([])
   useEffect(() => {
     getActivity()
@@ -33,40 +33,57 @@ const Friends: React.SFC = () => {
     }
   }
 
-  const genActivityContent = (act: ActivityClass) => {
+  const genActivityItem = (act: ActivityClassType) => {
+    if (!act.type) return
+    switch (act.type) {
+      case ActivityType.Topic:
+        return (
+          <div className="activity-list-topic">
+            <div>
+              <img src={act.content.coverPCUrl} alt=""/>
+            </div>
+          </div>
+        )
+      default:
+        return (
+          <div className="activity-item">
+            <img className="activity-user-avatar" src={act.user.avatarUrl} alt=""/>
+            <div className="activity-user-info">
+              <div className="activity-use-info-name">
+                <span>{act.user.nickname}</span>
+                {act.activityText}
+              </div>
+              <div className="activity-use-info-time">{act.eventTimeFormat}</div>
+              <div className="activity-use-info-message">{act.message}</div>
+              <div>{genActivityContent(act)}</div>
+            </div>
+          </div>
+        )
+    }
+  }
 
+  const genActivityContent = (act: ActivityClassType) => {
+    switch (act.type) {
+      case ActivityType.Song:
+        return (
+          <div className="activity-song">
+            <img src={act.content.picUrl} alt=""/>
+            <div className="activity-song-info">
+              <div>{act.content.name}</div>
+              <div>{act.content.artistName}</div>
+            </div>
+          </div>
+        )
+    }
   }
 
   return (
     <div className="activity-container">
       <div className="activity-list">
         {
-          activity.map(act => {
-            if (act.type === 33) {
-              return (
-                <div className="activity-list-topic">
-                  <div>
-                    <img src={act.content.coverPCUrl} alt=""/>
-                  </div>
-                </div>
-              )
-            } else {
-              return (
-                <div className="activity-user">
-                  <img className="activity-user-avatar" src={act.user.avatarUrl} alt=""/>
-                  <div className="activity-user-info">
-                    <div className="activity-use-info-name">
-                      {act.user.nickname}
-                      <span>{act.activityText}</span>
-                    </div>
-                    <div>{act.eventTime}</div>
-                    <div>{act.message}</div>
-                    <div>{genActivityContent(act)}</div>
-                  </div>
-                </div>
-              )
-            }
-          })
+          activity.map(act => (
+            genActivityItem(act)
+          ))
         }
       </div>
       <div className="activity-topic">

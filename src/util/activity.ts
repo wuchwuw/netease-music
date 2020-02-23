@@ -1,4 +1,5 @@
 import Song, { createSong } from 'UTIL/song'
+import dayjs from 'dayjs'
 import { VideoBaseClass } from 'UTIL/video'
 
 export interface Topic {
@@ -28,7 +29,7 @@ interface ActivityTopic {
   coverPCUrl: string
 }
 
-enum ActivityType {
+export enum ActivityType {
   Song = 18,
   Topic = 33,
   Video = 39,
@@ -37,61 +38,64 @@ enum ActivityType {
 
 export class ActivityClass {
   user: ActivityUser
-  type: number
-  message: string
   id: number
   eventTime: number
   info: ActivityInfo
-  content: Song | VideoBaseClass | ActivityClass | ActivityTopic | null
-  activityText: string
   json: any
 
-  constructor ({ user, type, info, id, eventTime, json }: any) {
+  constructor ({ user, type, info, id, eventTime }: any) {
     this.user = user
-    this.type = type
     this.info = info
     this.id = id
     this.eventTime = eventTime
-    this.json = JSON.parse(json)
     this.message = ''
-    this.activityText = ''
-    this.content = null
-    this.initContent()
   }
 
-  private initContent () {
-    this.message = this.json.msg || ''
-    switch (this.type) {
-      case 33: // topic
-        console.log(this.json)
-        this.content = this.json as ActivityTopic
-        this.activityText = ''
-        break
-      case 39:
-        this.content = new VideoBaseClass(this.json.video)
-        this.activityText = '发布视频'
-        break
-      case 18:
-        this.content = createSong(this.json.song)
-        this.activityText = '分享单曲'
-        break
-      case 22:
-        this.content = new ActivityClass(this.json.event)
-        this.activityText = '转发'
-        break
-    }
+  get eventTimeFormat () {
+    return this.eventTime ? dayjs(this.eventTime).format('YYYY年MM月DD日 HH:MM') : ''
   }
 }
 
 export class ActivitySongClass extends ActivityClass {
-  type: number
+  type: ActivityType.Song
+  activityText: string
+  message: string
   content: Song
-  constructor () {}
+  constructor ({ user, type, info, id, eventTime, json }: any) {
+    super({user, info, id, eventTime, json })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = createSong(this.json.song)
+    this.message = this.json.msg
+    this.activityText = '分享单曲'
+  }
+}
+
+export class ActivityTopicClass extends ActivityClass {
+  type: ActivityType.Topic
+  activityText: string
+  content: ActivityTopic
+  constructor ({ user, type, info, id, eventTime, json }: any) {
+    super({user, info, id, eventTime, json })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = this.json
+    this.activityText = ''
+  }
 }
 
 
-export function cretaeActicityList (data: any): ActivityClass[] {
+export function cretaeActicityList (data: any): ActivityClassType[] {
   return data.map((item: any) => {
-    return new ActivityClass(item)
+    switch (item.type) {
+      case ActivityType.Topic:
+        return new ActivityTopicClass(item)
+      case ActivityType.Song:
+        return new ActivitySongClass(item)
+      default:
+        return {}
+    }
   })
 }
+
+export type ActivityClassType = ActivityTopicClass | ActivitySongClass

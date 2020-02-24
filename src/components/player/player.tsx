@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './player.less'
 import { useSelector, useDispatch } from 'react-redux'
-import { getSongTime } from 'UTIL/util'
+import { timeFormat } from 'UTIL/util'
 import { RootState } from 'STORE/index'
 import { SET_PLAY_STATUS, PLAY_NEXT, PLAY_PREV, PLAYER_FULL_SCREEN } from 'STORE/player/types'
 import classnames from 'classnames'
@@ -48,7 +48,7 @@ export default function Player () {
     }
   }
   function getCurrentTime () {
-    return currentSong.duration ? `${getSongTime(currentTime)} / ${currentSong.duration_string}` : ''
+    return currentSong.duration ? `${timeFormat(currentTime)} / ${currentSong.duration_string}` : ''
   }
   function getSongName () {
     return currentSong.name ? `${currentSong.name} - ${currentSong.artistName}` : ''

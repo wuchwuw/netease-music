@@ -1,6 +1,6 @@
 import Song, { createSong } from 'UTIL/song'
 import dayjs from 'dayjs'
-import { VideoBaseClass } from 'UTIL/video'
+import { VideoBaseClass, createVideo } from 'UTIL/video'
 
 export interface Topic {
   actId: number
@@ -48,7 +48,6 @@ export class ActivityClass {
     this.info = info
     this.id = id
     this.eventTime = eventTime
-    this.message = ''
   }
 
   get eventTimeFormat () {
@@ -62,7 +61,7 @@ export class ActivitySongClass extends ActivityClass {
   message: string
   content: Song
   constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime, json })
+    super({user, info, id, eventTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = createSong(this.json.song)
@@ -74,28 +73,71 @@ export class ActivitySongClass extends ActivityClass {
 export class ActivityTopicClass extends ActivityClass {
   type: ActivityType.Topic
   activityText: string
+  message: string
   content: ActivityTopic
   constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime, json })
+    super({user, info, id, eventTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = this.json
+    this.message = this.json.msg
     this.activityText = ''
   }
 }
 
+export class ActivityVideoClass extends ActivityClass {
+  type: ActivityType.Video
+  activityText: string
+  message: string
+  content: VideoBaseClass
+  constructor ({ user, type, info, id, eventTime, json }: any) {
+    super({user, info, id, eventTime })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = createVideo(this.json.video)
+    this.message = this.json.msg
+    this.activityText = '发布视频'
+  }
+}
+
+export class ActivityForwordClass extends ActivityClass {
+  type: ActivityType.Forword
+  activityText: string
+  message: string
+  content: ActivityClassType
+  constructor ({ user, type, info, id, eventTime, json }: any) {
+    super({user, info, id, eventTime })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = cretaeActicity(this.json.event)
+    this.message = this.json.msg
+    this.activityText = '转发'
+  }
+}
+
+function cretaeActicity (data: any): ActivityClassType {
+  switch (data.type) {
+    case ActivityType.Topic:
+      return new ActivityTopicClass(data)
+    case ActivityType.Song:
+      return new ActivitySongClass(data)
+    case ActivityType.Video:
+      return new ActivityVideoClass(data)
+    case ActivityType.Forword:
+      return new ActivityForwordClass(data)
+    default:
+      return new ActivityTopicClass(data)
+  }
+}
 
 export function cretaeActicityList (data: any): ActivityClassType[] {
   return data.map((item: any) => {
-    switch (item.type) {
-      case ActivityType.Topic:
-        return new ActivityTopicClass(item)
-      case ActivityType.Song:
-        return new ActivitySongClass(item)
-      default:
-        return {}
-    }
+    return cretaeActicity(item)
   })
 }
 
-export type ActivityClassType = ActivityTopicClass | ActivitySongClass
+export type ActivityClassType =
+  ActivityTopicClass |
+  ActivitySongClass |
+  ActivityVideoClass |
+  ActivityForwordClass

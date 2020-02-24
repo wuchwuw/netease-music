@@ -1,3 +1,5 @@
+import { timeFormat } from "./util"
+
 export class VideoBaseClass {
   id: string
   title: string
@@ -17,6 +19,11 @@ export class VideoBaseClass {
     if (!this.playTime) return ''
     return this.playTime > 100000 ? `${Math.round(this.playTime / 10000)}万` : String(this.playTime)
   }
+
+  get duration_format (): string {
+    if (!this.duration) return ''
+    return timeFormat(this.duration / 1000)
+  }
 }
 
 export function createBaseVideoList (data: any): VideoBaseClass[] {
@@ -28,5 +35,15 @@ export function createBaseVideoList (data: any): VideoBaseClass[] {
       coverUrl: item.coverUrl,
       playTime: item.playTime
     })
+  })
+}
+
+export function createVideo (data: any): VideoBaseClass {
+  return new VideoBaseClass({
+    id: data.vid,
+    duration: data.durationms || data.duration,
+    title: data.title,
+    coverUrl: data.coverUrl,
+    playTime: data.playTime
   })
 }

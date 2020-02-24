@@ -1,4 +1,4 @@
-import { getSongTime } from 'UTIL/util'
+import { timeFormat } from 'UTIL/util'
 import api from 'API/index'
 import Lyric from './lyric-parser'
 
@@ -32,7 +32,7 @@ export default class Song {
 
   get duration_string (): string {
     if (!this.duration) return ''
-    return getSongTime(this.duration / 1000)
+    return timeFormat(this.duration / 1000)
   }
 
   get artistName (): string {

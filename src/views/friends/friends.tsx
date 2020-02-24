@@ -39,9 +39,7 @@ const Friends: React.SFC = () => {
       case ActivityType.Topic:
         return (
           <div className="activity-list-topic">
-            <div>
-              <img src={act.content.coverPCUrl} alt=""/>
-            </div>
+            <img src={act.content.coverPCUrl} alt=""/>
           </div>
         )
       default:
@@ -74,6 +72,23 @@ const Friends: React.SFC = () => {
             </div>
           </div>
         )
+      case ActivityType.Video:
+        return (
+          <div className="activity-video">
+            <img src={act.content.coverUrl} alt=""/>
+            <div className="activity-video-info">
+              <span><i className="iconfont icon-triangle"></i>{act.content.playTime_format}</span>
+              <span>{act.content.duration_format}</span>
+            </div>
+          </div>
+        )
+      case ActivityType.Forword:
+        return (
+          <div className="activity-forword">
+            <div className="activity-forword-info"><span>{'@' + act.content.user.nickname}</span>{act.content.activityText + ':' + act.content.message}</div>
+            <div className="activity-forword-content">{genActivityContent(act.content)}</div>
+          </div>
+        )
     }
   }
 
@@ -87,6 +102,7 @@ const Friends: React.SFC = () => {
         }
       </div>
       <div className="activity-topic">
+      <div className="activity-topic-title">热门话题<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         {
           topic.map(item => (
             <div className="activity-topic-item">

@@ -5,12 +5,22 @@
 
 .activity-list {
   flex: 1;
-  padding-right: 20px;
+  padding-right: 28px;
 }
 
 .activity-topic {
   flex: 0 0 240px;
   border-left: 1px solid #F3F3F3;
+  margin-top: 20px;
+}
+
+.activity-topic-title {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .activity-topic-item {
@@ -112,9 +122,51 @@
 .activity-list-topic {
   padding: 20px 0 20px 50px;
   border-bottom: 1px solid #F3F3F3;
+  width: 450px;
   img {
     height: 190px;
-    width: 450px;
+    width: 100%;
     border-radius: 5px;
+  }
+}
+
+.activity-video {
+  position: relative;
+  width: 370px;
+  img {
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+.activity-video-info {
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  color: #fff;
+  padding: 0 10px;
+  font-size: 11px;
+  i {
+    font-weight: bold;
+    margin-right: 3px;
+    font-size: 11px;
+  }
+}
+.activity-forword {
+  background: #F5F5F5;
+  padding: 20px;
+  border-radius: 5px;
+}
+.activity-forword-info {
+  font-size: 13px;
+  margin-bottom: 10px;
+  > span {
+    color: #507DAF;
+    cursor: pointer;
+    margin-right: 10px;
+    &:hover {
+      color: #0B59AF
+    }
   }
 }

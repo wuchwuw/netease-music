@@ -89,6 +89,16 @@ const Friends: React.SFC = () => {
             <div className="activity-forword-content">{genActivityContent(act.content)}</div>
           </div>
         )
+      case ActivityType.Album:
+        return (
+          <div className="activity-song">
+            <img src={act.content.picUrl} alt=""/>
+            <div className="activity-song-info">
+              <div>{act.content.name}</div>
+              <div>{act.content.artistName}</div>
+            </div>
+          </div>
+        )
     }
   }
 

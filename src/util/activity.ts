@@ -1,6 +1,7 @@
 import Song, { createSong } from 'UTIL/song'
 import dayjs from 'dayjs'
 import { VideoBaseClass, createVideo } from 'UTIL/video'
+import { createAlbum, AlbumBaseClass } from 'UTIL/album'
 
 export interface Topic {
   actId: number
@@ -33,7 +34,8 @@ export enum ActivityType {
   Song = 18,
   Topic = 33,
   Video = 39,
-  Forword = 22
+  Forword = 22,
+  Album = 19
 }
 
 export class ActivityClass {
@@ -43,7 +45,7 @@ export class ActivityClass {
   info: ActivityInfo
   json: any
 
-  constructor ({ user, type, info, id, eventTime }: any) {
+  constructor ({ user, info, id, eventTime }: any) {
     this.user = user
     this.info = info
     this.id = id
@@ -115,6 +117,21 @@ export class ActivityForwordClass extends ActivityClass {
   }
 }
 
+export class ActivityAlbumClass extends ActivityClass {
+  type: ActivityType.Album
+  activityText: string
+  message: string
+  content: AlbumBaseClass
+  constructor ({ user, type, info, id, eventTime, json }: any) {
+    super({user, info, id, eventTime })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = createAlbum(this.json.album)
+    this.message = this.json.msg
+    this.activityText = '分享专辑'
+  }
+}
+
 function cretaeActicity (data: any): ActivityClassType {
   switch (data.type) {
     case ActivityType.Topic:
@@ -125,6 +142,8 @@ function cretaeActicity (data: any): ActivityClassType {
       return new ActivityVideoClass(data)
     case ActivityType.Forword:
       return new ActivityForwordClass(data)
+    case ActivityType.Album:
+      return new ActivityAlbumClass(data)
     default:
       return new ActivityTopicClass(data)
   }
@@ -140,4 +159,5 @@ export type ActivityClassType =
   ActivityTopicClass |
   ActivitySongClass |
   ActivityVideoClass |
-  ActivityForwordClass
+  ActivityForwordClass |
+  ActivityAlbumClass

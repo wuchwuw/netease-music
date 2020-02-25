@@ -19,6 +19,10 @@ export class AlbumBaseClass {
   }
 }
 
+export function createAlbum (data: any): AlbumBaseClass {
+  return new AlbumBaseClass(data)
+}
+
 export function createBaseAlbumList (data: any): AlbumBaseClass[] {
   return data.map((item: any) => {
     return new AlbumBaseClass(item)

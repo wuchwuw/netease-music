@@ -4,7 +4,7 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { match } from 'react-router'
-import PlaylistClass from 'UTIL/playlist'
+import { PlaylistClass } from 'UTIL/playlist'
 // import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 
 interface PlaylistProps {

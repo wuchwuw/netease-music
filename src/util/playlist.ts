@@ -7,7 +7,7 @@ interface Creator {
   nickname: string
 }
 
-export default class PlaylistClass {
+export class PlaylistClass {
   tracks: Song[]
   trackCount: number
   creator: Creator
@@ -39,6 +39,7 @@ export default class PlaylistClass {
   }
 
   get playCount_string (): string {
+    if (this.playCount === 0) return '0'
     return this.playCount ? this.playCount > 10000 ? `${(this.playCount / 10000).toFixed()}万` : `${this.playCount}` : ''
   }
 
@@ -48,7 +49,7 @@ export default class PlaylistClass {
 
   createSong (songs: any): Song[] {
     let res = []
-    res = songs.map((item: any) => {
+    res = songs && songs.map((item: any) => {
       return new Song(item)
     })
     return res
@@ -85,5 +86,11 @@ export function createBasePlaylist (data: any): PlaylistBaseClass[] {
       coverImgUrl: item.coverImgUrl,
       creator: item.creator
     })
+  })
+}
+
+export function createPlaylistList (data: any): PlaylistClass[] {
+  return data.map((item: any) => {
+    return new PlaylistClass(item)
   })
 }

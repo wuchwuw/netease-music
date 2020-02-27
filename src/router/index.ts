@@ -45,7 +45,7 @@ const routes: RouteConfig[] = [
         component: FM
       },
       {
-        path: '/user',
+        path: '/user/:id',
         component: User
       },
       {

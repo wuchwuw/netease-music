@@ -24,6 +24,6 @@ export default {
     return axios.get('/personal_fm', { params: { timestamp: +new Date() }, withCredentials: true })
   },
   getUserDetail (params: UserIdParams) {
-    return axios.get('/user/detail', { params })
+    return axios.get('/user/detail', { params, withCredentials: true })
   }
 }

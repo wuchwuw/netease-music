@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './toplist.less'
 import api from 'API/index'
-import PlaylistClass from 'UTIL/playlist'
+import { PlaylistClass } from 'UTIL/playlist'
 import Spin from 'COMPONENTS/spin/spin'
 
 interface ToplistCls {

@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 interface Creator {
   avatarUrl: string
   nickname: string
+  userId: number
 }
 
 export class PlaylistClass {
@@ -21,8 +22,9 @@ export class PlaylistClass {
   shareCount: number
   highQuality: boolean
   tags: string[]
+  ordered: boolean
 
-  constructor ({ trackCount, tags = [], tracks = [], creator = {}, coverImgUrl, commentCount, createTime, id, name, playCount, shareCount, highQuality}: any) {
+  constructor ({ ordered, trackCount, tags = [], tracks = [], creator = {}, coverImgUrl, commentCount, createTime, id, name, playCount, shareCount, highQuality}: any) {
     this.tracks = this.createSong(tracks)
     this.trackCount = trackCount
     this.creator = creator
@@ -36,6 +38,7 @@ export class PlaylistClass {
     this.shareCount = shareCount
     this.highQuality = highQuality
     this.tags = tags
+    this.ordered = ordered
   }
 
   get playCount_string (): string {

@@ -1,3 +1,8 @@
+interface AuthType {
+  type: number
+  desc: string
+}
+
 export default class User {
   avatarUrl: string
   description: string
@@ -11,6 +16,15 @@ export default class User {
   userType: number
   vipType: number
   birthday: number
+  createTime: number
+  province: number
+  city: number
+  eventCount: number
+  level: number
+  mainAuthType: AuthType
+  allAuthTypes: AuthType[]
+  artistId: number
+  gender: number
 
   constructor ({
     avatarUrl,
@@ -24,7 +38,16 @@ export default class User {
     userId,
     userType,
     vipType,
-    birthday
+    birthday,
+    createtTime,
+    province,
+    city,
+    eventCount,
+    level,
+    mainAuthType,
+    allAuthTypes = [],
+    artistId,
+    gender
   }: any) {
     this.avatarUrl = avatarUrl
     this.description = description
@@ -38,6 +61,15 @@ export default class User {
     this.userType = userType
     this.vipType = vipType
     this.birthday = birthday
+    this.createTime = createtTime
+    this.province = province
+    this.city = city
+    this.eventCount = eventCount
+    this.level = level
+    this.mainAuthType = mainAuthType
+    this.allAuthTypes = allAuthTypes
+    this.artistId = artistId
+    this.gender = gender
   }
 }
 
@@ -68,5 +100,12 @@ export function createBaseUserList (data: any): UserBaseClass[] {
       nickname: item.nickname,
       avatarUrl: item.avatarUrl
     })
+  })
+}
+
+export function createUserDetail (data: any): User {
+  return new User({
+    level: data.level,
+    ...data.profile
   })
 }

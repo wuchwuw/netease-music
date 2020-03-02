@@ -16,6 +16,7 @@ import MvRecomend from 'VIEWS/video/mv/mv'
 import Friends from 'VIEWS/friends/friends'
 import FM from 'VIEWS/fm/fm'
 import User from 'VIEWS/user/user'
+import Artist from 'VIEWS/artist/artist'
 
 const routes: RouteConfig[] = [
   {
@@ -47,6 +48,10 @@ const routes: RouteConfig[] = [
       {
         path: '/user/:id',
         component: User
+      },
+      {
+        path: '/artist/:id',
+        component: Artist
       },
       {
         path: '/home',

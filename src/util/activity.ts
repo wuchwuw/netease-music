@@ -1,7 +1,7 @@
 import Song, { createSong } from 'UTIL/song'
 import dayjs from 'dayjs'
 import { VideoBaseClass, createVideo } from 'UTIL/video'
-import { createAlbum, AlbumBaseClass } from 'UTIL/album'
+import { createBaseAlbum, AlbumBaseClass } from 'UTIL/album'
 
 export interface Topic {
   actId: number
@@ -126,7 +126,7 @@ export class ActivityAlbumClass extends ActivityClass {
     super({user, info, id, eventTime })
     this.type = type
     this.json = JSON.parse(json)
-    this.content = createAlbum(this.json.album)
+    this.content = createBaseAlbum(this.json.album)
     this.message = this.json.msg
     this.activityText = '分享专辑'
   }

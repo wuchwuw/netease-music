@@ -8,6 +8,7 @@ import artist from './modules/artist'
 import radio from './modules/radio'
 import video from './modules/video'
 import activity from './modules/activity'
+import album from './modules/album'
 
 export default {
   ...home,
@@ -19,5 +20,6 @@ export default {
   ...artist,
   ...radio,
   ...video,
-  ...activity
+  ...activity,
+  ...album
 }

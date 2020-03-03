@@ -75,9 +75,9 @@ export function createSongList (data: any): Song[] {
   return data.map((item: any) => {
     return new Song({
       id: item.id,
-      ar: item.artists,
-      al: item.album,
-      dt: item.duration,
+      ar: item.artists || item.ar,
+      al: item.album || item.al,
+      dt: item.duration || item.dt,
       name: item.name
     })
   })
@@ -86,9 +86,9 @@ export function createSongList (data: any): Song[] {
 export function createSong (data: any): Song {
   return new Song({
     id: data.id,
-    ar: data.artists,
-    al: data.album,
-    dt: data.duration,
+    ar: data.artists || data.ar,
+    al: data.album || data.al,
+    dt: data.duration || data.dt,
     name: data.name
   })
 }

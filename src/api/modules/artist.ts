@@ -26,6 +26,9 @@ export default {
     return axios.get('artist/desc', { params })
   },
   getArtistSimi (params: ArtistIdParam) {
-    return axios.get('simi/artist', { params })
+    return axios.get('simi/artist', { params, withCredentials: true })
+  },
+  getArtistMV (params: ArtistIdParam) {
+    return axios.get('artist/mv', { params })
   }
 }

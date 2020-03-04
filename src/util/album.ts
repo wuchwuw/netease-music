@@ -73,5 +73,11 @@ export class Album {
 }
 
 export function createAlbum (data: any): Album {
-  return new
+  return new Album (data)
+}
+
+export function createAlbumList (data: any): Album[] {
+  return data.map((item: any) => {
+    return new Album(item)
+  })
 }

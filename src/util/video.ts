@@ -28,13 +28,7 @@ export class VideoBaseClass {
 
 export function createBaseVideoList (data: any): VideoBaseClass[] {
   return data.map((item: any) => {
-    return new VideoBaseClass({
-      id: item.vid,
-      duration: item.durationms,
-      title: item.title,
-      coverUrl: item.coverUrl,
-      playTime: item.playTime
-    })
+    return createVideo(item)
   })
 }
 
@@ -43,7 +37,7 @@ export function createVideo (data: any): VideoBaseClass {
     id: data.vid,
     duration: data.durationms || data.duration,
     title: data.title,
-    coverUrl: data.coverUrl,
-    playTime: data.playTime
+    coverUrl: data.coverUrl || data.imgurl,
+    playTime: data.playTime || data.playCount
   })
 }

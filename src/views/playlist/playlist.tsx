@@ -64,10 +64,12 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
           </div>
         </div>
       </div>
-      <div className="playlist-tab">
-        <span onClick={(e) => setTab('list')} className={tab === 'list' ? 'active' : ''}>歌曲列表</span>
-        <span onClick={(e) => setTab('comment')} className={tab === 'comment' ? 'active' : ''}>评论({playlist.commentCount || 0})</span>
-        <span onClick={(e) => setTab('star')} className={tab === 'star' ? 'active' : ''}>收藏者</span>
+      <div className="playlist-tab-wrap">
+        <div className="playlist-tab">
+          <span onClick={(e) => setTab('list')} className={tab === 'list' ? 'active' : ''}>歌曲列表</span>
+          <span onClick={(e) => setTab('comment')} className={tab === 'comment' ? 'active' : ''}>评论({playlist.commentCount || 0})</span>
+          <span onClick={(e) => setTab('star')} className={tab === 'star' ? 'active' : ''}>收藏者</span>
+        </div>
       </div>
       {genTabComponent()}
     </div>

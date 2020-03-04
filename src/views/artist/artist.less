@@ -5,6 +5,7 @@
 
 .artist-info-wrap {
   display: flex;
+  margin-bottom: 30px;
   > img {
     height: 200px;
     width: 200px;
@@ -51,5 +52,92 @@
   font-size: 13px;
   > span {
     margin-right: 10px;
+  }
+}
+.artist-tab-content {
+  padding-top: 20px;
+}
+
+.artist-desc-title {
+  font-weight: bold;
+  margin-bottom: 22px;
+}
+.artist-desc-content {
+  margin-bottom: 25px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: #666666;
+}
+
+.artist-album-item-img {
+  height: 170px;
+  width: 170px;
+  border-radius: 5px;
+}
+.artist-album-item {
+  display: flex;
+  margin-bottom: 40px;
+}
+.artist-album-item-list {
+  margin-left: 30px;
+  flex: 1;
+  font-size: 13px;
+}
+.artist-album-item-list-item {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  &:nth-child(even) {
+    background: #FAFAFA;
+  }
+  &:hover {
+    background: #F2F2F2;
+  }
+  > span {
+    &:nth-child(1) {
+      flex: 0 0 40px;
+      text-align: center;
+      color: #999999;
+    }
+    &:nth-child(2) {
+      text-align: center;
+      margin-right: 10px;
+      color: #999999;
+      i {
+        vertical-align: 2px;
+      }
+    }
+  }
+}
+.artist-album-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 13px;
+  display: flex;
+  align-items: center;
+  > span {
+    margin-left: 20px;
+  }
+  i {
+    color: #999999;
+    font-size: 22px;
+    font-weight: 200;
+    margin: 0 8px;
+    cursor: pointer;
+    &:first-child {
+      position: relative;
+      &:after {
+        content: '';
+        position: absolute;
+        right: -10px;
+        top: 5px;
+        height: 14px;
+        width: 1px;
+        background: #F3F3F3;
+      }
+    }
+    &:hover {
+      color: #666666;
+    }
   }
 }

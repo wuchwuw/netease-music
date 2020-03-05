@@ -17,6 +17,8 @@ import Friends from 'VIEWS/friends/friends'
 import FM from 'VIEWS/fm/fm'
 import User from 'VIEWS/user/user'
 import Artist from 'VIEWS/artist/artist'
+import Album from 'VIEWS/album/album'
+import VideoDetail from 'VIEWS/video-detail/video-detail'
 
 const routes: RouteConfig[] = [
   {
@@ -52,6 +54,14 @@ const routes: RouteConfig[] = [
       {
         path: '/artist/:id',
         component: Artist
+      },
+      {
+        path: '/album/:id',
+        component: Album
+      },
+      {
+        path: '/v/:id',
+        component: VideoDetail
       },
       {
         path: '/home',

@@ -1,5 +1,6 @@
 import { Artist, createArtist } from 'UTIL/artist'
 import Song, { createSongList } from 'UTIL/song'
+import dayjs from 'dayjs'
 
 export class AlbumBaseClass {
   id: number
@@ -32,6 +33,13 @@ export function createBaseAlbumList (data: any): AlbumBaseClass[] {
   })
 }
 
+interface AlbumInfo {
+  liked: boolean
+  commentCount: number
+  likedCount: number
+  shareCount: number
+}
+
 export class Album {
   id: number
   name: string
@@ -42,6 +50,7 @@ export class Album {
   publishTime: number
   paid: boolean
   onSale: boolean
+  info: AlbumInfo
   constructor ({ 
     id, 
     name, 
@@ -51,7 +60,8 @@ export class Album {
     commentThreadId,
     publishTime,
     paid, 
-    onSale
+    onSale,
+    info = {}
   } : any) {
     this.id = id
     this.name = name
@@ -62,6 +72,7 @@ export class Album {
     this.publishTime = publishTime
     this.onSale = onSale
     this.paid = paid
+    this.info = info
   }
 
   get artistName (): string {
@@ -69,6 +80,10 @@ export class Album {
     return this.artists.reduce((name: string, item: any) => {
       return name + '/' + item.name
     }, '').substring(1)
+  }
+
+  get publishTimeFormat () {
+    return this.publishTime ? dayjs(this.publishTime).format('YYYY-MM-DD') : ''
   }
 }
 

@@ -14,7 +14,6 @@ interface PlaylistProps {
 const Playlist: React.SFC<PlaylistProps> = (props) => {
   const [ tab, setTab ] = useState('list') // list comment des
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
-  console.log(playlist)
   useEffect(() => {
     getPlaylist()
   }, [props.match.params.id])

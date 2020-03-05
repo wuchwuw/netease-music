@@ -38,7 +38,7 @@ const Comment: React.SFC<CommentProps> = (props) => {
       setHot(createCommentList(res.data.hotComments))
       setTotal(res.data.total)
       setLoading(false)
-    } catch (e) {}
+    } catch (e) { console.log(e) }
   }
 
   function genCommentNode (title: string, list: CommentCls[]) {
@@ -96,7 +96,7 @@ const Comment: React.SFC<CommentProps> = (props) => {
       <div className="comment-content">
         <Spin loading={loading} delay={300}>
           {
-            (hot.length && list.length) ? (
+            (list.length) ? (
               <>
                 <div className="comment-hot">
                   {genCommentNode('精彩评论', hot)}

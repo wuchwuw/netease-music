@@ -7,7 +7,6 @@ const VideoDetail = () => {
   const { id } = useParams()
   const videoId = Number(id)
 
-
   return (
     <div className="video-detail">
       <div className="video-detail-container">
@@ -26,6 +25,9 @@ const VideoDetail = () => {
             <span className="artist-info-option-user"><i className="iconfont icon-share"></i>分享(0)</span>
           </div>
           <Comment type="mv" id={videoId}></Comment>
+        </div>
+        <div className="video-detail-recomend">
+          <div className="video-detail-title">相关推荐</div>
         </div>
       </div>
     </div>

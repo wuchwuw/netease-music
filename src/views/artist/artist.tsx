@@ -76,7 +76,7 @@ const Artist = () => {
       setSimi(createBaseArtistList(res.data.artists))
     } catch (e) { console.log(e) }
   }
-  
+
   function genArtistContent (tab) {
     switch (tab) {
       case 'album':
@@ -144,7 +144,7 @@ const Artist = () => {
       <div className="commen-video-content">
         {
           mv.map(item => (
-            <div key={item.id} className="commen-video-item commen-video-item-large">
+            <div key={item.vid} className="commen-video-item commen-video-item-large">
               <div className="commen-video-img-wrap">
                 <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                 <img src={item.coverUrl} alt=""/>
@@ -206,7 +206,7 @@ const Artist = () => {
             <span>专辑数: {artist.albumSize}</span>
             <span>MV数: {artist.mvSize}</span>
           </div>
-        </div>    
+        </div>
       </div>
       <div className="playlist-tab">
         <span onClick={(e) => setTab('album')} className={tab === 'album' ? 'active' : ''}>专辑</span>

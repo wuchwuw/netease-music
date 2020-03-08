@@ -1,14 +1,15 @@
 import { timeFormat } from "./util"
+import User from "./user"
 
 export class VideoBaseClass {
-  id: string
+  vid: string
   title: string
   coverUrl: string
   duration: number
   playTime: number
 
-  constructor ({id, title, coverUrl, duration, playTime}: any) {
-    this.id = id
+  constructor ({vid, title, coverUrl, duration, playTime}: any) {
+    this.vid = vid
     this.title = title
     this.coverUrl = coverUrl
     this.duration = duration
@@ -26,15 +27,45 @@ export class VideoBaseClass {
   }
 }
 
+export class Video extends VideoBaseClass {
+  creator: User
+  publishTime: number
+  praisedCount: number
+  commentCount: number
+  shareCount: number
+  subscribeCount: number
+  constructor ({
+    vid,
+    title,
+    coverUrl,
+    duration,
+    playTime,
+    publishTime,
+    praisedCount,
+    commentCount,
+    shareCount,
+    subscribeCount,
+    creator
+  }: any) {
+    super({ vid, title, coverUrl, duration, playTime })
+    this.creator = new User(creator)
+    this.publishTime = publishTime
+    this.praisedCount = praisedCount
+    this.commentCount = commentCount
+    this.shareCount = shareCount
+    this.subscribeCount = subscribeCount
+  }
+}
+
 export function createBaseVideoList (data: any): VideoBaseClass[] {
   return data.map((item: any) => {
-    return createVideo(item)
+    return createBaseVideo(item)
   })
 }
 
-export function createVideo (data: any): VideoBaseClass {
+export function createBaseVideo (data: any): VideoBaseClass {
   return new VideoBaseClass({
-    id: data.vid,
+    vid: data.vid,
     duration: data.durationms || data.duration,
     title: data.title,
     coverUrl: data.coverUrl || data.imgurl,

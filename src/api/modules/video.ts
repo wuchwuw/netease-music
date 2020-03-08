@@ -18,5 +18,17 @@ export default {
   },
   getMvToplist (params: any) {
     return axios.get('top/mv', { params })
+  },
+  getMVDetail (params: any) {
+    return axios.get('mv/detail', { params })
+  },
+  getVideoDetail (params: any) {
+    return axios.get('related/allvideo', { params })
+  },
+  getRelatedVideo (params: any) {
+    return axios.get('related/allvideo', { params })
+  },
+  getRelatedMV (params: any) {
+    return axios.get('simi/mv', { params })
   }
 }

@@ -1,11 +1,24 @@
-import React from 'React'
+import React, { useEffect, useState } from 'react'
 import './video-detail.less'
 import { useParams } from 'react-router'
 import Comment from 'COMPONENTS/comment/comment'
+import api from 'API/index'
 
 const VideoDetail = () => {
   const { id } = useParams()
   const videoId = Number(id)
+  const [type, setType] = useState('mv')
+
+  useEffect(() => {
+    getVideoDetail()
+  }, [])
+
+  async function getVideoDetail () {
+    try {
+      const res = type === 'mv' ? await api.getMVDetail({mvid: videoId}) : api.getVideoDetail({id: videoId})
+      console.log(res)
+    } catch (e) {}
+  }
 
   return (
     <div className="video-detail">

@@ -235,7 +235,7 @@ const Search: React.SFC = () => {
     return (
       <div className="search-video-content">
         { videos.map(video => (
-          <div key={video.id} className="search-video-item">
+          <div key={video.vid} className="search-video-item">
             <div className="search-video-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
             <img className="search-video-img" src={video.coverUrl+'?param=230y130'} alt=""/>
             <div className="search-video-text text-overflow">{video.title}</div>

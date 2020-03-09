@@ -41,11 +41,11 @@ export class Video extends VideoBaseClass {
     duration,
     playTime,
     publishTime,
-    praisedCount,
-    commentCount,
-    shareCount,
-    subscribeCount,
-    creator
+    praisedCount = 0,
+    commentCount = 0,
+    shareCount = 0,
+    subscribeCount = 0,
+    creator = {}
   }: any) {
     super({ vid, title, coverUrl, duration, playTime })
     this.creator = new User(creator)
@@ -70,5 +70,12 @@ export function createBaseVideo (data: any): VideoBaseClass {
     title: data.title,
     coverUrl: data.coverUrl || data.imgurl,
     playTime: data.playTime || data.playCount
+  })
+}
+
+export function createVideo (data: any): Video {
+  return new Video({
+    ...data,
+    duration: data.durationms
   })
 }

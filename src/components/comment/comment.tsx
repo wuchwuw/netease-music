@@ -6,7 +6,7 @@ import Spin from 'COMPONENTS/spin/spin'
 import CommentCls, { createCommentList } from 'UTIL/comment'
 
 interface CommentProps {
-  id: number
+  id: number | string
   type: string
 }
 const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']

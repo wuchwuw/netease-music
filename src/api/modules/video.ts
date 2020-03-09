@@ -23,7 +23,7 @@ export default {
     return axios.get('mv/detail', { params })
   },
   getVideoDetail (params: any) {
-    return axios.get('related/allvideo', { params })
+    return axios.get('video/detail', { params })
   },
   getRelatedVideo (params: any) {
     return axios.get('related/allvideo', { params })

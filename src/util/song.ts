@@ -1,31 +1,26 @@
 import { timeFormat } from 'UTIL/util'
 import api from 'API/index'
 import Lyric from './lyric-parser'
-
-interface SongArtist {
-  id: number
-  name: string
-}
+import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
+import { AlbumBaseClass, createBaseAlbum } from 'UTIL/album'
 
 export default class Song {
   name: string
   id: number
-  ar: SongArtist[]
+  artists: ArtistBaseClass[]
   mv: number
   picUrl: string
-  albumId: number
-  albumName: string
+  album: AlbumBaseClass
   duration: number
   lyric: any
 
   constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
     this.id = id
     this.name = name
-    this.ar = ar
+    this.artists = createBaseArtistList(ar)
     this.mv = mv
     this.picUrl = al.picUrl
-    this.albumId = al.id
-    this.albumName = al.name
+    this.album = createBaseAlbum(al)
     this.duration = dt
     this.lyric = null
   }
@@ -36,8 +31,8 @@ export default class Song {
   }
 
   get artistName (): string {
-    if (!this.ar.length) return ''
-    return this.ar.reduce((name, item) => {
+    if (!this.artists.length) return ''
+    return this.artists.reduce((name, item) => {
       return name + '/' + item.name
     }, '').substring(1)
   }
@@ -50,15 +45,6 @@ export default class Song {
       cb && cb(lyric)
     } catch (e) {}
   }
-  // async getSongUrl () {
-  //   try {
-  //     let res = await api.getSongUrl({ id: this.id })
-  //     // return res.data.data[0].url
-  //     let audio = document.querySelector('#player-audio')
-  //     audio!.src = res.data.data[0].url
-  //     audio.play()
-  //   } catch (e) {}
-  // }
 }
 
 export async function play (currentSong: Song) {

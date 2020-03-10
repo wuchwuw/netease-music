@@ -28,7 +28,8 @@ const config = {
       'STYLE': resolve('src/style'),
       'VIEWS': resolve('src/views'),
       'UTIL': resolve('src/util'),
-      'STORE': resolve('src/store')
+      'STORE': resolve('src/store'),
+      'ROUTER': resolve('src/router')
       // 'api': resolve('src/api'),
       // 'base': resolve('src/base'),
       // 'router': resolve('src/router')

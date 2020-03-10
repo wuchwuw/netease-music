@@ -23,7 +23,8 @@
       "STYLE/*": ["src/style/*"],
       "VIEWS/*": ["src/views/*"],
       "STORE/*": ["src/store/*"],
-      "UTIL/*": ["src/util/*"]
+      "UTIL/*": ["src/util/*"],
+      "ROUTER/*": ["src/router/*"]
 		}
 	},
 	"include": [

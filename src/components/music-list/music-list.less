@@ -5,6 +5,7 @@
   align-items: center;
   height: 35px;
   font-size: 13px;
+  user-select: none;
   &:nth-child(even) {
     background: #FAFAFA;
   }
@@ -30,6 +31,7 @@
     &:nth-child(5) {
       width: 5%;
     }
+    
   }
   &:not(:first-child) {
     &:hover {
@@ -51,4 +53,16 @@
     cursor: pointer;
     color: #C0C0C0;
   }
+}
+
+.music-list-item-link {
+  color: #666666;
+  cursor: pointer;
+  &:hover {
+    color: #333333;
+  }
+}
+
+.muisc-list-item-duration {
+  color: #999999;
 }

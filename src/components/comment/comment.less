@@ -53,6 +53,11 @@
       display: block;
     }
   }
+  &:not(:last-child) {
+    .comment-item-info {
+      border-bottom: 1px solid #F3F3F3;
+    }
+  }
 }
 .comment-item-user-avatar {
   height: 35px;
@@ -64,9 +69,6 @@
   margin-left: 15px;
   flex: 1;
   padding: 17px 0 20px;
-  &:not(:last-child) {
-    border-bottom: 1px solid #F3F3F3;
-  }
 }
 .comment-item-info-replay {
   padding: 10px;

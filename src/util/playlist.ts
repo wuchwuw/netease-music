@@ -23,8 +23,26 @@ export class PlaylistClass {
   highQuality: boolean
   tags: string[]
   ordered: boolean
+  description: string
+  subscribedCount: number
 
-  constructor ({ ordered, trackCount, tags = [], tracks = [], creator = {}, coverImgUrl, commentCount, createTime, id, name, playCount, shareCount, highQuality}: any) {
+  constructor ({ 
+    ordered,
+    trackCount = 0, 
+    tags = [], 
+    tracks = [], 
+    creator = {}, 
+    coverImgUrl, 
+    commentCount = 0, 
+    createTime, 
+    id, 
+    name, 
+    playCount = 0, 
+    shareCount = 0, 
+    highQuality,
+    description,
+    subscribedCount = 0
+  }: any) {
     this.tracks = this.createSong(tracks)
     this.trackCount = trackCount
     this.creator = creator
@@ -39,15 +57,29 @@ export class PlaylistClass {
     this.highQuality = highQuality
     this.tags = tags
     this.ordered = ordered
+    this.description = description
+    this.subscribedCount = subscribedCount
   }
 
   get playCount_string (): string {
-    if (this.playCount === 0) return '0'
-    return this.playCount ? this.playCount > 10000 ? `${(this.playCount / 10000).toFixed()}万` : `${this.playCount}` : ''
+    return this.countToString(this.playCount)
+  }
+  
+  get shareCount_string (): string {
+    return this.countToString(this.shareCount)
+  }
+
+  get subscribedCount_string (): string {
+    return this.countToString(this.subscribedCount)
   }
 
   get tag_string (): string {
     return this.tags.join('/')
+  }
+
+  private countToString (count: number): string {
+    if (count === 0) return '0'
+    return count ? count > 10000 ? `${(count / 10000).toFixed()}万` : `${count}` : ''
   }
 
   createSong (songs: any): Song[] {

@@ -8,7 +8,7 @@ export class AlbumBaseClass {
   picUrl: string
   artists: any
 
-  constructor ({ id, name, picUrl, artists } : any) {
+  constructor ({ id, name, picUrl, artists = [] } : any) {
     this.id = id
     this.name = name
     this.picUrl = picUrl

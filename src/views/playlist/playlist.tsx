@@ -3,38 +3,57 @@ import './playlist.less'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
-import { match } from 'react-router'
+import { useParams } from 'react-router'
 import { PlaylistClass } from 'UTIL/playlist'
-// import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 
-interface PlaylistProps {
-  match: match<PlaylistQueryParams>
-}
-
-const Playlist: React.SFC<PlaylistProps> = (props) => {
+const Playlist = () => {
   const [ tab, setTab ] = useState('list') // list comment des
+  const { id } = useParams()
+  const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
+  
   useEffect(() => {
     getPlaylist()
-  }, [props.match.params.id])
+    setTab('list')
+  }, [playlistId])
+
   async function getPlaylist () {
     const params = {
-      id: props.match.params.id
+      id: playlistId
     }
     try {
       const res = await api.getPlaylist(params)
       setPlaylist(new PlaylistClass(res.data.playlist))
     } catch (e) {}
   }
+
   function genTabComponent () {
     if (tab === 'list') {
       return <MusicList list={playlist.tracks}></MusicList>
     } else if (tab === 'comment') {
-      return <div style={{ padding: '30px'}}><Comment type="playlist" id={props.match.params.id}></Comment></div>
+      return <div style={{ padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else {
       return
     }
   }
+
+  function genPlaylistTag (playlist: PlaylistClass) {
+    const tags = playlist.tags
+    if (tags.length) {
+      return tags.map((item, index) => <><span className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
+    } else {
+      return <span className="commen-link-blue">添加标签</span>
+    }
+  }
+
+  function genPlaylistDesc (playlist: PlaylistClass) {
+    if (playlist.description) {
+      return  <div className="playlist-info-desc clid">简介: {playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
+    } else {
+      return <div className="playlist-info-desc clid">简介: <span className="commen-link-blue">添加简介</span></div>
+    }
+  }
+
   return (
     <div className="playlist-wrap">
       <div className="playlist-info-wrap">
@@ -54,12 +73,13 @@ const Playlist: React.SFC<PlaylistProps> = (props) => {
               <div><i className="iconfont icon-play" ></i>播放全部</div>
               <i className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏({playlist.shareCount})</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏({playlist.subscribedCount_string})</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({playlist.shareCount_string})</div>
           </div>
           <div className="playlist-info-num">
-            <div>标签: {playlist.tag_string}</div>
+            <div>标签: {genPlaylistTag(playlist)}</div>
             <div>歌曲数: {playlist.trackCount}&nbsp;&nbsp;&nbsp;播放数: {playlist.playCount_string}</div>
-            <div>简介: 你知道吗...</div>
+            {genPlaylistDesc(playlist)}
           </div>
         </div>
       </div>

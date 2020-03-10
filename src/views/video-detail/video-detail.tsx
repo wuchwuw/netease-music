@@ -18,7 +18,7 @@ const VideoDetail = () => {
 
   async function getVideoDetail () {
     try {
-      const res = await api.getVideoDetail({id: videoId})
+      const res = await api.getVideoDetail({ id: videoId })
       setVideo(createVideo(res.data.data))
     } catch (e) {}
   }

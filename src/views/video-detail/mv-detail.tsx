@@ -24,9 +24,6 @@ const VideoDetail = () => {
         ...res.data.data,
         artist: artist.data.artist
       }))
-      setTimeout(() => {
-        console.log(mv)
-      }, 2000)
     } catch (e) {}
   }
 

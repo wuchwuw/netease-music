@@ -194,7 +194,7 @@ const Artist = () => {
   return (
     <div className="artist-container">
       <div className="artist-info-wrap">
-        <img src={artist.img1v1Url} alt=""/>
+        <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url})`}}></div>
         <div className="artist-info">
           <span className="artist-info-name">{artist.name}</span>
           <div className="artist-info-option">

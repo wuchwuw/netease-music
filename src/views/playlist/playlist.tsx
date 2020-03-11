@@ -11,7 +11,7 @@ const Playlist = () => {
   const { id } = useParams()
   const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
-  
+
   useEffect(() => {
     getPlaylist()
     setTab('list')
@@ -57,16 +57,21 @@ const Playlist = () => {
   return (
     <div className="playlist-wrap">
       <div className="playlist-info-wrap">
-        <img className="playlist-img" src={playlist.coverImgUrl} />
+        <div className="playlist-img" style={{backgroundImage: `url(${playlist.coverImgUrl})`}}></div>
         <div className="playlist-info">
           <div className="playlist-info-title">
             <span className="playlist-info-title-icon">歌单</span>
             {playlist.name}
           </div>
           <div className="playlist-info-user">
-            <img className="playlist-info-user-avatar" src={playlist.creator.avatarUrl} alt=""/>
-            <span className="playlist-info-user-name">{playlist.creator.nickname}</span>
-            <span className="playlist-info-user-create">{playlist.createTimeString}创建</span>
+            <div className="playlist-info-user-avatar" style={{backgroundImage: `url(${playlist.creator.avatarUrl})`}}></div>
+            {
+              playlist.creator.nickname &&
+              <>
+                <span className="playlist-info-user-name">{playlist.creator.nickname}</span>
+                <span className="playlist-info-user-create">{playlist.createTimeString}创建</span>
+              </>
+            }
           </div>
           <div className="playlist-info-action">
             <div className="playlist-info-action-playall">

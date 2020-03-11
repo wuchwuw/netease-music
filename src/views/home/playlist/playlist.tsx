@@ -3,19 +3,11 @@ import './playlist.less'
 import api from 'API/index'
 import classnames from 'classnames'
 
-interface PlaylistCate {
-  id: number
-  name: string
-}
-
 const HomeAlbum: React.SFC = () => {
   const [top, setTop] = useState([])
-  const [hotCate, setHotCate] = useState<PlaylistCate[]>([])
+  const [hotCate, setHotCate] = useState<string[]>([])
   const [highquality, setHighquality] = useState({})
-  const [currentCate, setCurrentCate] = useState<PlaylistCate>({
-    id: -1,
-    name: '全部'
-  })
+  const [currentCate, setCurrentCate] = useState<string>('全部')
   useEffect(() => {
     getTopList()
     getHighquality()
@@ -45,7 +37,7 @@ const HomeAlbum: React.SFC = () => {
   }
   async function getHighquality () {
     try {
-      const params = { cate: currentCate.name, limit: 1 }
+      const params = { cate: currentCate, limit: 1 }
       const res = await api.getPlaylistHighquality(params)
       res.data.playlists.length && setHighquality(res.data.playlists[0])
     } catch (e) {}

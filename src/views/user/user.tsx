@@ -107,17 +107,17 @@ const User = () => {
         <div className="user-playlist-title">
           歌单<span>({userPlaylist.length})</span>
         </div>
-        <div className="commen-video-content">
+        <div className="commen-area-content">
           {
             userPlaylist.map(item => (
-              <div key={item.id} className="commen-video-item commen-video-item-album">
-                <div className="commen-video-img-wrap">
-                  <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+              <div key={item.id} className="commen-area-item commen-area-item-album">
+                <div className="commen-area-img-wrap">
+                  <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                   <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
-                  <div className="commen-video-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                  <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
                 </div>
-                <div className="commen-video-text">{item.name}</div>
-                <div className="commen-video-artist">{item.trackCount + '首'}</div>
+                <div className="commen-area-text">{item.name}</div>
+                <div className="commen-area-artist">{item.trackCount + '首'}</div>
               </div>
             ))
           }
@@ -127,17 +127,17 @@ const User = () => {
         <div className="user-playlist-title">
           收藏<span>({userSubPlaylist.length})</span>
         </div>
-        <div className="commen-video-content">
+        <div className="commen-area-content">
           {
             userSubPlaylist.map(item => (
-              <div key={item.id} className="commen-video-item commen-video-item-album">
-                <div className="commen-video-img-wrap">
-                  <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+              <div key={item.id} className="commen-area-item commen-area-item-album">
+                <div className="commen-area-img-wrap">
+                  <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                   <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
-                  <div className="commen-video-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                  <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
                 </div>
-                <div className="commen-video-text">{item.name}</div>
-                <div className="commen-video-artist">{item.trackCount + '首'}</div>
+                <div className="commen-area-text">{item.name}</div>
+                <div className="commen-area-artist">{item.trackCount + '首'}</div>
               </div>
             ))
           }

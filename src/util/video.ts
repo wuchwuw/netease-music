@@ -73,6 +73,12 @@ export function createBaseVideo (data: any): VideoBaseClass {
   })
 }
 
+export function createVideoList (data: any): Video[] {
+  return data.map((item: any) => {
+    return createVideo(item)
+  })
+}
+
 export function createVideo (data: any): Video {
   return new Video({
     ...data,

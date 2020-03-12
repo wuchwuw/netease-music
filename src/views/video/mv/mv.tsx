@@ -39,13 +39,13 @@ const MvRecomend: React.SFC = () => {
           <span>韩国</span>
         </div>
       </div>
-      <div className="commen-video-content">
+      <div className="commen-area-content">
         {
           newMv.map(mv => (
-            <div key={mv.id} className="commen-video-item commen-video-item-large">
+            <div key={mv.id} className="commen-area-item commen-area-item-large">
               <img src={mv.cover + '?param=230y130'} alt=""/>
-              <div className="commen-video-text text-overflow">{mv.name}</div>
-              <div className="commen-video-artist text-overflow">{mv.artistName}</div>
+              <div className="commen-area-text text-overflow">{mv.name}</div>
+              <div className="commen-area-artist text-overflow">{mv.artistName}</div>
             </div>
           ))
         }
@@ -53,13 +53,13 @@ const MvRecomend: React.SFC = () => {
       <div className="video-mv-title">
         <span>热播MV<i className="iconfont icon-arrow home-icon-arrow"></i></span>
       </div>
-      <div className="commen-video-content">
+      <div className="commen-area-content">
         {
           hotMv.map(mv => (
-            <div key={mv.id} className="commen-video-item commen-video-item-large">
+            <div key={mv.id} className="commen-area-item commen-area-item-large">
               <img src={mv.cover + '?param=230y130'} alt=""/>
-              <div className="commen-video-text text-overflow">{mv.name}</div>
-              <div className="commen-video-artist text-overflow">{mv.artistName}</div>
+              <div className="commen-area-text text-overflow">{mv.name}</div>
+              <div className="commen-area-artist text-overflow">{mv.artistName}</div>
             </div>
           ))
         }
@@ -67,13 +67,13 @@ const MvRecomend: React.SFC = () => {
       <div className="video-mv-title">
         <span>网易出品<i className="iconfont icon-arrow home-icon-arrow"></i></span>
       </div>
-      <div className="commen-video-content">
+      <div className="commen-area-content">
         {
           exclusiveMv.map(mv => (
-            <div key={mv.id} className="commen-video-item commen-video-item-large">
+            <div key={mv.id} className="commen-area-item commen-area-item-large">
               <img src={mv.cover + '?param=230y130'} alt=""/>
-              <div className="commen-video-text text-overflow">{mv.name}</div>
-              <div className="commen-video-artist text-overflow">{mv.artistName}</div>
+              <div className="commen-area-text text-overflow">{mv.name}</div>
+              <div className="commen-area-artist text-overflow">{mv.artistName}</div>
             </div>
           ))
         }

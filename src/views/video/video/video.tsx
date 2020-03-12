@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import api from 'API/index'
 import classnames from 'classnames'
 import './video.less'
+import { Video, createVideoList } from 'UTIL/video'
 
 const Viode: React.SFC = () => {
-  const [tags, setTags] = useState([])
-  const [videos, setVideos] = useState([])
-  const [currentTags, setCurrentTags] = useState({
+  const [ tags, setTags ] = useState([])
+  const [ videos, setVideos ] = useState<Video[]>([])
+  const [ currentTags, setCurrentTags ] = useState({
     name: '',
     id: -1
   })
@@ -31,7 +32,7 @@ const Viode: React.SFC = () => {
         limit: 30
       }
       const res = await api.getViodeList(params)
-      setVideos(res.data.datas)
+      setVideos(createVideoList(res.data.datas.map((item: any) => item.data)))
     } catch (e) {}
   }
   return (
@@ -46,13 +47,13 @@ const Viode: React.SFC = () => {
           }
         </div>
       </div>
-      <div className="commen-video-content">
+      <div className="commen-area-content">
         {
           videos.map((video) => (
-            <div className="commen-video-item commen-video-item-large">
-              <img src={video.data.coverUrl+'?param=230y130'} alt=""/>
-              <div className="commen-video-text">{video.data.title}</div>
-              <div className="commen-video-artist">{video.data.creator.nickname}</div>
+            <div className="commen-area-item commen-area-item-large">
+              <img src={video.coverUrl+'?param=230y130'} alt=""/>
+              <div className="commen-area-text">{video.title}</div>
+              <div className="commen-area-artist">{video.creator.nickname}</div>
             </div>
           ))
         }

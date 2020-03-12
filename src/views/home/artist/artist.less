@@ -15,5 +15,68 @@
     height: 133px;
     width: 133px;
     border-radius: 5px;
+    cursor: pointer;
+  }
+}
+
+.artist-item-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  i {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    text-align: center;
+    font-size: 11px;
+    border-radius: 50%;
+    background: @color-main;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}
+
+.artist-filter-item {
+  display: flex;
+  font-size: 12px;
+  > span {
+    flex: 0 0 50px;
+    padding: 5px 0;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    span {
+      cursor: pointer;
+      display: inline-block;
+      flex: 0 0 50px;
+      border-radius: 20px;
+      text-align: center;
+      padding: 5px 0;
+      position: relative;
+      margin-bottom: 10px;
+      &:not(:last-child) {
+        margin-right: 15px;
+        &:after {
+          content: '';
+          position: absolute;
+          height: 10px;
+          width: 1px;
+          background: #f2f2f2;
+          right: -7px;
+        }
+      }
+      &.active {
+        color: @color-main;
+        background: rgba(211, 57, 49, .1);
+      }
+      &:hover {
+        color: @color-main;
+      }
+    }
   }
 }

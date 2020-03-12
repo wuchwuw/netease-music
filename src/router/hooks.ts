@@ -8,12 +8,19 @@ export function usePageForword () {
     const queryString = qs.stringify(query)
     return queryString ? `?${queryString}` : ''
   }
+
   return {
     goAlbumDetail (albumId: number) {
       history.push(`/album/${albumId}`)
     },
     goArtistDetail (artistId: number) {
       history.push(`/artist/${artistId}`)
+    },
+    goPlaylistDetail (playlistId: number) {
+      history.push(`/playlist/${playlistId}`)
+    },
+    goUserDetail (userId: number) {
+      history.push(`/user/${userId}`)
     }
   }
 }

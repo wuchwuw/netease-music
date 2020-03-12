@@ -110,13 +110,13 @@ const New: React.SFC = () => {
       <div className="newalbum">
         {
           album.map(item => (
-            <div key={item.id} className="commen-video-item commen-video-item-album">
-              <div className="commen-video-img-wrap">
-              <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+            <div key={item.id} className="commen-area-item commen-area-item-album">
+              <div className="commen-area-img-wrap">
+              <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                 <img src={item.picUrl + '?param=130y130'} alt=""/>
               </div>
-              <div className="commen-video-text">{item.name}</div>
-              <div className="commen-video-artist">{item.artistName}</div>
+              <div className="commen-area-text">{item.name}</div>
+              <div className="commen-area-artist">{item.artistName}</div>
             </div>
           ))
         }

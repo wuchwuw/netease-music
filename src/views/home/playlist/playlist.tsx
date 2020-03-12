@@ -2,12 +2,27 @@ import React, { useState, useEffect } from 'react'
 import './playlist.less'
 import api from 'API/index'
 import classnames from 'classnames'
+import { PlaylistClass, createPlaylistList } from 'UTIL/playlist'
+import { usePageForword } from 'ROUTER/hooks'
+
+interface PlaylistHighQuality {
+  coverImgUrl: string
+  name: string
+  copywriter: string
+}
+
+interface PlaylistCate {
+  name: string,
+  hot: boolean
+  id: number
+}
 
 const HomeAlbum: React.SFC = () => {
-  const [top, setTop] = useState([])
-  const [hotCate, setHotCate] = useState<string[]>([])
-  const [highquality, setHighquality] = useState({})
+  const [top, setTop] = useState<PlaylistClass[]>([])
+  const [hotCate, setHotCate] = useState<PlaylistCate[]>([])
+  const [highquality, setHighquality] = useState<PlaylistHighQuality>({} as PlaylistHighQuality)
   const [currentCate, setCurrentCate] = useState<string>('全部')
+  const { goPlaylistDetail } = usePageForword()
   useEffect(() => {
     getTopList()
     getHighquality()
@@ -20,30 +35,32 @@ const HomeAlbum: React.SFC = () => {
   async function getTopList () {
     try {
       const params = {
-        limit: 100,
-        order: 'hot'
+        limit: 60,
+        order: 'hot',
+        cat: currentCate
       }
       const res = await api.getTopList(params)
-      setTop(res.data.playlists)
+      setTop(createPlaylistList(res.data.playlists))
     } catch (e) {}
   }
+
   async function getHotCate () {
     try {
       const res = await api.getPlaylistHotCate()
-      const tags = res.data.tags
-      const cate = tags.map((item: any) => item.playlistTag)
-      setHotCate(cate)
+      setHotCate(res.data.tags)
     } catch (e) {}
   }
+
   async function getHighquality () {
     try {
-      const params = { cate: currentCate, limit: 1 }
+      const params = { cat: currentCate, limit: 1 }
       const res = await api.getPlaylistHighquality(params)
-      res.data.playlists.length && setHighquality(res.data.playlists[0])
+      setHighquality(res.data.playlists[0] || {})
     } catch (e) {}
   }
+
   return (
-    <div className="container home-wrap">
+    <div className="playlist-container">
       <div className="home-album-hot" >
         <div
           className="home-album-hot-bg"
@@ -65,15 +82,20 @@ const HomeAlbum: React.SFC = () => {
         <div className="home-album-filter">
           {
             hotCate.map(cate => (
-              <span className={classnames('home-album-filter-item', {'active': currentCate.name === cate.name})} key={cate.id}>{cate.name}</span>
+              <span onClick={() => { setCurrentCate(cate.name) }} className={classnames('home-album-filter-item', {'active': currentCate === cate.name})} key={cate.id}>{cate.name}</span>
             ))
           }
         </div>
       </div>
-      <div className="home-album-content">
-        { top.map((item: any, index) => (
-            <div key={index} className="home-album-item">
-              <img className="home-album-img" src={item.coverImgUrl} alt=""/>
+      <div className="commen-area-content">
+        { top.map((item, index) => (
+            <div onClick={() => { goPlaylistDetail(item.id) }} key={item.id} className="commen-area-item commen-area-item-playlist">
+              <div className="commen-area-img-wrap">
+                <img src={item.coverImgUrl} alt=""/>
+                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <div className="commen-area-user"><i className="iconfont icon-user"></i>{item.creator.nickname}</div>
+              </div>   
               <div className="home-album-text">{item.name}</div>
             </div>
           ))

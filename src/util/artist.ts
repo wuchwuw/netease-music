@@ -3,12 +3,14 @@ export class ArtistBaseClass {
   name: string
   picUrl: string
   img1v1Url: string
+  accountId: number
 
-  constructor ({ id, name, picUrl, img1v1Url } : any) {
+  constructor ({ id, name, picUrl, img1v1Url, accountId } : any) {
     this.id = id
     this.name = name
     this.picUrl = picUrl
     this.img1v1Url = img1v1Url
+    this.accountId = accountId
   }
 }
 
@@ -23,7 +25,6 @@ export class Artist extends  ArtistBaseClass{
   albumSize: number
   mvSize: number
   followed: boolean
-  accountId: number
   alias: string[]
   constructor ({ 
     id,
@@ -37,7 +38,7 @@ export class Artist extends  ArtistBaseClass{
     accountId,
     alias = []
   } : any) {
-    super({ id, name, picUrl, img1v1Url })
+    super({ id, name, picUrl, img1v1Url, accountId })
     this.musicSize = musicSize
     this.albumSize = albumSize
     this.mvSize = mvSize

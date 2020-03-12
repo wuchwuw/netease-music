@@ -141,17 +141,17 @@ const Artist = () => {
 
   function genArtistMVContent () {
     return (
-      <div className="commen-video-content">
+      <div className="commen-area-content">
         {
           mv.map(item => (
-            <div key={item.vid} className="commen-video-item commen-video-item-large">
-              <div className="commen-video-img-wrap">
-                <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+            <div key={item.vid} className="commen-area-item commen-area-item-large">
+              <div className="commen-area-img-wrap">
+                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                 <img src={item.coverUrl} alt=""/>
-                <div className="commen-video-playcount"><i className="iconfont icon-triangle"></i>{item.playTime_format}</div>
-                <div className="commen-video-duration">{item.duration_format}</div>
+                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playTime_format}</div>
+                <div className="commen-area-duration">{item.duration_format}</div>
               </div>
-              <div className="commen-video-text">{item.title}</div>
+              <div className="commen-area-text">{item.title}</div>
             </div>
           ))
         }
@@ -176,14 +176,14 @@ const Artist = () => {
 
   function genArtistSimiContent () {
     return (
-      <div className="commen-video-content">
+      <div className="commen-area-content">
         {
           simi.map(item => (
-            <div key={item.id} className="commen-video-item commen-video-item-album">
-              <div className="commen-video-img-wrap">
+            <div key={item.id} className="commen-area-item commen-area-item-album">
+              <div className="commen-area-img-wrap">
                 <img src={item.img1v1Url} alt=""/>
               </div>
-              <div className="commen-video-text">{item.name}</div>
+              <div className="commen-area-text">{item.name}</div>
             </div>
           ))
         }

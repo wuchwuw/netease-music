@@ -28,18 +28,18 @@
   }
 }
 
-.commen-video-content {
+.commen-area-content {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -10px;
 }
 
-.commen-video-item {
+.commen-area-item {
   margin: 0 10px 40px;
-  .commen-video-img-wrap {
+  .commen-area-img-wrap {
     position: relative;
     &:hover {
-      .commen-video-play-icon {
+      .commen-area-play-icon {
         background-color: rgba(255, 255, 255, .6);
         i {
           opacity: 1;
@@ -47,7 +47,7 @@
       }
     }
   }
-  .commen-video-play-icon {
+  .commen-area-play-icon {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -66,7 +66,7 @@
       transition: opacity .3s;
     }
   }
-  .commen-video-playcount {
+  .commen-area-playcount {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -79,7 +79,7 @@
       margin-right: 3px;
     }
   }
-  .commen-video-duration {
+  .commen-area-duration {
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -89,7 +89,7 @@
   img {
     border-radius: 5px;
   }
-  .commen-video-text {
+  .commen-area-text {
     font-size: 13px;
     margin-top: 5px;
     font-weight: 500;
@@ -97,7 +97,7 @@
     overflow: hidden;
     white-space: nowrap;
   }
-  .commen-video-artist {
+  .commen-area-artist {
     color: #999999;
     font-size: 12px;
     margin-top: 5px;
@@ -105,13 +105,29 @@
     overflow: hidden;
     white-space: nowrap;
   }
-  .commen-video-icon-arrow {
+  .commen-area-icon-arrow {
     font-size: 20px !important;
     font-weight: 500;
   }
+  .commen-area-user {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #FFFFFF;
+    width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 13px;
+    cursor: pointer;
+    i {
+      margin-right: 3px;
+      font-size: 13px;
+    }
+  }
 }
 
-.commen-video-item-small {
+.commen-area-item-small {
   width: 170px;
   img {
     width: 170px;
@@ -119,7 +135,7 @@
   }
 }
 
-.commen-video-item-large {
+.commen-area-item-large {
   width: 230px;
   img {
     width: 230px;
@@ -127,19 +143,19 @@
   }
 }
 
-.commen-video-item-medium {
+.commen-area-item-medium {
   width: 170px;
   img {
     width: 170px;
     height: 170px;
   }
-  .commen-video-play-icon {
+  .commen-area-play-icon {
     height: 40px;
     width: 40px;
   }
 }
 
-.commen-video-item-album {
+.commen-area-item-album {
   width: 130px;
   img {
     width: 130px;
@@ -152,5 +168,20 @@
   cursor: pointer;
   &:hover {
     color: #0B59AF
+  }
+}
+
+.commen-area-item-playlist {
+  width: 170px;
+  img {
+    width: 170px;
+    height: 170px;
+  }
+  .commen-area-play-icon {
+    height: 40px;
+    width: 40px;
+    top: 120px;
+    left: 120px;
+    transform: none;
   }
 }

@@ -1,5 +1,11 @@
 @import '~STYLE/color.less';
 
+.playlist-container {
+  width: 780px;
+  margin: 0 auto;
+  padding: 20px 20px;
+}
+
 .home-album-hot {
   height: 170px;
   display: flex;
@@ -8,7 +14,6 @@
   overflow: hidden;
   border-radius: 5px;
   padding-left: 15px;
-  margin: 0 10px;
 }
 .home-album-hot-img {
   height: 140px;
@@ -53,12 +58,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
   .home-album-filter-item {
     display: inline-block;
     padding: 5px 15px;
     border-radius: 20px;
     font-size: 12px;
+    cursor: pointer;
+    &:hover {
+      color: @color-main;
+    }
     &.active {
       color: @color-main;
       background: rgba(211, 57, 49, .1);
@@ -74,6 +82,7 @@
   height: 30px;
   border: 1px solid #D9D9D9;
   border-radius: 20px;
+  font-size: 14px;
   .icon-arrow {
     font-size: 18px;
     width: 10px;

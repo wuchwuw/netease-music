@@ -65,15 +65,15 @@ const Toplist: React.SFC = () => {
       </div>
       <div>
         <div className="toplist-title">全球榜</div>
-        <div className="commen-video-content toplist-world-wrap">
+        <div className="commen-area-content toplist-world-wrap">
           { toplist.slice(4).map((item) => (
-              <div key={item.id} className="commen-video-item commen-video-item-medium">
-                <div className="commen-video-img-wrap">
-                  <div className="commen-video-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-                  <div className="commen-video-playcount"><i className="iconfont icon-triangle"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
+              <div key={item.id} className="commen-area-item commen-area-item-medium">
+                <div className="commen-area-img-wrap">
+                  <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                  <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
                   <img src={item.coverImgUrl+'?param=250y250'} alt=""/>
                 </div>
-                <div className="commen-video-text">{item.name}</div>
+                <div className="commen-area-text">{item.name}</div>
               </div>
             ))}
         </div>

@@ -51,3 +51,7 @@ export class Artist extends  ArtistBaseClass{
 export function createArtist (data: any): Artist {
   return new Artist(data)
 }
+
+export function createArtistList (data: any): Artist[] {
+  return data.map((item: any) => createArtist(item))
+}

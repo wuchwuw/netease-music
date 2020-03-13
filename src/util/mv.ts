@@ -1,5 +1,5 @@
 import { timeFormat } from "./util"
-import { Artist, createArtist } from "UTIL/artist"
+import { Artist, createArtistList } from "UTIL/artist"
 
 export class MV {
   id: number
@@ -12,7 +12,7 @@ export class MV {
   duration: number
   publishTime: string
   cover: string
-  artist: Artist
+  artists: Artist[]
 
   constructor ({
     id,
@@ -25,7 +25,7 @@ export class MV {
     duration,
     publishTime,
     cover,
-    artist = {}
+    artists = []
   }: any) {
     this.id = id
     this.name = name
@@ -37,7 +37,7 @@ export class MV {
     this.duration = duration
     this.publishTime = publishTime
     this.cover = cover
-    this.artist = createArtist(artist)
+    this.artists = createArtistList(artists)
   }
 
   get playCount_format (): string {
@@ -49,4 +49,8 @@ export class MV {
     if (!this.duration) return ''
     return timeFormat(this.duration / 1000)
   }
+}
+
+export function createMVList (data: any): MV[] {
+  return data.map((item: any) => new MV(item))
 }

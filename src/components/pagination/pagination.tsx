@@ -22,8 +22,8 @@ const Pagination: React.SFC<PaginationProps> = ({
   }
   function genPageList () {
     const pageList = []
-    const first = <li onClick={() => { goPage(1) }} className={classnames("pagination-item")}>1</li>
-    const last = <li className="pagination-item">{page}</li>
+    const first = <li onClick={() => { goPage(1) }} className={classnames("pagination-item", {'pagination-item-active': currentPage === 1})}>1</li>
+    const last = <li onClick={() => { goPage(page) }} className={classnames("pagination-item", {'pagination-item-active': currentPage === page})}>{page}</li>
     const prev = <li className="pagination-item">...</li>
     const next = <li className="pagination-item">...</li>
 
@@ -37,7 +37,7 @@ const Pagination: React.SFC<PaginationProps> = ({
         pageList.push(
           <li className={classnames(
             'pagination-item',
-            { 'pagination-item-active': currentPage === i}
+            {'pagination-item-active': currentPage === i}
           )}
           onClick={() => { goPage(i) }}
           >
@@ -55,7 +55,7 @@ const Pagination: React.SFC<PaginationProps> = ({
         pageList.push(
           <li className={classnames(
             'pagination-item',
-            { 'pagination-item-active': currentPage === i}
+            {'pagination-item-active': currentPage === i}
           )}
           onClick={() => { goPage(i) }}
           >
@@ -72,7 +72,7 @@ const Pagination: React.SFC<PaginationProps> = ({
         pageList.push(
           <li className={classnames(
             'pagination-item',
-            { 'pagination-item-active': currentPage === i}
+            {'pagination-item-active': currentPage === i}
           )}
           onClick={() => { goPage(i) }}
           >
@@ -89,7 +89,7 @@ const Pagination: React.SFC<PaginationProps> = ({
         pageList.push(
           <li className={classnames(
             'pagination-item',
-            { 'pagination-item-active': currentPage === i}
+            {'pagination-item-active': currentPage === i}
           )}
           onClick={() => { goPage(i) }}
           >

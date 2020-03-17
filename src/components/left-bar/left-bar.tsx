@@ -5,6 +5,7 @@ import { useDialog, LoginDialog } from 'COMPONENTS/dialog/index'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import api from 'API/index'
+import { useContainer } from 'COMPONENTS/container/container'
 
 const LeftBar: React.SFC = () => {
   const dialogProps = useDialog()
@@ -12,6 +13,7 @@ const LeftBar: React.SFC = () => {
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const [playlist, setPlaylist] = useState([])
   const [subPlaylist, setSubPlaylist] = useState([])
+  const { visiable, open  } = useContainer(['.leftbar-user-panel'])
 
   useEffect(() => {
     if (isLogin) {
@@ -35,7 +37,40 @@ const LeftBar: React.SFC = () => {
       {
         isLogin ?
         <div className="leftbar-user">
-          <div className="leftbar-login"><img className="leftbar-login-avatar" src={user.avatarUrl+'?param=100y100'} alt=""/></div>{user.nickname}<span className="leftbar-triangle"></span>
+          <div className="leftbar-login">
+            <img className="leftbar-login-avatar" src={user.avatarUrl+'?param=100y100'} alt=""/>
+          </div>
+          <div onClick={ () => { open() }} className="leftbar-login-username">
+            {user.nickname}
+            <i className="iconfont icon-triangle-full"></i>
+            {
+              visiable &&
+              <div className="leftbar-user-panel">
+                <div className="leftbar-user-social">
+                  <div className="leftbar-user-social-item">
+                    <div>{user.eventCount}</div>
+                    <div>动态</div>
+                  </div>
+                  <div className="leftbar-user-social-item">
+                    <div>{user.follows}</div>
+                    <div>关注</div>
+                  </div>
+                  <div className="leftbar-user-social-item">
+                    <div>{user.followeds}</div>
+                    <div>粉丝</div>
+                  </div>
+                </div>
+                <div className="leftbar-user-panel-item">
+                  <div><i className="iconfont icon-vip"></i>会员中心</div>
+                  <div><i className="iconfont icon-level"></i>等级</div>
+                  <div><i className="iconfont icon-mail"></i>商城</div>
+                  <div><i className="iconfont icon-setting"></i>个人信息设置</div>
+                  <div><i className="iconfont icon-phone"></i>绑定社交账号</div>
+                  <div><i className="iconfont icon-logout"></i>退出登录</div>
+                </div>
+              </div>
+            }
+          </div>
         </div>
         :
         <div className="leftbar-user">

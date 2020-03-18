@@ -7,7 +7,7 @@ import { SET_PLAY_STATUS, PLAY_NEXT, PLAY_PREV, PLAYER_FULL_SCREEN } from 'STORE
 import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import FullScreenPlayer from './full-screen-player'
-import { SET_PANEL_TYPE } from 'STORE/commen/types'
+import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 
 export default function Player () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -22,6 +22,7 @@ export default function Player () {
   const progressRef = useRef<HTMLDivElement>(null)
   const progressWrapRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const { setPanelType, currentPanelType } = usePanelContaienr()
 
   function onPointerDown (e: React.PointerEvent<HTMLDivElement>) {
     // e.persist()
@@ -81,10 +82,6 @@ export default function Player () {
     dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
   }
 
-  function setPanelType () {
-    dispatch({ type: SET_PANEL_TYPE, panelType: 'current-playlist' })
-  }
-
   return (
     <>
       <div className="mini-player-wrap">
@@ -116,7 +113,7 @@ export default function Player () {
           </div>
           <div className="mini-player-action">
             <i className="iconfont iconxunhuan"></i>
-            <i onClick={() => { setPanelType() }} className="iconfont iconlist"></i>
+            <i onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} className={classnames('iconfont iconlist', {'active': currentPanelType === PanelType.CurrentPlaylist})}></i>
             <i className="iconfont icon1"></i>
           </div>
         </div>

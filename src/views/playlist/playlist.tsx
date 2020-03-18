@@ -78,7 +78,7 @@ const Playlist = () => {
               <div><i className="iconfont icon-play" ></i>播放全部</div>
               <i className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏({playlist.subscribedCount_string})</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-add-folder"></i>收藏({playlist.subscribedCount_string})</div>
             <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({playlist.shareCount_string})</div>
           </div>
           <div className="playlist-info-num">

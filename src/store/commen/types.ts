@@ -1,12 +1,14 @@
+import { PanelType } from 'VIEWS/panel/container'
+
 export const SET_PANEL_TYPE = 'SET_PANEL_TYPE'
 
 interface setPanelType {
   type: typeof SET_PANEL_TYPE
-  panelType: string
+  panelType: PanelType
 }
 
 export interface CommenState {
-  panelType: string
+  panelType: PanelType
 }
 
 export type CommenActionTypes = setPanelType

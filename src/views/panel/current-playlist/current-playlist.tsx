@@ -41,8 +41,8 @@ const CurrentPlaylist: React.SFC = () => {
       </div>
       <div className="current-playlist-action">
         <span className="current-playlist-action-title">总{list.length}首</span>
-        <span className="current-playlist-action-star"><i className="iconfont icon-star"></i>收藏全部</span>
-        <span className="current-playlist-action-delete"><i className="iconfont icon-star"></i>清空</span>
+        <span className="current-playlist-action-star"><i className="iconfont icon-add-folder"></i>收藏全部</span>
+        <span className="current-playlist-action-delete"><i className="iconfont icon-delete"></i>清空</span>
       </div>
       <ul className="current-music-list-wrap">
         {

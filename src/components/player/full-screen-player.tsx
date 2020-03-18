@@ -8,7 +8,7 @@ import api from 'API/index'
 const FullScrrenPlayer: React.SFC = () => {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const CommentComponent = useMemo(() => <Comment type="music" id={currentSong.id} />, [currentSong.id]);
+  const CommentComponent = useMemo(() => <Comment delay={500} showTitle={true} type="music" id={currentSong.id} />, [currentSong.id]);
   const [simiPlaylist, setSimiPlaylist] = useState([])
   const [simiSong, setSimiSong] = useState([])
 
@@ -39,7 +39,7 @@ const FullScrrenPlayer: React.SFC = () => {
       <div className="player-wrap">
         <div className="player-cd-wrap">
           <div className="player-cd">
-            <img src={currentSong.picUrl+'?param=200y200'} alt=""/>
+            <img src={currentSong.picUrl+'?param=300y300'} alt=""/>
           </div>
           <div className="player-action">
             <i className="iconfont iconxin"></i>
@@ -51,9 +51,9 @@ const FullScrrenPlayer: React.SFC = () => {
         <div className="player-info">
           <div className="player-info-name">{currentSong.name}</div>
           <div className="player-info-album">
-            <div>专辑:<span>{currentSong.albumName}</span></div>
-            <div>歌手:<span>{currentSong.artistName}</span></div>
-            <div>来源:<span>这些生活必需品</span></div>
+            <div>专辑:<span className="commen-link-blue">{currentSong.album.name}</span></div>
+            <div>歌手:<span className="commen-link-blue">{currentSong.artistName}</span></div>
+            <div>来源:<span></span></div>
           </div>
           <div className="player-info-lyrics">
             {
@@ -66,7 +66,6 @@ const FullScrrenPlayer: React.SFC = () => {
       </div>
       <div className="player-other-info">
         <div className="player-other-comment">
-          <div>听友评论<span>(已有0条评论)</span></div>
           {CommentComponent}
         </div>
         <div className="player-other-list">
@@ -75,7 +74,7 @@ const FullScrrenPlayer: React.SFC = () => {
             {
               simiPlaylist.map(item => (
                 <div key={item.id} className="player-other-list-item">
-                  <img className="player-other-list-avatar" src={item.coverImgUrl+'?param=50y50'} alt=""/>
+                  <img className="player-other-list-avatar" src={item.coverImgUrl+'?param=100y100'} alt=""/>
                   <div className="player-other-list-info">
                     <div className="player-other-list-info-name text-overflow">{item.name}</div>
                     <div className="player-other-list-info-text">{item.playCount}</div>
@@ -89,7 +88,7 @@ const FullScrrenPlayer: React.SFC = () => {
             {
               simiSong.map(item => (
                 <div key={item.id} className="player-other-list-item">
-                  <img className="player-other-list-avatar" src={item.album.picUrl+'?param=50y50'} alt=""/>
+                  <img className="player-other-list-avatar" src={item.album.picUrl+'?param=100y100'} alt=""/>
                   <div className="player-other-list-info">
                     <div className="player-other-list-info-name text-overflow">{item.name}</div>
                     <div className="player-other-list-info-text">{item.artists[0].name}</div>

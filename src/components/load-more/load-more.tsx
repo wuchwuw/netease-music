@@ -1,18 +1,32 @@
 import React, { useEffect } from 'react'
 import './load-more.less'
 
-const LoadMore = (props) => {
+interface LoadMoreProps {
+  children: React.ReactNodeArray | React.ReactNode
+  load: () => void
+}
+
+const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
+
   useEffect(() => {
-    console.log(111)
-    function onScroll () {
-      console.log(111)
-    }
+
     const target = document.querySelector('.loadmore-container')
-    console.log(target)
-    target.addEventListener('scroll', onScroll)
-    // return () => { target.removeEventListener('scroll', onScroll) }
+    function onScroll () {
+      const scrollTop = window.pageYOffset 
+      || target!.scrollTop  
+      || target!.scrollTop  
+      || 0
+      const clientHeight = target!.clientHeight
+      const scrollHeight = target!.scrollHeight
+      if (scrollHeight - scrollTop - clientHeight <= 100) {
+        load()
+      }
+    }
+    target!.addEventListener('scroll', onScroll)
+    return () => { target!.removeEventListener('scroll', onScroll) }
   }, [])
-  return <div className="loadmore-container">{props.children}</div>
+
+  return <div className="loadmore-container">{children}</div>
 }
 
 export default LoadMore

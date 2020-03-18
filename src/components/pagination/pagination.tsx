@@ -19,6 +19,7 @@ const Pagination: React.SFC<PaginationProps> = ({
   const page = Math.floor(total / pageSize) + 1
   function goPage (page: number) {
     setCurrentPage(page)
+    onChange(page)
   }
   function genPageList () {
     const pageList = []

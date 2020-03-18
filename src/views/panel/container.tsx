@@ -6,24 +6,44 @@ import { useDispatch, useSelector } from "react-redux"
 import { SET_PANEL_TYPE } from 'STORE/commen/types'
 import { RootState } from "STORE/index"
 
+export enum PanelType {
+  Search = 'search',
+  CurrentPlaylist = 'current-playlist',
+  Message = 'message',
+  Close = 'close'
+}
+
+export function usePanelContaienr () {
+  const dispatch = useDispatch()
+  const currentPanelType = useSelector((state: RootState) => state.commen.panelType)
+  function setPanelType (type: PanelType) {
+    dispatch({ type: SET_PANEL_TYPE, panelType: type })
+  }
+  return {
+    currentPanelType,
+    setPanelType
+  }
+}
+
 const PanelContainer: React.SFC = (props) => {
   const dispatch = useDispatch()
   const panelType = useSelector((state: RootState) => state.commen.panelType)
   const nodeList = [
     document.querySelector('.panel-container'),
     document.querySelector('.bottom'),
-    document.querySelector('.topbar-search-content')
+    document.querySelector('.topbar-search-content'),
+    document.querySelector('#message-icon')
   ]
 
-  function genPanelNode (type: string) {
+  function genPanelNode (type: PanelType) {
     switch (type) {
-      case 'search':
+      case PanelType.Search:
         return <Search></Search>
-      case 'current-playlist':
+      case PanelType.CurrentPlaylist:
         return <CurrentPlaylist></CurrentPlaylist>
-      case 'message':
+      case PanelType.Message:
         return <Message></Message>
-      case 'close':
+      case PanelType.Close:
         return null
     }
   }

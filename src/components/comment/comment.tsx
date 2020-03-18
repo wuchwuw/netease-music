@@ -8,10 +8,12 @@ import CommentCls, { createCommentList } from 'UTIL/comment'
 interface CommentProps {
   id: number | string
   type: string
+  showTitle?: number
+  delay?: 0
 }
 const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']
 
-const Comment: React.SFC<CommentProps> = (props) => {
+const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay = 0}) => {
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<CommentCls[]>([])
@@ -19,16 +21,16 @@ const Comment: React.SFC<CommentProps> = (props) => {
   const PAGE_SIZE = 60
 
   useEffect(() => {
-    if (!props.id) return
-    getComment()
-  }, [props.id])
+    if (!id) return
+    delay ? setTimeout(() => { getComment() }, delay) : getComment()
+  }, [id])
 
   async function getComment () {
     setLoading(true)
     const params = {
-      type: props.type,
+      type: type,
       params: {
-        id: props.id,
+        id: id,
         limit: PAGE_SIZE
       }
     }
@@ -55,7 +57,7 @@ const Comment: React.SFC<CommentProps> = (props) => {
                     <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}
                   </div>
                   {
-                    !!comment.replied && (
+                    comment.replied && (
                       <div className="comment-item-info-replay">
                         <div className="comment-item-info-text">
                           <span className="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}
@@ -83,6 +85,7 @@ const Comment: React.SFC<CommentProps> = (props) => {
 
   return (
     <div>
+      { showTitle && <div className="comment-count">听友评论<span>(已有{total}条评论)</span></div> }
       <div className="comment-textarea-wrap">
         <textarea className="comment-textarea" placeholder="输入评论或@朋友"></textarea>
         <span className="comment-textarea-reset">140</span>

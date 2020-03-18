@@ -29,7 +29,7 @@ export default class Comment {
     this.replied = replied.length ? { 
       beRepliedCommentId: replied[0].beRepliedCommentId,
       content: replied[0].content,
-      user: new User(replied[0].User)
+      user: new User(replied[0].user)
      } : null
   }
 

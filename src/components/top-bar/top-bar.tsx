@@ -1,10 +1,12 @@
 import React from 'react'
 import './top-bar.less'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink, withRouter, useLocation } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
 import { SET_PANEL_TYPE } from 'STORE/commen/types'
+import classnames from 'classnames'
+import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -20,16 +22,18 @@ const viodeSubPagePathMap: any = {
   '/video/mv': 'MV'
 }
 
-const TopBar: React.SFC = (props) => {
+const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const dispatch = useDispatch()
+  const { setPanelType, currentPanelType } = usePanelContaienr()
+  const location = useLocation();
 
   function renderTopbarContent () {
     let routePath = {}
-    if (/playlist/.test(props.location.pathname) || fullScreen) {
+    if (/playlist/.test(location.pathname) || fullScreen) {
       return <></>
     }
-    if (/activity/.test(props.location.pathname)) {
+    if (/activity/.test(location.pathname)) {
       return (
         <div>
           <span className="topbar-content-item active">动态</span>
@@ -37,15 +41,15 @@ const TopBar: React.SFC = (props) => {
         </div>
       )
     }
-    if (/home/.test(props.location.pathname)) {
+    if (/home/.test(location.pathname)) {
       routePath = homeSubPagePathMap
-    } else if (/video/.test(props.location.pathname)) {
+    } else if (/video/.test(location.pathname)) {
       routePath = viodeSubPagePathMap
     }
     return (
       <>
         {
-          Object.keys(routePath).map((key: any, index: any) => (
+          (Object.keys(routePath) as Array<keyof typeof routePath>).map((key) => (
             <NavLink
               to={key}
               activeClassName="active"
@@ -88,7 +92,7 @@ const TopBar: React.SFC = (props) => {
       </div>
       <div className="topbar-other">
         <i className="iconfont icon-setting"></i>
-        <i className="iconfont icon-email"></i>
+        <i id="message-icon" onClick={() => { setPanelType(PanelType.Message) }} className={classnames('iconfont icon-email', {'active': currentPanelType === PanelType.Message})}></i>
         <i className="iconfont icon-style"></i>
       </div>
     </div>

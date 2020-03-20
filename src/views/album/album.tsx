@@ -42,7 +42,7 @@ const Album = () => {
   return (
     <div className="playlist-wrap">
       <div className="playlist-info-wrap">
-        <div className="playlist-img" style={{backgroundImage: `url(${album.picUrl})`}}></div>
+        <div className="playlist-img" style={{backgroundImage: `url(${album.picUrl + '?param=200y200'})`}}></div>
         <div className="playlist-info">
           <div className="playlist-info-title">
             <span className="playlist-info-title-icon">专辑</span>

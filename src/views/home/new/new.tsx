@@ -96,7 +96,7 @@ const New: React.SFC = () => {
               <span><img className="newsong-item-pic" src={item.picUrl + '?param=60y60'} alt=""/></span>
               <span>{item.name}</span>
               <span>{item.artistName}</span>
-              <span>{item.albumName}</span>
+              <span>{item.album.name}</span>
               <span>{item.duration_string}</span>
             </li>
           ))

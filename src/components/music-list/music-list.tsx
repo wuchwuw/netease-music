@@ -54,7 +54,7 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
         props.list.map((item: Song, index: number) => (
           <li onDoubleClick={() => setSong(item) } key={item.id} className="music-list-item">
             <div className="music-list-item-action">
-              <span>{padZero(index + 1)}</span>
+              <span>{ currentSong.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
               <i className="iconfont iconxin"></i>
             </div>
             <div>

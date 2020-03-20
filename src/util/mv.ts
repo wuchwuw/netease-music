@@ -22,7 +22,7 @@ export class MV {
     shareCount = 0,
     likeCount = 0,
     commentCount = 0,
-    duration,
+    duration = 0,
     publishTime,
     cover,
     artists = []
@@ -41,16 +41,24 @@ export class MV {
   }
 
   get playCount_format (): string {
-    if (!this.playCount) return ''
     return this.playCount > 100000 ? `${Math.round(this.playCount / 10000)}万` : String(this.playCount)
   }
 
   get duration_format (): string {
-    if (!this.duration) return ''
     return timeFormat(this.duration / 1000)
   }
 }
 
 export function createMVList (data: any): MV[] {
   return data.map((item: any) => new MV(item))
+}
+
+export function createArtistMVList (data: any): MV[] {
+  return data.map((item: any) => new MV({
+    id: item.id,
+    name: item.name,
+    cover: item.imgurl16v9,
+    duration: item.duration,
+    playCount: item.playCount
+  }))
 }

@@ -6,25 +6,37 @@ import { createArtist, Artist as ArtistClass } from 'UTIL/artist'
 import Song, { createSongList } from 'UTIL/song'
 import { createAlbumList, Album } from 'UTIL/album'
 import { padZero } from 'UTIL/util'
-import { createBaseVideoList, VideoBaseClass } from 'UTIL/video'
+import { createArtistMVList, MV } from 'UTIL/mv'
 import { createBaseArtistList, ArtistBaseClass } from 'UTIL/artist'
 import top50 from 'ASSETS/images/top50.jpg'
+import { usePageForword } from 'ROUTER/hooks'
 
 interface ArtistDesc {
   ti: string
   txt: string
 }
 
+const ArtistTab = {
+  album: '专辑',
+  mv: 'MV',
+  desc: '歌手详情',
+  simi: '相似歌手'
+}
+
+type ArtistTabType = keyof typeof ArtistTab
+
 const Artist = () => {
   const { id } = useParams()
   const artistId = Number(id)
   const [ artist, setArtist ] = useState<ArtistClass>(createArtist({}))
-  const [ tab, setTab ] = useState('album') // list comment des
+  const [ tab, setTab ] = useState<ArtistTabType>('album')
   const [ hotSong, setHotSong ] = useState<Song[]>([])
   const [ albums, setAlbums ] = useState<Album[]>([])
-  const [ mv, setMV ] = useState<VideoBaseClass[]>([])
+  const [ mv, setMV ] = useState<MV[]>([])
   const [ desc, setDesc ] = useState<ArtistDesc[]>([])
   const [ simi, setSimi ] = useState<ArtistBaseClass[]>([])
+  const [ showMore, setShowMore ] = useState(false)
+  const { goAlbumDetail, goUserDetail, goArtistDetail } = usePageForword()
 
   useEffect(() => {
     getArtistDetail()
@@ -32,7 +44,11 @@ const Artist = () => {
     getArtistMv()
     getArtistDesc()
     getArtistSimi()
-  }, [])
+  }, [artistId])
+
+  useEffect(() => {
+    setTab('album')
+  }, [artistId])
 
   async function getArtistDetail () {
     try {
@@ -57,7 +73,7 @@ const Artist = () => {
   async function getArtistMv () {
     try {
       const res = await api.getArtistMV({ id: artistId })
-      setMV(createBaseVideoList(res.data.mvs))
+      setMV(createArtistMVList(res.data.mvs))
     } catch (e) { console.log(e) }
   }
 
@@ -77,7 +93,7 @@ const Artist = () => {
     } catch (e) { console.log(e) }
   }
 
-  function genArtistContent (tab) {
+  function genArtistContent (tab: ArtistTabType) {
     switch (tab) {
       case 'album':
         return genArtistAlbumContent()
@@ -100,36 +116,47 @@ const Artist = () => {
           <div className="artist-album-item-list">
             <div className="artist-album-name">
               热门50首
-              <span><i className="iconfont icon-play"></i><i className="iconfont icon-add"></i></span>
+              <span><i className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
             </div>
             {
               hotSong.slice(0, 10).map((song, index) => (
                 <div className="artist-album-item-list-item" key={song.id}>
                   <span>{padZero(index + 1)}</span>
-                  <span><i className="iconfont iconxin"></i></span>
+                  {/* <span><i className="iconfont iconxin"></i></span> */}
                   <span>{song.name}</span>
+                  <span>{song.duration_string}</span>
                 </div>
               ))
+            }
+            {
+              genAlbumMore(hotSong, 'more')
             }
           </div>
         </div>
         {
           albums.map(album => (
             <div key={album.id} className="artist-album-item">
-              <img className="artist-album-item-img" src={album.picUrl} alt=""/>
+              <div>
+                <img onClick={() => { goAlbumDetail(album.id) }} className="artist-album-item-img" src={album.picUrl + '?param=200y200'} alt=""/>
+                <div className="artist-album-time">{album.publishTimeFormat}</div>
+              </div>
               <div className="artist-album-item-list">
                 <div className="artist-album-name">
                   {album.name}
-                  <span><i className="iconfont icon-play"></i><i className="iconfont icon-add"></i></span>
+                  <span><i className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
                 </div>
                 {
                   album.songs.slice(0, 10).map((song, index) => (
                     <div className="artist-album-item-list-item" key={song.id}>
                       <span>{padZero(index + 1)}</span>
-                      <span><i className="iconfont iconxin"></i></span>
+                      {/* <span><i className="iconfont iconxin"></i></span> */}
                       <span>{song.name}</span>
+                      <span>{song.duration_string}</span>
                     </div>
                   ))
+                }
+                {
+                  genAlbumMore(album.songs, 'detail', album.id)
                 }
               </div>
             </div>
@@ -144,14 +171,14 @@ const Artist = () => {
       <div className="commen-area-content">
         {
           mv.map(item => (
-            <div key={item.vid} className="commen-area-item commen-area-item-large">
+            <div key={item.id} className="commen-area-item commen-area-item-large">
               <div className="commen-area-img-wrap">
                 <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-                <img src={item.coverUrl} alt=""/>
-                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playTime_format}</div>
+                <img src={item.cover} alt=""/>
+                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_format}</div>
                 <div className="commen-area-duration">{item.duration_format}</div>
               </div>
-              <div className="commen-area-text">{item.title}</div>
+              <div className="commen-area-text">{item.name}</div>
             </div>
           ))
         }
@@ -180,10 +207,10 @@ const Artist = () => {
         {
           simi.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-album">
-              <div className="commen-area-img-wrap">
-                <img src={item.img1v1Url} alt=""/>
+              <div onClick={() => { goArtistDetail(item.id) }} className="commen-area-img-wrap">
+                <img src={item.img1v1Url + '?param=200y200'} alt=""/>
               </div>
-              <div className="commen-area-text">{item.name}</div>
+              <div onClick={() => { goArtistDetail(item.id) }} className="commen-area-text">{item.name}</div>
             </div>
           ))
         }
@@ -191,28 +218,49 @@ const Artist = () => {
     )
   }
 
+  function genAlbumMore (songs: Song[], type: string, albumId?: number) {
+    if (songs.length <= 10) return null
+    if (type === 'more') {
+      return showMore ? (
+        songs.slice(10).map((song, index) => (
+          <div className="artist-album-item-list-item" key={song.id}>
+            <span>{padZero(index + 11)}</span>
+            {/* <span><i className="iconfont iconxin"></i></span> */}
+            <span>{song.name}</span>
+            <span>{song.duration_string}</span>
+          </div>
+        ))
+      ) 
+      : 
+      <div className="artist-album-more"><span onClick={() => setShowMore(true)}>查看全部{songs.length}首<i className="iconfont icon-arrow"></i></span></div>
+    } else if (type === 'detail') {
+      return <div className="artist-album-more"><span onClick={() => { goAlbumDetail(albumId!) }}>查看全部<i className="iconfont icon-arrow"></i></span></div>
+    }
+  }
+
   return (
     <div className="artist-container">
       <div className="artist-info-wrap">
-        <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url})`}}></div>
+        <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
         <div className="artist-info">
           <span className="artist-info-name">{artist.name}</span>
-          <div className="artist-info-option">
-            <span className="artist-info-option-star"><i className="iconfont icon-star"></i>收藏</span>
-            <span className="artist-info-option-user">个人主页</span>
-          </div>
           <div className="artist-info-other">
             <span>单曲数: {artist.musicSize}</span>
             <span>专辑数: {artist.albumSize}</span>
             <span>MV数: {artist.mvSize}</span>
           </div>
+          <div className="artist-info-option">
+            <span className="artist-info-option-star"><i className="iconfont icon-add-folder"></i>收藏</span>
+            { artist.accountId && <span onClick={() => { goUserDetail(artist.accountId) }} className="artist-info-option-user"><i className="iconfont icon-user"></i>个人主页</span>}
+          </div>
         </div>
       </div>
       <div className="playlist-tab">
-        <span onClick={(e) => setTab('album')} className={tab === 'album' ? 'active' : ''}>专辑</span>
-        <span onClick={(e) => setTab('mv')} className={tab === 'mv' ? 'active' : ''}>MV</span>
-        <span onClick={(e) => setTab('desc')} className={tab === 'desc' ? 'active' : ''}>歌手详情</span>
-        <span onClick={(e) => setTab('simi')} className={tab === 'simi' ? 'active' : ''}>相似歌手</span>
+        {
+          (Object.keys(ArtistTab) as ArtistTabType[]).map(item => (
+            <span onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>{ ArtistTab[item] }</span>
+          ))
+        }
       </div>
       <div className="artist-tab-content">
         {

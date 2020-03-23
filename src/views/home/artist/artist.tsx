@@ -32,9 +32,6 @@ const Artist: React.SFC = () => {
   const [ initial, setInitial ] = useState<string>('热门')
   const [ lang, setLang ] = useState<keyof typeof LangMap>('10')
   const { goArtistDetail, goUserDetail } = usePageForword()
-  // const [ loading, setLoading ] = useState(false)
-  // const [ offset, setOffset ] = useState(0)
-  console.log(artists)
 
   useEffect(() => {
     loading = false
@@ -42,7 +39,6 @@ const Artist: React.SFC = () => {
     offset = 0
     getArtists(false)
   }, [gender, initial, lang])
-
 
   async function getArtists (loadmore: boolean) {
     const cat = lang + gender
@@ -63,6 +59,7 @@ const Artist: React.SFC = () => {
   }
 
   function loadmore () {
+    console.log(artists)
     if (!hasmore) return
     if (loading) return
     offset = offset + ARTIST_LIMIT

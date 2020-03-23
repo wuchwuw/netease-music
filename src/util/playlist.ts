@@ -25,6 +25,7 @@ export class PlaylistClass {
   ordered: boolean
   description: string
   subscribedCount: number
+  subscribed: boolean
 
   constructor ({ 
     ordered,
@@ -41,7 +42,8 @@ export class PlaylistClass {
     shareCount = 0, 
     highQuality,
     description,
-    subscribedCount = 0
+    subscribedCount = 0,
+    subscribed
   }: any) {
     this.tracks = this.createSong(tracks)
     this.trackCount = trackCount
@@ -59,6 +61,7 @@ export class PlaylistClass {
     this.ordered = ordered
     this.description = description
     this.subscribedCount = subscribedCount
+    this.subscribed = subscribed
   }
 
   get playCount_string (): string {

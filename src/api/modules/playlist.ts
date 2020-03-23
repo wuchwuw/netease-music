@@ -2,7 +2,7 @@ import axios from '../request'
 
 export default {
   getPlaylist (params: any) {
-    return axios.get('playlist/detail', { params })
+    return axios.get('playlist/detail', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
   getPlaylistHotCate () {
     return axios.get('playlist/hot')
@@ -15,5 +15,11 @@ export default {
   },
   getToplistIndex (params: any) {
     return axios.get('top/list', { params })
+  },
+  getPlaylistSubscribers (params: any) {
+    return axios.get('playlist/subscribers', { params })
+  },
+  playlistSubscribers (params: any) {
+    return axios.get('playlist/subscribe', { params, withCredentials: true })
   }
 }

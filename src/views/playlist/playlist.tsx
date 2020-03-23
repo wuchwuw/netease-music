@@ -5,17 +5,44 @@ import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { useParams } from 'react-router'
 import { PlaylistClass } from 'UTIL/playlist'
+import User from 'UTIL/user'
+import classNames from 'classnames'
+import { usePageForword } from 'ROUTER/hooks'
+
+
+enum PlaylistTab {
+  SONG = 'SONG',
+  COMMENT = 'COMMENT',
+  SUB = 'SUB'
+}
+
+const PlaylistTabMap = {
+  'SONG': '歌曲列表',
+  'COMMENT': '评论',
+  'SUB': '收藏者'
+}
+
+const SUBSCRIBERS_LIMIT = 30
+let playlistCache = {}
 
 const Playlist = () => {
-  const [ tab, setTab ] = useState('list') // list comment des
+  const [ tab, setTab ] = useState<PlaylistTab>(PlaylistTab.SONG)
   const { id } = useParams()
   const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
+  const [ subscribers, setSubscribers ] = useState<User[]>([])
+  const { goUserDetail } = usePageForword()
 
   useEffect(() => {
     getPlaylist()
-    setTab('list')
+    setTab(PlaylistTab.SONG)
   }, [playlistId])
+
+  useEffect(() => {
+    if (tab === PlaylistTab.SUB) {
+      getSubscribers(1)
+    }
+  }, [tab])
 
   async function getPlaylist () {
     const params = {
@@ -23,18 +50,54 @@ const Playlist = () => {
     }
     try {
       const res = await api.getPlaylist(params)
-      setPlaylist(new PlaylistClass(res.data.playlist))
+      setPlaylist(new PlaylistClass(playlistCache = res.data.playlist))
+    } catch (e) {}
+  }
+
+  async function follow (isFollow: boolean) {
+    try {
+      const t = isFollow ? 2 : 1
+      const subscribedCount = isFollow ? -- playlist.subscribedCount : ++ playlist.subscribedCount
+      await api.playlistSubscribers({ t, id: playlistId })
+      console.log(playlistCache)
+      setPlaylist(new PlaylistClass({ ...playlistCache, subscribedCount, subscribed: !isFollow }))
     } catch (e) {}
   }
 
   function genTabComponent () {
-    if (tab === 'list') {
+    if (tab === PlaylistTab.SONG) {
       return <MusicList list={playlist.tracks}></MusicList>
-    } else if (tab === 'comment') {
+    } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{ padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
+    } else if (tab === PlaylistTab.SUB) {
+      return (
+        <div className="playlist-subscribers">
+          {
+            subscribers.map(user => 
+              <div key={user.userId} className="playlist-subscribers-item">
+                <img onClick={() => { goUserDetail(user.userId) }} src={user.avatarUrl + '?params=100y100'} alt=""/>
+                <div className="playlist-subscribers-info-wrap">
+                  <span onClick={() => { goUserDetail(user.userId) }}>{user.nickname}</span>
+                  <i className={classNames('iconfont', user.gender === 1 ? 'icon-boy' : 'icon-girl')}></i>
+                  { user.signature && <div className="playlist-subscribers-signature">{user.signature}</div> }
+                </div>
+              </div>
+            )
+          }
+        </div>
+      )
     } else {
       return
     }
+  }
+
+  async function getSubscribers (page: number) {
+    try {
+      const offset = (page - 1) * SUBSCRIBERS_LIMIT
+      const res = await api.getPlaylistSubscribers({ id: playlistId, limit: SUBSCRIBERS_LIMIT, offset })
+      setSubscribers(res.data.subscribers)
+      console.log(res)
+    } catch (e) {}
   }
 
   function genPlaylistTag (playlist: PlaylistClass) {
@@ -78,7 +141,10 @@ const Playlist = () => {
               <div><i className="iconfont icon-play" ></i>播放全部</div>
               <i className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-add-folder"></i>收藏({playlist.subscribedCount_string})</div>
+            <div onClick={() => { follow(playlist.subscribed) }} className="playlist-info-action-star">
+              <i className="iconfont icon-add-folder"></i>
+              {playlist.subscribed ? '已收藏' : '收藏'}({playlist.subscribedCount_string})
+            </div>
             <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({playlist.shareCount_string})</div>
           </div>
           <div className="playlist-info-num">
@@ -90,9 +156,13 @@ const Playlist = () => {
       </div>
       <div className="playlist-tab-wrap">
         <div className="playlist-tab">
-          <span onClick={(e) => setTab('list')} className={tab === 'list' ? 'active' : ''}>歌曲列表</span>
-          <span onClick={(e) => setTab('comment')} className={tab === 'comment' ? 'active' : ''}>评论({playlist.commentCount || 0})</span>
-          <span onClick={(e) => setTab('star')} className={tab === 'star' ? 'active' : ''}>收藏者</span>
+          {
+            (Object.keys(PlaylistTab) as PlaylistTab[]).map((item => (
+              <span onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>
+                {PlaylistTabMap[item]}{item === PlaylistTab.COMMENT ? `(${playlist.commentCount})` : ''}
+              </span>
+            )))
+          }
         </div>
       </div>
       {genTabComponent()}

@@ -9,7 +9,6 @@ interface LoadMoreProps {
 const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
 
   useEffect(() => {
-
     const target = document.querySelector('.loadmore-container')
     function onScroll () {
       const scrollTop = window.pageYOffset 
@@ -24,7 +23,8 @@ const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
     }
     target!.addEventListener('scroll', onScroll)
     return () => { target!.removeEventListener('scroll', onScroll) }
-  }, [])
+
+  })
 
   return <div className="loadmore-container">{children}</div>
 }

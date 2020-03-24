@@ -58,7 +58,10 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
               <i className="iconfont iconxin"></i>
             </div>
             <div>
-              <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>{item.name}</div>
+              <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>
+                {item.name}
+              </div>
+              { !!item.mv && <i className="iconfont icon-mv"></i> }
             </div>
             <div>
               <div className="text-overflow" title={item.artistName}>

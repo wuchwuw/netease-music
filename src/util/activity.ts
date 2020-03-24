@@ -16,18 +16,18 @@ interface ActivityUser {
   userId: number
 }
 
-interface ActivityInfo {
+export interface ActivityInfo {
   commentCount: number
   likedCount: number
   shareCount: number
   liked: boolean
-  participateCount: number
 }
 
 interface ActivityTopic {
   actId: number
   title: string
   coverPCUrl: string
+  participateCount: number
 }
 
 export enum ActivityType {
@@ -42,18 +42,24 @@ export class ActivityClass {
   user: ActivityUser
   id: number
   eventTime: number
+  showTime: number
   info: ActivityInfo
   json: any
 
-  constructor ({ user, info, id, eventTime }: any) {
+  constructor ({ user, info, id, eventTime, showTime }: any) {
     this.user = user
     this.info = info
     this.id = id
     this.eventTime = eventTime
+    this.showTime = showTime
   }
 
   get eventTimeFormat () {
     return this.eventTime ? dayjs(this.eventTime).format('YYYY年MM月DD日 HH:MM') : ''
+  }
+
+  get showTimeFormat () {
+    return this.showTime ? dayjs(this.showTime).format('YYYY年MM月DD日 HH:MM') : ''
   }
 }
 
@@ -62,8 +68,8 @@ export class ActivitySongClass extends ActivityClass {
   activityText: string
   message: string
   content: Song
-  constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime })
+  constructor ({ user, type, info, id, eventTime, json, showTime }: any) {
+    super({user, info, id, eventTime, showTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = createSong(this.json.song)
@@ -77,8 +83,8 @@ export class ActivityTopicClass extends ActivityClass {
   activityText: string
   message: string
   content: ActivityTopic
-  constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime })
+  constructor ({ user, type, info, id, eventTime, json, showTime }: any) {
+    super({user, info, id, eventTime, showTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = this.json
@@ -92,8 +98,8 @@ export class ActivityVideoClass extends ActivityClass {
   activityText: string
   message: string
   content: VideoBaseClass
-  constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime })
+  constructor ({ user, type, info, id, eventTime, json, showTime }: any) {
+    super({user, info, id, eventTime, showTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = createVideo(this.json.video)
@@ -107,8 +113,8 @@ export class ActivityForwordClass extends ActivityClass {
   activityText: string
   message: string
   content: ActivityClassType
-  constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime })
+  constructor ({ user, type, info, id, eventTime, json, showTime }: any) {
+    super({user, info, id, eventTime, showTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = cretaeActicity(this.json.event)
@@ -122,8 +128,8 @@ export class ActivityAlbumClass extends ActivityClass {
   activityText: string
   message: string
   content: AlbumBaseClass
-  constructor ({ user, type, info, id, eventTime, json }: any) {
-    super({user, info, id, eventTime })
+  constructor ({ user, type, info, id, eventTime, json, showTime }: any) {
+    super({user, info, id, eventTime, showTime })
     this.type = type
     this.json = JSON.parse(json)
     this.content = createBaseAlbum(this.json.album)

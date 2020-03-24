@@ -1,3 +1,5 @@
+@import '~STYLE/color.less';
+
 .activity-container {
   display: flex;
   padding: 0 20px;
@@ -120,13 +122,38 @@
   }
 }
 .activity-list-topic {
-  padding: 20px 0 20px 50px;
+  margin: 20px 0 20px 50px;
   border-bottom: 1px solid #F3F3F3;
+  position: relative;
   width: 450px;
+  height: 191px;
+  // background: rgba(0, 0, 0, .1);
+  z-index: 1;
   img {
-    height: 190px;
     width: 100%;
+    height: 190px;
     border-radius: 5px;
+  }
+}
+.activity-list-topic-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .3);
+  border-radius: 5px;
+  color: #FFFFFF;
+  > div {
+    white-space: nowrap;
+    &:first-child {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -167,6 +194,49 @@
     margin-right: 10px;
     &:hover {
       color: #0B59AF
+    }
+  }
+}
+.activity-song-wrap {
+  position: relative;
+}
+.activity-song-play-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 12px;
+}
+.activity-video-play-icon {
+  height: 40px;
+  width: 40px;
+  font-size: 18px;
+}
+.activity-play-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: @color-main;
+}
+.activity-option {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  color: #999999;
+  font-size: 14px;
+  span {
+    margin-left: 15px;
+  }
+  i {
+    margin-right: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      color: #666666;
     }
   }
 }

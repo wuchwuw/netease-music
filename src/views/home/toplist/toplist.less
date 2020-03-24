@@ -1,8 +1,13 @@
 
+@import '~STYLE/color.less';
+
 .toplist-container {
   padding: 30px;
   width: 800px;
   margin: 0 auto;
+}
+.toplist-netease-wrap {
+  min-height: 500px;
 }
 .toplist-world-wrap {
   margin: 0 -10px;
@@ -40,10 +45,29 @@
     &:nth-child(1) {
       flex: 0 0 30px;
       text-align: center;
+      font-weight: bold;
+      color: #999999;
+      margin-right: 10px;
+      &.active {
+        color: @color-main;
+      }
     }
     &:nth-child(3) {
       margin-left: auto;
       padding-right: 10px;
+      color: #999999;
+      cursor: pointer;
     }
+  }
+}
+.toplist-netease-item-more {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 8px 10px;
+  > span {
+    cursor: pointer;
+  }
+  i {
+    vertical-align: -1px;
   }
 }

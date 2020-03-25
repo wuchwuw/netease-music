@@ -25,11 +25,13 @@ export default function Player () {
   const { setPanelType, currentPanelType } = usePanelContaienr()
 
   function onPointerDown (e: React.PointerEvent<HTMLDivElement>) {
+    // e.persist()
     setMoved(true)
     setPageX(e.pageX)
     setLeft(precent / 100 * progressWrapRef.current!.clientWidth)
   }
   function onPointerMove (e: React.PointerEvent<HTMLDivElement>) {
+    // e.persist()
     if (!moved) return
     const diffX = e.pageX - pageX
     const currentPrecent = (left + diffX) / (progressWrapRef.current!.clientWidth / 100)
@@ -46,11 +48,9 @@ export default function Player () {
       setPrecent((e.target as HTMLAudioElement).currentTime / (currentSong.duration / 100000))
     }
   }
-
   function getCurrentTime () {
     return currentSong.duration ? `${timeFormat(currentTime)} / ${currentSong.duration_string}` : ''
   }
-  
   function getSongName () {
     return currentSong.name ? `${currentSong.name} - ${currentSong.artistName}` : ''
   }

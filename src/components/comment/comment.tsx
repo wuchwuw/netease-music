@@ -8,10 +8,9 @@ import CommentCls, { createCommentList } from 'UTIL/comment'
 interface CommentProps {
   id: number | string
   type: string
-  showTitle?: boolean
+  showTitle?: number
   delay?: 0
 }
-
 const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']
 
 const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay = 0}) => {
@@ -31,11 +30,10 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
     const params = {
       type: type,
       params: {
-        [type === 'event' ? 'threadId' : 'id']: id,
-        limit: type === 'event' ? 10 : PAGE_SIZE
+        id: id,
+        limit: PAGE_SIZE
       }
     }
-
     try {
       const res = await api.getComment(params)
       setList(createCommentList(res.data.comments))
@@ -101,14 +99,11 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
       <div className="comment-content">
         <Spin loading={loading} delay={300}>
           {
-            list.length ? (
+            (list.length) ? (
               <>
-                {
-                  !!hot.length &&
-                  <div className="comment-hot">
-                    {genCommentNode('精彩评论', hot)}
-                  </div>
-                }
+                <div className="comment-hot">
+                  {genCommentNode('精彩评论', hot)}
+                </div>
                 <div className="comment-new">
                   {genCommentNode('最新评论', list)}
                   {

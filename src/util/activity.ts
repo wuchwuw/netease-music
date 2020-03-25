@@ -21,9 +21,6 @@ export interface ActivityInfo {
   likedCount: number
   shareCount: number
   liked: boolean
-  commentThread: {
-    id: string
-  }
 }
 
 interface ActivityTopic {

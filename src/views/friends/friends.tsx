@@ -4,7 +4,6 @@ import api from 'API/index'
 import { Topic, cretaeActicityList, ActivityClassType, ActivityType, ActivityInfo } from 'UTIL/activity'
 import Spin from 'COMPONENTS/spin/spin'
 import LoadMore from 'COMPONENTS/load-more/load-more'
-import Comment from 'COMPONENTS/comment/comment'
 
 let hasmore = true
 let loading = true
@@ -14,10 +13,11 @@ const Friends: React.SFC = () => {
   const [activity, setActivity] = useState<ActivityClassType[]>([])
   const [topic, setTopic] = useState<Topic[]>([])
   const [activityLoading, setActivityLoading] = useState(false)
-  const [commentIndex, setCommentIndex] = useState(-1)
-
   useEffect(() => {
     getActivity(false)
+  }, [])
+
+  useEffect(() => {
     getTopic()
   }, [])
 
@@ -44,14 +44,6 @@ const Friends: React.SFC = () => {
       console.log(e) 
     }
   }
-  
-  function showComment (index: number) {
-    if (index === commentIndex) {
-      setCommentIndex(-1)
-      return
-    }
-    setCommentIndex(index)
-  }
 
   function loadmore () {
     if (loading) return
@@ -59,7 +51,7 @@ const Friends: React.SFC = () => {
     getActivity(true)
   }
 
-  const genActivityItem = (act: ActivityClassType, index: number) => {
+  const genActivityItem = (act: ActivityClassType) => {
     if (!act.type) return
     switch (act.type) {
       case ActivityType.Topic:
@@ -84,25 +76,20 @@ const Friends: React.SFC = () => {
               <div className="activity-use-info-time">{act.showTimeFormat}</div>
               <div className="activity-use-info-message">{act.message}</div>
               <div>{genActivityContent(act)}</div>
-              <div>{genActivityOption(act, index)}</div>
-              { commentIndex === index && 
-                <div className="activity-comment-wrap">
-                  <Comment type="event" id={act.info.commentThread.id}></Comment>
-                </div>
-              }
+              <div>{genActivityOption(act)}</div>
             </div>
           </div>
         )
     }
   }
 
-  const genActivityOption = (act: ActivityClassType, index: number) => {
+  const genActivityOption = (act: ActivityClassType) => {
     const info: ActivityInfo = act.info
     return (
       <div className="activity-option">
         <span><i className="iconfont icon-zan"></i>{info.likedCount}</span>
         <span><i className="iconfont icon-share"></i>{info.shareCount}</span>
-        <span><i onClick={() => { showComment(index) }} className="iconfont icon-comment"></i>{info.commentCount}</span>
+        <span><i className="iconfont icon-comment"></i>{info.commentCount}</span>
       </div>
     )
   }
@@ -161,8 +148,8 @@ const Friends: React.SFC = () => {
         <div className="activity-list">
           <Spin loading={activityLoading} delay={300}>
             {
-              activity.map((act, index) => (
-                genActivityItem(act, index)
+              activity.map(act => (
+                genActivityItem(act)
               ))
             }
           </Spin>

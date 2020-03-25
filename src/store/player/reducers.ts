@@ -30,7 +30,7 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
       state.playing = action.playing
       return state
     case PLAY_NEXT:
-      // todo play mode
+      // TODO play mode
       if (state.playlist.length > 0) {
         let currentIndex = state.playlist.indexOf(state.currentSong)
         if (currentIndex > -1) {
@@ -45,7 +45,7 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
       }
       return state
     case PLAY_PREV:
-      // todo play mode
+      // TODO play mode
       if (state.playlist.length > 0) {
         let currentIndex = state.playlist.indexOf(state.currentSong)
         if (currentIndex > -1) {

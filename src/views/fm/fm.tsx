@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import api from 'API/index'
 import Song, { createSongList } from 'UTIL/song'
 import Comment from 'COMPONENTS/comment/comment'
-import { Map, Collection } from 'immutable'
 import './fm.less'
 
 let FMList: Song[] = []
@@ -10,7 +9,7 @@ let FMList: Song[] = []
 const FM = () => {
   const [fm, setFM] = useState<Song>(new Song({}))
   const [lyric, setLyric] = useState({})
-  const CommentComponent = useMemo(() => <Comment type="music" id={fm.id} />, [fm])
+  const CommentComponent = useMemo(() => <Comment showTitle={true} type="music" id={fm.id} />, [fm])
 
   useEffect(() => {
     getFM()
@@ -39,8 +38,8 @@ const FM = () => {
         <div className="fm-info">
           <div className="fm-info-name">{fm.name}</div>
           <div className="fm-info-album">
-            <div>专辑:<span>{fm.albumName}</span></div>
-            <div>歌手:<span>{fm.artistName}</span></div>
+            <div>专辑:<span className="commen-link-blue">{fm.album.name}</span></div>
+            <div>歌手:<span className="commen-link-blue">{fm.artistName}</span></div>
           </div>
           <div className="fm-info-lyrics">
             {

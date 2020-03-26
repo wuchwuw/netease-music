@@ -6,9 +6,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import api from 'API/index'
 import { useContainer } from 'COMPONENTS/container/container'
+import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist-dialog'
 
 const LeftBar: React.SFC = () => {
-  const dialogProps = useDialog()
+  const loginDialogProps = useDialog()
+  const addDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const [playlist, setPlaylist] = useState([])
@@ -74,7 +76,7 @@ const LeftBar: React.SFC = () => {
         </div>
         :
         <div className="leftbar-user">
-          <div className="leftbar-login" onClick={() => dialogProps.toggle()}><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
+          <div className="leftbar-login" onClick={() => loginDialogProps.toggle()}><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
         </div>
       }
       <div className="leftbar-playlist">
@@ -92,7 +94,7 @@ const LeftBar: React.SFC = () => {
         </NavLink>
         {/* <div className="leftbar-item-title">我的音乐</div>
         <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
-        <div className="leftbar-item-title">创建的歌单</div>
+        <div className="leftbar-item-title">创建的歌单<i onClick={() => addDialogProps.toggle()} className="iconfont icon-add"></i></div>
         {
           playlist.map(item => (
             <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
@@ -109,7 +111,8 @@ const LeftBar: React.SFC = () => {
           ))
         }
       </div>
-      <LoginDialog {...dialogProps}></LoginDialog>
+      <LoginDialog {...loginDialogProps}></LoginDialog>
+      <AddPlaylistDialog {...addDialogProps}></AddPlaylistDialog>
     </div>
   )
 }

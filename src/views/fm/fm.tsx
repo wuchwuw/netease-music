@@ -2,28 +2,47 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import api from 'API/index'
 import Song, { createSongList } from 'UTIL/song'
 import Comment from 'COMPONENTS/comment/comment'
+import { usePlayerController } from 'UTIL/player-controller'
 import './fm.less'
 
 let FMList: Song[] = []
 
 const FM = () => {
   const [fm, setFM] = useState<Song>(new Song({}))
+  const [fmList, setFMList] = useState<Song[]>([])
   const [lyric, setLyric] = useState({})
   const CommentComponent = useMemo(() => <Comment showTitle={true} type="music" id={fm.id} />, [fm])
+  const { start, currentSong } = usePlayerController()
 
   useEffect(() => {
     getFM()
   }, [])
 
+  useEffect(() => {
+    if (fm.id) {
+      getFMLyric()
+    }
+  }, [fm.id])
+
+  useEffect(() => {
+    if (fm.id) {
+      setFM(currentSong)
+    }
+  }, [currentSong.id])
+
   async function getFM () {
     try {
       const res = await api.getFM()
       FMList = createSongList(res.data.data)
-      FMList[0].getLyric((lyric: any) => {
-        setLyric(lyric)
-      })
       setFM(FMList[0])
+      setFMList(FMList)
     } catch (e) {}
+  }
+  
+  function getFMLyric () {
+    fm.getLyric((lyric: any) => {
+      setLyric(lyric)
+    })
   }
 
   return (
@@ -31,7 +50,7 @@ const FM = () => {
       <div className="fm-song">
         <div className="fm-song-cover">
           <div className="fm-song-cover-current">
-            <img src={fm.picUrl} alt=""/>
+            <img onClick={() => { start(fm, fmList) }} src={fm.picUrl} alt=""/>
           </div>
           <div className="fm-song-cover-prev"></div>
         </div>

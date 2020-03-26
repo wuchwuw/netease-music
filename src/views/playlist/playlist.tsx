@@ -31,7 +31,7 @@ const Playlist = () => {
   const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
   const [ subscribers, setSubscribers ] = useState<User[]>([])
-  const { goUserDetail } = usePageForword()
+  const { goUserDetail, } = usePageForword()
 
   useEffect(() => {
     getPlaylist()
@@ -131,7 +131,7 @@ const Playlist = () => {
             {
               playlist.creator.nickname &&
               <>
-                <span className="playlist-info-user-name">{playlist.creator.nickname}</span>
+                <span className="playlist-info-user-name" onClick={() => { goUserDetail(playlist.creator.userId) }}>{playlist.creator.nickname}</span>
                 <span className="playlist-info-user-create">{playlist.createTimeString}创建</span>
               </>
             }

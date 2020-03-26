@@ -3,11 +3,12 @@ import './player.less'
 import { useSelector, useDispatch } from 'react-redux'
 import { timeFormat } from 'UTIL/util'
 import { RootState } from 'STORE/index'
-import { SET_PLAY_STATUS, PLAY_NEXT, PLAY_PREV, PLAYER_FULL_SCREEN } from 'STORE/player/types'
+import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
 import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import FullScreenPlayer from './full-screen-player'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
+import { usePlayerController } from 'UTIL/player-controller'
 
 export default function Player () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -23,6 +24,7 @@ export default function Player () {
   const progressWrapRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const { setPanelType, currentPanelType } = usePanelContaienr()
+  const { prev, next, togglePlay } = usePlayerController()
 
   function onPointerDown (e: React.PointerEvent<HTMLDivElement>) {
     setMoved(true)
@@ -53,24 +55,6 @@ export default function Player () {
   
   function getSongName () {
     return currentSong.name ? `${currentSong.name} - ${currentSong.artistName}` : ''
-  }
-
-  function play () {
-    if (playing) {
-      dispatch({ type: SET_PLAY_STATUS, playing: false })
-      audioRef.current!.pause()
-    } else {
-      dispatch({ type: SET_PLAY_STATUS, playing: true })
-      audioRef.current!.play()
-    }
-  }
-
-  function next () {
-    dispatch({ type: PLAY_NEXT })
-  }
-
-  function prev () {
-    dispatch({ type: PLAY_PREV })
   }
 
   function onEnd () {
@@ -108,7 +92,7 @@ export default function Player () {
           <div className="mini-player-control">
             <i className="iconfont iconxin"></i>
             <i onClick={prev} className="iconfont iconforward"></i>
-            <i onClick={play} className={classnames('iconfont', { 'icon-play': !playing, 'iconzanting': playing })}></i>
+            <i onClick={togglePlay} className={classnames('iconfont', { 'icon-play': !playing, 'iconzanting': playing })}></i>
             <i onClick={next} className="iconfont iconforward1"></i>
           </div>
           <div className="mini-player-action">

@@ -98,7 +98,13 @@ export default function Player () {
           <div className="mini-player-action">
             <i className="iconfont iconxunhuan"></i>
             <i onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} className={classnames('iconfont iconlist', {'active': currentPanelType === PanelType.CurrentPlaylist})}></i>
-            <i className="iconfont icon1"></i>
+            <i className="iconfont icon1 mini-player-voice-wrap">
+              <div className="mini-player-voice">
+                <div className="mini-player-voice-bar-default"></div>
+                <div className="mini-player-voice-bar"></div>
+                <div className="mini-player-voice-control"></div>
+              </div>
+            </i>
           </div>
         </div>
         <audio ref={audioRef} id="player-audio" onTimeUpdate={onTimeUpdate} onEnded={onEnd}></audio>

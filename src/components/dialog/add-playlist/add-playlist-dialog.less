@@ -1,1 +1,62 @@
-// todo
+@import '~STYLE/color.less';
+
+.add-playlist-dialog-form-item {
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #F3F3F3;
+  border-radius: 5px;
+  margin-top: 30px;
+  input {
+    width: 0;
+    flex: 1;
+    outline: none;
+    border: none;
+  }
+}
+
+.add-playlist-checkbox-wrap {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.add-playlist-checkbox {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #F3F3F3;
+  border-radius: 5px;
+  margin-right: 5px;
+  &.active {
+    position: relative;
+    background: @color-main;
+    &:after {
+      content: '';
+      position: absolute;
+      height: 4px;
+      width: 7px;
+      margin-top: -1px;
+      border-left: 1px solid #FFFFFF;
+      border-bottom: 1px solid #FFFFFF;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0) rotate(-50deg);
+    }
+  }
+}
+
+.add-playlist-button {
+  width: 90px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #FFFFFF;
+  background: @color-main;
+  border-radius: 20px;
+  margin: 20px auto;
+  font-size: 13px;
+  letter-spacing: 4px;
+}

@@ -14,7 +14,7 @@ export default {
     return axios.get('login/cellphone', { params: params, withCredentials: true })
   },
   getUserPlaylist (params: UserIdParams) {
-    return axios.get('user/playlist', { params: params, withCredentials: true })
+    return axios.get('user/playlist', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
   getUserInfo () {
     return axios.get('user/subcount', { withCredentials: true })

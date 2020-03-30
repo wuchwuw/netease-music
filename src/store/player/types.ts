@@ -6,6 +6,19 @@ export const SET_PLAY_STATUS = 'SET_PLAY_STATUS'
 export const PLAY_NEXT = 'PLAY_NEXT'
 export const PLAY_PREV = 'PLAY_PREV'
 export const PLAYER_FULL_SCREEN = 'PLAYER_FULL_SCREEN'
+export const SET_MODE = 'SET_MODE'
+
+export enum PlyerMode {
+  LOOP,
+  LOOPONE,
+  RANDOM,
+  ORDER
+}
+
+interface SetMode {
+  type: typeof SET_MODE
+  mode: PlyerMode
+}
 
 interface SetCurrentSongAction {
   type: typeof SET_CURRENT_SONG
@@ -22,14 +35,6 @@ interface SetPlayStatusAction {
   playing: boolean
 }
 
-interface PLAY_NEXT {
-  type: typeof PLAY_NEXT
-}
-
-interface PLAY_PREV {
-  type: typeof PLAY_PREV
-}
-
 interface PLAYER_FULL_SCREEN {
   type: typeof PLAYER_FULL_SCREEN,
   fullScreen: boolean
@@ -39,13 +44,13 @@ export interface PlayerState {
   currentSong: Song
   playing: boolean,
   playlist: Song[],
-  fullScreen: boolean
+  fullScreen: boolean,
+  mode: PlyerMode
 }
 
-export type PlayerActionTypes = 
-  SetCurrentSongAction | 
-  SetPlaylistAction | 
-  SetPlayStatusAction | 
-  PLAY_NEXT | 
-  PLAY_PREV |
-  PLAYER_FULL_SCREEN
+export type PlayerActionTypes =
+  SetCurrentSongAction |
+  SetPlaylistAction |
+  SetPlayStatusAction |
+  PLAYER_FULL_SCREEN |
+  SetMode

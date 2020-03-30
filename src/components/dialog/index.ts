@@ -9,7 +9,7 @@ export interface UseDialogProps {
 }
 
 function useDialog (): UseDialogProps {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
   const open = () => setVisible(true)
   const close = () => setVisible(false)
   const toggle = () => setVisible(!visible)

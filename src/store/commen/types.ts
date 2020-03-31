@@ -9,6 +9,7 @@ interface setPanelType {
 
 export interface CommenState {
   panelType: PanelType
+  favoriteIds: number[]
 }
 
 export type CommenActionTypes = setPanelType

@@ -3,20 +3,6 @@ import './dialog.less'
 import { CSSTransition } from 'react-transition-group'
 import { UseDialogProps } from '.'
 
-export function useDialog () {
-  const [visible, setVisible] = useState(false)
-  const show = () => setVisible(true)
-  const hide = () => setVisible(false)
-  const toggle = () => setVisible(!visible)
-
-  return {
-    visible,
-    show,
-    hide,
-    toggle
-  }
-}
-
 interface DialogProps {
   width: number
   title?: string

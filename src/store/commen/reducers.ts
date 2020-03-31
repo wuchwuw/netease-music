@@ -4,8 +4,11 @@ import {
   SET_PANEL_TYPE
 } from './types'
 
+import { PanelType } from 'VIEWS/panel/container'
+
 const initialState: CommenState = {
-  panelType: 'close'
+  panelType: PanelType.Close,
+  favoriteIds: []
 }
 
 export function CommenReducer (state = initialState, action: CommenActionTypes): CommenState {

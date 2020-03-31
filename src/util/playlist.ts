@@ -1,5 +1,4 @@
 import Song from './song'
-// import User from './user'
 import dayjs from 'dayjs'
 
 interface Creator {

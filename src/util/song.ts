@@ -13,8 +13,9 @@ export default class Song {
   album: AlbumBaseClass
   duration: number
   lyric: any
+  liked: boolean
 
-  constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
+  constructor ({ id, name, al = {}, ar = [], mv, dt, liked = false }: any) {
     this.id = id
     this.name = name
     this.artists = createBaseArtistList(ar)
@@ -23,6 +24,7 @@ export default class Song {
     this.album = createBaseAlbum(al)
     this.duration = dt
     this.lyric = null
+    this.liked = liked
   }
 
   get duration_string (): string {

@@ -15,6 +15,7 @@ const AddPlaylistDialog: React.SFC<UseDialogProps> = (props) => {
         name,
         privacy: isPersonal ? 10 : ''
       })
+      props.close()
     } catch (e) {}
   }
 

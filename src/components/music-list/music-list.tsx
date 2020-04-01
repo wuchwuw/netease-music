@@ -46,7 +46,7 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
           <li onDoubleClick={() => start(item, props.list) } key={item.id} className="music-list-item">
             <div className="music-list-item-action">
               <span>{ currentSong.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
-              <i className="iconfont iconxin"></i>
+              <i className={`iconfont ${item.liked ? 'icon-heart-full' : 'iconxin'}`}></i>
             </div>
             <div>
               <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>

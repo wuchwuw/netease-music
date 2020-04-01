@@ -59,7 +59,6 @@ const Playlist = () => {
       const t = isFollow ? 2 : 1
       const subscribedCount = isFollow ? -- playlist.subscribedCount : ++ playlist.subscribedCount
       await api.playlistSubscribers({ t, id: playlistId })
-      console.log(playlistCache)
       setPlaylist(new PlaylistClass({ ...playlistCache, subscribedCount, subscribed: !isFollow }))
     } catch (e) {}
   }

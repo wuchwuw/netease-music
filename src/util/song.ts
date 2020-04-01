@@ -4,6 +4,12 @@ import Lyric from './lyric-parser'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
 import { AlbumBaseClass, createBaseAlbum } from 'UTIL/album'
 
+let favoriteIds: number[] = []
+
+export function setFavoriteIds (ids: number[]) {
+  favoriteIds = ids
+}
+
 export default class Song {
   name: string
   id: number
@@ -15,7 +21,7 @@ export default class Song {
   lyric: any
   liked: boolean
 
-  constructor ({ id, name, al = {}, ar = [], mv, dt, liked = false }: any) {
+  constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
     this.id = id
     this.name = name
     this.artists = createBaseArtistList(ar)
@@ -24,7 +30,7 @@ export default class Song {
     this.album = createBaseAlbum(al)
     this.duration = dt
     this.lyric = null
-    this.liked = liked
+    this.liked = favoriteIds.indexOf(id) > -1
   }
 
   get duration_string (): string {
@@ -47,16 +53,6 @@ export default class Song {
       cb && cb(lyric)
     } catch (e) {}
   }
-}
-
-export async function play (currentSong: Song) {
-  try {
-    let audio = document.querySelector('#player-audio')
-    audio.currentTime = 0
-    let res = await api.getSongUrl({ id: currentSong.id })
-    audio!.src = res.data.data[0].url
-    audio.play()
-  } catch (e) {}
 }
 
 export function createSongList (data: any): Song[] {

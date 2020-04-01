@@ -45,6 +45,7 @@ export class PlaylistClass {
     subscribed
   }: any) {
     this.tracks = this.createSong(tracks)
+    console.log(this.tracks)
     this.trackCount = trackCount
     this.creator = creator
     this.coverImgUrl = coverImgUrl && coverImgUrl + '?param=200y200'

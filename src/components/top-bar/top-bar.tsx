@@ -7,6 +7,7 @@ import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
 import { SET_PANEL_TYPE } from 'STORE/commen/types'
 import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
+import { useContainer } from 'COMPONENTS/container/container'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -26,7 +27,8 @@ const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
-  const location = useLocation();
+  const location = useLocation()
+  const { visiable, open, close } = useContainer(['#style-mode'])
 
   function renderTopbarContent () {
     let routePath = {}
@@ -93,7 +95,13 @@ const TopBar: React.SFC = () => {
       <div className="topbar-other">
         <i className="iconfont icon-setting"></i>
         <i id="message-icon" onClick={() => { setPanelType(PanelType.Message) }} className={classnames('iconfont icon-email', {'active': currentPanelType === PanelType.Message})}></i>
-        <i className="iconfont icon-style"></i>
+        <i id="style-mode" className="iconfont icon-style" onClick={() => { open() }}>
+          <div className="style-mode-wrap">
+            <div className="style-mode-item"><div className="style-mode-light"></div><span>浅色</span></div>
+            <div className="style-mode-item"><div className="style-mode-red"></div><span>红色</span></div>
+            <div className="style-mode-item"><div className="style-mode-dark"></div><span>深色</span></div>
+          </div>
+        </i>
       </div>
     </div>
   )

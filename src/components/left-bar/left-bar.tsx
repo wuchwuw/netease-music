@@ -7,13 +7,11 @@ import { RootState } from 'STORE/index'
 import api from 'API/index'
 import { useContainer } from 'COMPONENTS/container/container'
 import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist-dialog'
-import { SET_FAVORITE_IDS } from 'STORE/commen/types'
 import { setFavoriteIds } from 'UTIL/song'
 
 const LeftBar: React.SFC = () => {
   const loginDialogProps = useDialog()
   const addDialogProps = useDialog()
-  const dispatch = useDispatch()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const [playlist, setPlaylist] = useState([])
@@ -25,10 +23,6 @@ const LeftBar: React.SFC = () => {
       getUserPlaylist()
     }
   }, [])
-
-  // function setFavoriteIds (ids: number[]) {
-  //   dispatch({ type: SET_FAVORITE_IDS, favoriteIds: ids })
-  // }
 
   async function getUserPlaylist () {
     try {

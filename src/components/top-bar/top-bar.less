@@ -123,3 +123,45 @@
   color: #fff;
   border-radius: 20px;
 }
+
+#style-mode {
+  position: relative;
+}
+
+.style-mode-wrap {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  padding: 10px 20px;
+  left: -126px;
+  top: 35px;
+  background: #FFFFFF;
+  white-space: nowrap;
+  width: 150px;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .1);
+  border-radius: 5px;
+  .style-mode-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > span {
+      font-size: 12px;
+      line-height: 12px;
+      margin-top: 8px;
+    }
+    > div {
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+    }
+    .style-mode-light {
+      background: #F4F4F4;
+    }
+    .style-mode-red {
+      background: @color-main;
+    }
+    .style-mode-dark {
+      background: #000000;
+    }
+  }
+}

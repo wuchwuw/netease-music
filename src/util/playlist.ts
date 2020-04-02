@@ -1,5 +1,6 @@
 import Song from './song'
 import dayjs from 'dayjs'
+import { countToString } from 'UTIL/util' 
 
 interface Creator {
   avatarUrl: string
@@ -45,7 +46,6 @@ export class PlaylistClass {
     subscribed
   }: any) {
     this.tracks = this.createSong(tracks)
-    console.log(this.tracks)
     this.trackCount = trackCount
     this.creator = creator
     this.coverImgUrl = coverImgUrl && coverImgUrl + '?param=200y200'
@@ -65,24 +65,19 @@ export class PlaylistClass {
   }
 
   get playCount_string (): string {
-    return this.countToString(this.playCount)
+    return countToString(this.playCount)
   }
   
   get shareCount_string (): string {
-    return this.countToString(this.shareCount)
+    return countToString(this.shareCount)
   }
 
   get subscribedCount_string (): string {
-    return this.countToString(this.subscribedCount)
+    return countToString(this.subscribedCount)
   }
 
   get tag_string (): string {
     return this.tags.join('/')
-  }
-
-  private countToString (count: number): string {
-    if (count === 0) return '0'
-    return count ? count > 10000 ? `${(count / 10000).toFixed()}万` : `${count}` : ''
   }
 
   createSong (songs: any): Song[] {
@@ -100,18 +95,19 @@ export class PlaylistBaseClass {
   trackCount: number
   coverImgUrl: string
   creator: Creator
+  playCount: number
 
-  constructor ({ id, name, trackCount, coverImgUrl, creator = {} }: any) {
+  constructor ({ id, name, trackCount, coverImgUrl, creator = {}, playCount = 0 }: any) {
     this.id = id
     this.name = name
     this.trackCount = trackCount
     this.coverImgUrl = coverImgUrl
     this.creator = creator
+    this.playCount = playCount
   }
 
-  getCoverImgUrl (size: string) {
-    if (!this.coverImgUrl) return ''
-    return `${this.coverImgUrl}?param=${size}`
+  get playCount_string (): string {
+    return countToString(this.playCount)
   }
 }
 
@@ -121,8 +117,9 @@ export function createBasePlaylist (data: any): PlaylistBaseClass[] {
       id: item.id,
       name: item.name,
       trackCount: item.trackCount,
-      coverImgUrl: item.coverImgUrl,
-      creator: item.creator
+      coverImgUrl: item.coverImgUrl || item.picUrl,
+      creator: item.creator,
+      playCount: item.playCount
     })
   })
 }

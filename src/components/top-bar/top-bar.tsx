@@ -95,12 +95,15 @@ const TopBar: React.SFC = () => {
       <div className="topbar-other">
         <i className="iconfont icon-setting"></i>
         <i id="message-icon" onClick={() => { setPanelType(PanelType.Message) }} className={classnames('iconfont icon-email', {'active': currentPanelType === PanelType.Message})}></i>
-        <i id="style-mode" className="iconfont icon-style" onClick={() => { open() }}>
-          <div className="style-mode-wrap">
-            <div className="style-mode-item"><div className="style-mode-light"></div><span>浅色</span></div>
-            <div className="style-mode-item"><div className="style-mode-red"></div><span>红色</span></div>
-            <div className="style-mode-item"><div className="style-mode-dark"></div><span>深色</span></div>
-          </div>
+        <i id="style-mode" className={classnames('iconfont icon-style', { 'active': visiable })} onClick={() => { open() }}>
+          {
+            visiable && 
+            <div className="style-mode-wrap">
+              <div className="style-mode-item"><div className="style-mode-light active"></div><span>浅色</span></div>
+              <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div>
+              <div className="style-mode-item"><div className="style-mode-dark active"></div><span>深色</span></div>
+            </div>
+          }
         </i>
       </div>
     </div>

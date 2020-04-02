@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react'
-// import { Carousel } from 'antd'
 import './recomend.less'
 import api from 'API/index'
 import Slider from 'COMPONENTS/slider/slider.tsx'
 import { RouteChildrenProps } from 'react-router'
 import { CSSTransition } from 'react-transition-group'
-import notificationApi from 'COMPONENTS/notification/index'
+import { createBasePlaylist, PlaylistBaseClass } from 'UTIL/playlist'
+import Song, { createSongList } from 'UTIL/song'
+import { genArtists } from 'VIEWS/template/template'
+import { usePageForword } from 'ROUTER/hooks'
 
 let loaded = false
 let bannersCache = []
-let personalizedCache = []
+let playlistRecommendCache: PlaylistBaseClass[] = []
 let privatecontentCache = []
 let mvCache = []
-let songCache = []
+let songCache: Song[] = []
 let djCache = []
 
 const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
   const [banners, setBanners] = useState(bannersCache)
-  const [personalized, setPersonalized] = useState(personalizedCache)
+  const [playlistRecomend, setPlaylistRecomend] = useState(playlistRecommendCache)
   const [privatecontent, setPrivatecontent] = useState(privatecontentCache)
   const [mv, setMv] = useState(mvCache)
   const [song, setSong] = useState(songCache)
   const [dj, setDj] = useState(djCache)
   const [visible, setVisible] = useState(loaded)
+  const { goArtistDetail } = usePageForword()
   useEffect(() => {
     if (!loaded) {
       getRecomend()
@@ -39,10 +42,10 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
       api.getRecomendDj()
     ]).then(res => {
       setBanners(bannersCache = res[0].data.banners)
-      setPersonalized(personalizedCache = res[1].data.result.slice(0, 10))
+      setPlaylistRecomend(playlistRecommendCache = createBasePlaylist(res[1].data.result.slice(0, 10)))
       setPrivatecontent(privatecontentCache = res[2].data.result)
       setMv(mvCache = res[3].data.data.slice(0, 4))
-      setSong(songCache = res[4].data.result)
+      setSong(songCache = createSongList(res[4].data.result.map((item: any) => item.song)))
       setDj(djCache = res[5].data.result)
       setVisible(loaded = true)
     })
@@ -65,13 +68,15 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
       </div>
       <div className="home-personalized">
         <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>
-        <div className="home-personalized-content">
-          { personalized.map((item: any, index) => (
-            <div key={index} onClick={(e) => go(item.id)} className="home-personalized-item">
-              <div className="home-personalized-playcount"><i className="iconfont icon-triangle"></i>{item.playCount > 100000 ? `${Math.round(item.playCount/10000)}万` : item.playCount}</div>
-              <img className="home-personalized-img" src={item.picUrl+'?param=250y250'} alt=""/>
-              <div className="home-personalized-text">{item.name}</div>
-              <div className="home-personalized-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+        <div className="commen-area-content">
+          { playlistRecomend.map(item => (
+            <div key={item.id} onClick={(e) => go(item.id)} className="commen-area-item commen-area-item-album">
+              <div className="commen-area-img-wrap">
+                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                <img className="commen-area-img" src={item.coverImgUrl+'?param=250y250'} alt=""/>
+                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+              </div>
+              <div className="commen-area-text">{item.name}</div>
             </div>
           ))}
         </div>
@@ -79,16 +84,16 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
       <div className="home-music">
         <div className="home-recommend-title">最新音乐<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-music-content">
-          { song.map((item: any, index) => (
-            <div key={index} className="home-music-item">
+          { song.map((item, index) => (
+            <div key={item.id} className="home-music-item">
               <div className="home-music-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-              <img className="home-music-img" src={item.song.album.picUrl+'?param=60y60'} alt=""/>
+              <img className="home-music-img" src={item.album.picUrl+'?param=100y100'} alt=""/>
               <div className="home-music-num">{index < 9 ? '0' + (index + 1) : index + 1}</div>
               <div className="home-music-info">
                 <div className="home-music-name text-overflow">{item.name}</div>
-                <div className="home-music-artist text-overflow">{item.song.artists[0].name}</div>
+                <div className="home-music-artist text-overflow">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
               </div>
-              { !!item.song.mvid && <i className="iconfont icon-mv"></i> }
+              { !!item.mv && <i className="iconfont icon-mv"></i> }
             </div>
           ))}
         </div>

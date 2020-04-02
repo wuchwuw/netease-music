@@ -4,9 +4,11 @@ import login_dialog_img from 'ASSETS/images/login_dialog_img.png'
 import './login-dialog.less'
 import { UseDialogProps } from '..'
 import api from 'API/index'
-import { SET_LOGIN_STATUS, SET_USER_PROFILE } from 'STORE/user/types'
+import { SET_LOGIN_STATUS, SET_USER_PROFILE, SET_USER_PLAYLIST } from 'STORE/user/types'
 import { useDispatch } from 'react-redux'
 import User from 'UTIL/user'
+import { setFavoriteIds } from 'UTIL/song'
+import { createBasePlaylist } from 'UTIL/playlist'
 
 const LoignDialog: React.SFC<UseDialogProps> = (props) => {
   const [phone, setPhone] = useState('')
@@ -15,7 +17,16 @@ const LoignDialog: React.SFC<UseDialogProps> = (props) => {
 
   async function login () {
     try {
-      let res = await api.login({ phone, password })
+      const res = await api.login({ phone, password })
+      const user = new User(res.data.profile)
+      const { data: { playlist } } = await api.getUserPlaylist({ uid: user.userId })
+      if (playlist.length) {
+        playlist[0].name = '我喜欢的音乐'
+        dispatch({ type: SET_USER_PLAYLIST, playlist: createBasePlaylist(playlist)})
+        const res = await api.getPlaylist({id: playlist[0].id})
+        setFavoriteIds(res.data.playlist.trackIds.map((item: any) => item.id))
+        // TODO else
+      }
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
       props.close()
@@ -37,7 +48,7 @@ const LoignDialog: React.SFC<UseDialogProps> = (props) => {
           </div>
         </div>
         <div className="login-dialog-btn" onClick={() => { login() }}>登录</div>
-        <div className="login-dialog-tip">1、本项目仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
+        <div className="login-dialog-tip">1、本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
         <div className="login-dialog-tip">2、如不想使用以上登录方式，您可以前往<span>网易云音乐个人主页</span>，登录并复制链接上的UID，
           <span>使用UID</span>仍然可以正常获取个人歌单等信息，不过部分需要登录的功能将无法使用。
         </div>

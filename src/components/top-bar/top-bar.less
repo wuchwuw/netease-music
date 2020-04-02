@@ -108,6 +108,7 @@
     }
     &.active {
       color: @color-main;
+      background: #ECEBED;
     }
   }
 }
@@ -148,20 +149,52 @@
       font-size: 12px;
       line-height: 12px;
       margin-top: 8px;
+      color: #333333;
     }
     > div {
       height: 20px;
       width: 20px;
       border-radius: 50%;
+      &.active {
+        position: relative;
+        &:after {
+          content: '';
+          position: absolute;
+          height: 4px;
+          width: 7px;
+          margin-top: -1px;
+          left: 50%;
+          top: 50%;
+          transform: translate3d(-50%, -50%, 0) rotate(-50deg);
+        }
+      }
     }
     .style-mode-light {
       background: #F4F4F4;
+      &.active {
+        &:after {
+          border-left: 1px solid @color-main;
+          border-bottom: 1px solid @color-main;
+        }
+      }
     }
     .style-mode-red {
       background: @color-main;
+      &.active {
+        &:after {
+          border-left: 1px solid #FFFFFF;
+          border-bottom: 1px solid #FFFFFF;
+        }
+      }
     }
     .style-mode-dark {
       background: #000000;
+      &.active {
+        &:after {
+          border-left: 1px solid #FFFFFF;
+          border-bottom: 1px solid #FFFFFF;
+        }
+      }
     }
   }
 }

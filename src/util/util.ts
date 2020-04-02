@@ -9,3 +9,8 @@ export function timeFormat (time: number) {
   const s = time - min * 60
   return `${padZero(min)}:${padZero(s)}`
 }
+
+export function countToString (count: number): string {
+  if (!count) return '0'
+  return count > 10000 ? `${(count / 10000).toFixed()}万` : `${count}`
+}

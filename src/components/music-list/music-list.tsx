@@ -18,7 +18,7 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
     const artists = song.artists
 
     return artists.map((artist, index) => 
-      <>
+      <span key={artist.id}>
         <span
           onClick={ (e) => {
             e.stopPropagation() 
@@ -28,7 +28,7 @@ const MusicList: React.SFC<MusicListProps> = (props) => {
           className={classnames({ 'music-list-item-link': artist.id })}>{artist.name}
         </span>
         { index !== artists.length - 1 ? '/' : '' }
-      </>
+      </span>
     )
   }
 

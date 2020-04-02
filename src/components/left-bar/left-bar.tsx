@@ -1,43 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './left-bar.less'
 import { NavLink } from 'react-router-dom'
 import { useDialog, LoginDialog } from 'COMPONENTS/dialog/index'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
-import api from 'API/index'
 import { useContainer } from 'COMPONENTS/container/container'
 import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist-dialog'
-import { setFavoriteIds } from 'UTIL/song'
 
 const LeftBar: React.SFC = () => {
   const loginDialogProps = useDialog()
   const addDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const [playlist, setPlaylist] = useState([])
-  const [subPlaylist, setSubPlaylist] = useState([])
+  const userPlaylist = useSelector((state: RootState) => state.user.playlist)
+  const playlist = userPlaylist.filter(item => item.creator.userId === user.userId)
+  const subPlaylist = userPlaylist.filter(item => item.creator.userId !== user.userId)
   const { visiable, open  } = useContainer(['.leftbar-user-panel'])
-
-  useEffect(() => {
-    if (isLogin) {
-      getUserPlaylist()
-    }
-  }, [])
-
-  async function getUserPlaylist () {
-    try {
-      let { data: { playlist }} = await api.getUserPlaylist({ uid: user.userId })
-      if (playlist.length) {
-        playlist[0].name = '我喜欢的音乐'
-        const res = await api.getPlaylist({id: playlist[0].id})
-        setFavoriteIds(res.data.playlist.trackIds.map((item: any) => item.id))
-      }
-      setPlaylist(playlist.filter(item => item.creator.userId === user.userId))
-      setSubPlaylist(playlist.filter(item => item.creator.userId !== user.userId))
-    } catch (e) {}
-  }
-
-
 
   return (
     <div className='leftbar-wrap'>

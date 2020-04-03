@@ -41,7 +41,7 @@ export class MV {
   }
 
   get playCount_format (): string {
-    return this.playCount > 100000 ? `${Math.round(this.playCount / 10000)}万` : String(this.playCount)
+    return this.playCount > 10000 ? `${Math.round(this.playCount / 10000)}万` : String(this.playCount)
   }
 
   get duration_format (): string {
@@ -50,7 +50,10 @@ export class MV {
 }
 
 export function createMVList (data: any): MV[] {
-  return data.map((item: any) => new MV(item))
+  return data.map((item: any) => new MV({
+    ...item,
+    cover: item.cover || item.picUrl
+  }))
 }
 
 export function createArtistMVList (data: any): MV[] {
@@ -60,5 +63,13 @@ export function createArtistMVList (data: any): MV[] {
     cover: item.imgurl16v9,
     duration: item.duration,
     playCount: item.playCount
+  }))
+}
+
+export function createPrivateContentMVList (data: any): MV[] {
+  return data.map((item: any) => new MV({
+    id: item.id,
+    name: item.name,
+    cover: item.picUrl
   }))
 }

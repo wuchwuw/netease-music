@@ -9,6 +9,8 @@ import { CSSTransition } from 'react-transition-group'
 import FullScreenPlayer from './full-screen-player'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { usePlayerController } from 'UTIL/player-controller'
+import { genArtists } from 'VIEWS/template/template'
+import { usePageForword } from 'ROUTER/hooks'
 
 const voice_shared = {
   pageY: 0,
@@ -29,6 +31,7 @@ export default function Player () {
   const audioRef = useRef<HTMLAudioElement>(null)
   const { setPanelType, currentPanelType } = usePanelContaienr()
   const { prev, next, togglePlay, currentSong, playing } = usePlayerController()
+  const { goArtistDetail } = usePageForword()
 
   const [voice, setVoice] = useState(50)
   const [voiceMoved, setVoiceMoved] = useState(false)
@@ -62,6 +65,11 @@ export default function Player () {
   }
 
   function getSongName () {
+    if (currentSong.name) {
+      return (
+        <span>{currentSong.name} - {genArtists(currentSong.artists, goArtistDetail, 'commen-link-666666')}</span>
+      )
+    }
     return currentSong.name ? `${currentSong.name} - ${currentSong.artistName}` : ''
   }
 
@@ -126,7 +134,7 @@ export default function Player () {
         </div>
         <div className="mini-player-content">
           <div className="mini-player-song">
-            <img onClick={setFullScreen} className="mini-player-song-img" src={currentSong.picUrl+'?param=40y40'} alt=""/>
+            <img onClick={setFullScreen} className="mini-player-song-img" src={currentSong.album.picUrl+'?param=40y40'} alt=""/>
             <div className="mini-player-song-info">
               <div className="mini-player-song-name">{getSongName()}</div>
               <div className="mini-player-song-duration">{getCurrentTime()}</div>

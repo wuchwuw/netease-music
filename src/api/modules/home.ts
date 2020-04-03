@@ -10,8 +10,8 @@ export default {
   getPrivatecontent () {
     return axios.get('personalized/privatecontent')
   },
-  getNewMv () {
-    return axios.get('mv/first', { params: { limit: 10 } })
+  getRecommendwMV () {
+    return axios.get('personalized/mv', { params: { limit: 4 }, withCredentials: true })
   },
   getRecomendNewSong () {
     return axios.get('personalized/newsong')

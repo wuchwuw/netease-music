@@ -21,6 +21,15 @@ export function usePageForword () {
     },
     goUserDetail (userId: number) {
       history.push(`/user/${userId}`)
+    },
+    goNewSong () {
+      history.push('/home/new')
+    },
+    goAllPlaylist () {
+      history.push('/home/playlist')
+    },
+    goMVDiscover () {
+      history.push('/video/mv')
     }
   }
 }

@@ -39,7 +39,7 @@ const FullScrrenPlayer: React.SFC = () => {
       <div className="player-wrap">
         <div className="player-cd-wrap">
           <div className="player-cd">
-            <img src={currentSong.picUrl+'?param=300y300'} alt=""/>
+            <img src={currentSong.album.picUrl+'?param=300y300'} alt=""/>
           </div>
           <div className="player-action">
             <i className="iconfont iconxin"></i>

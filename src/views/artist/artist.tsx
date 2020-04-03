@@ -122,7 +122,7 @@ const Artist = () => {
               hotSong.slice(0, 10).map((song, index) => (
                 <div className="artist-album-item-list-item" key={song.id}>
                   <span>{padZero(index + 1)}</span>
-                  {/* <span><i className="iconfont iconxin"></i></span> */}
+                  <span><i className={`iconfont ${song.liked ? 'icon-heart-full' : 'iconxin'}`}></i></span>
                   <span>{song.name}</span>
                   <span>{song.duration_string}</span>
                 </div>
@@ -149,7 +149,7 @@ const Artist = () => {
                   album.songs.slice(0, 10).map((song, index) => (
                     <div className="artist-album-item-list-item" key={song.id}>
                       <span>{padZero(index + 1)}</span>
-                      {/* <span><i className="iconfont iconxin"></i></span> */}
+                      <span><i className={`iconfont ${song.liked ? 'icon-heart-full' : 'iconxin'}`}></i></span>
                       <span>{song.name}</span>
                       <span>{song.duration_string}</span>
                     </div>

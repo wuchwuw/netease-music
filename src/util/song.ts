@@ -11,6 +11,8 @@ export function setFavoriteIds (ids: number[]) {
   favoriteIds = ids
 }
 
+export function updateFavoriteIds (id) {}
+
 export default class Song {
   name: string
   id: number
@@ -20,16 +22,18 @@ export default class Song {
   duration: number
   lyric: any
   liked: boolean
+  origin: any
 
-  constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
+  constructor ({ id, name, al = {}, ar = [], mv, dt, liked = false }: any) {
     this.id = id
     this.name = name
     this.artists = createBaseArtistList(ar)
-    this.mv = mv  
+    this.mv = mv
     this.album = createBaseAlbum(al)
     this.duration = dt
     this.lyric = null
     this.liked = favoriteIds.indexOf(id) > -1
+    this.origin = { id, name, al, ar, mv, dt, liked }
   }
 
   get duration_string (): string {

@@ -51,9 +51,8 @@
   padding-left: 10px;
 }
 .mini-player-song {
-  position: absolute;
-  left: 10px;
   display: flex;
+  width: 40%;
   .mini-player-song-img {
     height: 40px;
     width: 40px;
@@ -65,8 +64,13 @@
     flex-direction: column;
     align-self: center;
     margin-left: 10px;
+    flex: 1;
+    width: 0;
     .mini-player-song-name {
       font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .mini-player-song-duration {
       font-size: 13px;
@@ -78,6 +82,8 @@
 .mini-player-control {
   display: flex;
   align-items: center;
+  width: 20%;
+  justify-content: center;
   .icon-play, .iconzanting {
     font-size: 45px;
     margin: 0 20px;
@@ -97,10 +103,11 @@
 }
 
 .mini-player-action {
-  position: absolute;
-  right: 25px;
+  width: 40%;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  padding-right: 25px;
   i {
     margin-left: 25px;
     &.active {

@@ -13,7 +13,6 @@ const FM = () => {
   const [lyric, setLyric] = useState({})
   const CommentComponent = useMemo(() => <Comment showTitle={true} type="music" id={fm.id} />, [fm])
   const { start, currentSong } = usePlayerController()
-
   useEffect(() => {
     getFM()
   }, [])
@@ -36,9 +35,11 @@ const FM = () => {
       FMList = createSongList(res.data.data)
       setFM(FMList[0])
       setFMList(FMList)
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
-  
+
   function getFMLyric () {
     fm.getLyric((lyric: any) => {
       setLyric(lyric)
@@ -50,7 +51,7 @@ const FM = () => {
       <div className="fm-song">
         <div className="fm-song-cover">
           <div className="fm-song-cover-current">
-            <img onClick={() => { start(fm, fmList) }} src={fm.picUrl} alt=""/>
+            <img onClick={() => { start(fm, fmList) }} src={fm.album.picUrl} alt=""/>
           </div>
           <div className="fm-song-cover-prev"></div>
         </div>

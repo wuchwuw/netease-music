@@ -12,5 +12,8 @@ export default {
   },
   getNewAlbum (params: any) {
     return axios.get('top/album', { params })
+  },
+  like (params: any) {
+    return axios.get('like', { params, withCredentials: true })
   }
 }

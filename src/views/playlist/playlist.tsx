@@ -72,7 +72,7 @@ const Playlist = () => {
       return (
         <div className="playlist-subscribers">
           {
-            subscribers.map(user => 
+            subscribers.map(user =>
               <div key={user.userId} className="playlist-subscribers-item">
                 <img onClick={() => { goUserDetail(user.userId) }} src={user.avatarUrl + '?params=100y100'} alt=""/>
                 <div className="playlist-subscribers-info-wrap">

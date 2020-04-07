@@ -11,7 +11,15 @@ export function setFavoriteIds (ids: number[]) {
   favoriteIds = ids
 }
 
-export function updateFavoriteIds (id) {}
+export function updateFavoriteIds (id: number) {
+  const index = favoriteIds.indexOf(id)
+  if (index > -1) {
+    favoriteIds.splice(index, 1)
+  } else {
+    favoriteIds.push(id)
+  }
+  localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds))
+}
 
 export default class Song {
   name: string

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './music-list.less'
-import Song from 'UTIL/song'
+import Song, { updateFavoriteIds } from 'UTIL/song'
 import { padZero } from 'UTIL/util'
 import classnames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
@@ -9,21 +9,20 @@ import api from 'API/index'
 import { genArtists } from 'VIEWS/template/template'
 
 interface MusicListProps {
-  list: Song[]
+  list: Song[],
+  updateList: () => void
 }
 
-const MusicList: React.SFC<MusicListProps> = ({list = []}) => {
+const MusicList: React.SFC<MusicListProps> = ({list = [], updateList}) => {
   const { goAlbumDetail, goArtistDetail } = usePageForword()
   const { start, currentSong } = usePlayerController()
-  const [songs, setSongs] = useState(list)
-  console.log(list)
 
   async function favorite (song: Song, index: number) {
     try {
       const like = !song.liked
       await api.like({ id: song.id, like})
-      song.liked = like
-      list = [...list]
+      updateFavoriteIds(song.id)
+      updateList()
     } catch (e) {}
   }
 
@@ -37,8 +36,8 @@ const MusicList: React.SFC<MusicListProps> = ({list = []}) => {
         <div>时长</div>
       </li>
       {
-        songs.map((item: Song, index) => (
-          <li onDoubleClick={() => start(item, songs) } key={item.id} className="music-list-item">
+        list.map((item: Song, index) => (
+          <li onDoubleClick={() => start(item, list) } key={item.id} className="music-list-item">
             <div className="music-list-item-action">
               <span>{ currentSong.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
               <i onClick={() => { favorite(item, index) }} className={`iconfont ${item.liked ? 'icon-heart-full' : 'iconxin'}`}></i>

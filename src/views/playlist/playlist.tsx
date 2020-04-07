@@ -50,8 +50,13 @@ const Playlist = () => {
     }
     try {
       const res = await api.getPlaylist(params)
-      setPlaylist(new PlaylistClass(playlistCache = res.data.playlist))
+      playlistCache = res.data.playlist
+      updatePlaylist()
     } catch (e) {}
+  }
+
+  function updatePlaylist () {
+    setPlaylist(new PlaylistClass(playlistCache))
   }
 
   async function follow (isFollow: boolean) {
@@ -65,7 +70,7 @@ const Playlist = () => {
 
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
-      return <MusicList list={playlist.tracks}></MusicList>
+      return <MusicList updateList={ updatePlaylist } list={playlist.tracks}></MusicList>
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{ padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {

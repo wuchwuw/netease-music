@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import './playlist.less'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
@@ -8,6 +8,8 @@ import { PlaylistClass } from 'UTIL/playlist'
 import User from 'UTIL/user'
 import classNames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
+import { useSelector } from 'react-redux'
+import { RootState } from 'STORE/index'
 
 
 enum PlaylistTab {
@@ -31,7 +33,13 @@ const Playlist = () => {
   const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
   const [ subscribers, setSubscribers ] = useState<User[]>([])
-  const { goUserDetail, } = usePageForword()
+  const userPlaylist = useSelector((state: RootState) => state.user.playlist)
+  const user = useSelector((state: RootState) => state.user.user)
+  const { goUserDetail } = usePageForword()
+
+
+  const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
+  const isPersonal = useMemo(() => userPlaylist.filter(item => item.creator.userId === user.userId).findIndex(item => Number(id) === item.id) > -1, [id])
 
   useEffect(() => {
     getPlaylist()
@@ -100,7 +108,6 @@ const Playlist = () => {
       const offset = (page - 1) * SUBSCRIBERS_LIMIT
       const res = await api.getPlaylistSubscribers({ id: playlistId, limit: SUBSCRIBERS_LIMIT, offset })
       setSubscribers(res.data.subscribers)
-      console.log(res)
     } catch (e) {}
   }
 

@@ -2,14 +2,18 @@ import {
   CommenState,
   CommenActionTypes,
   SET_PANEL_TYPE,
-  SET_FAVORITE_IDS
+  SET_FAVORITE_IDS,
+  SET_SEARCH_KEYWORD,
+  SET_HISTORY_KEYWORDS
 } from './types'
 
 import { PanelType } from 'VIEWS/panel/container'
 
 const initialState: CommenState = {
   panelType: PanelType.Close,
-  favoriteIds: []
+  favoriteIds: [],
+  keyword: '',
+  historyKeywords: []
 }
 
 export function CommenReducer (state = initialState, action: CommenActionTypes): CommenState {
@@ -20,6 +24,12 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
     case SET_FAVORITE_IDS:
       state.favoriteIds = action.favoriteIds
       return state
+    case SET_SEARCH_KEYWORD:
+      state.keyword = action.keyword
+      return state
+      case SET_HISTORY_KEYWORDS:
+        state.historyKeywords = action.historyKeywords
+        return state
     default:
       return state
   }

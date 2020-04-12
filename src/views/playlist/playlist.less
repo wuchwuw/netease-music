@@ -77,6 +77,15 @@
   display: flex;
   align-items: center;
   border-radius: 20px;
+  user-select: none;
+  &.fail {
+    background: @color-main;
+    opacity: .5;
+    &:hover {
+      background: @color-main;
+      opacity: .5;
+    }
+  }
   div {
     flex: 0 0 105px;
     font-size: 14px;
@@ -126,6 +135,13 @@
   }
   i {
     margin-right: 2px;
+  }
+  &.fail {
+    color: #CCCCCC;
+    cursor: default;
+    &:hover {
+      background: #FFFFFF;
+    }
   }
 }
 

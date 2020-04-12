@@ -10,6 +10,8 @@ import classNames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
+import classnames from 'classnames'
+import { usePlayerController } from 'UTIL/player-controller'
 
 
 enum PlaylistTab {
@@ -36,6 +38,7 @@ const Playlist = () => {
   const userPlaylist = useSelector((state: RootState) => state.user.playlist)
   const user = useSelector((state: RootState) => state.user.user)
   const { goUserDetail } = usePageForword()
+  const { start } = usePlayerController()
 
 
   const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
@@ -68,6 +71,7 @@ const Playlist = () => {
   }
 
   async function follow (isFollow: boolean) {
+    if (isPersonal) return
     try {
       const t = isFollow ? 2 : 1
       const subscribedCount = isFollow ? -- playlist.subscribedCount : ++ playlist.subscribedCount
@@ -148,11 +152,14 @@ const Playlist = () => {
             }
           </div>
           <div className="playlist-info-action">
-            <div className="playlist-info-action-playall">
-              <div><i className="iconfont icon-play" ></i>播放全部</div>
+            <div className={classnames('playlist-info-action-playall', { 'fail': isEmpty })}>
+              <div onClick={() => { start(playlist.tracks[0], playlist.tracks) }}><i className="iconfont icon-play" ></i>播放全部</div>
               <i className="iconfont icon-add"></i>
             </div>
-            <div onClick={() => { follow(playlist.subscribed) }} className="playlist-info-action-star">
+            <div
+              onClick={() => { follow(playlist.subscribed) }}
+              className={classnames('playlist-info-action-star', { 'fail': isPersonal })}
+            >
               <i className="iconfont icon-add-folder"></i>
               {playlist.subscribed ? '已收藏' : '收藏'}({playlist.subscribedCount_string})
             </div>

@@ -1,5 +1,6 @@
 .search-panel-container {
   position: fixed;
+  overflow-y: auto;
   right: 0;
   top: 50px;
   bottom: 60px;
@@ -30,5 +31,23 @@
     &:hover {
       background: #F1F2F2;
     }
+  }
+}
+
+.search-suggest-title {
+  color: #666666;
+  padding: 12px;
+  i {
+    font-size: 14px !important;
+    color: #666666;
+    margin-right: 3px;
+  }
+}
+
+.search-suggest-item {
+  padding: 12px 0 12px 25px;
+  font-size: 13px;
+  &:hover {
+    background: #F2F2F2;
   }
 }

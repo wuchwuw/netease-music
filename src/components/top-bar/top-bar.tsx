@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import './top-bar.less'
 import { NavLink, withRouter, useLocation } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
-import { SET_PANEL_TYPE } from 'STORE/commen/types'
+import { SET_PANEL_TYPE, SET_SEARCH_KEYWORD } from 'STORE/commen/types'
 import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { useContainer } from 'COMPONENTS/container/container'
@@ -28,7 +28,7 @@ const TopBar: React.SFC = () => {
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
   const location = useLocation()
-  const { visiable, open, close } = useContainer(['#style-mode'])
+  const { visiable, open } = useContainer(['#style-mode'])
 
   function renderTopbarContent () {
     let routePath = {}
@@ -70,6 +70,17 @@ const TopBar: React.SFC = () => {
     dispatch({ type: SET_PANEL_TYPE, panelType: 'search' })
   }
 
+  function onSearchChange (value: string) {
+    // todo 节流
+    dispatch({ type: SET_SEARCH_KEYWORD, keyword: value })
+  }
+
+  function onSearchKeyup (e: KeyboardEvent) {
+    if (e.keyCode === 13) {
+      // todo 跳转
+    }
+  }
+
   return (
     <div className="topbar-wrap">
       <div className="topbar-arrow">
@@ -89,7 +100,13 @@ const TopBar: React.SFC = () => {
       <div className="topbar-search">
         <div className="topbar-search-content">
           <i className="iconfont icon-search"></i>
-          <input onFocus={() => onSearchFocus() } type="text" placeholder="搜索"/>
+          <input
+            onChange={(e) => onSearchChange(e.target.value) }
+            onKeyUp={(e) => onSearchKeyup(e)}
+            onFocus={() => onSearchFocus() }
+            type="text"
+            placeholder="搜索"
+          />
         </div>
       </div>
       <div className="topbar-other">
@@ -97,7 +114,7 @@ const TopBar: React.SFC = () => {
         <i id="message-icon" onClick={() => { setPanelType(PanelType.Message) }} className={classnames('iconfont icon-email', {'active': currentPanelType === PanelType.Message})}></i>
         <i id="style-mode" className={classnames('iconfont icon-style', { 'active': visiable })} onClick={() => { open() }}>
           {
-            visiable && 
+            visiable &&
             <div className="style-mode-wrap">
               <div className="style-mode-item"><div className="style-mode-light active"></div><span>浅色</span></div>
               <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div>

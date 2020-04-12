@@ -20,8 +20,8 @@ export default {
   getSearchDefaultKeyword () {
     return axios.get('search/default')
   },
-  getSearchSuggest () {
-    return axios.get('search/suggest')
+  getSearchSuggest (params: any) {
+    return axios.get('search/suggest', { params })
   },
   getSearchMultimatch () {
     return axios.get('search/multimatch')

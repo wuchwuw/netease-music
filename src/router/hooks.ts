@@ -30,6 +30,10 @@ export function usePageForword () {
     },
     goMVDiscover () {
       history.push('/video/mv')
+    },
+    goSearch (query: any) {
+      console.log(query)
+      history.push(`/search${getQueryString(query)}`)
     }
   }
 }

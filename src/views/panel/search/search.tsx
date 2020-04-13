@@ -25,7 +25,7 @@ const Search: React.SFC = () => {
   const [loading, setLoading] = useState(true)
   const [hot, setHot] = useState([])
   const historyKeywords = useSelector((state: RootState) => state.commen.historyKeywords)
-  const keyword = useSelector((state: RootState) => state.commen.keyword)
+  const keywords = useSelector((state: RootState) => state.commen.keywords)
   const [suggest, setSuggest] = useState<any>({})
 
   useEffect(() => {
@@ -33,10 +33,10 @@ const Search: React.SFC = () => {
   }, [])
 
   useEffect(() => {
-    if (keyword) {
+    if (keywords) {
       getSearchSuggest()
     }
-  }, [keyword])
+  }, [keywords])
 
   async function getHotKey () {
     try {
@@ -50,9 +50,8 @@ const Search: React.SFC = () => {
 
   async function getSearchSuggest () {
     try {
-      const res = await api.getSearchSuggest({ keywords: keyword })
+      const res = await api.getSearchSuggest({ keywords })
       setSuggest(res.data.result)
-      console.log(res)
     } catch (e) {}
   }
 
@@ -124,7 +123,7 @@ const Search: React.SFC = () => {
   return (
     <div className="search-panel-container">
       {
-        !keyword ? (
+        !keywords ? (
           <>
             <div className="search-panel-title">热门搜索</div>
             <Spin loading={loading} delay={300}>
@@ -137,13 +136,19 @@ const Search: React.SFC = () => {
               </div>
             </Spin>
             <div className="search-panel-title">搜索历史</div>
-            <div className="search-panel-keyword">
-              {
-                historyKeywords.map((item: any) => (
-                  <span key={item}>{item}</span>
-                ))
-              }
-            </div>
+            {
+              historyKeywords.length ? (
+                <div className="search-panel-keyword">
+                  {
+                    historyKeywords.map((item: any) => (
+                      <span key={item}>{item}</span>
+                    ))
+                  }
+                </div>
+              ) 
+              :
+              <div className="search-panel-keyword-nodata">暂无搜索历史</div>
+            }
           </>
         ) :
         <>

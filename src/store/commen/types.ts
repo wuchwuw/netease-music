@@ -2,7 +2,7 @@ import { PanelType } from 'VIEWS/panel/container'
 
 export const SET_PANEL_TYPE = 'SET_PANEL_TYPE'
 export const SET_FAVORITE_IDS = 'SET_FAVORITE_IDS'
-export const SET_SEARCH_KEYWORD = 'SET_SEARCH_KEYWORD'
+export const SET_SEARCH_KEYWORDS = 'SET_SEARCH_KEYWORDS'
 export const SET_HISTORY_KEYWORDS = 'SET_HISTORY_KEYWORDS'
 
 interface setPanelType {
@@ -16,8 +16,8 @@ interface setFavoriteIds {
 }
 
 export interface setSearchKeyword {
-  type: typeof SET_SEARCH_KEYWORD
-  keyword: string
+  type: typeof SET_SEARCH_KEYWORDS
+  keywords: string
 }
 
 export interface setHistoryKeywords {
@@ -29,7 +29,7 @@ export interface setHistoryKeywords {
 export interface CommenState {
   panelType: PanelType
   favoriteIds: number[]
-  keyword: string
+  keywords: string
   historyKeywords: string[]
 }
 

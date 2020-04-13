@@ -1,13 +1,14 @@
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import './top-bar.less'
 import { NavLink, withRouter, useLocation } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
-import { SET_PANEL_TYPE, SET_SEARCH_KEYWORD } from 'STORE/commen/types'
+import { SET_PANEL_TYPE, SET_SEARCH_KEYWORDS } from 'STORE/commen/types'
 import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { useContainer } from 'COMPONENTS/container/container'
+import { usePageForword } from 'ROUTER/hooks'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -25,10 +26,12 @@ const viodeSubPagePathMap: any = {
 
 const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
+  const keywords = useSelector((state: RootState) => state.commen.keywords)
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
   const location = useLocation()
   const { visiable, open } = useContainer(['#style-mode'])
+  const { goSearch } = usePageForword()
 
   function renderTopbarContent () {
     let routePath = {}
@@ -58,7 +61,7 @@ const TopBar: React.SFC = () => {
               className="topbar-content-item"
               key={key}
             >
-                {routePath[key]}
+              {routePath[key]}
             </NavLink>
           ))
         }
@@ -72,12 +75,12 @@ const TopBar: React.SFC = () => {
 
   function onSearchChange (value: string) {
     // todo 节流
-    dispatch({ type: SET_SEARCH_KEYWORD, keyword: value })
+    dispatch({ type: SET_SEARCH_KEYWORDS, keywords: value })
   }
 
-  function onSearchKeyup (e: KeyboardEvent) {
+  function onSearchKeyup (e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode === 13) {
-      // todo 跳转
+      goSearch({ keywords, tab: 'song' })
     }
   }
 

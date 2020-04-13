@@ -117,7 +117,7 @@ const Search: React.SFC = () => {
 
   useEffect(() => {
     search()
-  }, [tab])
+  }, [tab, keywords])
 
   async function search () {
     const params = {
@@ -316,7 +316,7 @@ const Search: React.SFC = () => {
   return (
     <div className="search-container">
       <div className="search-keyword-wrap">
-        <span className="search-keyword">陈奕迅</span>
+        <span className="search-keyword">{keywords}</span>
         <span className="search-keyword-num">{getSearchResultText()}</span>
       </div>
       <div className="search-tab">

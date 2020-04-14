@@ -22,7 +22,7 @@ export interface setSearchKeyword {
 
 export interface setHistoryKeywords {
   type: typeof SET_HISTORY_KEYWORDS
-  historyKeywords: string[]
+  keywords: string
 }
 
 

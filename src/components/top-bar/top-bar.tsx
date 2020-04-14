@@ -4,7 +4,7 @@ import { NavLink, withRouter, useLocation } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
-import { SET_PANEL_TYPE, SET_SEARCH_KEYWORDS } from 'STORE/commen/types'
+import { SET_PANEL_TYPE, SET_SEARCH_KEYWORDS, SET_HISTORY_KEYWORDS } from 'STORE/commen/types'
 import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { useContainer } from 'COMPONENTS/container/container'
@@ -81,6 +81,7 @@ const TopBar: React.SFC = () => {
   function onSearchKeyup (e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode === 13) {
       goSearch({ keywords, tab: 'song' })
+      dispatch({ type: SET_HISTORY_KEYWORDS, keywords })
     }
   }
 
@@ -109,6 +110,7 @@ const TopBar: React.SFC = () => {
             onFocus={() => onSearchFocus() }
             type="text"
             placeholder="搜索"
+            value={keywords}
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ const initialState: CommenState = {
   panelType: PanelType.Close,
   favoriteIds: [],
   keywords: '',
-  historyKeywords: []
+  historyKeywords: JSON.parse(localStorage.getItem('historyKeywords') || '[]')
 }
 
 export function CommenReducer (state = initialState, action: CommenActionTypes): CommenState {
@@ -27,9 +27,14 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
     case SET_SEARCH_KEYWORDS:
       state.keywords = action.keywords
       return state
-      case SET_HISTORY_KEYWORDS:
-        state.historyKeywords = action.historyKeywords
-        return state
+    case SET_HISTORY_KEYWORDS:
+      const index = state.historyKeywords.indexOf(action.keywords)
+      if (index > -1) {
+        state.historyKeywords.splice(index, 1)
+      }
+      state.historyKeywords.unshift(action.keywords)
+      localStorage.setItem('historyKeywords', JSON.stringify(state.historyKeywords))
+      return state
     default:
       return state
   }

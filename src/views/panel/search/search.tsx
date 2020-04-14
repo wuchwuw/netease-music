@@ -2,9 +2,11 @@ import React, { useState, useEffect, ReactNode } from "react"
 import './search.less'
 import Spin from 'COMPONENTS/spin/spin'
 import api from 'API/index'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "STORE/index"
 import Song from 'UTIL/song'
+import { SET_SEARCH_KEYWORDS, SET_HISTORY_KEYWORDS } from "STORE/commen/types"
+import { usePageForword } from "ROUTER/hooks"
 
 interface SuggestArtist {
   id: number
@@ -27,6 +29,8 @@ const Search: React.SFC = () => {
   const historyKeywords = useSelector((state: RootState) => state.commen.historyKeywords)
   const keywords = useSelector((state: RootState) => state.commen.keywords)
   const [suggest, setSuggest] = useState<any>({})
+  const dispatch = useDispatch()
+  const { goSearch } = usePageForword()
 
   useEffect(() => {
     getHotKey()
@@ -120,6 +124,12 @@ const Search: React.SFC = () => {
     return ret
   }
 
+  function onKeywordItemClick (keywords: string) {
+    dispatch({ type: SET_SEARCH_KEYWORDS, keywords })
+    dispatch({ type: SET_HISTORY_KEYWORDS, keywords })
+    goSearch({ keywords, tab: 'song' })
+  }
+
   return (
     <div className="search-panel-container">
       {
@@ -130,7 +140,7 @@ const Search: React.SFC = () => {
               <div className="search-panel-keyword">
                 {
                   hot.map((item: any) => (
-                    <span key={item.first}>{item.first}</span>
+                    <span onClick={() => { onKeywordItemClick(item.first) }} key={item.first}>{item.first}</span>
                   ))
                 }
               </div>
@@ -141,11 +151,11 @@ const Search: React.SFC = () => {
                 <div className="search-panel-keyword">
                   {
                     historyKeywords.map((item: any) => (
-                      <span key={item}>{item}</span>
+                      <span onClick={() => { onKeywordItemClick(item) }} key={item}>{item}</span>
                     ))
                   }
                 </div>
-              ) 
+              )
               :
               <div className="search-panel-keyword-nodata">暂无搜索历史</div>
             }

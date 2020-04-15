@@ -39,10 +39,10 @@ const Playlist = () => {
   const user = useSelector((state: RootState) => state.user.user)
   const { goUserDetail } = usePageForword()
   const { start } = usePlayerController()
-
+  // const [isEmpty, setIsEmpty] = useState(false)
 
   const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
-  const isPersonal = useMemo(() => userPlaylist.filter(item => item.creator.userId === user.userId).findIndex(item => Number(id) === item.id) > -1, [id])
+  const isPersonal = useMemo(() => userPlaylist.filter(item => item.creator.userId === user.userId).findIndex(item => Number(id) === item.id) > -1, [playlistId])
 
   useEffect(() => {
     getPlaylist()

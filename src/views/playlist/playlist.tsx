@@ -39,10 +39,10 @@ const Playlist = () => {
   const user = useSelector((state: RootState) => state.user.user)
   const { goUserDetail } = usePageForword()
   const { start } = usePlayerController()
-  // const [isEmpty, setIsEmpty] = useState(false)
 
   const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
   const isPersonal = useMemo(() => userPlaylist.filter(item => item.creator.userId === user.userId).findIndex(item => Number(id) === item.id) > -1, [playlistId])
+  const isOrigin = userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId
 
   useEffect(() => {
     getPlaylist()
@@ -116,19 +116,28 @@ const Playlist = () => {
   }
 
   function genPlaylistTag (playlist: PlaylistClass) {
+    if (isOrigin) return null
     const tags = playlist.tags
     if (tags.length) {
-      return tags.map((item, index) => <><span className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
+      return (
+        <div>
+          <span className="playlist-info-num-label">标签：</span>
+          {
+            tags.map((item, index) => <><span className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
+          }
+        </div>
+      )
     } else {
-      return <span className="commen-link-blue">添加标签</span>
+      return <div><span className="playlist-info-num-label">标签：</span><span className="commen-link-blue">添加标签</span></div>
     }
   }
 
   function genPlaylistDesc (playlist: PlaylistClass) {
+    if (isOrigin) return null
     if (playlist.description) {
-      return  <div className="playlist-info-desc clid">简介: {playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
+      return  <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
     } else {
-      return <div className="playlist-info-desc clid">简介: <span className="commen-link-blue">添加简介</span></div>
+      return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span className="commen-link-blue">添加简介</span></div>
     }
   }
 
@@ -166,7 +175,7 @@ const Playlist = () => {
             <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({playlist.shareCount_string})</div>
           </div>
           <div className="playlist-info-num">
-            <div>标签: {genPlaylistTag(playlist)}</div>
+            {genPlaylistTag(playlist)}
             <div>歌曲数: {playlist.trackCount}&nbsp;&nbsp;&nbsp;播放数: {playlist.playCount_string}</div>
             {genPlaylistDesc(playlist)}
           </div>

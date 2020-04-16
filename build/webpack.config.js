@@ -85,7 +85,8 @@ const config = {
   devtool: isProd ? '' : 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
-    publicPath: '/'
+    publicPath: '/',
+    port: 8088
   }
 }
 

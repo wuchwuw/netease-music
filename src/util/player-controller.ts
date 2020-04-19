@@ -4,12 +4,22 @@ import Song from "./song"
 import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/types'
 
+function getShufflePlaylist (current: Song[]) {
+  let shuffle = current.slice()
+  for (let i = 1; i < shuffle.length; i++) {
+    const random = Math.floor(Math.random() * (i + 1));
+    [shuffle[i], shuffle[random]] = [shuffle[random], shuffle[i]];
+  }
+    return shuffle
+}
+
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
   const currentPlaylist = useSelector((state: RootState) => state.player.playlist)
   const playing = useSelector((state: RootState) => state.player.playing)
   const dispatch = useDispatch()
-  
+  let randomPlaylist: Song[] = []
+
   function next () {
     if (currentPlaylist.length > 0) {
       let currentIndex = currentPlaylist.indexOf(currentSong)
@@ -93,11 +103,12 @@ export function usePlayerController () {
     playSong(song)
     if (playlist) {
       setCurrentPlaylist(playlist)
+      randomPlaylist = getShufflePlaylist(playlist)
     } else {
       // TODO update currentplaylist
     }
   }
-  
+
   return {
     start,
     next,

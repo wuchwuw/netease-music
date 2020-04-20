@@ -3,6 +3,7 @@ import { RootState } from "STORE/index"
 import Song from "./song"
 import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/types'
+import { PlyerMode } from 'STORE/player/types'
 
 function getShufflePlaylist (current: Song[]) {
   let shuffle = current.slice()
@@ -18,13 +19,31 @@ export function usePlayerController () {
   const currentPlaylist = useSelector((state: RootState) => state.player.playlist)
   const playing = useSelector((state: RootState) => state.player.playing)
   const dispatch = useDispatch()
+  const mode = useSelector((state: RootState) => state.player.mode)
   let randomPlaylist: Song[] = []
 
+  function getNext (type: 'next' | 'prev') {
+    let songs = mode === PlyerMode.RANDOM ? randomPlaylist : currentPlaylist
+    if (songs.length === 0) return
+    if (currentSong && mode === PlyerMode.LOOPONE) return currentSong
+    let currentIndex = songs.indexOf(currentSong)
+    if (currentIndex > -1) {
+      type === 'next' ? ++ currentIndex : -- currentIndex
+      if (currentIndex === songs.length) {
+        currentIndex = 0
+      } else if (currentIndex < 0) {
+        currentIndex = songs.length - 1
+      }
+      return songs[currentIndex]
+    }
+  }
+
   function next () {
-    if (currentPlaylist.length > 0) {
-      let currentIndex = currentPlaylist.indexOf(currentSong)
+    let songs = mode === PlyerMode.RANDOM ? randomPlaylist : currentPlaylist
+    if (songs.length > 0) {
+      let currentIndex = songs.indexOf(currentSong)
       if (currentIndex > -1) {
-        if (currentIndex === currentPlaylist.length - 1) {
+        if (currentIndex === songs.length - 1) {
           currentIndex = 0
         } else {
           currentIndex ++

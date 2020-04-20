@@ -4,6 +4,7 @@ import Song from "./song"
 import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/types'
 import { PlyerMode } from 'STORE/player/types'
+import { useState } from "react"
 
 function getShufflePlaylist (current: Song[]) {
   let shuffle = current.slice()
@@ -11,8 +12,11 @@ function getShufflePlaylist (current: Song[]) {
     const random = Math.floor(Math.random() * (i + 1));
     [shuffle[i], shuffle[random]] = [shuffle[random], shuffle[i]];
   }
-    return shuffle
+  console.log(shuffle)
+  return shuffle
 }
+
+let randomPlaylist: Song[] = []
 
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -20,7 +24,6 @@ export function usePlayerController () {
   const playing = useSelector((state: RootState) => state.player.playing)
   const dispatch = useDispatch()
   const mode = useSelector((state: RootState) => state.player.mode)
-  let randomPlaylist: Song[] = []
 
   function getNext (type: 'next' | 'prev') {
     let songs = mode === PlyerMode.RANDOM ? randomPlaylist : currentPlaylist
@@ -39,34 +42,13 @@ export function usePlayerController () {
   }
 
   function next () {
-    let songs = mode === PlyerMode.RANDOM ? randomPlaylist : currentPlaylist
-    if (songs.length > 0) {
-      let currentIndex = songs.indexOf(currentSong)
-      if (currentIndex > -1) {
-        if (currentIndex === songs.length - 1) {
-          currentIndex = 0
-        } else {
-          currentIndex ++
-        }
-        const nextSong = currentPlaylist[currentIndex]
-        start(nextSong)
-      }
-    }
+    const nextSong = getNext('next')
+    nextSong && start(nextSong)
   }
 
   function prev () {
-    if (currentPlaylist.length > 0) {
-      let currentIndex = currentPlaylist.indexOf(currentSong)
-      if (currentIndex > -1) {
-        if (currentIndex === 0) {
-          currentIndex = currentPlaylist.length - 1
-        } else {
-          currentIndex --
-        }
-        const prevSong = currentPlaylist[currentIndex]
-        start(prevSong)
-      }
-    }
+    const nextSong = getNext('prev')
+    nextSong && start(nextSong)
   }
 
   function togglePlay () {
@@ -123,6 +105,7 @@ export function usePlayerController () {
     if (playlist) {
       setCurrentPlaylist(playlist)
       randomPlaylist = getShufflePlaylist(playlist)
+      console.log(randomPlaylist)
     } else {
       // TODO update currentplaylist
     }

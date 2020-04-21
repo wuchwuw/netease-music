@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
+import { setGlobalCSSVar } from 'UTIL/css-var'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -121,9 +122,9 @@ const TopBar: React.SFC = () => {
           {
             visiable &&
             <div className="style-mode-wrap">
-              <div className="style-mode-item"><div className="style-mode-light active"></div><span>浅色</span></div>
+              <div className="style-mode-item"><div className="style-mode-light active" onClick={() => { setGlobalCSSVar('light') }}></div><span>浅色</span></div>
               <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div>
-              <div className="style-mode-item"><div className="style-mode-dark active"></div><span>深色</span></div>
+              <div className="style-mode-item"><div className="style-mode-dark active"  onClick={() => { setGlobalCSSVar('dark') }}></div><span>深色</span></div>
             </div>
           }
         </i>

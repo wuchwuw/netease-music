@@ -13,6 +13,9 @@ export default {
   login (params: loginParams) {
     return axios.get('login/cellphone', { params: params, withCredentials: true })
   },
+  refreshLogin () {
+    return axios.get('login/refresh',  { withCredentials: true })
+  },
   getUserPlaylist (params: UserIdParams) {
     return axios.get('user/playlist', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },

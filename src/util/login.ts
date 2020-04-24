@@ -3,4 +3,6 @@ export function checkLoginStatus () {
   return cookie.indexOf('MUSIC_U=') > -1
 }
 
-export function refresh () {}
+export function refresh () {
+  // todo
+}

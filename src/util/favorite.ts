@@ -13,3 +13,18 @@ export function useFavorite () {
     isFavorite
   }
 }
+
+// export function setFavoriteIds (ids: number[]) {
+//   localStorage.setItem('favoriteIds', JSON.stringify(ids))
+//   favoriteIds = ids
+// }
+
+// export function updateFavoriteIds (id: number) {
+//   const index = favoriteIds.indexOf(id)
+//   if (index > -1) {
+//     favoriteIds.splice(index, 1)
+//   } else {
+//     favoriteIds.push(id)
+//   }
+//   localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds))
+// }

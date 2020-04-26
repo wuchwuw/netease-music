@@ -11,10 +11,10 @@ interface UserIdParams {
 
 export default {
   login (params: loginParams) {
-    return axios.get('login/cellphone', { params: params, withCredentials: true })
+    return axios.get('login/cellphone', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
   refreshLogin () {
-    return axios.get('login/refresh',  { withCredentials: true })
+    return axios.get('login/refresh',  { params: { timestamp: +new Date() }, withCredentials: true })
   },
   getUserPlaylist (params: UserIdParams) {
     return axios.get('user/playlist', { params: { ...params, timestamp: +new Date() }, withCredentials: true })

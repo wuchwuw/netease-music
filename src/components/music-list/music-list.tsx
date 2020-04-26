@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './music-list.less'
 import Song, { updateFavoriteIds } from 'UTIL/song'
 import { padZero } from 'UTIL/util'

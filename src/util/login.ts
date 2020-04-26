@@ -1,8 +1,8 @@
 import api from 'API/index'
+import Cookies from 'js-cookie'
 
 export function checkLoginStatus () {
-  const cookie = document.cookie
-  return cookie.indexOf('MUSIC_U=') > -1
+  return !!Cookies.get('__csrf')
 }
 
 export async function refresh () {
@@ -11,6 +11,12 @@ export async function refresh () {
       await api.refreshLogin()
     } catch (e) {}
   } else {
-    // todo clear localstorage
+    logout()
   }
+}
+
+export function logout () {
+  Cookies.remove('__csrf')
+  localStorage.removeItem('user')
+  localStorage.removeItem('playlist')
 }

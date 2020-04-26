@@ -4,7 +4,6 @@ import Song from "./song"
 import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/types'
 import { PlyerMode } from 'STORE/player/types'
-import { useState } from "react"
 
 function getShufflePlaylist (current: Song[]) {
   let shuffle = current.slice()
@@ -12,7 +11,6 @@ function getShufflePlaylist (current: Song[]) {
     const random = Math.floor(Math.random() * (i + 1));
     [shuffle[i], shuffle[random]] = [shuffle[random], shuffle[i]];
   }
-  console.log(shuffle)
   return shuffle
 }
 

@@ -4,23 +4,6 @@ import Lyric from './lyric-parser'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
 import { AlbumBaseClass, createBaseAlbum } from 'UTIL/album'
 
-let favoriteIds: number[] = JSON.parse(localStorage.getItem('favoriteIds') || '[]')
-
-export function setFavoriteIds (ids: number[]) {
-  localStorage.setItem('favoriteIds', JSON.stringify(ids))
-  favoriteIds = ids
-}
-
-export function updateFavoriteIds (id: number) {
-  const index = favoriteIds.indexOf(id)
-  if (index > -1) {
-    favoriteIds.splice(index, 1)
-  } else {
-    favoriteIds.push(id)
-  }
-  localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds))
-}
-
 export default class Song {
   name: string
   id: number
@@ -29,10 +12,8 @@ export default class Song {
   album: AlbumBaseClass
   duration: number
   lyric: any
-  liked: boolean
-  origin: any
 
-  constructor ({ id, name, al = {}, ar = [], mv, dt, liked = false }: any) {
+  constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
     this.id = id
     this.name = name
     this.artists = createBaseArtistList(ar)
@@ -40,8 +21,6 @@ export default class Song {
     this.album = createBaseAlbum(al)
     this.duration = dt
     this.lyric = null
-    this.liked = favoriteIds.indexOf(id) > -1
-    this.origin = { id, name, al, ar, mv, dt, liked }
   }
 
   get duration_string (): string {

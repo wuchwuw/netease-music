@@ -36,5 +36,8 @@ export default {
   },
   deletePlaylist (params: PlaylistIdProps) {
     return axios.get('playlist/delete', { params, withCredentials: true })
+  },
+  addOrRemoveSong (params: { op: 'add' | 'del', pid: number, tracks: number }) {
+    return axios.get('playlist/tracks', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

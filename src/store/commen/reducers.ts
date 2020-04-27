@@ -22,17 +22,19 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
       state.panelType = action.panelType
       return state
     case SET_FAVORITE_IDS:
-      state.favoriteIds = action.favoriteIds
+      state.favoriteIds = [...action.favoriteIds]
       return state
     case SET_SEARCH_KEYWORDS:
       state.keywords = action.keywords
       return state
     case SET_HISTORY_KEYWORDS:
-      const index = state.historyKeywords.indexOf(action.keywords)
+      const history = state.historyKeywords.slice()
+      const index = history.indexOf(action.keywords)
       if (index > -1) {
-        state.historyKeywords.splice(index, 1)
+       history.splice(index, 1)
       }
-      state.historyKeywords.unshift(action.keywords)
+      history.unshift(action.keywords)
+      state.historyKeywords = history
       localStorage.setItem('historyKeywords', JSON.stringify(state.historyKeywords))
       return state
     default:

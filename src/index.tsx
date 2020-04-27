@@ -6,12 +6,20 @@ import { renderRoutes } from 'react-router-config'
 import routes from './router'
 import { setGlobalCSSVar } from 'UTIL/css-var'
 import { refresh } from 'UTIL/login'
+import { Provider } from 'react-redux'
+import configureStore from './store/index'
+
+const store = configureStore()
 
 refresh()
 setGlobalCSSVar('light')
 
+window.addEventListener('contextmenu', (e) => {e.preventDefault()})
+
 ReactDOM.render(
   <BrowserRouter>
-    {renderRoutes(routes)}
+    <Provider store={store}>
+      {renderRoutes(routes)}
+    </Provider>
   </BrowserRouter>,
 document.getElementById('app'))

@@ -30,6 +30,6 @@ export default {
     return axios.get('/user/detail', { params, withCredentials: true })
   },
   getUserLikelist (params: UserIdParams) {
-    return axios.get('/likelist', { params })
+    return axios.get('/likelist', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

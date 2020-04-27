@@ -7,13 +7,14 @@ import api from 'API/index'
 import { SET_LOGIN_STATUS, SET_USER_PROFILE, SET_USER_PLAYLIST } from 'STORE/user/types'
 import { useDispatch } from 'react-redux'
 import User from 'UTIL/user'
-import { setFavoriteIds } from 'UTIL/song'
 import { createBasePlaylist } from 'UTIL/playlist'
+import { useFavorite } from 'UTIL/favorite'
 
 const LoignDialog: React.SFC<UseDialogProps> = (props) => {
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
+  const { getFavoriteIds } = useFavorite()
 
   async function login () {
     try {
@@ -23,9 +24,7 @@ const LoignDialog: React.SFC<UseDialogProps> = (props) => {
       if (playlist.length) {
         playlist[0].name = '我喜欢的音乐'
         dispatch({ type: SET_USER_PLAYLIST, playlist: createBasePlaylist(playlist)})
-        const res = await api.getPlaylist({id: playlist[0].id})
-        setFavoriteIds(res.data.playlist.trackIds.map((item: any) => item.id))
-        // TODO else
+        getFavoriteIds(user.userId)
       }
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })

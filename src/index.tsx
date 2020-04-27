@@ -14,7 +14,7 @@ const store = configureStore()
 refresh()
 setGlobalCSSVar('light')
 
-window.addEventListener('contextmenu', (e) => {e.preventDefault()})
+// window.addEventListener('contextmenu', (e) => {e.preventDefault()})
 
 ReactDOM.render(
   <BrowserRouter>

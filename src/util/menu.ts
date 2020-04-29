@@ -1,9 +1,12 @@
 import {PlaylistClass} from 'UTIL/playlist'
 import { usePlayerController } from 'UTIL/player-controller'
+import { useSelector } from 'react-redux'
+import { RootState } from 'STORE/index'
 
 export interface MenuType {
   name: string
-  trigger: Function
+  trigger?: Function
+  sub?: MenuType[]
 }
 
 export function usePlaylistContextMenu () {
@@ -41,14 +44,28 @@ export function usePlaylistContextMenu () {
 
 export function useSongContextMenu () {
   const { start } = usePlayerController()
+  const usePlaylist = useSelector((state: RootState) => state.user.playlist)
+  const user = useSelector((state: RootState) => state.user.user)
 
-  const defaultMenu: MenuType[] = [
-    { name: '播放', trigger: () => {} },
-    { name: '下一首播放', trigger: () => {} }
-  ]
+  function getCollectSubType (playlist?: PlaylistClass) {
+    return usePlaylist.filter(item => ((item.creator.userId === user.userId) && playlist && playlist.id !== item.id)).map((item) => {
+      return { name: item.name, data: item, trigger: () => {}}
+    })
+  }
 
-  function getSongMenu () {
-
+  function getSongMenu (playlist?: PlaylistClass) {
+    const defaultMenu: MenuType[] = [
+      { name: '播放', trigger: () => {} },
+      { name: '下一首播放', trigger: () => {} },
+      { name: '查看评论', trigger: () => {} },
+      { name: '收藏', sub: getCollectSubType(playlist) }
+    ]
+    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => {} }
+    if (playlist && playlist.creator.userId === user.userId) {
+      return [...defaultMenu, deleteMenu]
+    } else {
+      return [...defaultMenu]
+    }
   }
 
   return {

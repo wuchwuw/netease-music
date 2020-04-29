@@ -7,24 +7,51 @@ import { usePageForword } from 'ROUTER/hooks'
 import { usePlayerController } from 'UTIL/player-controller'
 import { genArtists } from 'VIEWS/template/template'
 import { useFavorite } from 'UTIL/favorite'
-import { ContextMenuTrigger, ContextMenu, MenuItem, SubMenu } from 'react-contextmenu'
+import { ContextMenuTrigger, ContextMenu, MenuItem, SubMenu, connectMenu } from 'react-contextmenu'
+import { useSongContextMenu, MenuType } from 'UTIL/menu'
+import { PlaylistClass } from 'UTIL/playlist'
 
 interface MusicListProps {
-  list: Song[],
+  list: Song[]
   updateList: () => void
+  playlist?: PlaylistClass
 }
 
-const CONTEXT_MENU = [
-  { action: 'play', name: '播放' },
-  { action: 'comment', name: '查看评论' },
-  { action: 'next', name: '下一首播放' },
-  { action: 'play', name: '收藏' },
-]
+const MENU_NAME = 'music-list-contextmenu'
 
-const MusicList: React.SFC<MusicListProps> = ({list = [], updateList}) => {
+const Menu = ({id, trigger}: any) => {
+  const menu: MenuType[] = trigger && trigger.menu || []
+  return (
+    <ContextMenu id={id} className="context-menu">
+      {
+        menu.map((item) => {
+          return (
+            item.sub ?
+              <SubMenu title='收藏' attributes={{className: 'context-menu-item'}}>
+                {
+                  item.sub.map(menu => (
+                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ menu.trigger() } data={menu.data}>{menu.name}</MenuItem>
+                  ))
+                }
+              </SubMenu>
+              :
+              <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => { item.trigger() }} data={{ action: 'Added' }}>{item.name}</MenuItem>
+            
+          )
+        })
+      }
+    </ContextMenu>
+  )
+}
+
+const ConnectedMenu = connectMenu(MENU_NAME)(Menu);
+
+
+const MusicList: React.SFC<MusicListProps> = ({list = [], updateList, playlist}) => {
   const { goAlbumDetail, goArtistDetail } = usePageForword()
   const { start, currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
+  const { getSongMenu } = useSongContextMenu()
 
   return (
     <>
@@ -41,7 +68,7 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], updateList}) => {
         {
           list.map((item: Song, index) => (
             <li className="music-list-item-wrap">
-              <ContextMenuTrigger holdToDisplay={1000} id="music-list" song={{song: item}} collect={(props) => props.song}>
+              <ContextMenuTrigger holdToDisplay={1000} id={MENU_NAME} menu={getSongMenu(playlist)} collect={props => props}>
                 <div onDoubleClick={() => start(item, list) } key={item.id} className="music-list-item">
                   <div className="music-list-item-action">
                     <span>{ currentSong.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
@@ -79,17 +106,7 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], updateList}) => {
           ))
         }
       </ul>
-      <ContextMenu id="music-list" className="context-menu">
-        <MenuItem attributes={{className: 'context-menu-item'}} onClick={(e, data) => { console.log(data) }} data={{ action: 'Added' }}>播放</MenuItem>
-        <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => {}} data={{ action: 'Removed' }}>查看评论</MenuItem>
-        <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => {}} data={{ action: 'Removed' }}>下一首播放</MenuItem>
-        <SubMenu title='收藏' attributes={{className: 'context-menu-item'}}>
-          <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => {}} data={{ item: 'subsubitem 1' }}>SubSubItem 1</MenuItem>
-          <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => {}} data={{ item: 'subsubitem 2' }}>SubSubItem 2</MenuItem>
-        </SubMenu>
-        <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => {}} data={{ action: 'Removed' }}>复制链接</MenuItem>
-        <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => {}} data={{ action: 'Removed' }}>从歌单中删除</MenuItem>
-      </ContextMenu>
+      <ConnectedMenu></ConnectedMenu>
     </>
   )
 }

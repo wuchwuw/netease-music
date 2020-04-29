@@ -82,7 +82,7 @@ const Playlist = () => {
 
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
-      return <MusicList updateList={ updatePlaylist } list={playlist.tracks}></MusicList>
+      return <MusicList playlist={playlist} updateList={ updatePlaylist } list={playlist.tracks}></MusicList>
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{ padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {

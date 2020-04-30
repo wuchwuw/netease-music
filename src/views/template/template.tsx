@@ -4,7 +4,7 @@ import React from 'react'
 
 export function genArtists (artists: ArtistBaseClass[], action: (id: number) => void, style: string) {
     return artists.map((artist, index) => 
-      <span key={artist.id}>
+      <span key={artist.id} className={style}>
         <span
           onClick={ (e) => {
             e.stopPropagation() 

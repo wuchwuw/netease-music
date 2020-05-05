@@ -2,6 +2,8 @@ import {PlaylistClass} from 'UTIL/playlist'
 import { usePlayerController } from 'UTIL/player-controller'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
+import { useConfirm } from 'COMPONENTS/dialog/create'
+import { useUserPlaylist } from './user-playlist'
 
 export interface MenuType {
   name: string
@@ -11,6 +13,8 @@ export interface MenuType {
 
 export function usePlaylistContextMenu () {
   const { start } = usePlayerController()
+  const comfirm = useConfirm()
+  const { deletePlaylist } = useUserPlaylist()
 
   function play (playlist: PlaylistClass) {
     // todo  get detail and cache
@@ -18,12 +22,22 @@ export function usePlaylistContextMenu () {
 
   function getPlaylistMenu (playlist: PlaylistClass) {
 
+    function deletePlaylistConfirm () {
+      comfirm.open({
+        text: '确定删除该歌单?',
+        buttonText: '确定',
+        confirm: (callback?: () => void) => {
+          deletePlaylist(playlist, callback)
+        }
+      })
+    }
+
     const defaultMenu: MenuType[] = [
-      { name: '播放', trigger: () => {} },
-      { name: '下一首播放', trigger: () => {} }
+      { name: '播放', trigger: () => {} }
+      // { name: '下一首播放', trigger: () => {} }
     ]
 
-    const deleteMenu: MenuType = { name: '删除歌单', trigger: () => {} }
+    const deleteMenu: MenuType = { name: '删除歌单', trigger: () => { deletePlaylistConfirm() } }
 
     const editMenu: MenuType = { name: '编辑歌单信息', trigger: () => {} }
 

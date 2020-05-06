@@ -16,6 +16,7 @@ function getShufflePlaylist (current: Song[]) {
 }
 
 let randomPlaylist: Song[] = []
+let cacheMusiclist: Song[] = []
 
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -86,6 +87,7 @@ export function usePlayerController () {
 
   function setCurrentPlaylist (songs: Song[]) {
     dispatch({ type: SET_PLAYLIST, playlist: songs })
+    cacheMusiclist = songs
   }
 
   function setCurrentSong (song: Song) {
@@ -104,24 +106,27 @@ export function usePlayerController () {
   }
 
   function nextPlayPlaylist () {
-    // 逻辑同上  
+    // 逻辑同上
   }
 
   function start1 (song: Song, playlist?: PlaylistClass) {
-    
+
   }
 
-  function start (song: Song, playlist?: Song[]) {
+  function start (song: Song, musiclist?: Song[]) {
     // TODO check song
     setCurrentSong(song)
     playSong(song)
-    if (playlist) {
-      // 判断是否同一歌单
-      // 更新播放列表、随机列表
-      setCurrentPlaylist(playlist)
-      randomPlaylist = getShufflePlaylist(playlist)
+    if (musiclist) {
+      if (musiclist === cacheMusiclist) return
+      setCurrentPlaylist(musiclist)
+      randomPlaylist = getShufflePlaylist(musiclist)
     } else {
-      // 判断是否在当前列表中，更新播放列表、随机列表
+      if (cacheMusiclist.indexOf(song) === -1) {
+        if (currentSong.id) {
+
+        }
+      }
     }
   }
 

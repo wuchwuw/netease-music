@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
 import { usePlayerController } from 'UTIL/player-controller'
+import { useUserPlaylist } from 'UTIL/user-playlist'
 
 
 enum PlaylistTab {
@@ -39,6 +40,7 @@ const Playlist = () => {
   const user = useSelector((state: RootState) => state.user.user)
   const { goUserDetail } = usePageForword()
   const { start } = usePlayerController()
+  const { subscribePlaylist } = useUserPlaylist()
 
   const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
   const isPersonal = useMemo(() => userPlaylist.filter(item => item.creator.userId === user.userId).findIndex(item => Number(id) === item.id) > -1, [playlistId])
@@ -70,14 +72,11 @@ const Playlist = () => {
     setPlaylist(new PlaylistClass(playlistCache))
   }
 
-  async function follow (isFollow: boolean) {
+  async function follow () {
     if (isPersonal) return
-    try {
-      const t = isFollow ? 2 : 1
-      const subscribedCount = isFollow ? -- playlist.subscribedCount : ++ playlist.subscribedCount
-      await api.playlistSubscribers({ t, id: playlistId })
-      setPlaylist(new PlaylistClass({ ...playlistCache, subscribedCount, subscribed: !isFollow }))
-    } catch (e) {}
+    subscribePlaylist(playlist, (p) => {
+      setPlaylist(new PlaylistClass({ ...playlistCache, subscribedCount: p.subscribedCount, subscribed: p.subscribed }))
+    })
   }
 
   function genTabComponent () {
@@ -166,7 +165,7 @@ const Playlist = () => {
               <i className="iconfont icon-add"></i>
             </div>
             <div
-              onClick={() => { follow(playlist.subscribed) }}
+              onClick={() => { follow() }}
               className={classnames('playlist-info-action-star', { 'fail': isPersonal })}
             >
               <i className="iconfont icon-add-folder"></i>

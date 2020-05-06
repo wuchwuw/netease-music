@@ -14,7 +14,7 @@ export interface MenuType {
 export function usePlaylistContextMenu () {
   const { start } = usePlayerController()
   const comfirm = useConfirm()
-  const { deletePlaylist } = useUserPlaylist()
+  const { deletePlaylist, subscribePlaylist } = useUserPlaylist()
 
   function play (playlist: PlaylistClass) {
     // todo  get detail and cache
@@ -22,12 +22,15 @@ export function usePlaylistContextMenu () {
 
   function getPlaylistMenu (playlist: PlaylistClass) {
 
-    function deletePlaylistConfirm () {
+    function deletePlaylistConfirm (playlist: PlaylistClass) {
+      console.log(playlist)
       comfirm.open({
         text: '确定删除该歌单?',
         buttonText: '确定',
-        confirm: (callback?: () => void) => {
+        confirm: !playlist.subscribed ? (callback?: () => void) => {
           deletePlaylist(playlist, callback)
+        } : (callback?: () => void) => {
+          subscribePlaylist(playlist, callback)
         }
       })
     }
@@ -37,7 +40,7 @@ export function usePlaylistContextMenu () {
       // { name: '下一首播放', trigger: () => {} }
     ]
 
-    const deleteMenu: MenuType = { name: '删除歌单', trigger: () => { deletePlaylistConfirm() } }
+    const deleteMenu: MenuType = { name: '删除歌单', trigger: () => { deletePlaylistConfirm(playlist) } }
 
     const editMenu: MenuType = { name: '编辑歌单信息', trigger: () => {} }
 

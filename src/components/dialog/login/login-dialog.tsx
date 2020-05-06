@@ -4,28 +4,25 @@ import login_dialog_img from 'ASSETS/images/login_dialog_img.png'
 import './login-dialog.less'
 import { UseDialogProps } from '..'
 import api from 'API/index'
-import { SET_LOGIN_STATUS, SET_USER_PROFILE, SET_USER_PLAYLIST } from 'STORE/user/types'
+import { SET_LOGIN_STATUS, SET_USER_PROFILE } from 'STORE/user/types'
 import { useDispatch } from 'react-redux'
 import User from 'UTIL/user'
-import { createBasePlaylist } from 'UTIL/playlist'
 import { useFavorite } from 'UTIL/favorite'
+import { useUserPlaylist } from 'UTIL/user-playlist'
 
 const LoignDialog: React.SFC<UseDialogProps> = (props) => {
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const { getFavoriteIds } = useFavorite()
+  const { getUserPlaylist } = useUserPlaylist()
 
   async function login () {
     try {
       const res = await api.login({ phone, password })
       const user = new User(res.data.profile)
-      const { data: { playlist } } = await api.getUserPlaylist({ uid: user.userId })
-      if (playlist.length) {
-        playlist[0].name = '我喜欢的音乐'
-        dispatch({ type: SET_USER_PLAYLIST, playlist: createBasePlaylist(playlist)})
-        getFavoriteIds(user.userId)
-      }
+      getUserPlaylist(user.userId)
+      getFavoriteIds(user.userId)
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
       props.close()

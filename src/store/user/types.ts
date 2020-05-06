@@ -1,5 +1,5 @@
 import User from 'UTIL/user'
-import { PlaylistBaseClass } from 'UTIL/playlist'
+import { PlaylistClass } from 'UTIL/playlist'
 
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS'
@@ -17,13 +17,13 @@ interface SET_LOGIN_STATUS {
 
 interface SET_USER_PLAYLIST {
   type: typeof SET_USER_PLAYLIST
-  playlist: PlaylistBaseClass[]
+  playlist: PlaylistClass[]
 }
 
 export interface UserState {
   user: User,
   isLogin: boolean,
-  playlist: PlaylistBaseClass[]
+  playlist: PlaylistClass[]
 }
 
 export type UserActionTypes = 

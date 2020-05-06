@@ -6,10 +6,10 @@ import {
   SET_USER_PLAYLIST
 } from './types'
 import User from 'UTIL/user'
-import { PlaylistBaseClass } from 'UTIL/playlist'
+import { PlaylistClass } from 'UTIL/playlist'
 
 const user = JSON.parse(localStorage.getItem('user') || '{}') as User
-const playlist = JSON.parse(localStorage.getItem('playlist') || '[]') as PlaylistBaseClass[]
+const playlist = JSON.parse(localStorage.getItem('playlist') || '[]') as PlaylistClass[]
 const isLogin = !!user.userId
 
 const initialState: UserState = {
@@ -29,7 +29,7 @@ export function UserReducer (state = initialState, action: UserActionTypes): Use
       return state
     case SET_USER_PLAYLIST:
       localStorage.setItem('playlist', JSON.stringify(action.playlist))
-      state.playlist = action.playlist
+      state.playlist = action.playlist.slice()
       return state
     default:
       return state

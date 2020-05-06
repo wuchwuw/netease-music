@@ -4,6 +4,7 @@ import Song from "./song"
 import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/types'
 import { PlyerMode } from 'STORE/player/types'
+import { PlaylistClass } from "./playlist"
 
 function getShufflePlaylist (current: Song[]) {
   let shuffle = current.slice()
@@ -96,16 +97,31 @@ export function usePlayerController () {
     return audio
   }
 
+  function nextPlaySong () {
+    // 当前播放和下一首是否相同， 相同的话return
+    // 下一首是否在当前列表中，并添加到当前的下一首
+    // 列表为空， 直接播放， 调用start即可
+  }
+
+  function nextPlayPlaylist () {
+    // 逻辑同上  
+  }
+
+  function start1 (song: Song, playlist?: PlaylistClass) {
+    
+  }
+
   function start (song: Song, playlist?: Song[]) {
-    // TODO play next
+    // TODO check song
     setCurrentSong(song)
     playSong(song)
     if (playlist) {
+      // 判断是否同一歌单
+      // 更新播放列表、随机列表
       setCurrentPlaylist(playlist)
       randomPlaylist = getShufflePlaylist(playlist)
-      console.log(randomPlaylist)
     } else {
-      // TODO update currentplaylist
+      // 判断是否在当前列表中，更新播放列表、随机列表
     }
   }
 

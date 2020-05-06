@@ -29,13 +29,13 @@ export default {
     return axios.get('playlist/subscribers', { params })
   },
   playlistSubscribers (params: any) {
-    return axios.get('playlist/subscribe', { params, withCredentials: true })
+    return axios.get('playlist/subscribe', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
   addPlaylist (params: addPlaylistProps) {
     return axios.get('playlist/create', { params, withCredentials: true })
   },
   deletePlaylist (params: PlaylistIdProps) {
-    return axios.get('playlist/delete', { params, withCredentials: true })
+    return axios.get('playlist/delete', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
   addOrRemoveSong (params: { op: 'add' | 'del', pid: number, tracks: number }) {
     return axios.get('playlist/tracks', { params: { ...params, timestamp: +new Date() }, withCredentials: true })

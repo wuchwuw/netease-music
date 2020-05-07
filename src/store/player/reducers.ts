@@ -11,7 +11,7 @@ import {
 import Song from 'UTIL/song'
 
 const initialState: PlayerState = {
-  currentSong: new Song({}),
+  currentSong: { song: new Song({}), source: { id: '', name: ''}},
   playlist: [],
   playing: false,
   fullScreen: false,

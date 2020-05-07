@@ -69,7 +69,7 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], updateList, playlist})
           list.map((item: Song, index) => (
             <li className="music-list-item-wrap">
               <ContextMenuTrigger holdToDisplay={1000} id={MENU_NAME} menu={getSongMenu(playlist)} collect={props => props}>
-                <div onDoubleClick={() => start(item, list) } key={item.id} className="music-list-item">
+                <div onDoubleClick={() => start({ id: `playlist-${playlist.id}`, name: playlist.name }, item, list) } key={item.id} className="music-list-item">
                   <div className="music-list-item-action">
                     <span>{ currentSong.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
                     <i onClick={() => { favorite(item.id, () => {}) }} className={`iconfont ${isFavorite(item.id) ? 'icon-heart-full' : 'iconxin'}`}></i>

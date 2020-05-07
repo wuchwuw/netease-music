@@ -1,4 +1,4 @@
-import Song from "UTIL/song"
+import { SongWidthSource } from "UTIL/player-controller"
 
 export const SET_CURRENT_SONG = 'SET_CURRENT_SONG'
 export const SET_PLAYLIST = 'SET_PLAYLIST'
@@ -22,12 +22,12 @@ interface SetMode {
 
 interface SetCurrentSongAction {
   type: typeof SET_CURRENT_SONG
-  currentSong: Song
+  currentSong: SongWidthSource
 }
 
 interface SetPlaylistAction {
   type: typeof SET_PLAYLIST
-  playlist: Song[]
+  playlist: SongWidthSource[]
 }
 
 interface SetPlayStatusAction {
@@ -41,9 +41,9 @@ interface PLAYER_FULL_SCREEN {
 }
 
 export interface PlayerState {
-  currentSong: Song
+  currentSong: SongWidthSource
   playing: boolean,
-  playlist: Song[],
+  playlist: SongWidthSource[],
   fullScreen: boolean,
   mode: PlyerMode
 }

@@ -1,9 +1,11 @@
 import {PlaylistClass} from 'UTIL/playlist'
-import { usePlayerController } from 'UTIL/player-controller'
+import { usePlayerController, Source } from 'UTIL/player-controller'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import { useConfirm } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from './user-playlist'
+import Song from './song'
+import song from 'API/modules/song'
 
 export interface MenuType {
   name: string
@@ -13,7 +15,7 @@ export interface MenuType {
 
 export function usePlaylistContextMenu () {
   const { start } = usePlayerController()
-  const comfirm = useConfirm()
+  const confirm = useConfirm()
   const { deletePlaylist, subscribePlaylist } = useUserPlaylist()
 
   function play (playlist: PlaylistClass) {
@@ -23,8 +25,7 @@ export function usePlaylistContextMenu () {
   function getPlaylistMenu (playlist: PlaylistClass) {
 
     function deletePlaylistConfirm (playlist: PlaylistClass) {
-      console.log(playlist)
-      comfirm.open({
+      confirm.open({
         text: '确定删除该歌单?',
         buttonText: '确定',
         confirm: !playlist.subscribed ? (callback?: () => void) => {
@@ -60,24 +61,37 @@ export function usePlaylistContextMenu () {
 
 
 export function useSongContextMenu () {
-  const { start } = usePlayerController()
+  const { start, nextPlaySong } = usePlayerController()
   const usePlaylist = useSelector((state: RootState) => state.user.playlist)
   const user = useSelector((state: RootState) => state.user.user)
+  const { addOrRemoveSong } = useUserPlaylist()
+  const confirm = useConfirm()
 
-  function getCollectSubType (playlist?: PlaylistClass) {
-    return usePlaylist.filter(item => ((item.creator.userId === user.userId) && playlist && playlist.id !== item.id)).map((item) => {
-      return { name: item.name, data: item, trigger: () => {}}
-    })
-  }
-
-  function getSongMenu (playlist?: PlaylistClass) {
+  function getSongMenu (source: Source, song: Song, playlist?: PlaylistClass, callback?: () => void) {
+    function deleteSongConfirm (playlistId: number, songId: number) {
+      confirm.open({
+        text: '确定将选中的歌曲从该歌单中删除?',
+        buttonText: '确定',
+        confirm: (confirmCallback) => {
+          addOrRemoveSong(playlistId, songId, 'del', () => {
+            confirmCallback && confirmCallback()
+            callback && callback()
+          })
+        }
+      })
+    }
+    function getCollectSubType (playlist?: PlaylistClass) {
+      return usePlaylist.filter(item => ((item.creator.userId === user.userId) && playlist && playlist.id !== item.id)).map((item) => {
+        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, song.id, 'add') }}
+      })
+    }
     const defaultMenu: MenuType[] = [
-      { name: '播放', trigger: () => {} },
-      { name: '下一首播放', trigger: () => {} },
+      { name: '播放', trigger: () => { start(source, song, playlist && playlist.tracks) } },
+      { name: '下一首播放', trigger: () => { nextPlaySong(source, song) } },
       { name: '查看评论', trigger: () => {} },
       { name: '收藏', sub: getCollectSubType(playlist) }
     ]
-    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => {} }
+    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => { deleteSongConfirm(playlist!.id, song.id) } }
     if (playlist && playlist.creator.userId === user.userId) {
       return [...defaultMenu, deleteMenu]
     } else {

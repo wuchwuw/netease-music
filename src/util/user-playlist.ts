@@ -4,6 +4,7 @@ import api from 'API/index'
 import { SET_USER_PLAYLIST } from 'STORE/user/types'
 import { createPlaylistList, PlaylistClass } from './playlist'
 import { useDispatch } from 'react-redux'
+import Song from './song'
 
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
@@ -48,11 +49,19 @@ export function useUserPlaylist () {
 
   function createPlaylist () {}
 
+  async function addOrRemoveSong (playlistId: number, songId: number, type: 'add' | 'del', cb?: Function) {
+    try {
+      const res = await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: songId })
+      cb && cb()
+    } catch (e) {}
+  }
+
   return {
     userPlaylist,
     subPlaylist,
     getUserPlaylist,
     deletePlaylist,
-    subscribePlaylist
+    subscribePlaylist,
+    addOrRemoveSong
   }
 }

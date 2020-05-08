@@ -10,11 +10,22 @@ import { ContextMenuTrigger, ContextMenu, MenuItem, connectMenu } from 'react-co
 import { usePlaylistContextMenu, MenuType } from 'UTIL/menu'
 
 const MENU_NAME = 'left-bar-contextmenu'
+let target: HTMLElement | null = null
 
 const Menu = ({id, trigger}: any) => {
   const menu: MenuType[] = trigger && trigger.menu || []
   return (
-    <ContextMenu id={id} className="context-menu">
+    <ContextMenu 
+      id={id} 
+      className="context-menu"
+      onHide={() => {
+        target && target.classList.remove('context-menu-leftbar-selected') 
+      }} 
+      onShow={(e) => {
+        target = e.detail.target
+        target && target.classList.add('context-menu-leftbar-selected') 
+      }}
+    >
       {
         menu.map((item) => (
           <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => { item.trigger() }} data={{ action: 'Added' }}>{item.name}</MenuItem>

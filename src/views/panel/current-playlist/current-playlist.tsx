@@ -1,31 +1,19 @@
 import React, { useState } from "react"
 import './current-playlist.less'
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "STORE/index"
-import { SET_CURRENT_SONG, SET_PLAY_STATUS } from 'STORE/player/types'
-import Song from "UTIL/song"
 import classnames from 'classnames'
+import { usePlayerController } from "UTIL/player-controller"
 
 const CurrentPlaylist: React.SFC = () => {
-  const dispatch = useDispatch()
-  const currentSong = useSelector((state: RootState) => state.player.currentSong)
-  const playlist = useSelector((state: RootState) => state.player.playlist)
-  const history = useSelector((state: RootState) => state.player.playlist)
-  const [list, setList] = useState<Song[]>(playlist)
+  const { currentSong, currentMusiclist, start } = usePlayerController()
   const [tab, setTab] = useState('playlist')
   const CURRENT_PLAYLIST_PANEL_TAB = {
     playlist: '播放列表',
     history: '历史记录'
   }
 
-  function setSong (song: Song) {
-    dispatch({ type: SET_CURRENT_SONG, currentSong: song })
-    dispatch({ type: SET_PLAY_STATUS, playing: true })
-  }
-
   function selectTab (tab: string) {
     setTab(tab)
-    setList(tab === 'playlist' ? playlist : history)
+    // setList(tab === 'playlist' ? playlist : history)
   }
 
   return (
@@ -40,26 +28,26 @@ const CurrentPlaylist: React.SFC = () => {
         }
       </div>
       <div className="current-playlist-action">
-        <span className="current-playlist-action-title">总{list.length}首</span>
+        <span className="current-playlist-action-title">总{currentMusiclist.length}首</span>
         <span className="current-playlist-action-star"><i className="iconfont icon-add-folder"></i>收藏全部</span>
         <span className="current-playlist-action-delete"><i className="iconfont icon-delete"></i>清空</span>
       </div>
       <ul className="current-music-list-wrap">
         {
-          list.map(item => (
-            <li onDoubleClick={() => setSong(item) } key={item.id} className="current-music-list-item">
+          currentMusiclist.map(({song, source}) => (
+            <li onDoubleClick={() => start({id: '', name: ''}, song) } key={song.id} className="current-music-list-item">
               <div></div>
               <div>
-                <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>{item.name}</div>
+                <div className={classnames('text-overflow', { 'music-list-item-playing': song.id === currentSong.song.id })} title={song.name}>{song.name}</div>
               </div>
               <div>
-                <div className="text-overflow" title={item.artistName}>{item.artistName}</div>
+                <div className="text-overflow" title={song.artistName}>{song.artistName}</div>
               </div>
               <div>
                 <i className="iconfont icon-link"></i>
               </div>
               <div>
-              <div className="text-overflow">{item.duration_string}</div>
+              <div className="text-overflow">{song.duration_string}</div>
               </div>
             </li>
           ))

@@ -18,7 +18,7 @@ export default class Comment {
   user: User
   replied: CommentReplied | null
 
-  constructor ({ commentId, content, liked, likedCount, parentCommentId, time, user = {}, replied = [] }: any) {
+  constructor ({ commentId, content, liked, likedCount, parentCommentId, time, user = {}, beReplied = [] }: any) {
     this.commentId = commentId
     this.content = content
     this.liked = liked
@@ -26,10 +26,10 @@ export default class Comment {
     this.parentCommentId = parentCommentId
     this.time = time
     this.user = new User(user)
-    this.replied = replied.length ? { 
-      beRepliedCommentId: replied[0].beRepliedCommentId,
-      content: replied[0].content,
-      user: new User(replied[0].user)
+    this.replied = beReplied.length ? { 
+      beRepliedCommentId: beReplied[0].beRepliedCommentId,
+      content: beReplied[0].content,
+      user: new User(beReplied[0].user)
      } : null
   }
 

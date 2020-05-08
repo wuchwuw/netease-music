@@ -4,13 +4,24 @@ import { RootState } from 'STORE/index'
 import Comment from 'COMPONENTS/comment/comment'
 import './full-screen-player.less'
 import api from 'API/index'
+import { createBasePlaylist, PlaylistBaseClass } from 'UTIL/playlist'
+import Song, { createSongList } from 'UTIL/song'
+
+interface SimiUser {
+  recommendReason: string
+  userId: number
+  nickname: string
+  gender: number
+  avatarUrl: string
+}
 
 const FullScrrenPlayer: React.SFC = () => {
-  const currentSong = useSelector((state: RootState) => state.player.currentSong)
+  const { song: currentSong, source } = useSelector((state: RootState) => state.player.currentSong)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const CommentComponent = useMemo(() => <Comment delay={500} showTitle={true} type="music" id={currentSong.id} />, [currentSong.id]);
-  const [simiPlaylist, setSimiPlaylist] = useState([])
-  const [simiSong, setSimiSong] = useState([])
+  const [simiPlaylist, setSimiPlaylist] = useState<PlaylistBaseClass[]>([])
+  const [simiSong, setSimiSong] = useState<Song[]>([])
+  const [simiUser, setSimiUser] = useState<SimiUser[]>([])
 
   useEffect(() => {
     getSongSimi()
@@ -28,10 +39,11 @@ const FullScrrenPlayer: React.SFC = () => {
         }
       }
     }
-    Promise.all([api.getSimi(getParams('song')), api.getSimi(getParams('playlist'))])
+    Promise.all([api.getSimi(getParams('song')), api.getSimi(getParams('playlist')), api.getSimi(getParams('user'))])
       .then(res => {
-        setSimiSong(res[0].data.songs)
-        setSimiPlaylist(res[1].data.playlists)
+        setSimiSong(createSongList(res[0].data.songs))
+        setSimiPlaylist(createBasePlaylist(res[1].data.playlists))
+        setSimiUser(res[2].data.userprofiles)
       })
   }
   return (
@@ -51,9 +63,9 @@ const FullScrrenPlayer: React.SFC = () => {
         <div className="player-info">
           <div className="player-info-name">{currentSong.name}</div>
           <div className="player-info-album">
-            <div>专辑:<span className="commen-link-blue">{currentSong.album.name}</span></div>
-            <div>歌手:<span className="commen-link-blue">{currentSong.artistName}</span></div>
-            <div>来源:<span></span></div>
+            <div className="text-overflow">专辑:<span className="commen-link-blue">{currentSong.album.name}</span></div>
+            <div className="text-overflow">歌手:<span className="commen-link-blue">{currentSong.artistName}</span></div>
+            <div className="text-overflow">来源:<span className="commen-link-blue">{source.name}</span></div>
           </div>
           <div className="player-info-lyrics">
             {
@@ -77,7 +89,7 @@ const FullScrrenPlayer: React.SFC = () => {
                   <img className="player-other-list-avatar" src={item.coverImgUrl+'?param=100y100'} alt=""/>
                   <div className="player-other-list-info">
                     <div className="player-other-list-info-name text-overflow">{item.name}</div>
-                    <div className="player-other-list-info-text">{item.playCount}</div>
+                    <div className="player-other-list-info-text">{item.playCount_string}</div>
                   </div>
                 </div>
               ))
@@ -97,16 +109,20 @@ const FullScrrenPlayer: React.SFC = () => {
               ))
             }
           </div>
-          {/* <div className="player-other-list-like">
+          <div className="player-other-list-like">
             <div className="player-other-list-title">喜欢这首歌的人</div>
-            <div className="player-other-list-item">
-              <img className="player-other-list-avatar" src="https://p3.music.126.net/yeLMBHft3oDrpg8G_fjIRA==/109951163603810637.jpg?param=35y35" alt=""/>
-              <div className="player-other-list-info">
-                <div className="player-other-list-info-name text-overflow">日子有点苦的时候，听这些歌在点苦的时候，听这些歌 </div>
-                <div className="player-other-list-info-text">2222万</div>
-              </div>
-            </div>
-          </div> */}
+            {
+              simiUser.map(user => (
+                <div className="player-other-list-item">
+                  <img className="player-other-list-avatar user" src={user.avatarUrl + '?param=100y100'} alt=""/>
+                  <div className="player-other-list-info">
+                    <div className="player-other-list-info-name text-overflow">{user.nickname}</div>
+                    <div className="player-other-list-info-text">{user.recommendReason}</div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
     </div>

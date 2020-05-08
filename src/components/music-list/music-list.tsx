@@ -18,11 +18,22 @@ interface MusicListProps {
 }
 
 const MENU_NAME = 'music-list-contextmenu'
+let target: HTMLElement | null = null
 
 const Menu = ({id, trigger}: any) => {
   const menu: MenuType[] = trigger && trigger.menu || []
   return (
-    <ContextMenu id={id} className="context-menu">
+    <ContextMenu 
+      id={id} 
+      className="context-menu" 
+      onHide={() => {
+        target && target.classList.remove('context-menu-musiclist-selected') 
+      }} 
+      onShow={(e) => {
+        target = e.detail.target
+        target && target.classList.add('context-menu-musiclist-selected') 
+      }}
+    >
       {
         menu.map((item) => {
           return (
@@ -30,12 +41,12 @@ const Menu = ({id, trigger}: any) => {
               <SubMenu title='收藏' attributes={{className: 'context-menu-item'}}>
                 {
                   item.sub.map(menu => (
-                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ menu.trigger() } data={menu.data}>{menu.name}</MenuItem>
+                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger() } }>{menu.name}</MenuItem>
                   ))
                 }
               </SubMenu>
               :
-              <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => { item.trigger() }} data={{ action: 'Added' }}>{item.name}</MenuItem>
+              <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { item.trigger() } } data={{ action: 'Added' }}>{item.name}</MenuItem>
             
           )
         })
@@ -68,14 +79,18 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], updateList, playlist})
         {
           list.map((item: Song, index) => (
             <li className="music-list-item-wrap">
-              <ContextMenuTrigger holdToDisplay={1000} id={MENU_NAME} menu={getSongMenu(playlist)} collect={props => props}>
+              <ContextMenuTrigger
+                id={MENU_NAME} 
+                menu={getSongMenu({ id: `playlist-${playlist.id}`, name: playlist.name }, item, playlist, updateList)}
+                collect={props => props}
+              >
                 <div onDoubleClick={() => start({ id: `playlist-${playlist.id}`, name: playlist.name }, item, list) } key={item.id} className="music-list-item">
                   <div className="music-list-item-action">
-                    <span>{ currentSong.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
+                    <span>{ currentSong.song.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
                     <i onClick={() => { favorite(item.id, () => {}) }} className={`iconfont ${isFavorite(item.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
                   </div>
                   <div>
-                    <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.id })} title={item.name}>
+                    <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.song.id })} title={item.name}>
                       {item.name}
                     </div>
                     { !!item.mv && <i className="iconfont icon-mv"></i> }

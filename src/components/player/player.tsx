@@ -30,7 +30,7 @@ export default function Player () {
   const progressWrapRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const { setPanelType, currentPanelType } = usePanelContaienr()
-  const { prev, next, togglePlay, currentSong, playing } = usePlayerController()
+  const { prev, next, togglePlay, currentSong: { song: currentSong }, playing } = usePlayerController()
   const { goArtistDetail } = usePageForword()
 
   const [voice, setVoice] = useState(50)

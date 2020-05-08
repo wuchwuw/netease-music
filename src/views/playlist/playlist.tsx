@@ -39,7 +39,7 @@ const Playlist = () => {
   const userPlaylist = useSelector((state: RootState) => state.user.playlist)
   const user = useSelector((state: RootState) => state.user.user)
   const { goUserDetail } = usePageForword()
-  const { start } = usePlayerController()
+  const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist } = useUserPlaylist()
 
   const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
@@ -64,12 +64,12 @@ const Playlist = () => {
     try {
       const res = await api.getPlaylist(params)
       playlistCache = res.data.playlist
-      updatePlaylist()
+      setPlaylist(new PlaylistClass(playlistCache))
     } catch (e) {}
   }
 
   function updatePlaylist () {
-    setPlaylist(new PlaylistClass(playlistCache))
+    getPlaylist()
   }
 
   async function follow () {
@@ -81,9 +81,9 @@ const Playlist = () => {
 
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
-      return <MusicList playlist={playlist} updateList={ updatePlaylist } list={playlist.tracks}></MusicList>
+      return <MusicList playlist={playlist} updateList={updatePlaylist} list={playlist.tracks}></MusicList>
     } else if (tab === PlaylistTab.COMMENT) {
-      return <div style={{ padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
+      return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {
       return (
         <div className="playlist-subscribers">
@@ -140,6 +140,13 @@ const Playlist = () => {
     }
   }
 
+  function getSource () {
+    return {
+      id: `playlist-${playlist.id}`,
+      name: playlist.name
+    }
+  }
+
   return (
     <div className="playlist-wrap">
       <div className="playlist-info-wrap">
@@ -161,8 +168,8 @@ const Playlist = () => {
           </div>
           <div className="playlist-info-action">
             <div className={classnames('playlist-info-action-playall', { 'fail': isEmpty })}>
-              <div onClick={() => { start(playlist.tracks[0], playlist.tracks) }}><i className="iconfont icon-play" ></i>播放全部</div>
-              <i className="iconfont icon-add"></i>
+              <div onClick={() => { start(getSource(), playlist.tracks[0], playlist.tracks) }}><i className="iconfont icon-play" ></i>播放全部</div>
+              <i className="iconfont icon-add" onClick={() => { nextPlayPlaylist(getSource(), playlist.tracks) }}></i>
             </div>
             <div
               onClick={() => { follow() }}

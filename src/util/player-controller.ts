@@ -6,7 +6,7 @@ import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/ty
 import { PlyerMode } from 'STORE/player/types'
 
 // page-id or page
-interface Source {
+export interface Source {
   id: string
   name: string
 }
@@ -45,6 +45,7 @@ function getSongIndexInMusiclist (musiclist: SongWidthSource[], song: SongWidthS
 let randomPlaylist: SongWidthSource[] = []
 let cacheMusiclist: SongWidthSource[] = []
 let cacheCurrentSong: SongWidthSource = { song: new Song({}), source: { id: '', name: ''}}
+let sourceIds: string[] = []
 
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -131,16 +132,32 @@ export function usePlayerController () {
 
   function nextPlaySong (source: Source, song: Song) {
     const songWidthSource = getSongWidthSource(song, source)
-    let insertIndex = getSongIndexInMusiclist(currentMusiclist, currentSong)
-    currentMusiclist.splice(++insertIndex, 0, songWidthSource)
+    if (isSameSongInMusiclist(currentSong, songWidthSource)) return
+    let currentSongIndex = getSongIndexInMusiclist(currentMusiclist, currentSong)
+    let index = getSongIndexInMusiclist(currentMusiclist, songWidthSource)
+    if (index === -1) {
+      if (currentMusiclist.length === 0) {
+        playSong(songWidthSource)
+      }
+      currentMusiclist.splice(++currentSongIndex, 0, songWidthSource)
+    } else {
+      currentMusiclist.splice(index, 1)
+      currentMusiclist.splice(index < currentSongIndex ? currentSongIndex : ++currentSongIndex, 0, songWidthSource)
+    }
     setCurrentMusiclistWidthSource(currentMusiclist)
-    // 当前播放和下一首是否相同， 相同的话return
-    // 下一首是否在当前列表中，并添加到当前的下一首
-    // 列表为空， 直接播放， 调用start即可
   }
 
-  function nextPlayPlaylist () {
-    // 逻辑同上
+  function nextPlayPlaylist (source: Source, musiclist: Song[]) {
+    if (sourceIds.indexOf(source.id) > -1) return
+    if (currentMusiclist.length === 0) {
+      start(source, musiclist[0], musiclist)
+    } else {
+      let currentSongIndex = getSongIndexInMusiclist(currentMusiclist, currentSong)
+      let musiclistWidthSource = getSonglistWidthSource(musiclist, source)
+      currentMusiclist.splice(++currentSongIndex, 0, ...musiclistWidthSource)
+      setCurrentMusiclistWidthSource(currentMusiclist)
+      sourceIds.push(source.id)
+    }
   }
 
   function start (source: Source, song: Song, musiclist?: Song[]) {
@@ -152,6 +169,7 @@ export function usePlayerController () {
       let musiclistWidthSource = getSonglistWidthSource(musiclist, source)
       setCurrentMusiclistWidthSource(musiclistWidthSource)
       randomPlaylist = getShufflePlaylist(musiclistWidthSource)
+      sourceIds = [source.id]
     } else {
       if (getSongIndexInMusiclist(currentMusiclist, songWidthSource) === -1) {
         let insertIndex = getSongIndexInMusiclist(currentMusiclist, currentSong)
@@ -166,7 +184,10 @@ export function usePlayerController () {
     next,
     prev,
     togglePlay,
-    currentSong: currentSong.song,
-    playing
+    currentSong: currentSong,
+    currentMusiclist,
+    playing,
+    nextPlayPlaylist,
+    nextPlaySong
   }
 }

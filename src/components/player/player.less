@@ -4,7 +4,6 @@
   position: relative;
   min-width: 1000px;
   z-index: 2;
-  background: #fff;
   user-select: none;
 }
 .mini-player-progress-wrap {
@@ -25,7 +24,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background: #F5F5F5;
+  background: var(--player-progress-default);
 }
 .mini-player-progress {
   position: absolute;
@@ -191,7 +190,7 @@
 .mini-player-voice-bar-default {
   height: 80px;
   width: 4px;
-  background: #F5F5F5;
+  background: var(--player-progress-default);
   position: absolute;
   border-radius: 5px;
 }

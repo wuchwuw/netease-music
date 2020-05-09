@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { usePlayerController } from "UTIL/player-controller"
 
 const CurrentPlaylist: React.SFC = () => {
-  const { currentSong, currentMusiclist, start } = usePlayerController()
+  const { currentSong, currentMusiclist, start, playHistory } = usePlayerController()
   const [tab, setTab] = useState('playlist')
   const CURRENT_PLAYLIST_PANEL_TAB = {
     playlist: '播放列表',
@@ -13,7 +13,10 @@ const CurrentPlaylist: React.SFC = () => {
 
   function selectTab (tab: string) {
     setTab(tab)
-    // setList(tab === 'playlist' ? playlist : history)
+  }
+
+  function getLength () {
+    return tab === 'playlist' ? currentMusiclist.length : playHistory.length
   }
 
   return (
@@ -28,13 +31,14 @@ const CurrentPlaylist: React.SFC = () => {
         }
       </div>
       <div className="current-playlist-action">
-        <span className="current-playlist-action-title">总{currentMusiclist.length}首</span>
+        <span className="current-playlist-action-title">总{getLength()}首</span>
         <span className="current-playlist-action-star"><i className="iconfont icon-add-folder"></i>收藏全部</span>
         <span className="current-playlist-action-delete"><i className="iconfont icon-delete"></i>清空</span>
       </div>
       <ul className="current-music-list-wrap">
         {
-          currentMusiclist.map(({song, source}) => (
+          (getLength() !== 0) ? 
+          (tab === 'playlist' ? currentMusiclist : playHistory).map(({song, source}) => (
             <li onDoubleClick={() => start({id: '', name: ''}, song) } key={song.id} className="current-music-list-item">
               <div></div>
               <div>
@@ -51,6 +55,11 @@ const CurrentPlaylist: React.SFC = () => {
               </div>
             </li>
           ))
+          :
+          <div className="current-playlist-nodata">
+            <div>你还没有{tab === 'playlist' ? '添加' : '播放' }任何歌曲</div>
+            <div className="current-playlist-nodata-text">去首页<span className="commen-link-333333 active">发现音乐</span></div>
+          </div>
         }
       </ul>
     </div>

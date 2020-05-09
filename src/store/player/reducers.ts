@@ -6,13 +6,15 @@ import {
   SET_PLAY_STATUS,
   PLAYER_FULL_SCREEN,
   SET_MODE,
-  PlyerMode
+  PlyerMode,
+  SET_PLAY_HISTORY
 } from './types'
 import Song from 'UTIL/song'
 
 const initialState: PlayerState = {
-  currentSong: { song: new Song({}), source: { id: '', name: ''}},
+  currentSong: { song: new Song({}), source: { id: '', name: ''} },
   playlist: [],
+  playHistory: [],
   playing: false,
   fullScreen: false,
   mode: PlyerMode.LOOP
@@ -34,6 +36,9 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
       return state
     case SET_MODE:
       state.mode = action.mode
+      return state
+    case SET_PLAY_HISTORY:
+      state.playHistory = action.playHistory.slice()
       return state
     default:
       return state

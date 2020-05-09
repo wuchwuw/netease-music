@@ -1,11 +1,10 @@
-import {PlaylistClass} from 'UTIL/playlist'
+import { PlaylistClass } from 'UTIL/playlist'
 import { usePlayerController, Source } from 'UTIL/player-controller'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import { useConfirm } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from './user-playlist'
 import Song from './song'
-import song from 'API/modules/song'
 
 export interface MenuType {
   name: string
@@ -14,12 +13,19 @@ export interface MenuType {
 }
 
 export function usePlaylistContextMenu () {
-  const { start } = usePlayerController()
+  const { start, nextPlayPlaylist } = usePlayerController()
   const confirm = useConfirm()
-  const { deletePlaylist, subscribePlaylist } = useUserPlaylist()
+  const { deletePlaylist, subscribePlaylist, getUserPlaylistDetail } = useUserPlaylist()
 
-  function play (playlist: PlaylistClass) {
-    // todo  get detail and cache
+  function play (playlist: PlaylistClass, next: boolean) {
+    getUserPlaylistDetail(playlist.id, (p) => {
+      if (p.tracks.length !== 0) {
+        next ?
+        nextPlayPlaylist({id: `playlist-${playlist.id}`, name: playlist.name}, p.tracks)
+        :
+        start({id: `playlist-${playlist.id}`, name: playlist.name}, p.tracks[0], p.tracks)
+      }
+    })
   }
 
   function getPlaylistMenu (playlist: PlaylistClass) {
@@ -37,8 +43,8 @@ export function usePlaylistContextMenu () {
     }
 
     const defaultMenu: MenuType[] = [
-      { name: '播放', trigger: () => {} }
-      // { name: '下一首播放', trigger: () => {} }
+      { name: '播放', trigger: () => { play(playlist, false) } },
+      { name: '下一首播放', trigger: () => { play(playlist, true) } }
     ]
 
     const deleteMenu: MenuType = { name: '删除歌单', trigger: () => { deletePlaylistConfirm(playlist) } }

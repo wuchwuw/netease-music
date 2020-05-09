@@ -23,7 +23,6 @@ export default {
     return axios.get('user/subcount', { withCredentials: true })
   },
   getFM () {
-    // params: { timestamp: +new Date() },
     return axios.get('/personal_fm', { params: { timestamp: +new Date(), limit: 10 }, withCredentials: true })
   },
   getUserDetail (params: UserIdParams) {
@@ -31,5 +30,8 @@ export default {
   },
   getUserLikelist (params: UserIdParams) {
     return axios.get('/likelist', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+  },
+  getUserCloud () {
+    return axios.get('/user/cloud', { withCredentials: true })
   }
 }

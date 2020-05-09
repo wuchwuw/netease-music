@@ -225,7 +225,7 @@ const Artist = () => {
         songs.slice(10).map((song, index) => (
           <div className="artist-album-item-list-item" key={song.id}>
             <span>{padZero(index + 11)}</span>
-            {/* <span><i className="iconfont iconxin"></i></span> */}
+            <span><i className="iconfont iconxin"></i></span>
             <span>{song.name}</span>
             <span>{song.duration_string}</span>
           </div>

@@ -7,6 +7,7 @@ export const PLAY_NEXT = 'PLAY_NEXT'
 export const PLAY_PREV = 'PLAY_PREV'
 export const PLAYER_FULL_SCREEN = 'PLAYER_FULL_SCREEN'
 export const SET_MODE = 'SET_MODE'
+export const SET_PLAY_HISTORY = 'SET_PLAY_HISTORY'
 
 export enum PlyerMode {
   LOOP,
@@ -40,10 +41,16 @@ interface PLAYER_FULL_SCREEN {
   fullScreen: boolean
 }
 
+interface setPlayHistory {
+  type: typeof SET_PLAY_HISTORY,
+  playHistory: SongWidthSource[]
+}
+
 export interface PlayerState {
   currentSong: SongWidthSource
   playing: boolean,
   playlist: SongWidthSource[],
+  playHistory: SongWidthSource[],
   fullScreen: boolean,
   mode: PlyerMode
 }
@@ -53,4 +60,5 @@ export type PlayerActionTypes =
   SetPlaylistAction |
   SetPlayStatusAction |
   PLAYER_FULL_SCREEN |
-  SetMode
+  SetMode |
+  setPlayHistory

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "STORE/index"
 import Song from "./song"
 import api from "API/index"
-import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST } from 'STORE/player/types'
+import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY } from 'STORE/player/types'
 import { PlyerMode } from 'STORE/player/types'
 
 // page-id or page
@@ -53,6 +53,18 @@ export function usePlayerController () {
   const playing = useSelector((state: RootState) => state.player.playing)
   const dispatch = useDispatch()
   const mode = useSelector((state: RootState) => state.player.mode)
+  const playHistory = useSelector((state: RootState) => state.player.playHistory)
+
+  function setPlayHistory (song: SongWidthSource) {
+    const index = getSongIndexInMusiclist(playHistory, song)
+    let history = playHistory.slice()
+    
+    if (index > -1) {
+      history.splice(index, 1)
+    }
+    history.unshift(song)
+    dispatch({ type: SET_PLAY_HISTORY, playHistory: history })
+  }
 
   function getNext (type: 'next' | 'prev') {
     let songs = mode === PlyerMode.RANDOM ? randomPlaylist : cacheMusiclist
@@ -95,6 +107,7 @@ export function usePlayerController () {
       let res = await api.getSongUrl({ id: currentSong.song.id })
       audio.src = res.data.data[0].url
       setCurrentSongWidthSource(currentSong)
+      setPlayHistory(currentSong)
       play()
     } catch (e) {}
   }
@@ -179,6 +192,10 @@ export function usePlayerController () {
     }
   }
 
+  // function isSongPlaying (song: Song) {
+  //   return currentSong.song.id === song.id
+  // }
+
   return {
     start,
     next,
@@ -188,6 +205,7 @@ export function usePlayerController () {
     currentMusiclist,
     playing,
     nextPlayPlaylist,
-    nextPlaySong
+    nextPlaySong,
+    playHistory
   }
 }

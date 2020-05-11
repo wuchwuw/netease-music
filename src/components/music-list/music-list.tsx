@@ -8,14 +8,7 @@ import { usePlayerController } from 'UTIL/player-controller'
 import { genArtists } from 'VIEWS/template/template'
 import { useFavorite } from 'UTIL/favorite'
 import { ContextMenuTrigger, ContextMenu, MenuItem, SubMenu, connectMenu } from 'react-contextmenu'
-import { useSongContextMenu, MenuType } from 'UTIL/menu'
-import { PlaylistClass } from 'UTIL/playlist'
-
-interface MusicListProps {
-  list: Song[]
-  updateList: () => void
-  playlist?: PlaylistClass
-}
+import { MenuType } from 'UTIL/menu'
 
 const MENU_NAME = 'music-list-contextmenu'
 let target: HTMLElement | null = null
@@ -23,15 +16,15 @@ let target: HTMLElement | null = null
 const Menu = ({id, trigger}: any) => {
   const menu: MenuType[] = trigger && trigger.menu || []
   return (
-    <ContextMenu 
-      id={id} 
-      className="context-menu" 
+    <ContextMenu
+      id={id}
+      className="context-menu"
       onHide={() => {
-        target && target.classList.remove('context-menu-musiclist-selected') 
-      }} 
+        target && target.classList.remove('context-menu-musiclist-selected')
+      }}
       onShow={(e) => {
         target = e.detail.target
-        target && target.classList.add('context-menu-musiclist-selected') 
+        target && target.classList.add('context-menu-musiclist-selected')
       }}
     >
       {
@@ -41,13 +34,13 @@ const Menu = ({id, trigger}: any) => {
               <SubMenu title='收藏' attributes={{className: 'context-menu-item'}}>
                 {
                   item.sub.map(menu => (
-                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger() } }>{menu.name}</MenuItem>
+                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger && menu.trigger() } }>{menu.name}</MenuItem>
                   ))
                 }
               </SubMenu>
               :
-              <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { item.trigger() } } data={{ action: 'Added' }}>{item.name}</MenuItem>
-            
+              <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { item.trigger && item.trigger() } } data={{ action: 'Added' }}>{item.name}</MenuItem>
+
           )
         })
       }
@@ -57,12 +50,16 @@ const Menu = ({id, trigger}: any) => {
 
 const ConnectedMenu = connectMenu(MENU_NAME)(Menu);
 
+interface MusicListProps {
+  list: Song[]
+  getMenu: (song: Song) => MenuType[]
+  start: (song: Song) => void
+}
 
-const MusicList: React.SFC<MusicListProps> = ({list = [], updateList, playlist}) => {
+const MusicList: React.SFC<MusicListProps> = ({list = [], getMenu, start}) => {
   const { goAlbumDetail, goArtistDetail } = usePageForword()
-  const { start, currentSong } = usePlayerController()
+  const { currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
-  const { getSongMenu } = useSongContextMenu()
 
   return (
     <>
@@ -80,11 +77,11 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], updateList, playlist})
           list.map((item: Song, index) => (
             <li className="music-list-item-wrap">
               <ContextMenuTrigger
-                id={MENU_NAME} 
-                menu={getSongMenu({ id: `playlist-${playlist.id}`, name: playlist.name }, item, playlist, updateList)}
+                id={MENU_NAME}
+                menu={getMenu(item)}
                 collect={props => props}
               >
-                <div onDoubleClick={() => start({ id: `playlist-${playlist.id}`, name: playlist.name }, item, list) } key={item.id} className="music-list-item">
+                <div onDoubleClick={() => start(item)} key={item.id} className="music-list-item">
                   <div className="music-list-item-action">
                     <span>{ currentSong.song.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
                     <i onClick={() => { favorite(item.id, () => {}) }} className={`iconfont ${isFavorite(item.id) ? 'icon-heart-full' : 'iconxin'}`}></i>

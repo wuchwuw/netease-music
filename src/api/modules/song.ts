@@ -14,6 +14,6 @@ export default {
     return axios.get('top/album', { params })
   },
   like (params: any) {
-    return axios.get('like', { params, withCredentials: true })
+    return axios.get('like', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

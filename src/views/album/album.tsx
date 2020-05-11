@@ -4,31 +4,47 @@ import { Album as AlbumClass } from 'UTIL/album'
 import api from 'API/index'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
+import { useAlbumContextMenu } from 'UTIL/menu'
+import Song from 'UTIL/song'
+import { usePlayerController } from 'UTIL/player-controller'
 
 const Album = () => {
   const { id } = useParams()
   const albumId = Number(id)
   const [ tab, setTab ] = useState('list') // list comment des
   const [ album, setAlbum ] = useState<AlbumClass>(new AlbumClass({}))
+  const { getAlubmMenu } = useAlbumContextMenu()
+  const { start } = usePlayerController()
+
   useEffect(() => {
     getAlbum()
   }, [albumId])
+
   async function getAlbum () {
     try {
       const res = await api.getAlbumContent({ id: albumId })
       setAlbum(new AlbumClass({ ...res.data.album, songs: res.data.songs }))
     } catch (e) {}
   }
+
+  function getMenu (song: Song) {
+    return getAlubmMenu({ id: `album-${album.id}`, name: album.name }, song, album)
+  }
+
+  function musiclistStart (song: Song) {
+    start({ id: `album-${album.id}`, name: album.name }, song, album.songs)
+  }
+
   function genTabComponent () {
     if (tab === 'list') {
-      return <MusicList list={album.songs}></MusicList>
+      return <MusicList getMenu={getMenu} start={musiclistStart} list={album.songs}></MusicList>
     } else if (tab === 'comment') {
       return <div style={{ padding: '30px'}}><Comment type="album" id={albumId}></Comment></div>
     } else {
       return
     }
   }
-  function genAlbumArtists (album: AlbumClass) { 
+  function genAlbumArtists (album: AlbumClass) {
     const artists = album.artists
     let artistNode: React.ReactNode[] = []
     artists.forEach((artist, index) => {

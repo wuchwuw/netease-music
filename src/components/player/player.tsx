@@ -11,6 +11,9 @@ import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { usePlayerController } from 'UTIL/player-controller'
 import { genArtists } from 'VIEWS/template/template'
 import { usePageForword } from 'ROUTER/hooks'
+import { useFavorite } from 'UTIL/favorite'
+import { useUserPlaylist } from 'UTIL/user-playlist'
+import { useLocation } from 'react-router'
 
 const voice_shared = {
   pageY: 0,
@@ -32,6 +35,9 @@ export default function Player () {
   const { setPanelType, currentPanelType } = usePanelContaienr()
   const { prev, next, togglePlay, currentSong: { song: currentSong }, playing } = usePlayerController()
   const { goArtistDetail } = usePageForword()
+  const { isFavorite, favorite } = useFavorite()
+  const { shouldUpdateUserFavoritePlaylist } = useUserPlaylist()
+  const location = useLocation()
 
   const [voice, setVoice] = useState(50)
   const [voiceMoved, setVoiceMoved] = useState(false)
@@ -98,7 +104,6 @@ export default function Player () {
 
   function onVoicePointerUp () {
     setVoiceMoved(false)
-    console.log(voice / 80)
     audioRef.current!.volume = voice / 80
   }
 
@@ -115,6 +120,16 @@ export default function Player () {
         <span>{text[mode]}</span>
       </i>
     )
+  }
+
+  function currentSongFavorite () {
+    if (!currentSong.id) return
+    const path = location.pathname.split('/')
+    favorite(currentSong.id, () => {
+      if (path.length && path[1] === 'playlist') {
+        shouldUpdateUserFavoritePlaylist(Number(path[2]))
+      }
+    })
   }
 
   return (
@@ -141,7 +156,7 @@ export default function Player () {
             </div>
           </div>
           <div className="mini-player-control">
-            <i className="iconfont iconxin"></i>
+            <i onClick={() => { currentSongFavorite() } } className={`iconfont ${isFavorite(currentSong.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
             <i onClick={prev} className="iconfont iconforward"></i>
             <i onClick={togglePlay} className={classnames('iconfont', { 'icon-play': !playing, 'iconzanting': playing })}></i>
             <i onClick={next} className="iconfont iconforward1"></i>

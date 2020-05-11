@@ -5,14 +5,17 @@ import Player from 'COMPONENTS/player/player'
 import PanelContainer from 'VIEWS/panel/container'
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 import { useFavorite } from 'UTIL/favorite'
+import { useUserPlaylist } from 'UTIL/user-playlist'
 
 const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
   const { getFavoriteIds } = useFavorite()
+  const { getUserPlaylist } = useUserPlaylist()
 
   useEffect(() => {
     getFavoriteIds(98931610)
+    getUserPlaylist()
   }, [])
-  
+
   return (
     <div className="appwrap">
       <div className="top"><TopBar/></div>

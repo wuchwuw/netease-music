@@ -5,6 +5,7 @@ import { RootState } from 'STORE/index'
 import { useConfirm } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from './user-playlist'
 import Song from './song'
+import { Album } from './album'
 
 export interface MenuType {
   name: string
@@ -107,5 +108,31 @@ export function useSongContextMenu () {
 
   return {
     getSongMenu
+  }
+}
+
+export function useAlbumContextMenu () {
+  const { start, nextPlaySong } = usePlayerController()
+  const { addOrRemoveSong } = useUserPlaylist()
+  const usePlaylist = useSelector((state: RootState) => state.user.playlist)
+
+  function getAlubmMenu (source: Source, song: Song, album: Album) {
+    function getCollectSubType () {
+      return usePlaylist.map((item) => {
+        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, song.id, 'add') }}
+      })
+    }
+    const defaultMenu: MenuType[] = [
+      { name: '播放', trigger: () => { start(source, song, album.songs) } },
+      { name: '下一首播放', trigger: () => { nextPlaySong(source, song) } },
+      { name: '查看评论', trigger: () => {} },
+      { name: '收藏', sub: getCollectSubType() }
+    ]
+
+    return defaultMenu
+  }
+
+  return {
+    getAlubmMenu
   }
 }

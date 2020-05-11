@@ -12,7 +12,7 @@ interface CommentProps {
   delay?: 0
 }
 
-const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video']
+const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video', 'activity']
 
 const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay = 0}) => {
   const [loading, setLoading] = useState(true)
@@ -20,6 +20,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   const [list, setList] = useState<CommentCls[]>([])
   const [hot, setHot] = useState<CommentCls[]>([])
   const PAGE_SIZE = 60
+  const [content, setContent] = useState('')
 
   useEffect(() => {
     if (!id) return
@@ -42,7 +43,32 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
       setHot(createCommentList(res.data.hotComments))
       setTotal(res.data.total)
       setLoading(false)
-    } catch (e) { console.log(e) }
+    } catch (e) {}
+  }
+
+  async function sendComment (isReplied: boolean, commentId?: number) {
+    try {
+      let params = {
+        t: isReplied ? 2 : 1,
+        content,
+        type: COMMENT_TYPE_MAP.indexOf(type),
+        [ type === 'activity' ? 'threadId' : 'id']: id
+      }
+      isReplied && commentId && (params.commentId = commentId)
+      const res = await api.sendComment(params)
+      list.unshift(new CommentCls(res.data.comment))
+      setList([...list])
+    } catch (e) {}
+  }
+
+  async function commentLike (comment: CommentCls) {
+    try {
+      const t = comment.liked ? 0 : 1
+      await api.commentLike({id, t, type: COMMENT_TYPE_MAP.indexOf(type), cid: comment.commentId})
+      comment.liked = !comment.liked
+      comment.likedCount = comment.liked ? ++comment.likedCount : --comment.likedCount
+      setList([...list])
+    } catch (e) {}
   }
 
   function genCommentNode (title: string, list: CommentCls[]) {
@@ -69,9 +95,9 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   }
                   <div className="comment-item-info-action">
                     <span className="comment-item-info-time">{comment.timeFormat}</span>
-                    <span className="comment-item-info-action-report">举报</span>
-                    <i className="iconfont icon-zan">
-                      <span className="comment-item-info-like">{comment.likedCount}</span>
+                    {/* <span className="comment-item-info-action-report">举报</span> */}
+                    <i className={`iconfont icon-zan ${comment.liked ? 'active' : ''}`} onClick={() => { commentLike(comment) }}>
+                      { !!comment.likedCount && <span className="comment-item-info-like">{comment.likedCount}</span>}
                     </i>
                     <i className="iconfont icon-share"></i>
                     <i className="iconfont icon-comment"></i>
@@ -89,14 +115,14 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
     <div>
       { showTitle && <div className="comment-count">听友评论<span>(已有{total}条评论)</span></div> }
       <div className="comment-textarea-wrap">
-        <textarea className="comment-textarea" placeholder="输入评论或@朋友"></textarea>
+        <textarea value={content} onChange={(e) => { setContent(e.target.value) }} className="comment-textarea" placeholder="输入评论或@朋友"></textarea>
         <span className="comment-textarea-reset">140</span>
       </div>
       <div className="comment-textarea-action">
         <i className="iconfont icon-face"></i>
         <i className="iconfont icon-aite"></i>
         <i className="iconfont icon-addtag"></i>
-        <span className="comment-textarea-action-btn">评论</span>
+        <span onClick={() => { sendComment(false) }} className="comment-textarea-action-btn">评论</span>
       </div>
       <div className="comment-content">
         <Spin loading={loading} delay={300}>

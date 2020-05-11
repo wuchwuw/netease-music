@@ -4,7 +4,8 @@ import {
   SET_PANEL_TYPE,
   SET_FAVORITE_IDS,
   SET_SEARCH_KEYWORDS,
-  SET_HISTORY_KEYWORDS
+  SET_HISTORY_KEYWORDS,
+  SET_UPDATE_FAVORITE_PLAYLIST
 } from './types'
 
 import { PanelType } from 'VIEWS/panel/container'
@@ -13,7 +14,8 @@ const initialState: CommenState = {
   panelType: PanelType.Close,
   favoriteIds: [],
   keywords: '',
-  historyKeywords: JSON.parse(localStorage.getItem('historyKeywords') || '[]')
+  historyKeywords: JSON.parse(localStorage.getItem('historyKeywords') || '[]'),
+  shouldUpdateFavoritePlaylist: false
 }
 
 export function CommenReducer (state = initialState, action: CommenActionTypes): CommenState {
@@ -36,6 +38,9 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
       history.unshift(action.keywords)
       state.historyKeywords = history
       localStorage.setItem('historyKeywords', JSON.stringify(state.historyKeywords))
+      return state
+    case SET_UPDATE_FAVORITE_PLAYLIST:
+      state.shouldUpdateFavoritePlaylist = !state.shouldUpdateFavoritePlaylist
       return state
     default:
       return state

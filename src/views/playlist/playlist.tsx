@@ -5,14 +5,16 @@ import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { useParams } from 'react-router'
 import { PlaylistClass } from 'UTIL/playlist'
-import User from 'UTIL/user'
 import classNames from 'classnames'
-import { usePageForword } from 'ROUTER/hooks'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
 import { usePlayerController } from 'UTIL/player-controller'
 import { useUserPlaylist } from 'UTIL/user-playlist'
+import { useSongContextMenu } from 'UTIL/menu'
+import Song from 'UTIL/song'
+import { usePageForword } from 'ROUTER/hooks'
+import Subscribers from './subscribers'
 
 
 enum PlaylistTab {
@@ -27,7 +29,6 @@ const PlaylistTabMap = {
   'SUB': '收藏者'
 }
 
-const SUBSCRIBERS_LIMIT = 30
 let playlistCache = {}
 
 const Playlist = () => {
@@ -35,27 +36,23 @@ const Playlist = () => {
   const { id } = useParams()
   const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
-  const [ subscribers, setSubscribers ] = useState<User[]>([])
-  const userPlaylist = useSelector((state: RootState) => state.user.playlist)
-  const user = useSelector((state: RootState) => state.user.user)
-  const { goUserDetail } = usePageForword()
   const { start, nextPlayPlaylist } = usePlayerController()
-  const { subscribePlaylist } = useUserPlaylist()
+  const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist } = useUserPlaylist()
+  const { getSongMenu } = useSongContextMenu()
+  const { goUserDetail } = usePageForword()
+  const shouldUpdateFavoritePlaylist = useSelector((state: RootState) => state.commen.shouldUpdateFavoritePlaylist)
 
-  const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist])
-  const isPersonal = useMemo(() => userPlaylist.filter(item => item.creator.userId === user.userId).findIndex(item => Number(id) === item.id) > -1, [playlistId])
-  const isOrigin = userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId
+  const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist.id])
+  const isPersonal = useMemo(() => isUserPlaylist(playlist.id), [playlist.id])
+  const isOrigin = useMemo(() => isMyFavotitePlaylist(playlist.id), [playlist.id])
 
   useEffect(() => {
     getPlaylist()
-    setTab(PlaylistTab.SONG)
-  }, [playlistId])
+  }, [playlistId, shouldUpdateFavoritePlaylist])
 
   useEffect(() => {
-    if (tab === PlaylistTab.SUB) {
-      getSubscribers(1)
-    }
-  }, [tab])
+    setTab(PlaylistTab.SONG)
+  }, [playlistId])
 
   async function getPlaylist () {
     const params = {
@@ -79,39 +76,24 @@ const Playlist = () => {
     })
   }
 
+  function getMenu (song: Song) {
+    return getSongMenu({ id: `playlist-${playlist.id}`, name: playlist.name }, song, playlist, updatePlaylist)
+  }
+
+  function musiclistStart (song: Song) {
+    start({ id: `playlist-${playlist.id}`, name: playlist.name }, song, playlist.tracks)
+  }
+
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
-      return <MusicList playlist={playlist} updateList={updatePlaylist} list={playlist.tracks}></MusicList>
+      return <MusicList start={musiclistStart} getMenu={getMenu} list={playlist.tracks}></MusicList>
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {
-      return (
-        <div className="playlist-subscribers">
-          {
-            subscribers.map(user =>
-              <div key={user.userId} className="playlist-subscribers-item">
-                <img onClick={() => { goUserDetail(user.userId) }} src={user.avatarUrl + '?params=100y100'} alt=""/>
-                <div className="playlist-subscribers-info-wrap">
-                  <span onClick={() => { goUserDetail(user.userId) }}>{user.nickname}</span>
-                  <i className={classNames('iconfont', user.gender === 1 ? 'icon-boy' : 'icon-girl')}></i>
-                  { user.signature && <div className="playlist-subscribers-signature">{user.signature}</div> }
-                </div>
-              </div>
-            )
-          }
-        </div>
-      )
+      return <Subscribers playlistId={playlistId}></Subscribers>
     } else {
       return
     }
-  }
-
-  async function getSubscribers (page: number) {
-    try {
-      const offset = (page - 1) * SUBSCRIBERS_LIMIT
-      const res = await api.getPlaylistSubscribers({ id: playlistId, limit: SUBSCRIBERS_LIMIT, offset })
-      setSubscribers(res.data.subscribers)
-    } catch (e) {}
   }
 
   function genPlaylistTag (playlist: PlaylistClass) {

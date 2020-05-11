@@ -4,6 +4,7 @@ import api from 'API/index'
 import { SET_USER_PLAYLIST } from 'STORE/user/types'
 import { createPlaylistList, PlaylistClass } from './playlist'
 import { useDispatch } from 'react-redux'
+import { SET_UPDATE_FAVORITE_PLAYLIST } from 'STORE/commen/types'
 
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
@@ -62,6 +63,13 @@ export function useUserPlaylist () {
     } catch (e) {}
   }
 
+  function shouldUpdateUserFavoritePlaylist (playlistId: number) {
+    if (!playlist[0] || !playlistId) return
+    if (playlist[0].id === playlistId) {
+      dispatch({ type: SET_UPDATE_FAVORITE_PLAYLIST})
+    }
+  }
+
   return {
     userPlaylist,
     subPlaylist,
@@ -69,6 +77,9 @@ export function useUserPlaylist () {
     deletePlaylist,
     subscribePlaylist,
     addOrRemoveSong,
-    getUserPlaylistDetail
+    getUserPlaylistDetail,
+    shouldUpdateUserFavoritePlaylist,
+    isUserPlaylist: (playlistId: number) => userPlaylist.findIndex(item => Number(playlistId) === item.id) > -1,
+    isMyFavotitePlaylist: (playlistId: number) => userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId
   }
 }

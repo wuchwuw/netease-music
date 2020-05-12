@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import api from 'API/index'
 import Song, { createSongList } from 'UTIL/song'
 import Comment from 'COMPONENTS/comment/comment'
@@ -6,15 +6,25 @@ import { usePlayerController } from 'UTIL/player-controller'
 import './fm.less'
 
 let FMList: Song[] = []
+let FM_TYPE = ['current', 'next', 'prev', 'remove', 'delete']
+
+function fmSongSource () {
+  return {
+    id: 'fm',
+    name: '私人FM'
+  }
+}
 
 const FM = () => {
-  const [fm, setFM] = useState<Song>(new Song({}))
   const [fmList, setFMList] = useState<Song[]>([])
   const [lyric, setLyric] = useState({})
+  const { startFM, currentSong, initFM, fmScreenMusicList } = usePlayerController()
+  const [screenList, setScreenList] = useState(FM_TYPE.map(item => { return { song: new Song({}), type: item } }))
+  const [fm, setFM] = useState<Song>((fmScreenMusicList.find(item => item.type === 'current')!.song!.song))
   const CommentComponent = useMemo(() => <Comment showTitle={true} type="music" id={fm.id} />, [fm])
-  const { start, currentSong } = usePlayerController()
+
   useEffect(() => {
-    getFM()
+    initFM()
   }, [])
 
   useEffect(() => {
@@ -23,11 +33,11 @@ const FM = () => {
     }
   }, [fm.id])
 
-  useEffect(() => {
-    if (fm.id) {
-      setFM(currentSong)
-    }
-  }, [currentSong.id])
+  // useEffect(() => {
+  //   if (fm.id) {
+  //     setFM((fmScreenMusicList.find(item => item.type === 'current')!.song!.song))
+  //   }
+  // }, [currentSong.song.id])
 
   async function getFM () {
     try {
@@ -35,6 +45,9 @@ const FM = () => {
       FMList = createSongList(res.data.data)
       setFM(FMList[0])
       setFMList(FMList)
+      screenList[0].song = FMList[0]
+      screenList[1].song = FMList[1]
+      setScreenList([...screenList])
     } catch (e) {
       console.log(e)
     }
@@ -46,14 +59,25 @@ const FM = () => {
     })
   }
 
+  function aaaa () {
+    screenList[0].type = 'prev'
+    screenList[1].type = 'current'
+    setScreenList([...screenList])
+    console.log(screenList)
+  }
+
   return (
     <div className="fm-container">
       <div className="fm-song">
         <div className="fm-song-cover">
-          <div className="fm-song-cover-current">
-            <img onClick={() => { start(fm, fmList) }} src={fm.album.picUrl} alt=""/>
-          </div>
-          <div className="fm-song-cover-prev"></div>
+          {
+            fmScreenMusicList.map(item => (
+              <div key={item.song.song.id} className={`fm-song-cover-content ${item.type}`}>
+                <img src={item.song.song.album.picUrl + '?param=500y500'} alt=""/>
+              </div>
+            ))
+          }
+          <div className="fm-play-icon pause"><i className="iconfont icon-triangle-full"></i></div>
         </div>
         <div className="fm-info">
           <div className="fm-info-name">{fm.name}</div>

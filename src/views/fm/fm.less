@@ -3,19 +3,108 @@
 .fm-container {
   width: 770px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px 20px;
 }
 .fm-song {
   display: flex;
 }
+
+.fm-song-cover {
+  position: relative;
+  flex: 0 0 270px;
+  display: flex;
+  align-items: center;
+  height: 270px;
+}
+
+.fm-play-icon {
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, .8);
+  z-index: 1;
+  transition: all .5s;
+  i {
+    font-size: 22px;
+    color: @color-main;
+    transition: opacity .3s;
+  }
+  &.play {
+    transform: translate3d(-50%, -50%, 0);
+    left: 50%;
+    top: 50%;
+  }
+  &.pause {
+    left: 210px;
+    top: 210px;
+  }
+}
+
+.fm-song-cover-content {
+  position: absolute;
+  overflow: hidden;
+  transition: all .5s;
+  &.current {
+    height: 270px;
+    width: 270px;
+    z-index: 1;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  &.prev {
+    height: 230px;
+    width: 230px;
+    opacity: 1;
+    transform: translateX(-30px);
+  }
+  &.next {
+    height: 270px;
+    width: 270px;
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  > img {
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+
 .fm-song-cover-current {
   height: 270px;
   width: 270px;
+  position: absolute;
+  right: 0;
+  z-index: 1;
   img {
     width: 100%;
     border-radius: 5px;
   }
 }
+.fm-song-cover-prev {
+  height: 250px;
+  width: 250px;
+  position: absolute;
+  img {
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+
+.fm-song-cover-next {
+  height: 270px;
+  width: 270px;
+  position: absolute;
+  opacity: 0;
+  img {
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+
 .fm-info {
   flex: 1;
   margin-left: 50px;

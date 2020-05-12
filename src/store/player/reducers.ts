@@ -7,9 +7,20 @@ import {
   PLAYER_FULL_SCREEN,
   SET_MODE,
   PlyerMode,
-  SET_PLAY_HISTORY
+  SET_PLAY_HISTORY,
+  SET_FM_SCREEN_MUSIC,
+  FMType
 } from './types'
 import Song from 'UTIL/song'
+
+let FM_TYPE: FMType[] = ['current', 'next', 'prev', 'remove', 'delete']
+
+function fmSongSource () {
+  return {
+    id: 'fm',
+    name: '私人FM'
+  }
+}
 
 const initialState: PlayerState = {
   currentSong: { song: new Song({}), source: { id: '', name: ''} },
@@ -17,7 +28,8 @@ const initialState: PlayerState = {
   playHistory: [],
   playing: false,
   fullScreen: false,
-  mode: PlyerMode.LOOP
+  mode: PlyerMode.LOOP,
+  fmScreenMusicList: FM_TYPE.map(item => { return { song: { song: new Song({}), source: fmSongSource()}, type: item } })
 }
 
 export function playerReducer (state = initialState, action: PlayerActionTypes): PlayerState {
@@ -39,6 +51,9 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
       return state
     case SET_PLAY_HISTORY:
       state.playHistory = action.playHistory.slice()
+      return state
+    case SET_FM_SCREEN_MUSIC:
+      state.fmScreenMusicList = action.fmScreenMusicList.slice()
       return state
     default:
       return state

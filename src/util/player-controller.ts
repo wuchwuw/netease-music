@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "STORE/index"
-import Song from "./song"
+import Song, { createSongList } from "./song"
 import api from "API/index"
-import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY } from 'STORE/player/types'
-import { PlyerMode } from 'STORE/player/types'
+import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC } from 'STORE/player/types'
+import { PlyerMode, FM } from 'STORE/player/types'
 
 // page-id or page
 export interface Source {
@@ -46,6 +46,7 @@ let randomPlaylist: SongWidthSource[] = []
 let cacheMusiclist: SongWidthSource[] = []
 let cacheCurrentSong: SongWidthSource = { song: new Song({}), source: { id: '', name: ''}}
 let sourceIds: string[] = []
+let FMList: SongWidthSource[] = [] 
 
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -54,6 +55,7 @@ export function usePlayerController () {
   const dispatch = useDispatch()
   const mode = useSelector((state: RootState) => state.player.mode)
   const playHistory = useSelector((state: RootState) => state.player.playHistory)
+  const fmScreenMusicList = useSelector((state: RootState) => state.player.fmScreenMusicList)
 
   function setPlayHistory (song: SongWidthSource) {
     const index = getSongIndexInMusiclist(playHistory, song)
@@ -83,7 +85,7 @@ export function usePlayerController () {
   }
 
   function next () {
-    const nextSong = getNext('next')
+    const nextSong = currentSong.source.id === 'fm' ? fmNext() : getNext('next')
     nextSong && playSong(nextSong)
   }
 
@@ -107,7 +109,7 @@ export function usePlayerController () {
       let res = await api.getSongUrl({ id: currentSong.song.id })
       audio.src = res.data.data[0].url
       setCurrentSongWidthSource(currentSong)
-      setPlayHistory(currentSong)
+      currentSong.source.id !== 'fm' && setPlayHistory(currentSong)
       play()
     } catch (e) {}
   }
@@ -192,9 +194,52 @@ export function usePlayerController () {
     }
   }
 
-  // function isSongPlaying (song: Song) {
-  //   return currentSong.song.id === song.id
-  // }
+  function startFM (fm: FM) {
+    playSong(fm.song)
+  }
+
+  function setFMScreenMusicList (fms: FM[]) {
+    dispatch({ type: SET_FM_SCREEN_MUSIC, fmScreenMusicList: fms })
+  }
+
+  function fmNext () {
+    let current = fmScreenMusicList.find(item => item.type === 'current')
+    let next = fmScreenMusicList.find(item => item.type === 'next')
+    let prev = fmScreenMusicList.find(item => item.type === 'next')
+    let remove = fmScreenMusicList.find(item => item.type === 'next')
+    // let delete = fmScreenMusicList.find(item => item.type === 'next')
+    let fm = FMList.shift()
+    next!.song = fm!
+    prev!.song = current!.song
+    current!.song = next!.song
+    if (FMList.length === 1) {
+      getFM()
+    }
+    setFMScreenMusicList([...fmScreenMusicList])
+  }
+
+  async function getFM (cb?: Function) {
+    try {
+      const res = await api.getFM()
+      FMList.push(...createSongList(res.data.data).map(item => { return { song: item, source: { id: 'fm', name: '私人FM'}}}))
+      cb && cb()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  function initFM () {
+    console.log(11)
+    getFM(() => {
+      let fm1 = FMList.shift()
+      let fm2 = FMList.shift()
+      let current = fmScreenMusicList.find(item => item.type === 'current')
+      let next = fmScreenMusicList.find(item => item.type === 'next')
+      current!.song = fm1!
+      next!.song = fm2!
+      setFMScreenMusicList([...fmScreenMusicList])
+    })
+  }
 
   return {
     start,
@@ -206,6 +251,9 @@ export function usePlayerController () {
     playing,
     nextPlayPlaylist,
     nextPlaySong,
-    playHistory
+    playHistory,
+    initFM,
+    fmScreenMusicList,
+    startFM
   }
 }

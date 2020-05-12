@@ -47,12 +47,12 @@ interface setPlayHistory {
   playHistory: SongWidthSource[]
 }
 
-export type FM = { song: SongWidthSource, type:  FMType }
 export type FMType = 'current' | 'next' | 'prev' | 'remove' | 'delete'
+export type FM = { [key in FMType]: SongWidthSource }
 
 interface setFMScreenMusicList {
   type: typeof SET_FM_SCREEN_MUSIC,
-  fmScreenMusicList: FM[]
+  fmScreenMusicList: FM
 }
 
 export interface PlayerState {
@@ -62,7 +62,7 @@ export interface PlayerState {
   playHistory: SongWidthSource[],
   fullScreen: boolean,
   mode: PlyerMode,
-  fmScreenMusicList: FM[]
+  fmScreenMusicList: FM
 }
 
 export type PlayerActionTypes =

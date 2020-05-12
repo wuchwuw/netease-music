@@ -4,8 +4,8 @@ import Song, { createSongList } from 'UTIL/song'
 import Comment from 'COMPONENTS/comment/comment'
 import { usePlayerController } from 'UTIL/player-controller'
 import './fm.less'
+import { FMType } from 'STORE/player/types'
 
-let FMList: Song[] = []
 let FM_TYPE = ['current', 'next', 'prev', 'remove', 'delete']
 
 function fmSongSource () {
@@ -16,54 +16,25 @@ function fmSongSource () {
 }
 
 const FM = () => {
-  const [fmList, setFMList] = useState<Song[]>([])
   const [lyric, setLyric] = useState({})
-  const { startFM, currentSong, initFM, fmScreenMusicList } = usePlayerController()
+  const { startFM, initFM, fmScreenMusicList } = usePlayerController()
   const [screenList, setScreenList] = useState(FM_TYPE.map(item => { return { song: new Song({}), type: item } }))
-  const [fm, setFM] = useState<Song>((fmScreenMusicList.find(item => item.type === 'current')!.song!.song))
-  const CommentComponent = useMemo(() => <Comment showTitle={true} type="music" id={fm.id} />, [fm])
+  const CommentComponent = useMemo(() => <Comment showTitle={true} type="music" id={fmScreenMusicList.current.song.id} />, [fmScreenMusicList.current.song.id])
 
   useEffect(() => {
     initFM()
   }, [])
 
   useEffect(() => {
-    if (fm.id) {
+    if (fmScreenMusicList.current.song.id) {
       getFMLyric()
     }
-  }, [fm.id])
-
-  // useEffect(() => {
-  //   if (fm.id) {
-  //     setFM((fmScreenMusicList.find(item => item.type === 'current')!.song!.song))
-  //   }
-  // }, [currentSong.song.id])
-
-  async function getFM () {
-    try {
-      const res = await api.getFM()
-      FMList = createSongList(res.data.data)
-      setFM(FMList[0])
-      setFMList(FMList)
-      screenList[0].song = FMList[0]
-      screenList[1].song = FMList[1]
-      setScreenList([...screenList])
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  }, [fmScreenMusicList.current.song.id])
 
   function getFMLyric () {
-    fm.getLyric((lyric: any) => {
+    fmScreenMusicList.current.song.getLyric((lyric: any) => {
       setLyric(lyric)
     })
-  }
-
-  function aaaa () {
-    screenList[0].type = 'prev'
-    screenList[1].type = 'current'
-    setScreenList([...screenList])
-    console.log(screenList)
   }
 
   return (
@@ -71,19 +42,19 @@ const FM = () => {
       <div className="fm-song">
         <div className="fm-song-cover">
           {
-            fmScreenMusicList.map(item => (
-              <div key={item.song.song.id} className={`fm-song-cover-content ${item.type}`}>
-                <img src={item.song.song.album.picUrl + '?param=500y500'} alt=""/>
+            (Object.keys(fmScreenMusicList) as (FMType)[]).map((key) => (
+              <div key={fmScreenMusicList[key].song.id} className={`fm-song-cover-content ${key}`}>
+                <img src={fmScreenMusicList[key].song.album.picUrl + '?param=500y500'} alt=""/>
               </div>
             ))
           }
-          <div className="fm-play-icon pause"><i className="iconfont icon-triangle-full"></i></div>
+          <div onClick={() => { startFM() }} className="fm-play-icon pause"><i className="iconfont icon-triangle-full"></i></div>
         </div>
         <div className="fm-info">
-          <div className="fm-info-name">{fm.name}</div>
+          <div className="fm-info-name">{fmScreenMusicList.current.song.name}</div>
           <div className="fm-info-album">
-            <div>专辑:<span className="commen-link-blue">{fm.album.name}</span></div>
-            <div>歌手:<span className="commen-link-blue">{fm.artistName}</span></div>
+            <div>专辑:<span className="commen-link-blue">{fmScreenMusicList.current.song.album.name}</span></div>
+            <div>歌手:<span className="commen-link-blue">{fmScreenMusicList.current.song.artistName}</span></div>
           </div>
           <div className="fm-info-lyrics">
             {

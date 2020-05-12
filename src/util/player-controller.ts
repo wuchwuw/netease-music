@@ -46,7 +46,7 @@ let randomPlaylist: SongWidthSource[] = []
 let cacheMusiclist: SongWidthSource[] = []
 let cacheCurrentSong: SongWidthSource = { song: new Song({}), source: { id: '', name: ''}}
 let sourceIds: string[] = []
-let FMList: SongWidthSource[] = [] 
+let FMList: SongWidthSource[] = []
 
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -60,7 +60,7 @@ export function usePlayerController () {
   function setPlayHistory (song: SongWidthSource) {
     const index = getSongIndexInMusiclist(playHistory, song)
     let history = playHistory.slice()
-    
+
     if (index > -1) {
       history.splice(index, 1)
     }
@@ -194,28 +194,23 @@ export function usePlayerController () {
     }
   }
 
-  function startFM (fm: FM) {
-    playSong(fm.song)
+  function startFM () {
+    playSong(fmScreenMusicList.current)
   }
 
-  function setFMScreenMusicList (fms: FM[]) {
+  function setFMScreenMusicList (fms: FM) {
     dispatch({ type: SET_FM_SCREEN_MUSIC, fmScreenMusicList: fms })
   }
 
   function fmNext () {
-    let current = fmScreenMusicList.find(item => item.type === 'current')
-    let next = fmScreenMusicList.find(item => item.type === 'next')
-    let prev = fmScreenMusicList.find(item => item.type === 'next')
-    let remove = fmScreenMusicList.find(item => item.type === 'next')
-    // let delete = fmScreenMusicList.find(item => item.type === 'next')
-    let fm = FMList.shift()
-    next!.song = fm!
-    prev!.song = current!.song
-    current!.song = next!.song
-    if (FMList.length === 1) {
+    fmScreenMusicList.remove.song = fmScreenMusicList.prev.song
+    fmScreenMusicList.prev.song = fmScreenMusicList.current.song
+    fmScreenMusicList.current.song = fmScreenMusicList.next.song
+    fmScreenMusicList.next.song = FMList.shift()!.song
+    if (FMList.length <= 1) {
       getFM()
     }
-    setFMScreenMusicList([...fmScreenMusicList])
+    setFMScreenMusicList(fmScreenMusicList)
   }
 
   async function getFM (cb?: Function) {
@@ -229,15 +224,10 @@ export function usePlayerController () {
   }
 
   function initFM () {
-    console.log(11)
     getFM(() => {
-      let fm1 = FMList.shift()
-      let fm2 = FMList.shift()
-      let current = fmScreenMusicList.find(item => item.type === 'current')
-      let next = fmScreenMusicList.find(item => item.type === 'next')
-      current!.song = fm1!
-      next!.song = fm2!
-      setFMScreenMusicList([...fmScreenMusicList])
+      fmScreenMusicList.current = FMList.shift()!
+      fmScreenMusicList.next = FMList.shift()!
+      setFMScreenMusicList(fmScreenMusicList)
     })
   }
 

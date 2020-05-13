@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "STORE/index"
 import Song, { createSongList } from "./song"
 import api from "API/index"
-import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC } from 'STORE/player/types'
+import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType } from 'STORE/player/types'
 import { PlyerMode, FM } from 'STORE/player/types'
 
 // page-id or page
@@ -46,7 +46,8 @@ let randomPlaylist: SongWidthSource[] = []
 let cacheMusiclist: SongWidthSource[] = []
 let cacheCurrentSong: SongWidthSource = { song: new Song({}), source: { id: '', name: ''}}
 let sourceIds: string[] = []
-let FMList: SongWidthSource[] = []
+let FMList: Song[] = []
+let canDelete = true
 
 export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
@@ -194,19 +195,43 @@ export function usePlayerController () {
     }
   }
 
-  function startFM () {
-    playSong(fmScreenMusicList.current)
+  function getFMByType (type: FMType) {
+    return fmScreenMusicList.find(item => item.type === type)!
   }
 
-  function setFMScreenMusicList (fms: FM) {
+  function startFM () {
+    if (currentSong.source.id === 'fm') {
+      togglePlay()
+      return
+    }
+    const song = getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM'})
+    playSong(song)
+  }
+
+  function setFMScreenMusicList (fms: FM[]) {
     dispatch({ type: SET_FM_SCREEN_MUSIC, fmScreenMusicList: fms })
   }
 
   function fmNext () {
-    fmScreenMusicList.remove.song = fmScreenMusicList.prev.song
-    fmScreenMusicList.prev.song = fmScreenMusicList.current.song
-    fmScreenMusicList.current.song = fmScreenMusicList.next.song
-    fmScreenMusicList.next.song = FMList.shift()!.song
+    let remove = getFMByType('remove')
+    getFMByType('prev').type = 'remove'
+    getFMByType('current').type = 'prev'
+    getFMByType('next').type = 'current'
+    remove.song = FMList.shift()!
+    remove.type = 'next'
+    if (FMList.length <= 1) {
+      getFM()
+    }
+    setFMScreenMusicList(fmScreenMusicList)
+    return getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM'})
+  }
+
+  function fmDelete () {
+    let d = getFMByType('delete')
+    getFMByType('current').type = 'delete'
+    getFMByType('next').type = 'current'
+    d.song = FMList.shift()!
+    d.type = 'next'
     if (FMList.length <= 1) {
       getFM()
     }
@@ -216,7 +241,7 @@ export function usePlayerController () {
   async function getFM (cb?: Function) {
     try {
       const res = await api.getFM()
-      FMList.push(...createSongList(res.data.data).map(item => { return { song: item, source: { id: 'fm', name: '私人FM'}}}))
+      FMList.push(...createSongList(res.data.data))
       cb && cb()
     } catch (e) {
       console.log(e)
@@ -224,11 +249,24 @@ export function usePlayerController () {
   }
 
   function initFM () {
+    if (FMList.length) return
     getFM(() => {
-      fmScreenMusicList.current = FMList.shift()!
-      fmScreenMusicList.next = FMList.shift()!
+      getFMByType('current').song = FMList.shift()!
+      getFMByType('next').song = FMList.shift()!
       setFMScreenMusicList(fmScreenMusicList)
     })
+  }
+
+  async function addFMTrash (songId: number) {
+    if (!canDelete) return
+    try {
+      canDelete = false
+      await api.addFMTrash({ id: songId })
+      fmDelete()
+      canDelete = true
+    } catch (e) {
+      canDelete = true
+    }
   }
 
   return {
@@ -236,7 +274,7 @@ export function usePlayerController () {
     next,
     prev,
     togglePlay,
-    currentSong: currentSong,
+    currentSong,
     currentMusiclist,
     playing,
     nextPlayPlaylist,
@@ -244,6 +282,8 @@ export function usePlayerController () {
     playHistory,
     initFM,
     fmScreenMusicList,
-    startFM
+    startFM,
+    addFMTrash,
+    currentFM: fmScreenMusicList.find(item => item.type === 'current')!
   }
 }

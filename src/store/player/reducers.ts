@@ -14,24 +14,7 @@ import {
 } from './types'
 import Song from 'UTIL/song'
 
-let FM_TYPE: FMType[] = ['current', 'next', 'prev', 'remove', 'delete']
-
-function fmSongSource () {
-  return {
-    id: 'fm',
-    name: '私人FM'
-  }
-}
-
-function getFMInit () {
-  // { song: song, type: type}
-  let res = {} as FM
-  FM_TYPE.forEach(item => {
-    res[item] = { song: new Song({}), source: fmSongSource() }
-  })
-  return res
-}
-
+let FM_TYPE: FMType[] = ['current', 'next', 'prev', 'remove', 'delete', 'pre']
 
 const initialState: PlayerState = {
   currentSong: { song: new Song({}), source: { id: '', name: ''} },
@@ -40,7 +23,7 @@ const initialState: PlayerState = {
   playing: false,
   fullScreen: false,
   mode: PlyerMode.LOOP,
-  fmScreenMusicList: getFMInit()
+  fmScreenMusicList: FM_TYPE.map(item => { return { song: new Song({}), type: item } })
 }
 
 export function playerReducer (state = initialState, action: PlayerActionTypes): PlayerState {
@@ -64,7 +47,7 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
       state.playHistory = action.playHistory.slice()
       return state
     case SET_FM_SCREEN_MUSIC:
-      state.fmScreenMusicList = {...action.fmScreenMusicList}
+      state.fmScreenMusicList = [...action.fmScreenMusicList]
       return state
     default:
       return state

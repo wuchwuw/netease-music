@@ -114,7 +114,7 @@ const Friends: React.SFC = () => {
           <div className="activity-song">
             <div className="activity-song-wrap">
               <i className="iconfont icon-triangle-full activity-play-icon activity-song-play-icon"></i>
-              <img src={act.content.picUrl} alt=""/>
+              <img src={act.content.album.picUrl + '?param=100y100'} alt=""/>
             </div>  
             <div className="activity-song-info">
               <div>{act.content.name}</div>

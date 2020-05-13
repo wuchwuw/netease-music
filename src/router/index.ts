@@ -1,25 +1,26 @@
+import loadable from '@loadable/component'
 import App from '../app'
-import HomeRecomend from 'VIEWS/home/recomend/recomend'
-import HomeAlbum from 'VIEWS/home/playlist/playlist'
-import HomeToplist from 'VIEWS/home/toplist/toplist'
-import HomeArtist from 'VIEWS/home/artist/artist'
-import HomeNew from 'VIEWS/home/new/new'
-import HomeRadio from 'VIEWS/home/radio/radio'
-import Home from 'VIEWS/home/index'
-import Playlist from 'VIEWS/playlist/playlist'
-import Search from 'VIEWS/search/search'
 import { RouteConfig } from 'react-router-config'
 import { createRedirect } from './redirect'
-import Video from 'VIEWS/video/video/video'
-import VideoContainer from 'VIEWS/video/index'
-import MvRecomend from 'VIEWS/video/mv/mv'
-import Friends from 'VIEWS/friends/friends'
-import FM from 'VIEWS/fm/fm'
-import User from 'VIEWS/user/user'
-import Artist from 'VIEWS/artist/artist'
-import Album from 'VIEWS/album/album'
-import VideoDetail from 'VIEWS/video-detail/video-detail'
-import MVDetail from 'VIEWS/video-detail/mv-detail'
+const HomeRecomend = loadable(() => import('VIEWS/home/recomend/recomend'))
+const HomeAlbum = loadable(() => import('VIEWS/home/playlist/playlist'))
+const HomeToplist = loadable(() => import('VIEWS/home/toplist/toplist'))
+const HomeArtist = loadable(() => import('VIEWS/home/artist/artist'))
+const HomeNew = loadable(() => import('VIEWS/home/new/new'))
+const HomeRadio = loadable(() => import('VIEWS/home/radio/radio'))
+const Home = loadable(() => import('VIEWS/home/index'))
+const Playlist = loadable(() => import('VIEWS/playlist/playlist'))
+const Search = loadable(() => import('VIEWS/search/search'))
+const Video = loadable(() => import('VIEWS/video/video/video'))
+const VideoContainer = loadable(() => import('VIEWS/video/index'))
+const MvRecomend = loadable(() => import('VIEWS/video/mv/mv'))
+const Friends = loadable(() => import('VIEWS/friends/friends'))
+const FM = loadable(() => import('VIEWS/fm/fm'))
+const User = loadable(() => import('VIEWS/user/user'))
+const Artist = loadable(() => import('VIEWS/artist/artist'))
+const Album = loadable(() => import('VIEWS/album/album'))
+const VideoDetail = loadable(() => import('VIEWS/video-detail/video-detail'))
+const MVDetail = loadable(() => import('VIEWS/video-detail/mv-detail'))
 
 const routes: RouteConfig[] = [
   {

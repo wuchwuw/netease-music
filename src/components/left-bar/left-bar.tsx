@@ -28,7 +28,7 @@ const Menu = ({id, trigger}: any) => {
     >
       {
         menu.map((item) => (
-          <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => { item.trigger() }} data={{ action: 'Added' }}>{item.name}</MenuItem>
+          <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => { item.trigger && item.trigger() }} data={{ action: 'Added' }}>{item.name}</MenuItem>
         ))
       }
     </ContextMenu>

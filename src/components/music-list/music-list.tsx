@@ -31,7 +31,7 @@ const Menu = ({id, trigger}: any) => {
         menu.map((item) => {
           return (
             item.sub ?
-              <SubMenu title='收藏' attributes={{className: 'context-menu-item'}}>
+              <SubMenu title={<div>收藏<i className="iconfont icon-triangle-full"></i></div>} attributes={{className: 'context-menu-item'}}>
                 {
                   item.sub.map(menu => (
                     <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger && menu.trigger() } }>{menu.name}</MenuItem>

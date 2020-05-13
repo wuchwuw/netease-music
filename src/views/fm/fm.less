@@ -7,11 +7,15 @@
 }
 .fm-song {
   display: flex;
+  margin-bottom: 30px;
+}
+
+.fm-song-left {
+  flex: 0 0 270px;
 }
 
 .fm-song-cover {
   position: relative;
-  flex: 0 0 270px;
   display: flex;
   align-items: center;
   height: 270px;
@@ -25,13 +29,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, .8);
+  background: #FFFFFF;
   z-index: 1;
-  transition: all .5s;
+  transition: all .3s;
   i {
-    font-size: 22px;
+    font-size: 20px;
     color: @color-main;
-    transition: opacity .3s;
   }
   &.play {
     transform: translate3d(-50%, -50%, 0);
@@ -73,6 +76,9 @@
     transform: translateX(-60px);
     opacity: 0;
     z-index: -1;
+  }
+  &.delete {
+    opacity: 0;
   }
   > img {
     width: 100%;
@@ -145,5 +151,29 @@
   &.active {
     font-size: 16px;
     color: #333333;
+  }
+}
+
+.fm-action {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  i {
+    height: 40px;
+    width: 40px;
+    background: #F5F5F5;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #666666;
+    &:hover {
+      background: #EDEDEB;
+    }
+  }
+  .icon-heart-full {
+    color: @color-main;
   }
 }

@@ -33,7 +33,7 @@ export function useFavorite () {
     } catch (e) {}
   }
 
-  async function favorite (id: number, cb: any) {
+  async function favorite (id: number, cb?: any) {
     try {
       const like = !isFavorite(id)
       await api.like({ id, like })

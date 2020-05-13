@@ -1,4 +1,5 @@
 import { SongWidthSource } from "UTIL/player-controller"
+import Song from "UTIL/song"
 
 export const SET_CURRENT_SONG = 'SET_CURRENT_SONG'
 export const SET_PLAYLIST = 'SET_PLAYLIST'
@@ -47,12 +48,12 @@ interface setPlayHistory {
   playHistory: SongWidthSource[]
 }
 
-export type FMType = 'current' | 'next' | 'prev' | 'remove' | 'delete'
-export type FM = { [key in FMType]: SongWidthSource }
+export type FMType = 'current' | 'next' | 'prev' | 'remove' | 'delete' | 'pre'
+export type FM = { song: Song , type: FMType }
 
 interface setFMScreenMusicList {
   type: typeof SET_FM_SCREEN_MUSIC,
-  fmScreenMusicList: FM
+  fmScreenMusicList: FM[]
 }
 
 export interface PlayerState {
@@ -62,7 +63,7 @@ export interface PlayerState {
   playHistory: SongWidthSource[],
   fullScreen: boolean,
   mode: PlyerMode,
-  fmScreenMusicList: FM
+  fmScreenMusicList: FM[]
 }
 
 export type PlayerActionTypes =

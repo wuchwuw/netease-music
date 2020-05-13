@@ -9,7 +9,7 @@ interface CommentProps {
   id: number | string
   type: string
   showTitle?: boolean
-  delay?: 0
+  delay?: number
 }
 
 const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video', 'activity']
@@ -19,7 +19,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<CommentCls[]>([])
   const [hot, setHot] = useState<CommentCls[]>([])
-  const PAGE_SIZE = 60
+  const PAGE_SIZE = 30
   const [content, setContent] = useState('')
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
           {
             list.map(comment => (
               <div key={comment.commentId + comment.parentCommentId} className="comment-item">
-                <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=35y35'} alt=""/>
+                <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=100y100'} alt=""/>
                 <div className="comment-item-info">
                   <div className="comment-item-info-text">
                     <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}

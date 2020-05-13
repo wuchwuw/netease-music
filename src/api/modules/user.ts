@@ -22,9 +22,6 @@ export default {
   getUserInfo () {
     return axios.get('user/subcount', { withCredentials: true })
   },
-  getFM () {
-    return axios.get('/personal_fm', { params: { timestamp: +new Date(), limit: 10 }, withCredentials: true })
-  },
   getUserDetail (params: UserIdParams) {
     return axios.get('/user/detail', { params, withCredentials: true })
   },
@@ -33,5 +30,11 @@ export default {
   },
   getUserCloud () {
     return axios.get('/user/cloud', { withCredentials: true })
+  },
+  getFM () {
+    return axios.get('/personal_fm', { params: { timestamp: +new Date(), limit: 10 }, withCredentials: true })
+  },
+  addFMTrash (params: { id: number}) {
+    return axios.get('/fm_trash', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

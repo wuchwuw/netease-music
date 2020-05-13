@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import LeftBar from 'COMPONENTS/left-bar/left-bar'
 import TopBar from 'COMPONENTS/top-bar/top-bar'
-import Player from 'COMPONENTS/player/player'
+import Player from 'VIEWS/player/player'
 import PanelContainer from 'VIEWS/panel/container'
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 import { useFavorite } from 'UTIL/favorite'

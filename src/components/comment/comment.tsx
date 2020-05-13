@@ -4,6 +4,8 @@ import api from 'API/index'
 import Pagination from 'COMPONENTS/pagination/pagination'
 import Spin from 'COMPONENTS/spin/spin'
 import CommentCls, { createCommentList } from 'UTIL/comment'
+import CommentDialog from './comment-dialog/comment-dialog'
+import { useDialog } from 'COMPONENTS/dialog'
 
 interface CommentProps {
   id: number | string
@@ -21,6 +23,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   const [hot, setHot] = useState<CommentCls[]>([])
   const PAGE_SIZE = 30
   const [content, setContent] = useState('')
+  const commentDialogProps = useDialog()
 
   useEffect(() => {
     if (!id) return
@@ -100,7 +103,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                       { !!comment.likedCount && <span className="comment-item-info-like">{comment.likedCount}</span>}
                     </i>
                     <i className="iconfont icon-share"></i>
-                    <i className="iconfont icon-comment"></i>
+                    <i onClick={() => { commentDialogProps.open() }} className="iconfont icon-comment"></i>
                   </div>
                 </div>
               </div>
@@ -151,6 +154,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
           }
         </Spin>
       </div>
+      <CommentDialog {...commentDialogProps}></CommentDialog>
     </div>
   )
 }

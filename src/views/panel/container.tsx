@@ -5,11 +5,13 @@ import Message from 'VIEWS/panel/message/message'
 import { useDispatch, useSelector } from "react-redux"
 import { SET_PANEL_TYPE } from 'STORE/commen/types'
 import { RootState } from "STORE/index"
+import Chat from "./chat/chat"
 
 export enum PanelType {
   Search = 'search',
   CurrentPlaylist = 'current-playlist',
   Message = 'message',
+  Chat = 'chat',
   Close = 'close'
 }
 
@@ -36,16 +38,19 @@ const PanelContainer: React.SFC = (props) => {
   ]
 
   function genPanelNode (type: PanelType) {
-    switch (type) {
-      case PanelType.Search:
-        return <Search></Search>
-      case PanelType.CurrentPlaylist:
-        return <CurrentPlaylist></CurrentPlaylist>
-      case PanelType.Message:
-        return <Message></Message>
-      case PanelType.Close:
-        return null
-    }
+    return <Chat></Chat>
+    // switch (type) {
+    //   case PanelType.Search:
+    //     return <Search></Search>
+    //   case PanelType.CurrentPlaylist:
+    //     return <CurrentPlaylist></CurrentPlaylist>
+    //   case PanelType.Message:
+    //     return <Message></Message>
+    //   case PanelType.Chat:
+    //     return <Chat></Chat>
+    //   case PanelType.Close:
+    //     return null
+    // }
   }
 
   function onCurrentPlaylistClick (e: MouseEvent) {

@@ -2,11 +2,13 @@
 
 .comment-textarea-wrap {
   height: 70px;
-  border: 1px solid #e6e6e6;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 0 15px 8px;
   position: relative;
-  background: #fff;
+  background: #FAFAFA;
+  &.replied {
+    margin-top: 10px;
+  }
 }
 .comment-textarea {
   resize: none;
@@ -14,16 +16,22 @@
   width: 100%;
   border: none;
   outline: none;
+  background: #FAFAFA;
+  font-size: 13px;
+  &::placeholder {
+    color: #999999;
+  }
 }
 .comment-textarea-reset {
   position: absolute;
-  right: 5px;
+  right: 12px;
   bottom: 5px;
   font-size: 13px;
+  color: #999999;
 }
 .comment-textarea-action {
   display: flex;
-  margin: 10px 0 35px;
+  margin-top: 10px;
   align-items: center;
   i {
     margin-right: 10px;
@@ -81,6 +89,9 @@
 .comment-item-info-text {
   font-size: 14px;
   line-height: 1.5;
+  &.replied {
+    color: #666666;
+  }
 }
 .comment-item-info-name {
   color: #507DAF;
@@ -104,10 +115,6 @@
     }
   }
 }
-// .comment-item-info-action-report {
-//   display: none;
-//   font-size: 13px;
-// }
 .comment-item-info-time {
   color: #C0C0C0;
   font-size: 13px;
@@ -129,4 +136,8 @@
     margin-left: 10px;
     font-weight: normal;
   }
+}
+
+.comment-replied-area {
+  margin-top: 10px;
 }

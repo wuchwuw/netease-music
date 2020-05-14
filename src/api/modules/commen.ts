@@ -40,5 +40,8 @@ export default {
   },
   getPanelNotices (params: GetPanelMessageParams) {
     return axios.get('msg/notices', { params, withCredentials: true })
+  },
+  getPrivateMessage (params: { uid: number, limit: number}) {
+    return axios.get('msg/private/history', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

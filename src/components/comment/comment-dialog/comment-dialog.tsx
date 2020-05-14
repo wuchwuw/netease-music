@@ -10,7 +10,7 @@ const CommentDialog: React.SFC<UseDialogProps> = (props) => {
     <Dialog width={470} {...props}>
       <div className="comment-dialog">
         <div className="dialog-title">评论</div>
-        <div className="comment-textarea-wrap">
+        <div className="comment-textarea-wrap dialog">
           <textarea value={content} onChange={(e) => { setContent(e.target.value) }} className="comment-textarea" placeholder="输入评论或@朋友"></textarea>
           <span className="comment-textarea-reset">140</span>
         </div>

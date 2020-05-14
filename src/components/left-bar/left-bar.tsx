@@ -8,6 +8,7 @@ import { useContainer } from 'COMPONENTS/container/container'
 import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist-dialog'
 import { ContextMenuTrigger, ContextMenu, MenuItem, connectMenu } from 'react-contextmenu'
 import { usePlaylistContextMenu, MenuType } from 'UTIL/menu'
+import { useUserPlaylist } from 'UTIL/user-playlist'
 
 const MENU_NAME = 'left-bar-contextmenu'
 let target: HTMLElement | null = null
@@ -42,11 +43,9 @@ const LeftBar: React.SFC = () => {
   const addDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const userPlaylist = useSelector((state: RootState) => state.user.playlist)
-  const playlist = userPlaylist.filter(item => item.creator.userId === user.userId)
-  const subPlaylist = userPlaylist.filter(item => item.creator.userId !== user.userId)
   const { visiable, open  } = useContainer(['.leftbar-user-panel'])
   const { getPlaylistMenu } = usePlaylistContextMenu()
+  const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
 
   return (
     <div className='leftbar-wrap'>
@@ -110,10 +109,10 @@ const LeftBar: React.SFC = () => {
         <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
         <div className="leftbar-item-title">创建的歌单<i onClick={() => addDialogProps.toggle()} className="iconfont icon-add"></i></div>
         {
-          playlist.map(item => (
+          userPlaylist.map(item => (
             <ContextMenuTrigger id={MENU_NAME} menu={getPlaylistMenu(item)} collect={props => props}>
               <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
-                <i className="iconfont icon-playlist"></i><div>{item.name}</div>
+                <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
               </NavLink>
             </ContextMenuTrigger>
           ))

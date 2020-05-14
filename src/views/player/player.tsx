@@ -149,7 +149,7 @@ export default function Player () {
         </div>
         <div className="mini-player-content">
           <div className="mini-player-song">
-            <img onClick={setFullScreen} className="mini-player-song-img" src={currentSong.album.picUrl+'?param=40y40'} alt=""/>
+            <img onClick={setFullScreen} className="mini-player-song-img" src={currentSong.album.picUrl+'?param=100y100'} alt=""/>
             <div className="mini-player-song-info">
               <div className="mini-player-song-name">{getSongName()}</div>
               <div className="mini-player-song-duration">{getCurrentTime()}</div>

@@ -79,7 +79,7 @@ export function useUserPlaylist () {
     addOrRemoveSong,
     getUserPlaylistDetail,
     shouldUpdateUserFavoritePlaylist,
-    isUserPlaylist: (playlistId: number) => userPlaylist.findIndex(item => Number(playlistId) === item.id) > -1,
-    isMyFavotitePlaylist: (playlistId: number) => userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId
+    isUserPlaylist: (playlistId: number) => !!(userPlaylist.findIndex(item => Number(playlistId) === item.id) > -1),
+    isMyFavotitePlaylist: (playlistId: number) => !!(userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId)
   }
 }

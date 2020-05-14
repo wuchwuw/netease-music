@@ -1,0 +1,33 @@
+.chat-panel-container {
+  position: fixed;
+  right: 0;
+  top: 50px;
+  bottom: 60px;
+  width: 360px;
+  background: #fff;
+  z-index: 10;
+  box-shadow: -3px 0px 3px -3px rgba(0, 0, 0, .2);
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+.chat-panel-title {
+  flex: 0 0 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  i {
+    transform: rotate(180deg);
+    font-size: 20px;
+  }
+  span {
+    flex: 1;
+    text-align: center;
+  }
+}
+.chat-panel-content {
+  flex: 1;
+}
+.chat-panel-textarea {
+  padding: 16px;
+}

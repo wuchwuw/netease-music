@@ -24,6 +24,8 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   const PAGE_SIZE = 30
   const [content, setContent] = useState('')
   const commentDialogProps = useDialog()
+  const [repliedIndex, setRepliedIndex] = useState('')
+  const [repliedContent, setRepliedContent] = useState('')
 
   useEffect(() => {
     if (!id) return
@@ -49,18 +51,22 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
     } catch (e) {}
   }
 
-  async function sendComment (isReplied: boolean, commentId?: number) {
+  async function sendComment (commentId?: number, repliedData?: any) {
     try {
       let params = {
-        t: isReplied ? 2 : 1,
-        content,
+        t: commentId ? 2 : 1,
+        content: commentId ? repliedContent: content,
         type: COMMENT_TYPE_MAP.indexOf(type),
         [ type === 'activity' ? 'threadId' : 'id']: id
       }
-      isReplied && commentId && (params.commentId = commentId)
+      commentId && (params.commentId = commentId)
       const res = await api.sendComment(params)
-      list.unshift(new CommentCls(res.data.comment))
+      list.unshift(new CommentCls(repliedData ? {...res.data.comment, beReplied: repliedData} : res.data.comment))
       setList([...list])
+      if (commentId) {
+        setRepliedIndex('')
+        setRepliedContent('')
+      }
     } catch (e) {}
   }
 
@@ -74,13 +80,22 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
     } catch (e) {}
   }
 
+  function showReplied (id: string) {
+    if (id === repliedIndex) {
+      setRepliedIndex('')
+      setRepliedContent('')
+    } else {
+      setRepliedIndex(id)
+    }
+  }
+
   function genCommentNode (title: string, list: CommentCls[]) {
     return (
       <>
         <div className="comment-title">{title}</div>
         <div className="comment-list">
           {
-            list.map(comment => (
+            list.map((comment, index) => (
               <div key={comment.commentId + comment.parentCommentId} className="comment-item">
                 <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=100y100'} alt=""/>
                 <div className="comment-item-info">
@@ -90,7 +105,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   {
                     comment.replied && (
                       <div className="comment-item-info-replay">
-                        <div className="comment-item-info-text">
+                        <div className="comment-item-info-text replied">
                           <span className="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}
                         </div>
                       </div>
@@ -103,8 +118,24 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                       { !!comment.likedCount && <span className="comment-item-info-like">{comment.likedCount}</span>}
                     </i>
                     <i className="iconfont icon-share"></i>
-                    <i onClick={() => { commentDialogProps.open() }} className="iconfont icon-comment"></i>
+                    <i onClick={() => { showReplied(`${title}-${index}`) }} className="iconfont icon-comment"></i>
                   </div>
+                  {
+                    repliedIndex === `${title}-${index}` && (
+                      <>
+                        <div className="comment-textarea-wrap replied">
+                          <textarea value={repliedContent} onChange={(e) => { setRepliedContent(e.target.value) }} className="comment-textarea" placeholder={`回复${comment.user.nickname}:`}></textarea>
+                          <span className="comment-textarea-reset">140</span>
+                        </div>
+                        <div className="comment-textarea-action">
+                          <i className="iconfont icon-face"></i>
+                          <i className="iconfont icon-aite"></i>
+                          <i className="iconfont icon-addtag"></i>
+                          <span onClick={() => { sendComment(comment.commentId, [{ beRepliedCommentId: comment.commentId, content: comment.content, user: comment.user }]) }} className="comment-textarea-action-btn">评论</span>
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
               </div>
             ))
@@ -125,7 +156,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
         <i className="iconfont icon-face"></i>
         <i className="iconfont icon-aite"></i>
         <i className="iconfont icon-addtag"></i>
-        <span onClick={() => { sendComment(false) }} className="comment-textarea-action-btn">评论</span>
+        <span onClick={() => { sendComment() }} className="comment-textarea-action-btn">评论</span>
       </div>
       <div className="comment-content">
         <Spin loading={loading} delay={300}>

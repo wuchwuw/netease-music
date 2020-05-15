@@ -1,3 +1,4 @@
+@import '~STYLE/color.less';
 .chat-panel-container {
   position: fixed;
   right: 0;
@@ -27,7 +28,67 @@
 }
 .chat-panel-content {
   flex: 1;
+  overflow-y: auto;
 }
 .chat-panel-textarea {
   padding: 16px;
+}
+.chat-panel-item {
+  padding: 16px;
+  display: flex;
+  font-size: 13px;
+  &.me {
+    justify-content: flex-end;
+    .chat-panel-item-content {
+      background: linear-gradient(to right, #FC5045, #D53A32);
+      border-radius: 10px 10px 0 10px;
+      color: #FFFFFF;
+    }
+  }
+}
+.chat-panel-item-user-avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+.chat-panel-item-wrap {
+  display: flex;
+}
+.chat-panel-item-content {
+  background: #E2E2E2;
+  max-width: 250px;
+  border-radius: 0 10px 10px 10px;
+  padding: 10px;
+  margin-left: 10px;
+}
+.chat-panel-item-content-mesage {
+  line-height: 1.5;
+}
+.chat-content-playlist {
+  background: #F9F9F9;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 230px;
+  border-radius: 5px;
+}
+.chat-content-playlist-cover {
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.chat-content-playlist-info-name {
+  > span {
+    display: inline-block;
+    color: @color-main;
+    font-size: 12px;
+    border: 1px solid @color-main;
+    padding: 2px 2px;
+    transform: scale(0.8);
+  }
+}
+.chat-content-playlist-info-user {
+  margin-top: 5px;
+  color: #999999;
 }

@@ -5,13 +5,16 @@ import {
   SET_FAVORITE_IDS,
   SET_SEARCH_KEYWORDS,
   SET_HISTORY_KEYWORDS,
-  SET_UPDATE_FAVORITE_PLAYLIST
+  SET_UPDATE_FAVORITE_PLAYLIST,
+  SET_CURRENT_CHAT
 } from './types'
 
 import { PanelType } from 'VIEWS/panel/container'
+import User from 'UTIL/user'
 
 const initialState: CommenState = {
   panelType: PanelType.Close,
+  currentChat: {} as User,
   favoriteIds: [],
   keywords: '',
   historyKeywords: JSON.parse(localStorage.getItem('historyKeywords') || '[]'),
@@ -42,6 +45,8 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
     case SET_UPDATE_FAVORITE_PLAYLIST:
       state.shouldUpdateFavoritePlaylist = !state.shouldUpdateFavoritePlaylist
       return state
+    case SET_CURRENT_CHAT:
+      state.currentChat = action.currentChat
     default:
       return state
   }

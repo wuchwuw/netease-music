@@ -71,6 +71,7 @@ const TopBar: React.SFC = () => {
   }
 
   function onSearchFocus () {
+    // todo usePanelContaienr
     dispatch({ type: SET_PANEL_TYPE, panelType: 'search' })
   }
 

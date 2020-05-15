@@ -27,7 +27,7 @@ export class PlaylistClass {
   subscribedCount: number
   subscribed: boolean
   constructor ({ 
-    ordered,
+    ordered = false,
     trackCount = 0, 
     tags = [], 
     tracks = [], 

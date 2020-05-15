@@ -38,25 +38,26 @@ const PanelContainer: React.SFC = (props) => {
   ]
 
   function genPanelNode (type: PanelType) {
-    return <Chat></Chat>
-    // switch (type) {
-    //   case PanelType.Search:
-    //     return <Search></Search>
-    //   case PanelType.CurrentPlaylist:
-    //     return <CurrentPlaylist></CurrentPlaylist>
-    //   case PanelType.Message:
-    //     return <Message></Message>
-    //   case PanelType.Chat:
-    //     return <Chat></Chat>
-    //   case PanelType.Close:
-    //     return null
-    // }
+    // return <Chat></Chat>
+    switch (type) {
+      case PanelType.Search:
+        return <Search></Search>
+      case PanelType.CurrentPlaylist:
+        return <CurrentPlaylist></CurrentPlaylist>
+      case PanelType.Message:
+        return <Message></Message>
+      case PanelType.Chat:
+        return <Chat></Chat>
+      case PanelType.Close:
+        return null
+    }
   }
 
   function onCurrentPlaylistClick (e: MouseEvent) {
     const isContain = nodeList.some(value => {
       return value!.contains((e.target as Node))
     })
+    // console.log(document.querySelector('.panel-container')!.contains(e.target as Node))
     if (isContain) return
     dispatch({ type: SET_PANEL_TYPE, panelType: 'close' })
   }

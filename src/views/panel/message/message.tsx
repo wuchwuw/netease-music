@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import api from 'API/index'
 import Spin from 'COMPONENTS/spin/spin'
 import dayjs from 'dayjs'
+import { useChat } from "UTIL/chat-controller"
 
 function getMessageLast (last: string) {
   const lastMsg = JSON.parse(last)
@@ -32,6 +33,9 @@ function getNotice (noticeData) {
 }
 
 const Message: React.SFC = () => {
+
+  const { setCurrentChat } = useChat()
+
   const CURRENT_PLAYLIST_PANEL_TAB = {
     message: '私信',
     comment: '评论',
@@ -116,7 +120,7 @@ const Message: React.SFC = () => {
       <ul className="panel-message-list">
         {
           message.map((item, index) => (
-            <li key={index} className="panel-message-item">
+            <li onClick={(e) => { e.stopPropagation(); setCurrentChat(item.fromUser) }} key={index} className="panel-message-item" >
               <img className="panel-message-avatar" src={item.fromUser.avatarUrl} alt=""/>
               <div className="panel-message-info">
                 <div className="panel-message-name">

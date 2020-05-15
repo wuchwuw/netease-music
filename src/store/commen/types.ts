@@ -1,10 +1,12 @@
 import { PanelType } from 'VIEWS/panel/container'
+import User from 'UTIL/user'
 
 export const SET_PANEL_TYPE = 'SET_PANEL_TYPE'
 export const SET_FAVORITE_IDS = 'SET_FAVORITE_IDS'
 export const SET_SEARCH_KEYWORDS = 'SET_SEARCH_KEYWORDS'
 export const SET_HISTORY_KEYWORDS = 'SET_HISTORY_KEYWORDS'
 export const SET_UPDATE_FAVORITE_PLAYLIST = 'SET_UPDATE_FAVORITE_PLAYLIST'
+export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT'
 
 interface setPanelType {
   type: typeof SET_PANEL_TYPE
@@ -31,12 +33,18 @@ export interface setShouldUpdateFavoritePlaylist {
   shouldUpdateFavoritePlaylist: boolean
 }
 
+export interface setCurrentChat {
+  type: typeof SET_CURRENT_CHAT
+  currentChat: User
+}
+
 export interface CommenState {
   panelType: PanelType
   favoriteIds: number[]
   keywords: string
   historyKeywords: string[]
   shouldUpdateFavoritePlaylist: boolean
+  currentChat: User
 }
 
 export type CommenActionTypes =
@@ -44,4 +52,5 @@ export type CommenActionTypes =
   setFavoriteIds |
   setSearchKeyword |
   setHistoryKeywords |
-  setShouldUpdateFavoritePlaylist
+  setShouldUpdateFavoritePlaylist |
+  setCurrentChat

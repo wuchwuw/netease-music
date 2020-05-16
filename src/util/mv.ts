@@ -49,11 +49,15 @@ export class MV {
   }
 }
 
+export function createMV (data: any): MV {
+  return new MV({
+    ...data,
+    cover: data.cover || data.picUrl || data.imgurl16v9
+  })
+}
+
 export function createMVList (data: any): MV[] {
-  return data.map((item: any) => new MV({
-    ...item,
-    cover: item.cover || item.picUrl
-  }))
+  return data.map((item: any) => createMV(item))
 }
 
 export function createArtistMVList (data: any): MV[] {

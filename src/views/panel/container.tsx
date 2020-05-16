@@ -34,7 +34,8 @@ const PanelContainer: React.SFC = (props) => {
     document.querySelector('.panel-container'),
     document.querySelector('.bottom'),
     document.querySelector('.topbar-search-content'),
-    document.querySelector('#message-icon')
+    document.querySelector('#message-icon'),
+    document.querySelector('.panel-message-item')
   ]
 
   function genPanelNode (type: PanelType) {
@@ -55,6 +56,7 @@ const PanelContainer: React.SFC = (props) => {
 
   function onCurrentPlaylistClick (e: MouseEvent) {
     const isContain = nodeList.some(value => {
+      console.log(value)
       return value!.contains((e.target as Node))
     })
     // console.log(document.querySelector('.panel-container')!.contains(e.target as Node))

@@ -5,11 +5,13 @@ import { Chat as ChatClass, createChatList, ChatContentType} from 'UTIL/chat'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
+import { useChat } from 'UTIL/chat-controller'
 
 const Chat = () => {
   const [content, setContent] = useState('')
   const [chatList, setChatList] = useState<ChatClass[]>([])
   const user = useSelector((state: RootState) => state.user.user)
+  const { currentChat } = useChat()
 
   useEffect(() => {
     getPrivateMessage()
@@ -17,7 +19,7 @@ const Chat = () => {
 
   async function getPrivateMessage () {
     try {
-      const res = await api.getPrivateMessage({ uid: 55177466, limit: 60})
+      const res = await api.getPrivateMessage({ uid: currentChat.userId, limit: 10})
       setChatList(createChatList(res.data.msgs))
     } catch (e) {
       console.log(e)
@@ -31,16 +33,6 @@ const Chat = () => {
   function getContent (chat: ChatClass) {
     const content = chat.content
     switch (content.type) {
-      case ChatContentType.ALBUM:
-        return (
-          <div>
-            <img src={content.content.picUrl} alt=""/>
-            <div>
-              <div>{content.content.name}</div>
-              <div>{content.content.artistName}</div>
-            </div>
-          </div>
-        )
       case ChatContentType.PLAYLIST:
         return (
           <div className="chat-content-playlist">
@@ -51,6 +43,27 @@ const Chat = () => {
             </div>
           </div>
         )
+      case ChatContentType.ALBUM:
+        return (
+          <div className="chat-content-playlist">
+            <img className="chat-content-playlist-cover" src={content.content.picUrl} alt=""/>
+            <div  className="chat-content-playlist-info">
+              <div className="chat-content-playlist-info-name"><span>专辑</span>{content.content.name}</div>
+              <div className="chat-content-playlist-info-user">by {content.content.artistName}</div>
+            </div>
+          </div>
+        )
+        case ChatContentType.MV:
+          return (
+            <div className="chat-content-MV">
+              <img className="chat-content-MV-cover" src={content.content.cover} alt=""/>
+              <div className="chat-content-MV-name">{content.content.name}</div>
+              <div className="chat-contnet-MV-info">
+                <span>播放{content.content.playCount_format}</span>
+                <span>{content.content.duration_format}</span>
+              </div>
+            </div>
+          )
       case ChatContentType.TEXT:
       default:
         return null
@@ -61,7 +74,7 @@ const Chat = () => {
     <div className="chat-panel-container">
       <div className="chat-panel-title">
         <i className="iconfont icon-arrow"></i>
-        <span>司南难楠楠</span>
+        <span>{currentChat.nickname}</span>
       </div>
       <div className="chat-panel-content">
         {

@@ -2,19 +2,21 @@ import User from "./user"
 import { Album } from "./album"
 import { Video } from "./video"
 import { PlaylistClass } from "./playlist"
+import { MV, createMV } from "./mv"
 
 export enum ChatContentType {
   ALBUM = 'album',
-  VIDEO = 'video',
+  // VIDEO = 'video',
   TEXT = 'text',
-  PLAYLIST = 'playlist'
+  PLAYLIST = 'playlist',
+  MV = 'mv'
 }
 
 const ChatContentTypeMap = {
   2: ChatContentType.ALBUM,
   4: ChatContentType.PLAYLIST,
   6: ChatContentType.TEXT,
-  7: ChatContentType.VIDEO,
+  7: ChatContentType.MV,
 }
 
 interface ChatAlbumContent {
@@ -22,9 +24,9 @@ interface ChatAlbumContent {
   content: Album
 }
 
-interface ChatVideoContent {
-  type: ChatContentType.VIDEO
-  content: Video
+interface ChatMVContent {
+  type: ChatContentType.MV
+  content: MV
 }
 
 interface ChatTextContent {
@@ -37,7 +39,7 @@ interface ChatPlaylistContent {
   content: PlaylistClass
 }
 
-type ChatContent = (ChatAlbumContent | ChatVideoContent | ChatTextContent | ChatPlaylistContent)
+type ChatContent = ChatAlbumContent | ChatMVContent | ChatTextContent | ChatPlaylistContent
 
 export class Chat {
   id: number
@@ -64,8 +66,8 @@ function getContent (data: any): ChatContent {
     case ChatContentType.ALBUM:
       content = new Album(data.album)
       break
-    case ChatContentType.VIDEO:
-      content = new Video(data.video)
+    case ChatContentType.MV:
+      content = createMV(data.mv)
       break
     case ChatContentType.PLAYLIST:
       content = new PlaylistClass(data.playlist)

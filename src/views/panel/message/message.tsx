@@ -120,7 +120,7 @@ const Message: React.SFC = () => {
       <ul className="panel-message-list">
         {
           message.map((item, index) => (
-            <li onClick={(e) => { e.stopPropagation(); setCurrentChat(item.fromUser) }} key={index} className="panel-message-item" >
+            <li onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setCurrentChat(item.fromUser) }} key={index} className="panel-message-item" >
               <img className="panel-message-avatar" src={item.fromUser.avatarUrl} alt=""/>
               <div className="panel-message-info">
                 <div className="panel-message-name">

@@ -43,5 +43,14 @@ export default {
   },
   getPrivateMessage (params: { uid: number, limit: number}) {
     return axios.get('msg/private/history', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+  },
+  likeResource (params: { t: number, type: number, id?: number | string, threadId?: string}) {
+    const type_map = {
+      'mv': 1,
+      'radio': 4,
+      'video': 5,
+      'activity': 6
+    }
+    return axios.get('resource/like', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

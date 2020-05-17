@@ -15,6 +15,8 @@ export enum PanelType {
   Close = 'close'
 }
 
+let panelTrigger: HTMLElement | null = null
+
 export function usePanelContaienr () {
   const dispatch = useDispatch()
   const currentPanelType = useSelector((state: RootState) => state.commen.panelType)
@@ -34,8 +36,7 @@ const PanelContainer: React.SFC = (props) => {
     document.querySelector('.panel-container'),
     document.querySelector('.bottom'),
     document.querySelector('.topbar-search-content'),
-    document.querySelector('#message-icon'),
-    document.querySelector('.panel-message-item')
+    document.querySelector('#message-icon')
   ]
 
   function genPanelNode (type: PanelType) {
@@ -55,13 +56,14 @@ const PanelContainer: React.SFC = (props) => {
   }
 
   function onCurrentPlaylistClick (e: MouseEvent) {
+    console.log(22);
     const isContain = nodeList.some(value => {
       console.log(value)
       return value!.contains((e.target as Node))
     })
     // console.log(document.querySelector('.panel-container')!.contains(e.target as Node))
     if (isContain) return
-    dispatch({ type: SET_PANEL_TYPE, panelType: 'close' })
+    dispatch({ type: SET_PANEL_TYPE, panelType: PanelType.Close })
   }
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { Topic, cretaeActicityList, ActivityClassType, ActivityType, ActivityInf
 import Spin from 'COMPONENTS/spin/spin'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import Comment from 'COMPONENTS/comment/comment'
+import { usePlayerController } from 'UTIL/player-controller'
 
 let hasmore = true
 let loading = true
@@ -15,6 +16,7 @@ const Friends: React.SFC = () => {
   const [topic, setTopic] = useState<Topic[]>([])
   const [activityLoading, setActivityLoading] = useState(false)
   const [commentIndex, setCommentIndex] = useState(-1)
+  const { start } = usePlayerController()
 
   useEffect(() => {
     getActivity(false)
@@ -40,11 +42,11 @@ const Friends: React.SFC = () => {
       hasmore = res.data.more
       loading = false
       lasttime = res.data.lasttime
-    } catch (e) { 
-      console.log(e) 
+    } catch (e) {
+      console.log(e)
     }
   }
-  
+
   function showComment (index: number) {
     if (index === commentIndex) {
       setCommentIndex(-1)
@@ -85,7 +87,7 @@ const Friends: React.SFC = () => {
               <div className="activity-use-info-message">{act.message}</div>
               <div>{genActivityContent(act)}</div>
               <div>{genActivityOption(act, index)}</div>
-              { commentIndex === index && 
+              { commentIndex === index &&
                 <div className="activity-comment-wrap">
                   <Comment type="event" id={act.info.commentThread.id}></Comment>
                 </div>
@@ -111,11 +113,11 @@ const Friends: React.SFC = () => {
     switch (act.type) {
       case ActivityType.Song:
         return (
-          <div className="activity-song">
+          <div onDoubleClick={() => { start({ id: 'friends', name: '动态' }, act.content) }} className="activity-song">
             <div className="activity-song-wrap">
-              <i className="iconfont icon-triangle-full activity-play-icon activity-song-play-icon"></i>
+              <i onClick={() => { start({ id: 'friends', name: '动态' }, act.content) }} className="iconfont icon-triangle-full activity-play-icon activity-song-play-icon"></i>
               <img src={act.content.album.picUrl + '?param=100y100'} alt=""/>
-            </div>  
+            </div>
             <div className="activity-song-info">
               <div>{act.content.name}</div>
               <div>{act.content.artistName}</div>
@@ -128,7 +130,7 @@ const Friends: React.SFC = () => {
             <div className="activity-song-wrap">
               <i className="iconfont icon-triangle-full activity-play-icon activity-video-play-icon"></i>
               <img src={act.content.coverUrl} alt=""/>
-            </div> 
+            </div>
             <div className="activity-video-info">
               <span><i className="iconfont icon-triangle"></i>{act.content.playTime_format}</span>
               <span>{act.content.duration_format}</span>

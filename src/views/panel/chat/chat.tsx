@@ -6,12 +6,14 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
 import { useChat } from 'UTIL/chat-controller'
+import { usePanelContaienr, PanelType } from '../container'
 
 const Chat = () => {
   const [content, setContent] = useState('')
   const [chatList, setChatList] = useState<ChatClass[]>([])
   const user = useSelector((state: RootState) => state.user.user)
   const { currentChat } = useChat()
+  const { setPanelType } = usePanelContaienr()
 
   useEffect(() => {
     getPrivateMessage()
@@ -73,7 +75,7 @@ const Chat = () => {
   return (
     <div className="chat-panel-container">
       <div className="chat-panel-title">
-        <i className="iconfont icon-arrow"></i>
+        <i onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setPanelType(PanelType.Message) }} className="iconfont icon-arrow chat-panel-icon-arrow"></i>
         <span>{currentChat.nickname}</span>
       </div>
       <div className="chat-panel-content">

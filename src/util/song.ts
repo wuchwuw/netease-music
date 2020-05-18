@@ -12,8 +12,9 @@ export default class Song {
   album: AlbumBaseClass
   duration: number
   lyric: any
+  alia: string[]
 
-  constructor ({ id, name, al = {}, ar = [], mv, dt }: any) {
+  constructor ({ id, name, al = {}, ar = [], mv, dt, alia = [] }: any) {
     this.id = id
     this.name = name
     this.artists = createBaseArtistList(ar)
@@ -21,6 +22,11 @@ export default class Song {
     this.album = createBaseAlbum(al)
     this.duration = dt
     this.lyric = null
+    this.alia = alia
+  }
+
+  get alia_string (): string {
+    return this.alia.length ? `（${this.alia.join('、')}）` : ''
   }
 
   get duration_string (): string {

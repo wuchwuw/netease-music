@@ -88,7 +88,7 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], getMenu, start}) => {
                   </div>
                   <div>
                     <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.song.id })} title={item.name}>
-                      {item.name}
+                      {item.name}<span className="music-list-item-alia">{item.alia_string}</span>
                     </div>
                     { !!item.mv && <i className="iconfont icon-mv"></i> }
                   </div>

@@ -6,6 +6,7 @@ import Spin from 'COMPONENTS/spin/spin'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import Comment from 'COMPONENTS/comment/comment'
 import { usePlayerController } from 'UTIL/player-controller'
+import classnames from 'classnames'
 
 let hasmore = true
 let loading = true
@@ -61,6 +62,16 @@ const Friends: React.SFC = () => {
     getActivity(true)
   }
 
+  async function activityLike (info: ActivityInfo) {
+    try {
+      const t = info.liked ? 2 : 1
+      await api.likeResource({ t, type: 6, threadId: info.commentThread.id })
+      info.liked = !info.liked
+      info.likedCount = info.liked ? ++info.likedCount : --info.likedCount
+      setActivity([...activity])
+    } catch (e) {}
+  }
+
   const genActivityItem = (act: ActivityClassType, index: number) => {
     if (!act.type) return
     switch (act.type) {
@@ -102,9 +113,9 @@ const Friends: React.SFC = () => {
     const info: ActivityInfo = act.info
     return (
       <div className="activity-option">
-        <span><i className="iconfont icon-zan"></i>{info.likedCount}</span>
-        <span><i className="iconfont icon-share"></i>{info.shareCount}</span>
-        <span><i onClick={() => { showComment(index) }} className="iconfont icon-comment"></i>{info.commentCount}</span>
+        <span><i onClick={() => { activityLike(info) }} className={classnames('iconfont icon-zan', { 'active': info.liked })}></i>{!!info.likedCount ? info.likedCount : ''}</span>
+        <span><i className="iconfont icon-share"></i>{!!info.shareCount ? info.shareCount : ''}</span>
+        <span><i onClick={() => { showComment(index) }} className="iconfont icon-comment"></i>{!!info.commentCount ? info.commentCount : ''}</span>
       </div>
     )
   }

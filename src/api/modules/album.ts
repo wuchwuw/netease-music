@@ -6,6 +6,6 @@ interface AlbumIDParams {
 
 export default {
   getAlbumContent (params: AlbumIDParams) {
-    return axios.get('album', { params })
+    return axios.get('album', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   }
 }

@@ -10,6 +10,7 @@ interface GetArtistParam {
 interface ArtistIdParam {
   id: number
   limit?: number
+  offset?: number
 }
 
 export default {
@@ -20,7 +21,7 @@ export default {
     return axios.get('artists', { params, withCredentials: true })
   },
   getArtistAlbum (params: ArtistIdParam) {
-    return axios.get('artist/album', { params })
+    return axios.get('artist/album', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
   getArtistDesc (params: ArtistIdParam) {
     return axios.get('artist/desc', { params })

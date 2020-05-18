@@ -10,6 +10,9 @@ import { createArtistMVList, MV } from 'UTIL/mv'
 import { createBaseArtistList, ArtistBaseClass } from 'UTIL/artist'
 import top50 from 'ASSETS/images/top50.jpg'
 import { usePageForword } from 'ROUTER/hooks'
+import { usePlayerController } from 'UTIL/player-controller'
+import { useFavorite } from 'UTIL/favorite'
+import LoadMore from 'COMPONENTS/load-more/load-more'
 
 interface ArtistDesc {
   ti: string
@@ -24,6 +27,10 @@ const ArtistTab = {
 }
 
 type ArtistTabType = keyof typeof ArtistTab
+let loading = false
+let hasmore = true
+const ARTIST_ALBUM_LIMIT = 6
+let offset = 0
 
 const Artist = () => {
   const { id } = useParams()
@@ -37,6 +44,8 @@ const Artist = () => {
   const [ simi, setSimi ] = useState<ArtistBaseClass[]>([])
   const [ showMore, setShowMore ] = useState(false)
   const { goAlbumDetail, goUserDetail, goArtistDetail } = usePageForword()
+  const { start } = usePlayerController()
+  const { isFavorite, favorite } = useFavorite()
 
   useEffect(() => {
     getArtistDetail()
@@ -60,14 +69,23 @@ const Artist = () => {
 
   async function getArtistAlbum () {
     try {
-      const res = await api.getArtistAlbum({ id: artistId, limit: 10 })
+      loading = true
+      const res = await api.getArtistAlbum({ id: artistId, limit: ARTIST_ALBUM_LIMIT, offset })
       const p = res.data.hotAlbums.map((item: any) => api.getAlbumContent({ id: item.id }))
       const allContents = await Promise.all(p)
-      const albums = createAlbumList(allContents.map((item: any) => {
+      setAlbums(albums => albums.concat(createAlbumList(allContents.map((item: any) => {
         return { ...item.data.album, songs: item.data.songs }
-      }))
-      setAlbums(albums)
+      }))))
+      offset += ARTIST_ALBUM_LIMIT
+      hasmore = res.data.more
+      loading = false
     } catch (e) { console.log(e) }
+  }
+
+  function loadmore () {
+    if (loading) return
+    if (!hasmore) return
+    getArtistAlbum()
   }
 
   async function getArtistMv () {
@@ -93,6 +111,10 @@ const Artist = () => {
     } catch (e) { console.log(e) }
   }
 
+  function playAlbum (song: Song, songs?: Song[]) {
+    start({ id: `artist-${artist.id}`, name: artist.name}, song, songs)
+  }
+
   function genArtistContent (tab: ArtistTabType) {
     switch (tab) {
       case 'album':
@@ -116,13 +138,13 @@ const Artist = () => {
           <div className="artist-album-item-list">
             <div className="artist-album-name">
               热门50首
-              <span><i className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
+              <span><i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
             </div>
             {
               hotSong.slice(0, 10).map((song, index) => (
-                <div className="artist-album-item-list-item" key={song.id}>
+                <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
                   <span>{padZero(index + 1)}</span>
-                  <span><i className={`iconfont ${song.liked ? 'icon-heart-full' : 'iconxin'}`}></i></span>
+                  <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
                   <span>{song.name}</span>
                   <span>{song.duration_string}</span>
                 </div>
@@ -143,13 +165,13 @@ const Artist = () => {
               <div className="artist-album-item-list">
                 <div className="artist-album-name">
                   {album.name}
-                  <span><i className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
+                  <span><i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
                 </div>
                 {
                   album.songs.slice(0, 10).map((song, index) => (
-                    <div className="artist-album-item-list-item" key={song.id}>
+                    <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
                       <span>{padZero(index + 1)}</span>
-                      <span><i className={`iconfont ${song.liked ? 'icon-heart-full' : 'iconxin'}`}></i></span>
+                      <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
                       <span>{song.name}</span>
                       <span>{song.duration_string}</span>
                     </div>
@@ -230,8 +252,8 @@ const Artist = () => {
             <span>{song.duration_string}</span>
           </div>
         ))
-      ) 
-      : 
+      )
+      :
       <div className="artist-album-more"><span onClick={() => setShowMore(true)}>查看全部{songs.length}首<i className="iconfont icon-arrow"></i></span></div>
     } else if (type === 'detail') {
       return <div className="artist-album-more"><span onClick={() => { goAlbumDetail(albumId!) }}>查看全部<i className="iconfont icon-arrow"></i></span></div>
@@ -239,6 +261,7 @@ const Artist = () => {
   }
 
   return (
+    <LoadMore load={loadmore}>
     <div className="artist-container">
       <div className="artist-info-wrap">
         <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
@@ -268,6 +291,7 @@ const Artist = () => {
         }
       </div>
     </div>
+    </LoadMore>
   )
 }
 

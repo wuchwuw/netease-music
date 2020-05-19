@@ -26,14 +26,14 @@ export class Artist extends  ArtistBaseClass{
   mvSize: number
   followed: boolean
   alias: string[]
-  constructor ({ 
+  constructor ({
     id,
-    name, 
+    name,
     picUrl,
-    img1v1Url, 
-    musicSize,
-    albumSize,
-    mvSize,
+    img1v1Url,
+    musicSize = 0,
+    albumSize = 0,
+    mvSize = 0,
     followed,
     accountId,
     alias = []

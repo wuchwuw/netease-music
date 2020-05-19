@@ -15,6 +15,8 @@ import { useFavorite } from 'UTIL/favorite'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 import { useSongContextMenu } from 'UTIL/menu'
+import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist'
+import { useDialog } from 'COMPONENTS/dialog'
 
 const MENU_NAME = 'music-list-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -49,9 +51,10 @@ const Artist = () => {
   const [ simi, setSimi ] = useState<ArtistBaseClass[]>([])
   const [ showMore, setShowMore ] = useState(false)
   const { goAlbumDetail, goUserDetail, goArtistDetail } = usePageForword()
-  const { start } = usePlayerController()
+  const { start, currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
   const { getSongMenu } = useSongContextMenu()
+  const addPlaylistDialogProps = useDialog()
 
   useEffect(() => {
     getArtistDetail()
@@ -70,6 +73,14 @@ const Artist = () => {
       const res = await api.getArtistDetail({ id: artistId })
       setArtist(createArtist(res.data.artist))
       setHotSong(createSongList(res.data.hotSongs))
+    } catch (e) {}
+  }
+
+  async function artistSub () {
+    try {
+      const t = artist.followed ? 2 : 1
+      await api.artistSub({ t, id: artist.id })
+      getArtistDetail()
     } catch (e) {}
   }
 
@@ -148,14 +159,14 @@ const Artist = () => {
           <div className="artist-album-item-list">
             <div className="artist-album-name">
               热门50首
-              <span><i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
+              <span><i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i><i onClick={() => { addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i></span>
             </div>
             {
               hotSong.slice(0, 10).map((song, index) => (
                 <div className="artist-album-item-list-item-wrap">
                   <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)} >
                     <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
-                      <span>{padZero(index + 1)}</span>
+                      <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
                       <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
                       <span>{song.name}</span>
                       <span>{song.duration_string}</span>
@@ -284,14 +295,16 @@ const Artist = () => {
         <div className="artist-info-wrap">
           <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
           <div className="artist-info">
-            <span className="artist-info-name">{artist.name}</span>
+            <div className="artist-info-name">{artist.name}</div>
             <div className="artist-info-other">
               <span>单曲数: {artist.musicSize}</span>
               <span>专辑数: {artist.albumSize}</span>
               <span>MV数: {artist.mvSize}</span>
             </div>
             <div className="artist-info-option">
-              <span className="artist-info-option-star"><i className="iconfont icon-add-folder"></i>收藏</span>
+              <span className="artist-info-option-star" onClick={() => { artistSub() }}>
+                <i className="iconfont icon-add-folder"></i>{artist.followed ? '已收藏' : '收藏'}
+              </span>
               { artist.accountId && <span onClick={() => { goUserDetail(artist.accountId) }} className="artist-info-option-user"><i className="iconfont icon-user"></i>个人主页</span>}
             </div>
           </div>
@@ -309,6 +322,7 @@ const Artist = () => {
           }
           <Menu></Menu>
         </div>
+        <AddPlaylistDialog {...addPlaylistDialogProps}></AddPlaylistDialog>
       </div>
     </LoadMore>
   )

@@ -25,7 +25,7 @@ const Menu = ({id, trigger}: any) => {
               <SubMenu title={<div>收藏<i className="iconfont icon-triangle-full"></i></div>} attributes={{className: 'context-menu-item'}}>
                 {
                   item.sub.map(menu => (
-                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger && menu.trigger() } }>{menu.name}</MenuItem>
+                    <MenuItem key={menu.name} attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger && menu.trigger() } }>{menu.name}</MenuItem>
                   ))
                 }
               </SubMenu>

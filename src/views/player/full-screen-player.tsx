@@ -55,7 +55,7 @@ const FullScrrenPlayer: React.SFC = () => {
           </div>
           <div className="player-action">
             <i className="iconfont iconxin"></i>
-            <i className="iconfont icon-add-folder"></i>
+            <i className="iconfont icon-add"></i>
             <i className="iconfont icon-fmnext"></i>
             <i className="iconfont icon-share"></i>
           </div>

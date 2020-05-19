@@ -5,7 +5,7 @@ import { useDialog, LoginDialog } from 'COMPONENTS/dialog/index'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import { useContainer } from 'COMPONENTS/container/container'
-import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist-dialog'
+import CreatePlaylistDialog from 'COMPONENTS/dialog/create-playlist/create-playlist-dialog'
 import { usePlaylistContextMenu } from 'UTIL/menu'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
@@ -15,7 +15,7 @@ const Menu = ConnectedMenu(MENU_NAME)
 
 const LeftBar: React.SFC = () => {
   const loginDialogProps = useDialog()
-  const addDialogProps = useDialog()
+  const createDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const { visiable, open  } = useContainer(['.leftbar-user-panel'])
@@ -104,7 +104,7 @@ const LeftBar: React.SFC = () => {
         }
       </div>
       <LoginDialog {...loginDialogProps}></LoginDialog>
-      <AddPlaylistDialog {...addDialogProps}></AddPlaylistDialog>
+      <CreatePlaylistDialog {...createDialogProps}></CreatePlaylistDialog>
       <Menu></Menu>
     </div>
   )

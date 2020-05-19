@@ -296,3 +296,37 @@
 .music-list-item-alia {
   color: #999999;
 }
+
+.playlist-tab {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+  > span {
+    margin-right: 30px;
+    padding: 8px 0;
+    font-weight: 500;
+    &.active {
+      color: @color-main;
+      position: relative;
+      font-weight: 600;
+      &:after {
+        position: absolute;
+        content: '';
+        height: 2px;
+        width: 100%;
+        background: @color-main;
+        bottom: 0;
+        left: 0;
+      }
+    }
+    &:hover {
+      color: @color-main;
+    }
+  }
+}
+
+.iconfont {
+  &.active {
+    color: @color-main;
+  }
+}

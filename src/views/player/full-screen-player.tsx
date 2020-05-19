@@ -18,7 +18,7 @@ interface SimiUser {
 const FullScrrenPlayer: React.SFC = () => {
   const { song: currentSong, source } = useSelector((state: RootState) => state.player.currentSong)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const CommentComponent = useMemo(() => <Comment delay={500} showTitle={true} type="music" id={currentSong.id} />, [currentSong.id]);
+  const CommentComponent = useMemo(() => <Comment textareaType="deep" delay={500} showTitle={true} type="music" id={currentSong.id} />, [currentSong.id]);
   const [simiPlaylist, setSimiPlaylist] = useState<PlaylistBaseClass[]>([])
   const [simiSong, setSimiSong] = useState<Song[]>([])
   const [simiUser, setSimiUser] = useState<SimiUser[]>([])
@@ -55,8 +55,8 @@ const FullScrrenPlayer: React.SFC = () => {
           </div>
           <div className="player-action">
             <i className="iconfont iconxin"></i>
-            <i className="iconfont icon-add"></i>
-            <i className="iconfont iconxin"></i>
+            <i className="iconfont icon-add-folder"></i>
+            <i className="iconfont icon-fmnext"></i>
             <i className="iconfont icon-share"></i>
           </div>
         </div>

@@ -13,6 +13,11 @@ import { usePageForword } from 'ROUTER/hooks'
 import { usePlayerController } from 'UTIL/player-controller'
 import { useFavorite } from 'UTIL/favorite'
 import LoadMore from 'COMPONENTS/load-more/load-more'
+import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
+import { useSongContextMenu } from 'UTIL/menu'
+
+const MENU_NAME = 'music-list-contextmenu'
+const Menu = ConnectedMenu(MENU_NAME)
 
 interface ArtistDesc {
   ti: string
@@ -46,6 +51,7 @@ const Artist = () => {
   const { goAlbumDetail, goUserDetail, goArtistDetail } = usePageForword()
   const { start } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
+  const { getSongMenu } = useSongContextMenu()
 
   useEffect(() => {
     getArtistDetail()
@@ -130,6 +136,10 @@ const Artist = () => {
     }
   }
 
+  function getMenu (song: Song) {
+    return getSongMenu({ id: `playlist-${artist.id}`, name: artist.name }, song)
+  }
+
   function genArtistAlbumContent () {
     return (
       <div>
@@ -142,11 +152,15 @@ const Artist = () => {
             </div>
             {
               hotSong.slice(0, 10).map((song, index) => (
-                <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
-                  <span>{padZero(index + 1)}</span>
-                  <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
-                  <span>{song.name}</span>
-                  <span>{song.duration_string}</span>
+                <div className="artist-album-item-list-item-wrap">
+                  <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)} >
+                    <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
+                      <span>{padZero(index + 1)}</span>
+                      <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
+                      <span>{song.name}</span>
+                      <span>{song.duration_string}</span>
+                    </div>
+                  </ContextMenuWrap>
                 </div>
               ))
             }
@@ -169,11 +183,15 @@ const Artist = () => {
                 </div>
                 {
                   album.songs.slice(0, 10).map((song, index) => (
-                    <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
-                      <span>{padZero(index + 1)}</span>
-                      <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
-                      <span>{song.name}</span>
-                      <span>{song.duration_string}</span>
+                    <div className="artist-album-item-list-item-wrap">
+                      <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)}>
+                        <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
+                          <span>{padZero(index + 1)}</span>
+                          <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
+                          <span>{song.name}</span>
+                          <span>{song.duration_string}</span>
+                        </div>
+                      </ContextMenuWrap>
                     </div>
                   ))
                 }
@@ -262,35 +280,36 @@ const Artist = () => {
 
   return (
     <LoadMore load={loadmore}>
-    <div className="artist-container">
-      <div className="artist-info-wrap">
-        <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
-        <div className="artist-info">
-          <span className="artist-info-name">{artist.name}</span>
-          <div className="artist-info-other">
-            <span>单曲数: {artist.musicSize}</span>
-            <span>专辑数: {artist.albumSize}</span>
-            <span>MV数: {artist.mvSize}</span>
-          </div>
-          <div className="artist-info-option">
-            <span className="artist-info-option-star"><i className="iconfont icon-add-folder"></i>收藏</span>
-            { artist.accountId && <span onClick={() => { goUserDetail(artist.accountId) }} className="artist-info-option-user"><i className="iconfont icon-user"></i>个人主页</span>}
+      <div className="artist-container">
+        <div className="artist-info-wrap">
+          <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
+          <div className="artist-info">
+            <span className="artist-info-name">{artist.name}</span>
+            <div className="artist-info-other">
+              <span>单曲数: {artist.musicSize}</span>
+              <span>专辑数: {artist.albumSize}</span>
+              <span>MV数: {artist.mvSize}</span>
+            </div>
+            <div className="artist-info-option">
+              <span className="artist-info-option-star"><i className="iconfont icon-add-folder"></i>收藏</span>
+              { artist.accountId && <span onClick={() => { goUserDetail(artist.accountId) }} className="artist-info-option-user"><i className="iconfont icon-user"></i>个人主页</span>}
+            </div>
           </div>
         </div>
+        <div className="playlist-tab">
+          {
+            (Object.keys(ArtistTab) as ArtistTabType[]).map(item => (
+              <span onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>{ ArtistTab[item] }</span>
+            ))
+          }
+        </div>
+        <div className="artist-tab-content">
+          {
+            genArtistContent(tab)
+          }
+          <Menu></Menu>
+        </div>
       </div>
-      <div className="playlist-tab">
-        {
-          (Object.keys(ArtistTab) as ArtistTabType[]).map(item => (
-            <span onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>{ ArtistTab[item] }</span>
-          ))
-        }
-      </div>
-      <div className="artist-tab-content">
-        {
-          genArtistContent(tab)
-        }
-      </div>
-    </div>
     </LoadMore>
   )
 }

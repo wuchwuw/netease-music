@@ -6,37 +6,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import { useContainer } from 'COMPONENTS/container/container'
 import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist-dialog'
-import { ContextMenuTrigger, ContextMenu, MenuItem, connectMenu } from 'react-contextmenu'
-import { usePlaylistContextMenu, MenuType } from 'UTIL/menu'
+import { usePlaylistContextMenu } from 'UTIL/menu'
 import { useUserPlaylist } from 'UTIL/user-playlist'
+import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 
 const MENU_NAME = 'left-bar-contextmenu'
-let target: HTMLElement | null = null
-
-const Menu = ({id, trigger}: any) => {
-  const menu: MenuType[] = trigger && trigger.menu || []
-  return (
-    <ContextMenu 
-      id={id} 
-      className="context-menu"
-      onHide={() => {
-        target && target.classList.remove('context-menu-leftbar-selected') 
-      }} 
-      onShow={(e) => {
-        target = e.detail.target
-        target && target.classList.add('context-menu-leftbar-selected') 
-      }}
-    >
-      {
-        menu.map((item) => (
-          <MenuItem attributes={{className: 'context-menu-item'}} onClick={() => { item.trigger && item.trigger() }} data={{ action: 'Added' }}>{item.name}</MenuItem>
-        ))
-      }
-    </ContextMenu>
-  )
-}
-
-const ConnectedMenu = connectMenu(MENU_NAME)(Menu);
+const Menu = ConnectedMenu(MENU_NAME)
 
 const LeftBar: React.SFC = () => {
   const loginDialogProps = useDialog()
@@ -110,27 +85,27 @@ const LeftBar: React.SFC = () => {
         <div className="leftbar-item-title">创建的歌单<i onClick={() => addDialogProps.toggle()} className="iconfont icon-add"></i></div>
         {
           userPlaylist.map(item => (
-            <ContextMenuTrigger id={MENU_NAME} menu={getPlaylistMenu(item)} collect={props => props}>
+            <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
                 <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
               </NavLink>
-            </ContextMenuTrigger>
+            </ContextMenuWrap>
           ))
         }
         <div className="leftbar-item-title">收藏的歌单</div>
         {
           subPlaylist.map(item => (
-            <ContextMenuTrigger id={MENU_NAME} menu={getPlaylistMenu(item)} collect={props => props}>
+            <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
                 <i className="iconfont icon-playlist"></i><div>{item.name}</div>
               </NavLink>
-            </ContextMenuTrigger>
+            </ContextMenuWrap>
           ))
         }
       </div>
       <LoginDialog {...loginDialogProps}></LoginDialog>
       <AddPlaylistDialog {...addDialogProps}></AddPlaylistDialog>
-      <ConnectedMenu></ConnectedMenu>
+      <Menu></Menu>
     </div>
   )
 }

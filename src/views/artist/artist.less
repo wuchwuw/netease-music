@@ -87,16 +87,18 @@
   font-size: 13px;
   width: 0;
 }
-.artist-album-item-list-item {
-  height: 35px;
-  display: flex;
-  align-items: center;
+.artist-album-item-list-item-wrap {
   &:nth-child(even) {
     background: #FAFAFA;
   }
   &:hover {
     background: #F2F2F2;
   }
+}
+.artist-album-item-list-item {
+  height: 35px;
+  display: flex;
+  align-items: center;
   > span {
     &:nth-child(1) {
       flex: 0 0 40px;

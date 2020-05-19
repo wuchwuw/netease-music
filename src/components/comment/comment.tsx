@@ -6,17 +6,19 @@ import Spin from 'COMPONENTS/spin/spin'
 import CommentCls, { createCommentList } from 'UTIL/comment'
 import CommentDialog from './comment-dialog/comment-dialog'
 import { useDialog } from 'COMPONENTS/dialog'
+import classnames from 'classnames'
 
 interface CommentProps {
   id: number | string
   type: string
   showTitle?: boolean
   delay?: number
+  textareaType?: string
 }
 
 const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video', 'activity']
 
-const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay = 0}) => {
+const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay = 0, textareaType = 'normal' }) => {
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<CommentCls[]>([])
@@ -123,8 +125,14 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   {
                     repliedIndex === `${title}-${index}` && (
                       <>
-                        <div className="comment-textarea-wrap replied">
-                          <textarea value={repliedContent} onChange={(e) => { setRepliedContent(e.target.value) }} className="comment-textarea" placeholder={`回复${comment.user.nickname}:`}></textarea>
+                        <div className={ classnames('comment-textarea-wrap replied', { 'deep': textareaType === 'deep' })}>
+                          <textarea 
+                            value={repliedContent} 
+                            onChange={(e) => { setRepliedContent(e.target.value) }} 
+                            className="comment-textarea"
+                            placeholder={`回复${comment.user.nickname}:`}
+                          >
+                          </textarea>
                           <span className="comment-textarea-reset">140</span>
                         </div>
                         <div className="comment-textarea-action">
@@ -148,8 +156,14 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   return (
     <div>
       { showTitle && <div className="comment-count">听友评论<span>(已有{total}条评论)</span></div> }
-      <div className="comment-textarea-wrap">
-        <textarea value={content} onChange={(e) => { setContent(e.target.value) }} className="comment-textarea" placeholder="输入评论或@朋友"></textarea>
+      <div className={ classnames('comment-textarea-wrap', { 'deep': textareaType === 'deep' })}>
+        <textarea 
+          value={content} 
+          onChange={(e) => { setContent(e.target.value) }} 
+          className="comment-textarea" 
+          placeholder="输入评论或@朋友"
+        >
+        </textarea>
         <span className="comment-textarea-reset">140</span>
       </div>
       <div className="comment-textarea-action">

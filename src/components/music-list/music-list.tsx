@@ -7,48 +7,11 @@ import { usePageForword } from 'ROUTER/hooks'
 import { usePlayerController } from 'UTIL/player-controller'
 import { genArtists } from 'VIEWS/template/template'
 import { useFavorite } from 'UTIL/favorite'
-import { ContextMenuTrigger, ContextMenu, MenuItem, SubMenu, connectMenu } from 'react-contextmenu'
 import { MenuType } from 'UTIL/menu'
+import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 
 const MENU_NAME = 'music-list-contextmenu'
-let target: HTMLElement | null = null
-
-const Menu = ({id, trigger}: any) => {
-  const menu: MenuType[] = trigger && trigger.menu || []
-  return (
-    <ContextMenu
-      id={id}
-      className="context-menu"
-      onHide={() => {
-        target && target.classList.remove('context-menu-musiclist-selected')
-      }}
-      onShow={(e) => {
-        target = e.detail.target
-        target && target.classList.add('context-menu-musiclist-selected')
-      }}
-    >
-      {
-        menu.map((item) => {
-          return (
-            item.sub ?
-              <SubMenu title={<div>收藏<i className="iconfont icon-triangle-full"></i></div>} attributes={{className: 'context-menu-item'}}>
-                {
-                  item.sub.map(menu => (
-                    <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger && menu.trigger() } }>{menu.name}</MenuItem>
-                  ))
-                }
-              </SubMenu>
-              :
-              <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { item.trigger && item.trigger() } } data={{ action: 'Added' }}>{item.name}</MenuItem>
-
-          )
-        })
-      }
-    </ContextMenu>
-  )
-}
-
-const ConnectedMenu = connectMenu(MENU_NAME)(Menu);
+const Menu = ConnectedMenu(MENU_NAME)
 
 interface MusicListProps {
   list: Song[]
@@ -76,11 +39,7 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], getMenu, start}) => {
         {
           list.map((item: Song, index) => (
             <li className="music-list-item-wrap">
-              <ContextMenuTrigger
-                id={MENU_NAME}
-                menu={getMenu(item)}
-                collect={props => props}
-              >
+              <ContextMenuWrap id={MENU_NAME} menu={getMenu(item)}>
                 <div onDoubleClick={() => start(item)} key={item.id} className="music-list-item">
                   <div className="music-list-item-action">
                     <span>{ currentSong.song.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
@@ -113,12 +72,12 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], getMenu, start}) => {
                   <div className="text-overflow muisc-list-item-duration">{item.duration_string}</div>
                   </div>
                 </div>
-              </ContextMenuTrigger>
+              </ContextMenuWrap>
             </li>
           ))
         }
       </ul>
-      <ConnectedMenu></ConnectedMenu>
+      <Menu></Menu>
     </>
   )
 }

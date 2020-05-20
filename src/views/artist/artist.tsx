@@ -168,7 +168,7 @@ const Artist = () => {
                     <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
                       <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
                       <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
-                      <span>{song.name}</span>
+                      <span>{song.name}<span>{song.alia_string}</span></span>
                       <span>{song.duration_string}</span>
                     </div>
                   </ContextMenuWrap>
@@ -199,7 +199,7 @@ const Artist = () => {
                         <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
                           <span>{padZero(index + 1)}</span>
                           <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
-                          <span>{song.name}</span>
+                          <span>{song.name}<span>{song.alia_string}</span></span>
                           <span>{song.duration_string}</span>
                         </div>
                       </ContextMenuWrap>

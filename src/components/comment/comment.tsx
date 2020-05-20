@@ -108,7 +108,12 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                     comment.replied && (
                       <div className="comment-item-info-replay">
                         <div className="comment-item-info-text replied">
-                          <span className="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}
+                          {
+                            comment.replied.content ?
+                            <><span className="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}</>
+                            :
+                            <div style={{textAlign: 'center'}}>该评论已删除</div>
+                          }
                         </div>
                       </div>
                     )

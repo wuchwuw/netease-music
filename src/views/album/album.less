@@ -1,0 +1,143 @@
+@import '~STYLE/color.less';
+
+.playlist-wrap {
+  padding: 18px 0 30px;
+  min-width: 800px;
+}
+.playlist-info-wrap {
+  display: flex;
+  padding-left: 30px;
+}
+.playlist-img {
+  height: 200px;
+  flex: 0 0 200px;
+  border-radius: 5px;
+  background-color: #F3F3F3;
+  background-size: cover;
+}
+.playlist-info {
+  margin-left: 30px;
+  padding-top: 6px;;
+  flex: 1;
+}
+.playlist-info-user-avatar {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: 1px solid #F3F3F3;
+  background-color: #F3F3F3;
+  background-size: cover;
+}
+.playlist-info-title {
+  font-size: 20px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+.playlist-info-title-icon {
+  height: 20px;
+  text-align: center;
+  line-height: 18px;
+  width: 35px;
+  font-size: 13px;
+  color: @color-main;
+  border: 1px solid @color-main;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+.playlist-info-num {
+  margin-top: 20px;
+  font-size: 12px;
+  > div:not(:last-child) {
+    margin-bottom: 12px;
+  }
+}
+.playlist-info-num-label {
+  display: inline-block;
+  &:first-letter {
+    margin-right: 12px;
+  }
+}
+.playlist-info-action {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.playlist-info-action-playall {
+  height: 30px;
+  width: 140px;
+  background: linear-gradient(to right, #FC5045, #D53A32);
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  user-select: none;
+  &.fail {
+    background: @color-main;
+    opacity: .5;
+    &:hover {
+      background: @color-main;
+      opacity: .5;
+    }
+  }
+  div {
+    flex: 0 0 105px;
+    font-size: 14px;
+    text-align: center;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-right: 1px solid rgba(255, 255, 255, .2);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    &:hover {
+      background: @color-main
+    }
+    i {
+      margin-right: 3px;
+    }
+  }
+  > i {
+    flex: 1;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    &:hover {
+      background: @color-main;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+  }
+}
+
+.playlist-info-action-star {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  height: 30px;
+  border: 1px solid #D9D9D9;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-left: 10px;
+  &:hover {
+    background: #F3F3F3;
+  }
+  i {
+    margin-right: 2px;
+  }
+  &.fail {
+    color: #CCCCCC;
+    cursor: default;
+    &:hover {
+      background: #FFFFFF;
+    }
+  }
+}
+
+.playlist-tab-wrap {
+  margin: 30px 30px 0;
+}

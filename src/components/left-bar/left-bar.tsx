@@ -82,7 +82,7 @@ const LeftBar: React.SFC = () => {
         </NavLink>
         {/* <div className="leftbar-item-title">我的音乐</div>
         <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
-        <div className="leftbar-item-title">创建的歌单<i onClick={() => addDialogProps.toggle()} className="iconfont icon-add"></i></div>
+        <div className="leftbar-item-title">创建的歌单<i onClick={() => createDialogProps.toggle()} className="iconfont icon-add"></i></div>
         {
           userPlaylist.map(item => (
             <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>

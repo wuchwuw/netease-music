@@ -59,7 +59,8 @@ export function createSongList (data: any): Song[] {
       al: item.album || item.al,
       dt: item.duration || item.dt,
       name: item.name,
-      mv: item.mv || item.mvid
+      mv: item.mv || item.mvid,
+      alia: item.alia
     })
   })
 }
@@ -71,6 +72,7 @@ export function createSong (data: any): Song {
     al: data.album || data.al,
     dt: data.duration || data.dt,
     name: data.name,
-    mv: data.mv || data.mvid
+    mv: data.mv || data.mvid,
+    alia: data.alia
   })
 }

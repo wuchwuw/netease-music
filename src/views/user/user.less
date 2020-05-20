@@ -1,13 +1,19 @@
 @import '~STYLE/color.less';
 .user-container {
   min-width: 774px;
-  padding: 15px 20px;
+  padding: 30px;
 }
 .user-info-avatar {
   height: 200px;
   width: 200px;
   border-radius: 50%;
   margin-right: 30px;
+  border: 1px solid #F3F3F3;
+  background-color: #F3F3F3;
+  background-size: cover;
+}
+.user-info {
+  flex: 1;
 }
 .user-info-wrap {
   display: flex;
@@ -24,7 +30,7 @@
 }
 
 .user-option {
-  flex: 0 0 240px;
+  flex: 0 0 300px;
   cursor: pointer;
   > span {
     display: inline-block;
@@ -81,6 +87,7 @@
   margin-top: 40px;
 }
 .user-tag {
+  flex: 1;
   margin-right: 10px;
   > span {
     margin: 0 5px 5px 0;
@@ -124,7 +131,6 @@
   }
 }
 .user-playlist-title {
-  padding: 0 10px;
   margin-bottom: 15px;
   font-weight: bold;
   font-size: 17px;

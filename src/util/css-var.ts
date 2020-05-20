@@ -55,10 +55,9 @@ const TYPE_MAP = {
   dark
 }
 
-
 export function setGlobalCSSVar (type: 'light' | 'dark') {
   const vars = TYPE_MAP[type]
-  Object.keys(vars).forEach((key: any) => {
+  Object.keys(vars).forEach((key) => {
     document.body.style.setProperty(key, vars[key])
   })
 }

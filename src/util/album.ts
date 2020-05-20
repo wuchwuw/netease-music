@@ -51,6 +51,7 @@ export class Album {
   paid: boolean
   onSale: boolean
   info: AlbumInfo
+  description: string
   constructor ({ 
     id, 
     name, 
@@ -61,7 +62,11 @@ export class Album {
     publishTime,
     paid, 
     onSale,
-    info = {}
+    info = {
+      shareCount: 0,
+      commentCount: 0
+    },
+    description
   } : any) {
     this.id = id
     this.name = name
@@ -73,6 +78,7 @@ export class Album {
     this.onSale = onSale
     this.paid = paid
     this.info = info
+    this.description = description
   }
 
   get artistName (): string {

@@ -1,3 +1,5 @@
+import { getCityName, getProvinceName } from "./area/area"
+
 interface AuthType {
   type: number
   desc: string
@@ -25,6 +27,8 @@ export default class User {
   allAuthTypes: AuthType[]
   artistId: number
   gender: number
+  cityName: string
+  provinceName: string
 
   constructor ({
     avatarUrl,
@@ -47,14 +51,16 @@ export default class User {
     mainAuthType,
     allAuthTypes = [],
     artistId,
-    gender
+    gender,
+    cityName,
+    provinceName
   }: any) {
     this.avatarUrl = avatarUrl
     this.description = description
     this.detailDescription = detailDescription
     this.followed = followed
     this.nickname = nickname
-    this.signature = signature
+    this.signature = signature || '暂无介绍'
     this.followeds = followeds
     this.follows = follows
     this.userId = userId
@@ -70,6 +76,8 @@ export default class User {
     this.allAuthTypes = allAuthTypes
     this.artistId = artistId
     this.gender = gender
+    this.cityName = getCityName(this.city) 
+    this.provinceName = getProvinceName(this.province) 
   }
 }
 

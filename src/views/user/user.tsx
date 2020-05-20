@@ -5,6 +5,8 @@ import api from 'API/index'
 import { createPlaylistList, PlaylistClass } from 'UTIL/playlist'
 import UserClass, { createUserDetail } from 'UTIL/user'
 import classNames from 'classnames'
+import { usePageForword } from 'ROUTER/hooks'
+import { useChat } from 'UTIL/chat-controller'
 
 const User = () => {
   const { id } = useParams()
@@ -12,6 +14,8 @@ const User = () => {
   const [userPlaylist, setUserPlaylist] = useState<PlaylistClass[]>([])
   const [userSubPlaylist, setSubUserPlaylist] = useState<PlaylistClass[]>([])
   const [user, setUser] = useState<UserClass>(createUserDetail({}))
+  const { goArtistDetail, goPlaylistDetail } = usePageForword()
+  const { setCurrentChat } = useChat()
   useEffect(() => {
     getUserDetail()
     getUserPlaylist()
@@ -28,7 +32,6 @@ const User = () => {
     try {
       const res = await api.getUserPlaylist({ uid: userId })
       const playlist = createPlaylistList(res.data.playlist)
-      console.log(res.data.playlist)
       setUserPlaylist(playlist.filter(item => item.creator.userId === userId))
       setSubUserPlaylist(playlist.filter(item => item.creator.userId !== userId))
     } catch (e) { console.log(e) }
@@ -57,10 +60,18 @@ const User = () => {
     return tags
   }
 
+  async function follow () {
+    try {
+      const t = user.followed ? 2 : 1
+      await api.userFollow({ t, id: user.userId })
+      getUserDetail()
+    } catch (e) {}
+  }
+
   return (
     <div className="user-container">
       <div className="user-info-wrap">
-        <img className="user-info-avatar" src={user.avatarUrl} alt=""/>
+        <div className="user-info-avatar" style={{backgroundImage: `url(${user.avatarUrl})`}}></div>
         <div className="user-info">
           <div className="user-info-name">{user.nickname}</div>
           <div className="user-tag-wrap">
@@ -68,9 +79,9 @@ const User = () => {
               { genUserTag(user) }
             </div>
             <div className="user-option">
-              <span><i className="iconfont icon-artist"></i>歌手页</span>
-              <span><i className="iconfont icon-email"></i>发私信</span>
-              <span><i className="iconfont icon-add"></i>关注</span>
+              <span onClick={() => { goArtistDetail(user.artistId) }}><i className="iconfont icon-artist"></i>歌手页</span>
+              <span onClick={() => { setCurrentChat(user) }}><i className="iconfont icon-email"></i>发私信</span>
+              <span onClick={() => { follow() }}>{user.followed ? <><i className="iconfont icon-gou"></i>已关注</> : <><i className="iconfont icon-add"></i>关注</>}</span>
             </div>
           </div>
           <div className="user-social">
@@ -88,11 +99,11 @@ const User = () => {
             </div>
           </div>
           <div>
-            {/* <div className="user-other">
-              <span>所在地区:</span>
-              <span>湖南省 长沙市</span>
-            </div>
             <div className="user-other">
+              <span>所在地区：</span>
+              <span>{user.provinceName} {user.cityName}</span>
+            </div>
+            {/* <div className="user-other">
               <span>社交网络:</span>
               <span>湖南省 长沙市</span>
             </div> */}
@@ -110,39 +121,42 @@ const User = () => {
         <div className="commen-area-content">
           {
             userPlaylist.map(item => (
-              <div key={item.id} className="commen-area-item commen-area-item-album">
-                <div className="commen-area-img-wrap">
+              <div key={item.id} className="commen-area-item commen-area-item-playlist">
+                <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
                   <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                   <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
                   <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
                 </div>
-                <div className="commen-area-text">{item.name}</div>
+                <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-text">{item.name}</div>
                 <div className="commen-area-artist">{item.trackCount + '首'}</div>
               </div>
             ))
           }
         </div>
       </div>
-      <div className="user-star">
+      {
+        !!userSubPlaylist.length &&
+        <div className="user-star">
         <div className="user-playlist-title">
           收藏<span>({userSubPlaylist.length})</span>
         </div>
         <div className="commen-area-content">
           {
             userSubPlaylist.map(item => (
-              <div key={item.id} className="commen-area-item commen-area-item-album">
-                <div className="commen-area-img-wrap">
+              <div key={item.id} className="commen-area-item commen-area-item-playlist">
+                <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
                   <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                   <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
                   <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
                 </div>
-                <div className="commen-area-text">{item.name}</div>
+                <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-text">{item.name}</div>
                 <div className="commen-area-artist">{item.trackCount + '首'}</div>
               </div>
             ))
           }
         </div>
       </div>
+      }
     </div>
   )
 }

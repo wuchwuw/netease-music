@@ -5,7 +5,6 @@ import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { useParams } from 'react-router'
 import { PlaylistClass } from 'UTIL/playlist'
-import classNames from 'classnames'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
@@ -15,7 +14,6 @@ import { useSongContextMenu } from 'UTIL/menu'
 import Song from 'UTIL/song'
 import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
-
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -97,8 +95,8 @@ const Playlist = () => {
   }
 
   function genPlaylistTag (playlist: PlaylistClass) {
-    if (isOrigin) return null
     const tags = playlist.tags
+    const isShowEdit = !isOrigin && isPersonal
     if (tags.length) {
       return (
         <div>
@@ -109,16 +107,16 @@ const Playlist = () => {
         </div>
       )
     } else {
-      return <div><span className="playlist-info-num-label">标签：</span><span className="commen-link-blue">添加标签</span></div>
+      return isShowEdit ? <div><span className="playlist-info-num-label">标签：</span><span className="commen-link-blue">添加标签</span></div> : null
     }
   }
 
   function genPlaylistDesc (playlist: PlaylistClass) {
-    if (isOrigin) return null
+    const isShowEdit = !isOrigin && isPersonal
     if (playlist.description) {
-      return  <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
+      return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
     } else {
-      return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span className="commen-link-blue">添加简介</span></div>
+      return isShowEdit ? <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span className="commen-link-blue">添加简介</span></div> : null
     }
   }
 

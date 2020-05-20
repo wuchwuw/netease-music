@@ -7,14 +7,30 @@ import Comment from 'COMPONENTS/comment/comment'
 import { useAlbumContextMenu } from 'UTIL/menu'
 import Song from 'UTIL/song'
 import { usePlayerController } from 'UTIL/player-controller'
+import './album.less'
+import { genArtists } from 'VIEWS/template/template'
+import { usePageForword } from 'ROUTER/hooks'
+
+enum AlbumTab {
+  SONG = 'SONG',
+  COMMENT = 'COMMENT',
+  DESC = 'DESC'
+}
+
+const AlbumTabMap = {
+  'SONG': '歌曲列表',
+  'COMMENT': '评论',
+  'DESC': '专辑详情'
+}
 
 const Album = () => {
   const { id } = useParams()
   const albumId = Number(id)
-  const [ tab, setTab ] = useState('list') // list comment des
+  const [ tab, setTab ] = useState(AlbumTab.SONG) // list comment des
   const [ album, setAlbum ] = useState<AlbumClass>(new AlbumClass({}))
   const { getAlubmMenu } = useAlbumContextMenu()
-  const { start } = usePlayerController()
+  const { start, nextPlayPlaylist } = usePlayerController()
+  const { goArtistDetail } = usePageForword()
 
   useEffect(() => {
     getAlbum()
@@ -36,24 +52,27 @@ const Album = () => {
   }
 
   function genTabComponent () {
-    if (tab === 'list') {
-      return <MusicList getMenu={getMenu} start={musiclistStart} list={album.songs}></MusicList>
-    } else if (tab === 'comment') {
-      return <div style={{ padding: '30px'}}><Comment type="album" id={albumId}></Comment></div>
-    } else {
-      return
+    switch (tab) {
+      case AlbumTab.SONG:
+        return <MusicList getMenu={getMenu} start={musiclistStart} list={album.songs}></MusicList>
+      case AlbumTab.COMMENT:
+        return <div style={{ padding: '30px'}}><Comment type="album" id={albumId}></Comment></div>
+      case AlbumTab.DESC:
+        return (
+          <>
+            {
+              album.description ?
+              <div>
+                <pre>{album.description}</pre>
+              </div>
+              :
+              <div style={{textAlign: 'center'}}>暂无详情</div>              
+            }    
+          </>
+        )
+      default:
+        return <></>
     }
-  }
-  function genAlbumArtists (album: AlbumClass) {
-    const artists = album.artists
-    let artistNode: React.ReactNode[] = []
-    artists.forEach((artist, index) => {
-      artistNode.push(<span className="commen-link-blue">{artist.name}</span>)
-      if (index !== artists.length - 1) {
-        artistNode.push('/')
-      }
-    })
-    return artistNode
   }
   return (
     <div className="playlist-wrap">
@@ -66,22 +85,27 @@ const Album = () => {
           </div>
           <div className="playlist-info-action">
             <div className="playlist-info-action-playall">
-              <div><i className="iconfont icon-play" ></i>播放全部</div>
-              <i className="iconfont icon-add"></i>
+              <div onClick={() => { album.songs.length && musiclistStart(album.songs[0]) }}><i className="iconfont icon-play" ></i>播放全部</div>
+              <i onClick={() => { nextPlayPlaylist({ id: `album-${album.id}`, name: album.name }, album.songs) }} className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>收藏({album.info.shareCount})</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-add"></i>添加到歌单</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({album.info.shareCount})</div>
           </div>
           <div className="playlist-info-num">
-            <div>歌手: {genAlbumArtists(album)}</div>
+            <div>歌手: { genArtists(album.artists, goArtistDetail, 'commen-link-blue') }</div>
             <div>时间: {album.publishTimeFormat}</div>
           </div>
         </div>
       </div>
       <div className="playlist-tab-wrap">
         <div className="playlist-tab">
-          <span onClick={(e) => setTab('list')} className={tab === 'list' ? 'active' : ''}>歌曲列表</span>
-          <span onClick={(e) => setTab('comment')} className={tab === 'comment' ? 'active' : ''}>评论({album.info.commentCount || 0})</span>
-          <span onClick={(e) => setTab('star')} className={tab === 'star' ? 'active' : ''}>专辑详情</span>
+          {
+            (Object.keys(AlbumTabMap) as AlbumTab[]).map((item => (
+              <span onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>
+                {AlbumTabMap[item]}{item === AlbumTab.COMMENT ? `(${album.info.commentCount})` : ''}
+              </span>
+            )))
+          }
         </div>
       </div>
       {genTabComponent()}

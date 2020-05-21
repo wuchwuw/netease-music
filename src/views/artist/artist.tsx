@@ -303,7 +303,7 @@ const Artist = () => {
             </div>
             <div className="artist-info-option">
               <span className="artist-info-option-star" onClick={() => { artistSub() }}>
-                <i className="iconfont icon-add-folder"></i>{artist.followed ? '已收藏' : '收藏'}
+                <i className={`iconfont ${artist.followed ? 'icon-star-full' : 'icon-star'}`}></i>{artist.followed ? '已收藏' : '收藏'}
               </span>
               { artist.accountId && <span onClick={() => { goUserDetail(artist.accountId) }} className="artist-info-option-user"><i className="iconfont icon-user"></i>个人主页</span>}
             </div>

@@ -155,7 +155,7 @@ const Playlist = () => {
               onClick={() => { follow() }}
               className={classnames('playlist-info-action-star', { 'fail': isPersonal })}
             >
-              <i className="iconfont icon-add-folder"></i>
+              <i className="iconfont icon-star"></i>
               {playlist.subscribed ? '已收藏' : '收藏'}({playlist.subscribedCount_string})
             </div>
             <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({playlist.shareCount_string})</div>

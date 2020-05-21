@@ -61,7 +61,6 @@ const Message: React.SFC = () => {
 
   async function getData () {
     try {
-      setLoading(true)
       const res = await api_map[tab]({ limit: 30, uid: 98931610 })
       switch (tab) {
         case 'message':
@@ -93,6 +92,11 @@ const Message: React.SFC = () => {
     }
   }
 
+  function selectTab (tab: string) {
+    setLoading(true)
+    setTab(tab)
+  }
+
   function genCommentNode () {
     return (
       <ul className="panel-comment-list">
@@ -103,7 +107,7 @@ const Message: React.SFC = () => {
               <div className="panel-message-info">
                 <div className="panel-message-name">
                   <span>{item.user.nickname}</span>
-                  <span>1月3日</span>
+                  <span>{dayjs(item.lastMsgTime).format('YYYY年MM月DD日')}</span>
                 </div>
                 <div className="panel-comment-replay">回复我: {item.content}</div>
                 <div className="panel-comment-msg">{item.beRepliedContent}</div>
@@ -121,11 +125,11 @@ const Message: React.SFC = () => {
         {
           message.map((item, index) => (
             <li onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setCurrentChat(item.fromUser) }} key={index} className="panel-message-item" >
-              <img className="panel-message-avatar" src={item.fromUser.avatarUrl} alt=""/>
+              <img className="panel-message-avatar" src={item.fromUser.avatarUrl + '?param=100y100'} alt=""/>
               <div className="panel-message-info">
                 <div className="panel-message-name">
-                  <span>{item.fromUser.nickname}</span>
-                  <span>1月3日</span>
+                  <span className="commen-link-blue">{item.fromUser.nickname}</span>
+                  <span>{dayjs(item.lastMsgTime).format('YYYY年MM月DD日')}</span>
                 </div>
                 <div className="panel-message-msg">{getMessageLast(item.lastMsg)}</div>
               </div>
@@ -158,11 +162,6 @@ const Message: React.SFC = () => {
         }
       </ul>
     )
-  }
-
-
-  function selectTab (tab: string) {
-    setTab(tab)
   }
 
   return (

@@ -44,6 +44,12 @@ export default {
   getPrivateMessage (params: { uid: number, limit: number}) {
     return axios.get('msg/private/history', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
   },
+  sendTextMessage (params: { user_ids: number[], msg: string }) {
+    return axios.get('send/text', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+  },
+  sendPlaylistMessage (params: { user_ids: number[], msg: string, playlist: number }) {
+    return axios.get('send/text', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+  },
   likeResource (params: { t: number, type: number, id?: number | string, threadId?: string}) {
     const type_map = {
       'mv': 1,

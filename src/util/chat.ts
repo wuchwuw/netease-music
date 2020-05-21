@@ -6,10 +6,12 @@ import { MV, createMV } from "./mv"
 
 export enum ChatContentType {
   ALBUM = 'album',
-  // VIDEO = 'video',
+  VIDEO = 'video',
   TEXT = 'text',
   PLAYLIST = 'playlist',
-  MV = 'mv'
+  MV = 'mv',
+  GENERAL = 'general',
+  PROMOTION = 'promotion'
 }
 
 const ChatContentTypeMap = {
@@ -17,6 +19,34 @@ const ChatContentTypeMap = {
   4: ChatContentType.PLAYLIST,
   6: ChatContentType.TEXT,
   7: ChatContentType.MV,
+  12: ChatContentType.PROMOTION,
+  24: ChatContentType.VIDEO,
+  23: ChatContentType.GENERAL
+}
+
+interface ChatGeneralContent {
+  type: ChatContentType.GENERAL
+  content: {
+    webUrl: string,
+    cover: string,
+    title: string,
+    subTitle: string
+  }
+}
+
+interface ChatPromotionContent {
+  type: ChatContentType.PROMOTION
+  content: {
+    url: string,
+    coverUrl: string,
+    title: string,
+    subTitle: string
+  }
+}
+
+interface ChatVideoContent {
+  type: ChatContentType.VIDEO
+  content: Video
 }
 
 interface ChatAlbumContent {
@@ -39,7 +69,14 @@ interface ChatPlaylistContent {
   content: PlaylistClass
 }
 
-type ChatContent = ChatAlbumContent | ChatMVContent | ChatTextContent | ChatPlaylistContent
+type ChatContent = 
+  ChatAlbumContent | 
+  ChatMVContent | 
+  ChatTextContent | 
+  ChatPlaylistContent |
+  ChatGeneralContent |
+  ChatPromotionContent |
+  ChatVideoContent
 
 export class Chat {
   id: number
@@ -54,6 +91,7 @@ export class Chat {
     this.fromUser = new User(fromUser)
     this.toUser = new User(toUser)
     const content = JSON.parse(msg)
+    console.log(content)
     this.msg = content.msg
     this.content = getContent(content)
   }
@@ -71,6 +109,12 @@ function getContent (data: any): ChatContent {
       break
     case ChatContentType.PLAYLIST:
       content = new PlaylistClass(data.playlist)
+      break
+    case ChatContentType.GENERAL:
+      content = data.generalMsg
+      break
+    case ChatContentType.PROMOTION:
+      content = data.promotionUrl
       break
     case ChatContentType.TEXT:
     default:

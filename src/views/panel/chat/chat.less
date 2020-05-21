@@ -64,6 +64,9 @@
 .chat-panel-item-content-mesage {
   line-height: 1.5;
 }
+.chat-panel-item-content-other {
+  margin-top: 10px;
+}
 .chat-content-playlist {
   background: #F9F9F9;
   display: flex;
@@ -71,6 +74,9 @@
   padding: 10px;
   width: 230px;
   border-radius: 5px;
+  &:hover {
+    background: #D3D4D3;
+  }
 }
 .chat-content-playlist-cover {
   height: 40px;
@@ -92,25 +98,53 @@
   margin-top: 5px;
   color: #999999;
 }
-.chat-content-MV {
+.chat-content-mv {
   position: relative;
 }
-.chat-content-MV-cover {
-  height: 117px;
-  width: 210px;
+.chat-content-mv-cover {
+  height: 130px;
+  width: 230px;
   border-radius: 5px;
 }
-.chat-content-MV-name {
+.chat-content-mv-name {
   position: absolute;
-  top: 0;
+  top: 5px;
   left: 0;
   right: 0;
+  color: #FFFFFF;
+  padding: 0 5px;
+  line-height: 1.4;
 }
-.chat-contnet-MV-info {
+.chat-contnet-mv-info {
   position: absolute;
-  bottom: 0;
+  bottom: 5px;
   left: 0;
   right: 0;
   display: flex;
   justify-content: space-between;
+  color: #FFFFFF;
+  padding: 0 5px;
+}
+.chat-content-promotion {
+  background: #F9F9F9;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 230px;
+  border-radius: 5px;
+  &:hover {
+    background: #D3D4D3;
+  }
+}
+.chat-content-general-cover {
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+.chat-content-promotion-cover {
+  height: 40px;
+  width: 60px;
+  border-radius: 4px;
+  margin-right: 5px;
 }

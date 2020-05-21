@@ -15,8 +15,6 @@ export enum PanelType {
   Close = 'close'
 }
 
-let panelTrigger: HTMLElement | null = null
-
 export function usePanelContaienr () {
   const dispatch = useDispatch()
   const currentPanelType = useSelector((state: RootState) => state.commen.panelType)
@@ -61,7 +59,6 @@ const PanelContainer: React.SFC = (props) => {
       console.log(value)
       return value!.contains((e.target as Node))
     })
-    // console.log(document.querySelector('.panel-container')!.contains(e.target as Node))
     if (isContain) return
     dispatch({ type: SET_PANEL_TYPE, panelType: PanelType.Close })
   }

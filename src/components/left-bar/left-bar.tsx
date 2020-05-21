@@ -9,6 +9,7 @@ import CreatePlaylistDialog from 'COMPONENTS/dialog/create-playlist/create-playl
 import { usePlaylistContextMenu } from 'UTIL/menu'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
+import { usePageForword } from 'ROUTER/hooks'
 
 const MENU_NAME = 'left-bar-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -21,13 +22,14 @@ const LeftBar: React.SFC = () => {
   const { visiable, open  } = useContainer(['.leftbar-user-panel'])
   const { getPlaylistMenu } = usePlaylistContextMenu()
   const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
+  const { goUserDetail } = usePageForword()
 
   return (
     <div className='leftbar-wrap'>
       {
         isLogin ?
         <div className="leftbar-user">
-          <div className="leftbar-login">
+          <div onClick={ () => { goUserDetail(user.userId) }} className="leftbar-login">
             <img className="leftbar-login-avatar" src={user.avatarUrl+'?param=100y100'} alt=""/>
           </div>
           <div onClick={ () => { open() }} className="leftbar-login-username">

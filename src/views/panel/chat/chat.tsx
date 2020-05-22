@@ -8,6 +8,9 @@ import classnames from 'classnames'
 import { useChat } from 'UTIL/chat-controller'
 import { usePanelContaienr, PanelType } from '../container'
 
+let hasMore = false
+let loading = false
+
 const Chat = () => {
   const [content, setContent] = useState('')
   const [chatList, setChatList] = useState<ChatClass[]>([])
@@ -19,11 +22,23 @@ const Chat = () => {
     getPrivateMessage()
   }, [])
 
-  async function getPrivateMessage () {
+  useEffect(() => {
+    const remove = initScroll()
+    return remove
+  })
+
+  async function getPrivateMessage (before?: number) {
     try {
-      const res = await api.getPrivateMessage({ uid: currentChat.userId, limit: 10})
-      setChatList(createChatList(res.data.msgs).reverse())
-      initScrollTop()
+      loading = true
+      let params = { uid: currentChat.userId, limit: 10 }
+      before && (params.before = before)
+      const res = await api.getPrivateMessage(params)
+      setChatList(list => {
+        return (createChatList(res.data.msgs).reverse()).concat(list)
+      })
+      hasMore = res.data.more
+      loading = false
+      !before && initScrollTop()
     } catch (e) {
       console.log(e)
     }
@@ -45,9 +60,27 @@ const Chat = () => {
       const res = await api.sendTextMessage({ user_ids: [currentChat.userId], msg: content })
       if (res.data.newMsgs.length) {
         const newMsg = res.data.newMsgs[0]
-        // setChatList(list => ))
+        chatList.push(new ChatClass(newMsg))
+        setChatList([...chatList])
       }
     } catch (e) {}
+  }
+
+  function initScroll () {
+    const content = document.querySelector('.chat-panel-content')
+    function scroll () {
+      if (content!.scrollTop < 100) {
+        loadMore()
+      }
+    }
+    content!.addEventListener('scroll', scroll)
+    return () => { content!.removeEventListener('scroll', scroll) }
+  }
+
+  function loadMore () {
+    if (!hasMore) return
+    if (loading) return
+    getPrivateMessage(chatList[0].time)
   }
 
   function getContent (chat: ChatClass) {
@@ -118,7 +151,7 @@ const Chat = () => {
                 { !isMe(chat) && <img className="chat-panel-item-user-avatar" src={chat.fromUser.avatarUrl} alt=""/>}
                 <div className="chat-panel-item-content">
                   <div className="chat-panel-item-content-mesage">{chat.msg}</div>
-                  <div className="chat-panel-item-content-other">{getContent(chat)}</div>
+                  { chat.content.content && <div className="chat-panel-item-content-other">{getContent(chat)}</div> }
                 </div>
               </div>
             </div>

@@ -176,7 +176,7 @@ const Message: React.SFC = () => {
         }
       </div>
       <div className="message-panel-content">
-        <Spin loading={loading} delay={300}>
+        <Spin loading={loading} delay={0}>
           {
             genNode()
           }

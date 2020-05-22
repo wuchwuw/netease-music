@@ -118,7 +118,7 @@ function getContent (data: any): ChatContent {
       break
     case ChatContentType.TEXT:
     default:
-      content = data.msg
+      content = null
       break
   }
   return { content, type }

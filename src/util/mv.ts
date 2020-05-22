@@ -25,6 +25,7 @@ export class MV {
     duration = 0,
     publishTime,
     cover,
+    artist,
     artists = []
   }: any) {
     this.id = id
@@ -37,7 +38,7 @@ export class MV {
     this.duration = duration
     this.publishTime = publishTime
     this.cover = cover
-    this.artists = createArtistList(artists)
+    this.artists = artists ? createArtistList(artists) : createArtistList([artist])
   }
 
   get playCount_format (): string {

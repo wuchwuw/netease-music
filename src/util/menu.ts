@@ -71,22 +71,10 @@ export function useSongContextMenu () {
   const { start, nextPlaySong } = usePlayerController()
   const usePlaylist = useSelector((state: RootState) => state.user.playlist)
   const user = useSelector((state: RootState) => state.user.user)
-  const { addOrRemoveSong } = useUserPlaylist()
-  const confirm = useConfirm()
+  const { addOrRemoveSong, removeSongWidthComfirm } = useUserPlaylist()
 
   function getSongMenu (source: Source, song: Song, playlist?: PlaylistClass, callback?: () => void) {
-    function deleteSongConfirm (playlistId: number, songId: number) {
-      confirm.open({
-        text: '确定将选中的歌曲从该歌单中删除?',
-        buttonText: '确定',
-        confirm: (confirmCallback) => {
-          addOrRemoveSong(playlistId, songId, 'del', () => {
-            confirmCallback && confirmCallback()
-            callback && callback()
-          })
-        }
-      })
-    }
+
     function getCollectSubType (playlist?: PlaylistClass) {
       return usePlaylist.filter(item => ((item.creator.userId === user.userId) && playlist && playlist.id !== item.id)).map((item) => {
         return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, song.id, 'add') }}
@@ -98,7 +86,7 @@ export function useSongContextMenu () {
       { name: '查看评论', trigger: () => {} },
       { name: '收藏', sub: getCollectSubType(playlist) }
     ]
-    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => { deleteSongConfirm(playlist!.id, song.id) } }
+    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => { removeSongWidthComfirm(playlist!.id, song.id, callback) } }
     if (playlist && playlist.creator.userId === user.userId) {
       return [...defaultMenu, deleteMenu]
     } else {

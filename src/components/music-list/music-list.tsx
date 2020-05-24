@@ -17,12 +17,21 @@ interface MusicListProps {
   list: Song[]
   getMenu: (song: Song) => MenuType[]
   start: (song: Song) => void
+  deleteMyFavorite?: (song: Song) => void
 }
 
-const MusicList: React.SFC<MusicListProps> = ({list = [], getMenu, start}) => {
+const MusicList: React.SFC<MusicListProps> = ({ list = [], getMenu, start, deleteMyFavorite }) => {
   const { goAlbumDetail, goArtistDetail } = usePageForword()
   const { currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
+
+  function muisclistFavorite (song: Song) {
+    if (deleteMyFavorite) {
+      deleteMyFavorite(song)
+    } else {
+      favorite(song.id)
+    }
+  }
 
   return (
     <>
@@ -43,7 +52,7 @@ const MusicList: React.SFC<MusicListProps> = ({list = [], getMenu, start}) => {
                 <div onDoubleClick={() => start(item)} key={item.id} className="music-list-item">
                   <div className="music-list-item-action">
                     <span>{ currentSong.song.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
-                    <i onClick={() => { favorite(item.id, () => {}) }} className={`iconfont ${isFavorite(item.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
+                    <i onClick={() => { muisclistFavorite(item) }} className={`iconfont ${isFavorite(item.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
                   </div>
                   <div>
                     <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.song.id })} title={item.name}>

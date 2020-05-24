@@ -10,6 +10,7 @@ import { usePlaylistContextMenu } from 'UTIL/menu'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 import { usePageForword } from 'ROUTER/hooks'
+import { logout } from 'UTIL/login'
 
 const MENU_NAME = 'left-bar-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -58,7 +59,7 @@ const LeftBar: React.SFC = () => {
                   <div><i className="iconfont icon-mail"></i>商城</div>
                   <div><i className="iconfont icon-setting"></i>个人信息设置</div>
                   <div><i className="iconfont icon-phone"></i>绑定社交账号</div>
-                  <div><i className="iconfont icon-logout"></i>退出登录</div>
+                  <div onClick={() => { logout() }}><i className="iconfont icon-logout"></i>退出登录</div>
                 </div>
               </div>
             }

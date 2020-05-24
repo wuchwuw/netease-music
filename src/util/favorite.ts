@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'STORE/index'
 import { SET_FAVORITE_IDS } from 'STORE/commen/types'
 import api from 'API/index'
+import notificationApi from 'COMPONENTS/notification1/index'
 
 export function useFavorite () {
   const favoriteIds = useSelector((state: RootState) => state.commen.favoriteIds)
@@ -38,6 +39,10 @@ export function useFavorite () {
       const like = !isFavorite(id)
       await api.like({ id, like })
       updateFavoriteIds(id)
+      notificationApi.open({
+        content: like? '取消喜欢成功' : '已添加到我喜欢的音乐',
+        duration: 2000
+      })
       cb && cb()
     } catch (e) {}
   }

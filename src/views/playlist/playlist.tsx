@@ -35,7 +35,7 @@ const Playlist = () => {
   const playlistId = Number(id)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
   const { start, nextPlayPlaylist } = usePlayerController()
-  const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist } = useUserPlaylist()
+  const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
   const { getSongMenu } = useSongContextMenu()
   const { goUserDetail } = usePageForword()
   const shouldUpdateFavoritePlaylist = useSelector((state: RootState) => state.commen.shouldUpdateFavoritePlaylist)
@@ -84,7 +84,7 @@ const Playlist = () => {
 
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
-      return <MusicList start={musiclistStart} getMenu={getMenu} list={playlist.tracks}></MusicList>
+      return <MusicList start={musiclistStart} getMenu={getMenu} list={playlist.tracks} {...deleteMyFavorite()}></MusicList>
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {
@@ -124,6 +124,18 @@ const Playlist = () => {
     return {
       id: `playlist-${playlist.id}`,
       name: playlist.name
+    }
+  }
+
+  function deleteMyFavorite () {
+    if (isOrigin) {
+      return {
+        deleteMyFavorite: (song: Song) => {
+          removeSongWidthComfirm(playlist.id, song.id, updatePlaylist)
+        }
+      }
+    } else {
+      return {}
     }
   }
 

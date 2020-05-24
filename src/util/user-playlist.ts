@@ -5,6 +5,8 @@ import { SET_USER_PLAYLIST } from 'STORE/user/types'
 import { createPlaylistList, PlaylistClass } from './playlist'
 import { useDispatch } from 'react-redux'
 import { SET_UPDATE_FAVORITE_PLAYLIST } from 'STORE/commen/types'
+import { useConfirm } from 'COMPONENTS/dialog/create'
+import { useFavorite } from './favorite'
 
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
@@ -12,6 +14,8 @@ export function useUserPlaylist () {
   const userPlaylist = playlist.filter(item => item.creator.userId === user.userId)
   const subPlaylist = playlist.filter(item => item.creator.userId !== user.userId)
   const dispatch = useDispatch()
+  const confirm = useConfirm()
+  const { updateFavoriteIds } = useFavorite()
 
   async function getUserPlaylist (userId?: number) {
     try {
@@ -49,9 +53,25 @@ export function useUserPlaylist () {
 
   function createPlaylist () {}
 
+  function removeSongWidthComfirm (playlistId: number, songId: number, callback?: () => void) {
+    confirm.open({
+      text: '确定将选中的歌曲从该歌单中删除?',
+      buttonText: '确定',
+      confirm: (confirmCallback) => {
+        addOrRemoveSong(playlistId, songId, 'del', () => {
+          confirmCallback && confirmCallback()
+          callback && callback()
+          if (isMyFavotitePlaylist(playlistId)) {
+            updateFavoriteIds(songId)
+          }
+        })
+      }
+    })
+  }
+
   async function addOrRemoveSong (playlistId: number, songId: number, type: 'add' | 'del', cb?: Function) {
     try {
-      const res = await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: songId })
+      await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: songId })
       cb && cb()
     } catch (e) {}
   }
@@ -70,6 +90,10 @@ export function useUserPlaylist () {
     }
   }
 
+  const isMyFavotitePlaylist = (playlistId: number) => !!(userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId)
+
+  const isUserPlaylist = (playlistId: number) => !!(userPlaylist.findIndex(item => Number(playlistId) === item.id) > -1)
+
   return {
     userPlaylist,
     subPlaylist,
@@ -79,7 +103,8 @@ export function useUserPlaylist () {
     addOrRemoveSong,
     getUserPlaylistDetail,
     shouldUpdateUserFavoritePlaylist,
-    isUserPlaylist: (playlistId: number) => !!(userPlaylist.findIndex(item => Number(playlistId) === item.id) > -1),
-    isMyFavotitePlaylist: (playlistId: number) => !!(userPlaylist[0] && userPlaylist[0].id && userPlaylist[0].id === playlistId)
+    isUserPlaylist,
+    isMyFavotitePlaylist,
+    removeSongWidthComfirm
   }
 }

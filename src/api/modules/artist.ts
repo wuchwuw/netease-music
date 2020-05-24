@@ -15,13 +15,13 @@ interface ArtistIdParam {
 
 export default {
   getArtist (params: GetArtistParam) {
-    return axios.get('artist/list', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('artist/list', { params , withCredentials: true })
   },
   getArtistDetail (params: ArtistIdParam) {
-    return axios.get('artists', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('artists', { params , withCredentials: true })
   },
   getArtistAlbum (params: ArtistIdParam) {
-    return axios.get('artist/album', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('artist/album', { params , withCredentials: true })
   },
   getArtistDesc (params: ArtistIdParam) {
     return axios.get('artist/desc', { params })
@@ -33,6 +33,6 @@ export default {
     return axios.get('artist/mv', { params })
   },
   artistSub (params: { t: number, id: number }) {
-    return axios.get('artist/sub', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('artist/sub', { params , withCredentials: true })
   }
 }

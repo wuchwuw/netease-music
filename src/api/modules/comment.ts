@@ -17,15 +17,15 @@ interface CommentLikeParams {
 
 export default {
   getHotComment (params: any) {
-    return axios.get('comment/hot', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('comment/hot', { params, withCredentials: true })
   },
   getComment (params: any) {
     return axios.get(`comment/${params.type}`, {  params: { ...params.params, timestamp: +new Date() }, withCredentials: true })
   },
   sendComment (params: SendCommentParams) {
-    return axios.get('/comment', {  params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('/comment', {  params, withCredentials: true })
   },
   commentLike (params: CommentLikeParams) {
-    return axios.get('/comment/like', {  params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('/comment/like', {  params, withCredentials: true })
   }
 }

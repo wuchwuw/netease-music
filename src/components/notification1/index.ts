@@ -21,7 +21,7 @@ function getInstance (callback: (i: any) => void) {
 
 function notice (content, duration) {
   const key = getUuid()
-  const notice = {key, content, duration}
+  const notice = { key, content, duration }
   getInstance(instance => {
     instance.notice(notice)
   })
@@ -35,7 +35,6 @@ const apiType = ['info', 'success', 'warn', 'error']
 
 apiType.forEach(type => {
   notificationApi[type] = (content: string, duration: number) => {
-    
     return notificationApi.open(content, duration)
   }
 })

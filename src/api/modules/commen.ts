@@ -42,13 +42,13 @@ export default {
     return axios.get('msg/notices', { params, withCredentials: true })
   },
   getPrivateMessage (params: { uid: number, limit: number}) {
-    return axios.get('msg/private/history', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('msg/private/history', { params, withCredentials: true })
   },
   sendTextMessage (params: { user_ids: number[], msg: string }) {
-    return axios.get('send/text', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('send/text', { params, withCredentials: true })
   },
   sendPlaylistMessage (params: { user_ids: number[], msg: string, playlist: number }) {
-    return axios.get('send/text', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('send/text', { params, withCredentials: true })
   },
   likeResource (params: { t: number, type: number, id?: number | string, threadId?: string}) {
     const type_map = {
@@ -57,6 +57,6 @@ export default {
       'video': 5,
       'activity': 6
     }
-    return axios.get('resource/like', { params: { ...params, timestamp: +new Date() }, withCredentials: true })
+    return axios.get('resource/like', { params, withCredentials: true })
   }
 }

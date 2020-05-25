@@ -1,20 +1,29 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react'
+import React, { useState, useImperativeHandle, forwardRef, ReactNode } from 'react'
+import './notification.less'
+import { CSSTransition } from 'react-transition-group'
 
-interface NotificationProps {
-
+interface NotificationContent {
+  content: string | ReactNode
+  duration: number
 }
 
-const NotificationContainer: React.SFC<NotificationProps> = forwardRef((porps, ref) => {
-  const [visiabel, setVisiable] =  useState(false)
+let timer: NodeJS.Timeout | null = null
+
+const NotificationContainer = forwardRef((porps, ref) => {
+  const [visiable, setVisiable] = useState(false)
+  const [contnet, setContent] = useState<string | ReactNode>('')
 
   useImperativeHandle(ref, () => ({
-    add: (notice) => {
+    open: (content: NotificationContent) => {
+      if (timer) clearTimeout(timer)
+      console.log(11)
+      setContent(content.content)
       setVisiable(true)
-      setTimeout(() => {
+      timer = setTimeout(() => {
         remove()
-      }, notice.duration)
+      }, content.duration)
     }
-  }))
+  }), [])
 
   function remove () {
     setVisiable(false)
@@ -22,9 +31,11 @@ const NotificationContainer: React.SFC<NotificationProps> = forwardRef((porps, r
 
   return (
     <div className="notifiaction-container">
-      <div className="notifiaction">
-        xxxxxxx
-      </div>
+      <CSSTransition in={visiable} unmountOnExit timeout={300} classNames="notification-transition">
+        <div className="notifiaction">
+          {contnet}
+        </div>
+      </CSSTransition>
     </div>
   )
 })

@@ -11,6 +11,7 @@ import { useUserPlaylist } from 'UTIL/user-playlist'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 import { usePageForword } from 'ROUTER/hooks'
 import { logout } from 'UTIL/login'
+import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
 
 const MENU_NAME = 'left-bar-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -67,7 +68,7 @@ const LeftBar: React.SFC = () => {
         </div>
         :
         <div className="leftbar-user">
-          <div className="leftbar-login" onClick={() => loginDialogProps.toggle()}><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
+          <div className="leftbar-login" onClick={() => openLoginDialog()}><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
         </div>
       }
       <div className="leftbar-playlist">
@@ -106,7 +107,7 @@ const LeftBar: React.SFC = () => {
           ))
         }
       </div>
-      <LoginDialog {...loginDialogProps}></LoginDialog>
+      <LoginDialog></LoginDialog>
       <CreatePlaylistDialog {...createDialogProps}></CreatePlaylistDialog>
       <Menu></Menu>
     </div>

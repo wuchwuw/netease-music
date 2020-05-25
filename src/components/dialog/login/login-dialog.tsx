@@ -5,17 +5,35 @@ import './login-dialog.less'
 import { UseDialogProps } from '..'
 import api from 'API/index'
 import { SET_LOGIN_STATUS, SET_USER_PROFILE } from 'STORE/user/types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import User from 'UTIL/user'
 import { useFavorite } from 'UTIL/favorite'
 import { useUserPlaylist } from 'UTIL/user-playlist'
+import { RootState, store } from 'STORE/index'
+import { SET_LOGIN_DIALOG_VISIBLE } from 'STORE/commen/types'
 
-const LoignDialog: React.SFC<UseDialogProps> = (props) => {
+
+export function openLoginDialog () {
+  store.dispatch({ type: SET_LOGIN_DIALOG_VISIBLE, loginDialogVisible: true })
+}
+
+const LoignDialog = () => {
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const { getFavoriteIds } = useFavorite()
   const { getUserPlaylist } = useUserPlaylist()
+  const loginDialogVisible = useSelector((state: RootState) => state.commen.loginDialogVisible)
+  const dialogProps: UseDialogProps = {
+    visible: loginDialogVisible,
+    open: () => {
+      dispatch({ type: SET_LOGIN_DIALOG_VISIBLE, loginDialogVisible: true })
+    },
+    close: () => {
+      dispatch({ type: SET_LOGIN_DIALOG_VISIBLE, loginDialogVisible: false })
+    },
+    toggle: () => {}
+  }
 
   async function login () {
     try {
@@ -25,12 +43,12 @@ const LoignDialog: React.SFC<UseDialogProps> = (props) => {
       getFavoriteIds(user.userId)
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
-      props.close()
+      dialogProps.close()
     } catch (e) {}
   }
 
   return (
-    <Dialog width={350} {...props}>
+    <Dialog width={350} {...dialogProps}>
       <div className="login-dialog-wrap">
         <img className="login-dialog-img" src={login_dialog_img} alt=""/>
         <div className="login-dialog-form">

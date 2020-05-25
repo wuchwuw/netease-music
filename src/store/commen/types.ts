@@ -7,6 +7,7 @@ export const SET_SEARCH_KEYWORDS = 'SET_SEARCH_KEYWORDS'
 export const SET_HISTORY_KEYWORDS = 'SET_HISTORY_KEYWORDS'
 export const SET_UPDATE_FAVORITE_PLAYLIST = 'SET_UPDATE_FAVORITE_PLAYLIST'
 export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT'
+export const SET_LOGIN_DIALOG_VISIBLE = 'SET_LOGIN_DIALOG_VISIBLE'
 
 interface setPanelType {
   type: typeof SET_PANEL_TYPE
@@ -38,13 +39,19 @@ export interface setCurrentChat {
   currentChat: User
 }
 
+export interface setLoginDialogVisible {
+  type: typeof SET_LOGIN_DIALOG_VISIBLE
+  loginDialogVisible: boolean
+}
+
 export interface CommenState {
   panelType: PanelType
   favoriteIds: number[]
   keywords: string
   historyKeywords: string[]
   shouldUpdateFavoritePlaylist: boolean
-  currentChat: User
+  currentChat: User,
+  loginDialogVisible: boolean
 }
 
 export type CommenActionTypes =
@@ -53,4 +60,5 @@ export type CommenActionTypes =
   setSearchKeyword |
   setHistoryKeywords |
   setShouldUpdateFavoritePlaylist |
-  setCurrentChat
+  setCurrentChat |
+  setLoginDialogVisible

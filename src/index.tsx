@@ -7,9 +7,7 @@ import routes from './router'
 import { setGlobalCSSVar } from 'UTIL/css-var'
 import { refresh } from 'UTIL/login'
 import { Provider } from 'react-redux'
-import configureStore from './store/index'
-
-const store = configureStore()
+import { store } from './store/index'
 
 refresh()
 setGlobalCSSVar('light')

@@ -29,25 +29,3 @@ export function useConfirm () {
     open
   }
 }
-
-const LOGIN_DIALOG_CONTAINER = 'LOGIN_DIALOG_CONTAINER'
-
-export const loginDialog = {
-  open () {
-    const container = document.createElement('div')
-    container.setAttribute('id', LOGIN_DIALOG_CONTAINER)
-    parent.appendChild(container)
-    const props = {
-      visible: true,
-      toggle: () => {},
-      open: () => {},
-      close: () => {
-        const container = document.getElementById(LOGIN_DIALOG_CONTAINER)
-        if (container) {
-          parent.removeChild(container)
-        }
-      }
-    }
-    ReactDOM.render(<LoginDialog {...props}></LoginDialog>, container)
-  }
-}

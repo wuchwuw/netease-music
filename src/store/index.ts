@@ -8,11 +8,15 @@ import rootReducer from './reducers'
 export default function configureStore() {
   return createStore(
     rootReducer
-    // applyMiddleware(
-    //   loggerMiddleware,
-    //   thunkMiddleware
-    // )
   )
 }
+
+export const store = createStore(
+  rootReducer
+  // applyMiddleware(
+  //   loggerMiddleware,
+  //   thunkMiddleware
+  // )
+)
 
 export type RootState = ReturnType<typeof rootReducer>

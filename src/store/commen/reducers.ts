@@ -6,7 +6,8 @@ import {
   SET_SEARCH_KEYWORDS,
   SET_HISTORY_KEYWORDS,
   SET_UPDATE_FAVORITE_PLAYLIST,
-  SET_CURRENT_CHAT
+  SET_CURRENT_CHAT,
+  SET_LOGIN_DIALOG_VISIBLE
 } from './types'
 
 import { PanelType } from 'VIEWS/panel/container'
@@ -18,7 +19,8 @@ const initialState: CommenState = {
   favoriteIds: [],
   keywords: '',
   historyKeywords: JSON.parse(localStorage.getItem('historyKeywords') || '[]'),
-  shouldUpdateFavoritePlaylist: false
+  shouldUpdateFavoritePlaylist: false,
+  loginDialogVisible: false
 }
 
 export function CommenReducer (state = initialState, action: CommenActionTypes): CommenState {
@@ -47,6 +49,8 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
       return state
     case SET_CURRENT_CHAT:
       state.currentChat = action.currentChat
+    case SET_LOGIN_DIALOG_VISIBLE:
+      state.loginDialogVisible = action.loginDialogVisible
     default:
       return state
   }

@@ -6,6 +6,7 @@ import './full-screen-player.less'
 import api from 'API/index'
 import { createBasePlaylist, PlaylistBaseClass } from 'UTIL/playlist'
 import Song, { createSongList } from 'UTIL/song'
+import { useFavorite } from 'UTIL/favorite'
 
 interface SimiUser {
   recommendReason: string
@@ -22,6 +23,7 @@ const FullScrrenPlayer: React.SFC = () => {
   const [simiPlaylist, setSimiPlaylist] = useState<PlaylistBaseClass[]>([])
   const [simiSong, setSimiSong] = useState<Song[]>([])
   const [simiUser, setSimiUser] = useState<SimiUser[]>([])
+  const { favorite, isFavorite } = useFavorite() 
 
   useEffect(() => {
     getSongSimi()
@@ -54,7 +56,7 @@ const FullScrrenPlayer: React.SFC = () => {
             <img src={currentSong.album.picUrl+'?param=300y300'} alt=""/>
           </div>
           <div className="player-action">
-            <i className="iconfont iconxin"></i>
+          <i onClick={() => { favorite(currentSong.id) }} className={`iconfont ${isFavorite(currentSong.id) ? 'icon-heart-full active' : 'iconxin'}`}></i>
             <i className="iconfont icon-add"></i>
             <i className="iconfont icon-fmnext"></i>
             <i className="iconfont icon-share"></i>

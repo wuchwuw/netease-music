@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { SET_UPDATE_FAVORITE_PLAYLIST } from 'STORE/commen/types'
 import { useConfirm } from 'COMPONENTS/dialog/create'
 import { useFavorite } from './favorite'
+import notificationApi from 'COMPONENTS/notification'
 
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
@@ -39,16 +40,39 @@ export function useUserPlaylist () {
     } catch (e) {}
   }
 
-  async function subscribePlaylist (subPlaylist: PlaylistClass, callback?: (p: PlaylistClass) => void) {
-    try {
-      const t = subPlaylist.subscribed ? 2 : 1
-      const subscribedCount = subPlaylist.subscribed ? -- subPlaylist.subscribedCount : ++ subPlaylist.subscribedCount
-      await api.playlistSubscribers({ t, id: subPlaylist.id })
-      setUserPlaylist(subPlaylist.subscribed ? playlist.filter(item => item.id !== subPlaylist.id) : playlist.concat([subPlaylist]))
-      subPlaylist.subscribedCount = subscribedCount
-      subPlaylist.subscribed = !subPlaylist.subscribed
-      callback && callback(subPlaylist)
-    } catch (e) {}
+  function subscribePlaylist (subPlaylist: PlaylistClass, callback?: (p: PlaylistClass) => void) {
+    async function sub (cb?: () => void) {
+      try {
+        const t = subPlaylist.subscribed ? 2 : 1
+        const subscribedCount = subPlaylist.subscribed ? -- subPlaylist.subscribedCount : ++ subPlaylist.subscribedCount
+        await api.playlistSubscribers({ t, id: subPlaylist.id })
+        setUserPlaylist(subPlaylist.subscribed ? playlist.filter(item => item.id !== subPlaylist.id) : [subPlaylist].concat(playlist))
+        subPlaylist.subscribedCount = subscribedCount
+        subPlaylist.subscribed = !subPlaylist.subscribed
+        callback && callback(subPlaylist)
+        cb && cb()
+      } catch (e) {}
+    }
+    if (subPlaylist.subscribed) {
+      confirm.open({
+        text: '确定不再收藏该歌单?',
+        buttonText: '确定',
+        confirm: (confirmCallback) => {
+          sub(() => {
+            confirmCallback && confirmCallback()
+            notificationApi.success({
+              content: '取消收藏歌单成功!'
+            })
+          })
+        }
+      })
+    } else {
+      sub(() => {
+        notificationApi.success({
+          content: '收藏歌单成功!'
+        })
+      })
+    }
   }
 
   function createPlaylist () {}

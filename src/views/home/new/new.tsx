@@ -93,7 +93,7 @@ const New: React.SFC = () => {
           song.map((item, index) => (
             <li key={item.id} className="newsong-item">
               <span>{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
-              <span><img className="newsong-item-pic" src={item.picUrl + '?param=60y60'} alt=""/></span>
+              <span><img className="newsong-item-pic" src={item.album.picUrl + '?param=60y60'} alt=""/></span>
               <span>{item.name}</span>
               <span>{item.artistName}</span>
               <span>{item.album.name}</span>
@@ -143,7 +143,7 @@ const New: React.SFC = () => {
           ))
         }
       </div>
-      <Spin loading={loading} delay={300}>
+      <Spin loading={loading} delay={100}>
         {
           genContent()
         }

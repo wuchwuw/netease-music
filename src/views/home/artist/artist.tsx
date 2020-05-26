@@ -7,20 +7,24 @@ import { usePageForword } from 'ROUTER/hooks'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 
 const GenderMap = {
-  '01': '男歌手',
-  '02': '女歌手',
-  '03': '乐队组合'
+  '全部': -1,
+  '男歌手': 1,
+  '女歌手': 2,
+  '乐队组合': 3
 }
 
 const LangMap = {
-  '10': '华语',
-  '20': '欧美',
-  '60': '日本',
-  '70': '韩国',
-  '40': '其他'
+  '全部': -1,
+  '华语': 7,
+  '欧美': 96,
+  '日本': 8,
+  '韩国': 16,
+  '其他': 0
 }
 
-const InitialMap = ['热门', ...String.fromCharCode(...Array.from({ length: 25 }, (item, index) =>  index + 65))]
+console.log(Object.keys(LangMap))
+
+const InitialMap = ['热门', ...String.fromCharCode(...Array.from({ length: 25 }, (item, index) =>  index + 65)), '#']
 const ARTIST_LIMIT = 30
 let loading = false
 let hasmore = true
@@ -28,9 +32,9 @@ let offset = 0
 
 const Artist: React.SFC = () => {
   const [ artists, setArtists ] = useState<ArtistBaseClass[]>([])
-  const [ gender, setGender ] = useState<keyof typeof GenderMap>('01')
+  const [ gender, setGender ] = useState<keyof typeof GenderMap>('全部')
   const [ initial, setInitial ] = useState<string>('热门')
-  const [ lang, setLang ] = useState<keyof typeof LangMap>('10')
+  const [ lang, setLang ] = useState<keyof typeof LangMap>('全部')
   const { goArtistDetail, goUserDetail } = usePageForword()
 
   useEffect(() => {
@@ -41,14 +45,14 @@ const Artist: React.SFC = () => {
   }, [gender, initial, lang])
 
   async function getArtists (loadmore: boolean) {
-    const cat = lang + gender
-    const order = initial === '热门' ? '' : initial
+    let order = ['热门', '#'].indexOf(initial)
     loading = true
     try {
       const params = {
         limit: ARTIST_LIMIT,
-        cat,
-        initial: order,
+        type: GenderMap[gender],
+        area: LangMap[lang],
+        initial: order > -1 ? --order : initial,
         offset: offset
       }
       const res = await api.getArtist(params)
@@ -59,7 +63,6 @@ const Artist: React.SFC = () => {
   }
 
   function loadmore () {
-    console.log(artists)
     if (!hasmore) return
     if (loading) return
     offset = offset + ARTIST_LIMIT
@@ -74,8 +77,8 @@ const Artist: React.SFC = () => {
             <span>语种:</span>
             <div>
               {
-                (Object.keys(LangMap) as (keyof typeof LangMap)[]).map(key => (
-                  <span key={key} onClick={() => setLang(key)} className={classnames({ 'active': key === lang })}>{LangMap[key]}</span>
+                (Object.getOwnPropertyNames(LangMap) as (keyof typeof LangMap)[]).map(key => (
+                  <span key={key} onClick={() => setLang(key)} className={classnames({ 'active': key === lang })}>{key}</span>
                 ))
               }
             </div>
@@ -85,7 +88,7 @@ const Artist: React.SFC = () => {
             <div>
               {
                 (Object.keys(GenderMap) as (keyof typeof GenderMap)[]).map(key => (
-                  <span key={key} onClick={() => setGender(key)} className={classnames({ 'active': key === gender })}>{GenderMap[key]}</span>
+                  <span key={key} onClick={() => setGender(key)} className={classnames({ 'active': key === gender })}>{key}</span>
                 ))
               }
             </div>

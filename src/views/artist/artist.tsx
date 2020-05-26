@@ -17,6 +17,7 @@ import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-
 import { useSongContextMenu } from 'UTIL/menu'
 import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist'
 import { useDialog } from 'COMPONENTS/dialog'
+import notificationApi from 'COMPONENTS/notification'
 
 const MENU_NAME = 'music-list-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -80,6 +81,7 @@ const Artist = () => {
     try {
       const t = artist.followed ? 2 : 1
       await api.artistSub({ t, id: artist.id })
+      notificationApi.success({ content: artist.followed ? '已取消收藏' : '收藏成功' })
       getArtistDetail()
     } catch (e) {}
   }
@@ -197,7 +199,7 @@ const Artist = () => {
                     <div className="artist-album-item-list-item-wrap">
                       <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)}>
                         <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
-                          <span>{padZero(index + 1)}</span>
+                          <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
                           <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
                           <span>{song.name}<span>{song.alia_string}</span></span>
                           <span>{song.duration_string}</span>

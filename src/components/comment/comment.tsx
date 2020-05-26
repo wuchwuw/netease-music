@@ -4,8 +4,6 @@ import api from 'API/index'
 import Pagination from 'COMPONENTS/pagination/pagination'
 import Spin from 'COMPONENTS/spin/spin'
 import CommentCls, { createCommentList } from 'UTIL/comment'
-import CommentDialog from './comment-dialog/comment-dialog'
-import { useDialog } from 'COMPONENTS/dialog'
 import classnames from 'classnames'
 
 interface CommentProps {
@@ -17,17 +15,18 @@ interface CommentProps {
 }
 
 const COMMENT_TYPE_MAP = ['music', 'mv', 'playlist', 'album', 'dj', 'video', 'activity']
+let offset = 0
 
 const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay = 0, textareaType = 'normal' }) => {
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<CommentCls[]>([])
   const [hot, setHot] = useState<CommentCls[]>([])
-  const PAGE_SIZE = 30
+  const PAGE_SIZE = type === 'event' ? 10 : 30
   const [content, setContent] = useState('')
-  const commentDialogProps = useDialog()
   const [repliedIndex, setRepliedIndex] = useState('')
   const [repliedContent, setRepliedContent] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     if (!id) return
@@ -40,17 +39,19 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
       type: type,
       params: {
         [type === 'event' ? 'threadId' : 'id']: id,
-        limit: type === 'event' ? 10 : PAGE_SIZE
+        limit: PAGE_SIZE,
+        offset
       }
     }
-
     try {
       const res = await api.getComment(params)
       setList(createCommentList(res.data.comments))
-      setHot(createCommentList(res.data.hotComments))
+      setHot(res.data.hotComments ? createCommentList(res.data.hotComments) : [])
       setTotal(res.data.total)
       setLoading(false)
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async function sendComment (commentId?: number, repliedData?: any) {
@@ -75,7 +76,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   async function commentLike (comment: CommentCls) {
     try {
       const t = comment.liked ? 0 : 1
-      await api.commentLike({id, t, type: COMMENT_TYPE_MAP.indexOf(type), cid: comment.commentId})
+      await api.commentLike({ id, t, type: COMMENT_TYPE_MAP.indexOf(type), cid: comment.commentId })
       comment.liked = !comment.liked
       comment.likedCount = comment.liked ? ++comment.likedCount : --comment.likedCount
       setList([...list])
@@ -89,6 +90,12 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
     } else {
       setRepliedIndex(id)
     }
+  }
+
+  function onPageChange (currentPage: number) {
+    offset = (currentPage - 1) * PAGE_SIZE
+    setCurrentPage(currentPage)
+    getComment()
   }
 
   function genCommentNode (title: string, list: CommentCls[]) {
@@ -178,7 +185,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
         <span onClick={() => { sendComment() }} className="comment-textarea-action-btn">评论</span>
       </div>
       <div className="comment-content">
-        <Spin loading={loading} delay={300}>
+        <Spin loading={loading} delay={100}>
           {
             list.length ? (
               <>
@@ -193,7 +200,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   {
                     total >= PAGE_SIZE &&
                     <div className="pagination-wrap">
-                      <Pagination total={total} pageSize={PAGE_SIZE} onChange={() => {}}></Pagination>
+                      <Pagination currentPage={currentPage} total={total} pageSize={PAGE_SIZE} onChange={onPageChange}></Pagination>
                     </div>
                   }
                 </div>
@@ -204,7 +211,6 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
           }
         </Spin>
       </div>
-      <CommentDialog {...commentDialogProps}></CommentDialog>
     </div>
   )
 }

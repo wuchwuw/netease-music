@@ -17,7 +17,6 @@ const MENU_NAME = 'left-bar-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
 
 const LeftBar: React.SFC = () => {
-  const loginDialogProps = useDialog()
   const createDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
@@ -84,8 +83,9 @@ const LeftBar: React.SFC = () => {
         <NavLink to={'/activity'} activeClassName="active" className="leftbar-item">
           <i className="iconfont iconfriend" style={{ fontWeight: 100 }}></i>朋友
         </NavLink>
-        {/* <div className="leftbar-item-title">我的音乐</div>
-        <div className="leftbar-item"><i className="iconfont iconfriend"></i>朋友</div> */}
+        <div className="leftbar-item-title">我的音乐</div>
+        <div className="leftbar-item"><i className="iconfont icon-cloud"></i>我的音乐云盘</div>
+        <div className="leftbar-item"><i className="iconfont icon-star"></i>我的收藏</div>
         <div className="leftbar-item-title">创建的歌单<i onClick={() => createDialogProps.toggle()} className="iconfont icon-add"></i></div>
         {
           userPlaylist.map(item => (
@@ -96,7 +96,7 @@ const LeftBar: React.SFC = () => {
             </ContextMenuWrap>
           ))
         }
-        <div className="leftbar-item-title">收藏的歌单</div>
+        { subPlaylist.length && <div className="leftbar-item-title">收藏的歌单</div> }
         {
           subPlaylist.map(item => (
             <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>

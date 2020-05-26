@@ -100,7 +100,7 @@ const Friends: React.SFC = () => {
               <div>{genActivityOption(act, index)}</div>
               { commentIndex === index &&
                 <div className="activity-comment-wrap">
-                  <Comment type="event" id={act.info.commentThread.id}></Comment>
+                  <Comment type="event" textareaType="deep" id={act.info.commentThread.id}></Comment>
                 </div>
               }
             </div>

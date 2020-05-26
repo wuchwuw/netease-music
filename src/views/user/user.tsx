@@ -7,6 +7,7 @@ import UserClass, { createUserDetail } from 'UTIL/user'
 import classNames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
 import { useChat } from 'UTIL/chat-controller'
+import notificationApi from 'COMPONENTS/notification'
 
 const User = () => {
   const { id } = useParams()
@@ -19,7 +20,7 @@ const User = () => {
   useEffect(() => {
     getUserDetail()
     getUserPlaylist()
-  }, [])
+  }, [userId])
 
   async function getUserDetail () {
     try {
@@ -64,6 +65,7 @@ const User = () => {
     try {
       const t = user.followed ? 2 : 1
       await api.userFollow({ t, id: user.userId })
+      notificationApi.success({ content: user.followed ? '已取消关注' : '关注成功' })
       getUserDetail()
     } catch (e) {}
   }
@@ -79,7 +81,7 @@ const User = () => {
               { genUserTag(user) }
             </div>
             <div className="user-option">
-              <span onClick={() => { goArtistDetail(user.artistId) }}><i className="iconfont icon-artist"></i>歌手页</span>
+              { !!user.artistId && <span onClick={() => { goArtistDetail(user.artistId) }}><i className="iconfont icon-artist"></i>歌手页</span>}
               <span onClick={() => { setCurrentChat(user) }}><i className="iconfont icon-email"></i>发私信</span>
               <span onClick={() => { follow() }}>{user.followed ? <><i className="iconfont icon-gou"></i>已关注</> : <><i className="iconfont icon-add"></i>关注</>}</span>
             </div>

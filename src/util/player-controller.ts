@@ -4,6 +4,7 @@ import Song, { createSongList } from "./song"
 import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType } from 'STORE/player/types'
 import { PlyerMode, FM } from 'STORE/player/types'
+import notificationApi from "COMPONENTS/notification"
 
 // page-id or page
 export interface Source {
@@ -160,11 +161,15 @@ export function usePlayerController () {
       currentMusiclist.splice(index, 1)
       currentMusiclist.splice(index < currentSongIndex ? currentSongIndex : ++currentSongIndex, 0, songWidthSource)
     }
+    notificationApi.success({ content: '已添加到播放列表' })
     setCurrentMusiclistWidthSource(currentMusiclist)
   }
 
   function nextPlayPlaylist (source: Source, musiclist: Song[]) {
-    if (sourceIds.indexOf(source.id) > -1) return
+    if (sourceIds.indexOf(source.id) > -1) {
+      notificationApi.success({ content: '已添加到播放列表' })
+      return
+    }
     if (currentMusiclist.length === 0) {
       start(source, musiclist[0], musiclist)
     } else {
@@ -173,6 +178,7 @@ export function usePlayerController () {
       currentMusiclist.splice(++currentSongIndex, 0, ...musiclistWidthSource)
       setCurrentMusiclistWidthSource(currentMusiclist)
       sourceIds.push(source.id)
+      notificationApi.success({ content: '已添加到播放列表' })
     }
   }
 

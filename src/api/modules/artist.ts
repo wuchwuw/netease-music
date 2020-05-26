@@ -4,7 +4,8 @@ interface GetArtistParam {
   limit: number
   offset: number
   initial: string | number
-  cat: string | number
+  type: number
+  area: number
 }
 
 interface ArtistIdParam {

@@ -275,6 +275,11 @@ export function usePlayerController () {
     }
   }
 
+  function getPlayCurrentTime () {
+    let audio = getAudio()
+    return audio.currentTime
+  }
+
   return {
     start,
     next,
@@ -290,6 +295,7 @@ export function usePlayerController () {
     fmScreenMusicList,
     startFM,
     addFMTrash,
-    currentFM: fmScreenMusicList.find(item => item.type === 'current')!
+    currentFM: fmScreenMusicList.find(item => item.type === 'current')!,
+    getPlayCurrentTime
   }
 }

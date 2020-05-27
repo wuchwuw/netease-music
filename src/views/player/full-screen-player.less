@@ -74,18 +74,25 @@
 }
 .player-info-lyrics {
   margin-top: 30px;
-  padding: 10px 0;
   border-right: 1px solid #F0EFF0;
   height: 320px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 .player-info-lyrics-item {
-  color: #656465;
+  color: #666666;
+  font-size: 16px;
   &.active {
-    font-size: 16px;
     color: #333333;
+    font-weight: 500;
   }
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+.player-info-lyrics-item-translate {
+  font-size: 15px;
+  margin-top: 8px;
 }
 .player-other-info {
   display: flex;
@@ -131,7 +138,7 @@
   flex-direction: column;
   justify-content: center;
 }
-player-other-list-info-name {
+.player-other-list-info-name {
   font-size: 14px;
 }
 .player-other-list-info-text {

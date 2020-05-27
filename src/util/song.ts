@@ -44,7 +44,7 @@ export default class Song {
   async getLyric (cb?: any) {
     try {
       let res = await api.getLyric(this.id)
-      const lyric = new Lyric(res.data.lrc.lyric)
+      const lyric = new Lyric(res.data)
       this.lyric = lyric
       cb && cb(lyric)
     } catch (e) {}

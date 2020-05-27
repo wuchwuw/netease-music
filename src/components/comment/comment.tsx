@@ -22,7 +22,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<CommentCls[]>([])
   const [hot, setHot] = useState<CommentCls[]>([])
-  const PAGE_SIZE = type === 'event' ? 10 : 30
+  const PAGE_SIZE = type === 'event' ? 10 : 20
   const [content, setContent] = useState('')
   const [repliedIndex, setRepliedIndex] = useState('')
   const [repliedContent, setRepliedContent] = useState('')
@@ -107,13 +107,13 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
             list.map((comment, index) => (
               <div key={comment.commentId + comment.parentCommentId} className="comment-item">
                 <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=100y100'} alt=""/>
-                <div className="comment-item-info">
+                <div className={ classnames('comment-item-info', { 'deep': textareaType === 'deep' })}>
                   <div className="comment-item-info-text">
                     <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}
                   </div>
                   {
                     comment.replied && (
-                      <div className="comment-item-info-replay">
+                      <div className={ classnames('comment-item-info-replay', { 'deep': textareaType === 'deep' })}>
                         <div className="comment-item-info-text replied">
                           {
                             comment.replied.content ?

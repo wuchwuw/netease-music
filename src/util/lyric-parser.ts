@@ -11,12 +11,25 @@ const tagRegMap = {
   by: 'by'
 }
 
-function noop() {
+function noop (line: any) {}
+
+export interface LyricLine {
+  txt: string
+  time: number
+  translate: string
 }
 
 export default class Lyric {
-  constructor(lrc, hanlder = noop) {
-    this.lrc = lrc
+  lrc: string
+  tlrc: string
+  tags: any
+  lines: LyricLine[]
+  handler: () => void
+  state: number
+  curLine: number
+  constructor({ lrc, tlyric } : any, hanlder: (line?: LyricLine) => void = noop) {
+    this.lrc = lrc.lyric
+    this.tlrc = tlyric.lyric
     this.tags = {}
     this.lines = []
     this.handler = hanlder
@@ -28,40 +41,78 @@ export default class Lyric {
 
   _init() {
     // this._initTag()
-
     this._initLines()
   }
 
-  _initTag() {
-    for (let tag in tagRegMap) {
-      const matches = this.lrc.match(new RegExp(`\\[${tagRegMap[tag]}:([^\\]]*)]`, 'i'))
-      this.tags[tag] = matches && matches[1] || ''
-    }
-  }
+  // _initTag() {
+  //   for (let tag in tagRegMap) {
+  //     const matches = this.lrc.match(new RegExp(`\\[${tagRegMap[tag]}:([^\\]]*)]`, 'i'))
+  //     this.tags[tag] = matches && matches[1] || ''
+  //   }
+  // }
 
   _initLines() {
-    const lines = this.lrc.split('\n')
-    // const offset = parseInt(this.tags['offset']) || 0
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i]
-      let result = timeExp.exec(line)
+    const lines = this.lrc ? this.lrc.split('\n') : []
+    const tLines = this.tlrc ? this.tlrc.split('\n') : []
+    function getLine (lineStr: string) {
+      const result: any = timeExp.exec(lineStr)
+      let res = null
       if (result) {
-        const txt = line.replace(timeExp, '').trim()
+        const txt = lineStr.replace(timeExp, '').trim()
         if (txt) {
-          this.lines.push({
-            time: result[1] * 60 * 1000 + result[2] * 1000 + (result[3] || 0) * 10,
+          res = {
+            time: result[1] * 60 * 1000 + result[2] * 1000 + (result[3] || 0) * 1,
             txt
-          })
+          }
         }
       }
+      return res
     }
 
-    this.lines.sort((a, b) => {
-      return a.time - b.time
-    })
+    let index = 0
+    let tIndex = 0
+    
+    while (index < lines.length) {
+      const lineRes = getLine(lines[index])
+      const tLineRes = getLine(tLines[tIndex])
+      if (!tLineRes) tIndex ++
+      if (lineRes) {
+        let res = {
+          time: lineRes.time,
+          txt: lineRes.txt,
+          translate: ''
+        }
+        if (tLineRes && tLineRes.time === lineRes.time) {
+          res.translate = tLineRes.txt
+          tIndex ++
+        }
+        this.lines.push(res)
+      }
+      index ++
+    }
+
+    // const offset = parseInt(this.tags['offset']) || 0
+    // for (let i = 0; i < lines.length; i++) {
+    //   const line = lines[i]
+    //   let result = timeExp.exec(line)
+    //   console.log(result)
+    //   if (result) {
+    //     const txt = line.replace(timeExp, '').trim()
+    //     if (txt) {
+    //       this.lines.push({
+    //         time: result[1] * 60 * 1000 + result[2] * 1000 + (result[3] || 0) * 1,
+    //         txt
+    //       })
+    //     }
+    //   }
+    // }
+
+    // this.lines.sort((a, b) => {
+    //   return a.time - b.time
+    // })
   }
 
-  _findCurNum(time) {
+  _findCurNum(time: number) {
     for (let i = 0; i < this.lines.length; i++) {
       if (time <= this.lines[i].time) {
         return i
@@ -70,14 +121,11 @@ export default class Lyric {
     return this.lines.length - 1
   }
 
-  _callHandler(i) {
+  _callHandler(i: number) {
     if (i < 0) {
       return
     }
-    this.handler({
-      txt: this.lines[i].txt,
-      lineNum: i
-    })
+    this.handler(this.lines[i])
   }
 
   _playRest() {

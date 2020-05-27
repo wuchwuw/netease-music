@@ -7,6 +7,8 @@ import api from 'API/index'
 import { createBasePlaylist, PlaylistBaseClass } from 'UTIL/playlist'
 import Song, { createSongList } from 'UTIL/song'
 import { useFavorite } from 'UTIL/favorite'
+import classnames from 'classnames'
+import { usePlayerController } from 'UTIL/player-controller'
 
 interface SimiUser {
   recommendReason: string
@@ -18,6 +20,7 @@ interface SimiUser {
 
 const FullScrrenPlayer: React.SFC = () => {
   const { song: currentSong, source } = useSelector((state: RootState) => state.player.currentSong)
+  const { getPlayCurrentTime } = usePlayerController()
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const CommentComponent = useMemo(() => <Comment textareaType="deep" delay={500} showTitle={true} type="music" id={currentSong.id} />, [currentSong.id]);
   const [simiPlaylist, setSimiPlaylist] = useState<PlaylistBaseClass[]>([])
@@ -28,7 +31,11 @@ const FullScrrenPlayer: React.SFC = () => {
   useEffect(() => {
     getSongSimi()
     if (!currentSong.lyric) {
-      currentSong.getLyric()
+      currentSong.getLyric(() => {
+        currentSong.lyric.play(getPlayCurrentTime())
+      })
+    } else {
+      currentSong.lyric.play(getPlayCurrentTime())
     }
   }, [currentSong.id])
 
@@ -72,7 +79,10 @@ const FullScrrenPlayer: React.SFC = () => {
           <div className="player-info-lyrics">
             {
               currentSong.lyric && currentSong.lyric.lines.map((item: any, index: any) => (
-                <p key={index} className="player-info-lyrics-item">{item.txt}</p>
+                <div key={index} className={classnames('player-info-lyrics-item', { 'active': index === currentSong.lyric.curLine})}>
+                  <div>{item.txt}</div>
+                  { item.translate && <div className="player-info-lyrics-item-translate">{item.translate}</div> }
+                </div>
               ))
             }
           </div>

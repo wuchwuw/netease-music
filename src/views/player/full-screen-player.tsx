@@ -9,6 +9,7 @@ import Song, { createSongList } from 'UTIL/song'
 import { useFavorite } from 'UTIL/favorite'
 import classnames from 'classnames'
 import { usePlayerController } from 'UTIL/player-controller'
+import Lyric from './lyric'
 
 interface SimiUser {
   recommendReason: string
@@ -26,7 +27,7 @@ const FullScrrenPlayer: React.SFC = () => {
   const [simiPlaylist, setSimiPlaylist] = useState<PlaylistBaseClass[]>([])
   const [simiSong, setSimiSong] = useState<Song[]>([])
   const [simiUser, setSimiUser] = useState<SimiUser[]>([])
-  const { favorite, isFavorite } = useFavorite() 
+  const { favorite, isFavorite } = useFavorite()
 
   useEffect(() => {
     getSongSimi()
@@ -60,7 +61,7 @@ const FullScrrenPlayer: React.SFC = () => {
       <div className="player-wrap">
         <div className="player-cd-wrap">
           <div className="player-cd">
-            <img src={currentSong.album.picUrl+'?param=300y300'} alt=""/>
+            <img src={currentSong.album.picUrl+'?param=400y400'} alt=""/>
           </div>
           <div className="player-action">
           <i onClick={() => { favorite(currentSong.id) }} className={`iconfont ${isFavorite(currentSong.id) ? 'icon-heart-full active' : 'iconxin'}`}></i>
@@ -77,14 +78,7 @@ const FullScrrenPlayer: React.SFC = () => {
             <div className="text-overflow">来源:<span className="commen-link-blue">{source.name}</span></div>
           </div>
           <div className="player-info-lyrics">
-            {
-              currentSong.lyric && currentSong.lyric.lines.map((item: any, index: any) => (
-                <div key={index} className={classnames('player-info-lyrics-item', { 'active': index === currentSong.lyric.curLine})}>
-                  <div>{item.txt}</div>
-                  { item.translate && <div className="player-info-lyrics-item-translate">{item.translate}</div> }
-                </div>
-              ))
-            }
+            <Lyric></Lyric>
           </div>
         </div>
       </div>

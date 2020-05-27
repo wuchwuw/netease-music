@@ -11,7 +11,7 @@ const tagRegMap = {
   by: 'by'
 }
 
-function noop (line: any) {}
+function noop (currentLineIndex: number) {}
 
 export interface LyricLine {
   txt: string
@@ -27,7 +27,7 @@ export default class Lyric {
   handler: () => void
   state: number
   curLine: number
-  constructor({ lrc, tlyric } : any, hanlder: (line?: LyricLine) => void = noop) {
+  constructor({ lrc, tlyric } : any, hanlder: (currentLineIndex: number ) => void = noop) {
     this.lrc = lrc.lyric
     this.tlrc = tlyric.lyric
     this.tags = {}
@@ -71,7 +71,7 @@ export default class Lyric {
 
     let index = 0
     let tIndex = 0
-    
+
     while (index < lines.length) {
       const lineRes = getLine(lines[index])
       const tLineRes = getLine(tLines[tIndex])
@@ -125,7 +125,7 @@ export default class Lyric {
     if (i < 0) {
       return
     }
-    this.handler(this.lines[i])
+    this.handler(i)
   }
 
   _playRest() {

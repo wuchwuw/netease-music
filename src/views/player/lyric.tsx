@@ -24,6 +24,11 @@ const Lyric = () => {
 
   function handler (currentLineIndex: number) {
     setCurrentLine(currentLineIndex)
+    if (currentLineIndex > 3) {
+      const container = document.querySelector('.player-info-lyrics')
+      const lines = document.querySelectorAll('.player-info-lyrics-item')
+      container!.scrollTop += lines[currentLineIndex].clientHeight + 16
+    }
   }
 
   return (

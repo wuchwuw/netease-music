@@ -69,14 +69,14 @@ export function usePlaylistContextMenu () {
 
 export function useSongContextMenu () {
   const { start, nextPlaySong } = usePlayerController()
-  const usePlaylist = useSelector((state: RootState) => state.user.playlist)
+  // const usePlaylist = useSelector((state: RootState) => state.user.playlist)
   const user = useSelector((state: RootState) => state.user.user)
-  const { addOrRemoveSong, removeSongWidthComfirm } = useUserPlaylist()
+  const { addOrRemoveSong, removeSongWidthComfirm, userPlaylist } = useUserPlaylist()
 
   function getSongMenu (source: Source, song: Song, playlist?: PlaylistClass, callback?: () => void) {
 
     function getCollectSubType (playlist?: PlaylistClass) {
-      return usePlaylist.filter(item => ((item.creator.userId === user.userId) && playlist && playlist.id !== item.id)).map((item) => {
+      return userPlaylist.map((item) => {
         return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, song.id, 'add') }}
       })
     }

@@ -14,6 +14,8 @@ import { VideoBaseClass, createBaseVideoList} from 'UTIL/video'
 import { PlaylistBaseClass, createBasePlaylist} from 'UTIL/playlist'
 import { DjBaseClass, createBaseDjList } from 'UTIL/dj'
 import { UserBaseClass, createBaseUserList } from 'UTIL/user'
+import { useSongContextMenu } from 'UTIL/menu'
+import { usePlayerController } from 'UTIL/player-controller'
 
 enum TabType {
   SONG = 'song',
@@ -114,6 +116,8 @@ const Search: React.SFC = () => {
   const [result, setResult] = useState<ResultType>([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
+  const { getSongMenu } = useSongContextMenu()
+  const { start } = usePlayerController()
 
   useEffect(() => {
     search()
@@ -193,10 +197,18 @@ const Search: React.SFC = () => {
     }
   }
 
+  function getMenu (song: Song) {
+    return getSongMenu({ id: `search-${keywords}-${tab}`, name: '搜索页' }, song)
+  }
+
+  function musiclistStart (song: Song) {
+    start({ id: `search-${keywords}-${tab}`, name: '搜索页' }, song)
+  }
+
   function genSearchSongContent (songs: Song[]) {
     return (
       <div className="search-song-content">
-        <MusicList list={songs}></MusicList>
+        <MusicList start={musiclistStart} getMenu={getMenu} list={songs}></MusicList>
       </div>
     )
   }
@@ -207,7 +219,7 @@ const Search: React.SFC = () => {
         {
           artists.map(artist => (
             <li className="search-artist-item" key={artist.id}>
-              <img className="search-artist-item-avatar" src={artist.picUrl+'?param=60y60'} alt=""/>
+              <img className="search-artist-item-avatar" src={artist.picUrl + '?param=100y100'} alt=""/>
               <span className="search-artist-item-name">{artist.name}</span>
             </li>
           ))
@@ -222,7 +234,7 @@ const Search: React.SFC = () => {
         {
           albums.map(album => (
             <li className="search-artist-item" key={album.id}>
-              <img className="search-artist-item-avatar" src={album.picUrl+'?param=60y60'} alt=""/>
+              <img className="search-artist-item-avatar" src={album.picUrl + '?param=100y100'} alt=""/>
               <span className="search-artist-item-name">{album.name}</span>
             </li>
           ))
@@ -252,7 +264,7 @@ const Search: React.SFC = () => {
         {
           playlists.map(playlist => (
             <li className="search-artist-item" key={playlist.id}>
-              <img className="search-artist-item-avatar" src={playlist.getCoverImgUrl('60y60')} alt=""/>
+              <img className="search-artist-item-avatar" src={playlist.coverImgUrl + '?param=100y100'} alt=""/>
               <span className="search-artist-item-name">{playlist.name}</span>
             </li>
           ))

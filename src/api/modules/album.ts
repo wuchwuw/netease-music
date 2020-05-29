@@ -7,5 +7,8 @@ interface AlbumIDParams {
 export default {
   getAlbumContent (params: AlbumIDParams) {
     return axios.get('album', { params, withCredentials: true })
+  },
+  getUserCollectAlbum (params: { limit: number, offset: number }) {
+    return axios.get('album', { params })
   }
 }

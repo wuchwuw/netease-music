@@ -21,6 +21,8 @@ const Artist = loadable(() => import('VIEWS/artist/artist'))
 const Album = loadable(() => import('VIEWS/album/album'))
 const VideoDetail = loadable(() => import('VIEWS/video-detail/video-detail'))
 const MVDetail = loadable(() => import('VIEWS/video-detail/mv-detail'))
+const StarAlbum = loadable(() => import('VIEWS/star/album/album'))
+const StarArtist = loadable(() => import('VIEWS/star/artist/artist'))
 
 const routes: RouteConfig[] = [
   {
@@ -120,6 +122,14 @@ const routes: RouteConfig[] = [
       {
         path: '/activity',
         component: Friends
+      },
+      {
+        path: '/star/album',
+        component: StarAlbum
+      },
+      {
+        path: '/star/artist',
+        component: StarArtist
       }
     ]
   }

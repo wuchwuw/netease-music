@@ -6,6 +6,7 @@ const source = CancelToken.source()
 
 axios.defaults.baseURL = 'http://localhost:3000/'
 axios.defaults.cancelToken = source.token
+axios.defaults.withCredentials = true
 
 axios.interceptors.request.use((config) => {
   // const store = configureStore()

@@ -20,7 +20,7 @@ const LeftBar: React.SFC = () => {
   const createDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const { visiable, open  } = useContainer(['.leftbar-user-panel'])
+  const { visiable, open } = useContainer(['.leftbar-user-panel'])
   const { getPlaylistMenu } = usePlaylistContextMenu()
   const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
   const { goUserDetail } = usePageForword()
@@ -72,16 +72,16 @@ const LeftBar: React.SFC = () => {
       }
       <div className="leftbar-playlist">
         <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont icon-neteastmusic" style={{ fontWeight: 100 }}></i>发现音乐
+          <i className="iconfont icon-neteastmusic"></i>发现音乐
         </NavLink>
         <NavLink to={'/fm'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont iconxinhao" style={{ fontWeight: 100 }}></i>私人FM
+          <i className="iconfont iconxinhao"></i>私人FM
         </NavLink>
         <NavLink to={'/video'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont icon-mv" style={{ fontWeight: 100 }}></i>视频
+          <i className="iconfont icon-mv"></i>视频
         </NavLink>
         <NavLink to={'/activity'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont iconfriend" style={{ fontWeight: 100 }}></i>朋友
+          <i className="iconfont iconfriend"></i>朋友
         </NavLink>
         <div className="leftbar-item-title">我的音乐</div>
         <div className="leftbar-item"><i className="iconfont icon-cloud"></i>我的音乐云盘</div>
@@ -96,7 +96,7 @@ const LeftBar: React.SFC = () => {
             </ContextMenuWrap>
           ))
         }
-        { subPlaylist.length && <div className="leftbar-item-title">收藏的歌单</div> }
+        { !!subPlaylist.length && <div className="leftbar-item-title">收藏的歌单</div> }
         {
           subPlaylist.map(item => (
             <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>

@@ -7,9 +7,9 @@ import api from 'API/index'
 import { createBasePlaylist, PlaylistBaseClass } from 'UTIL/playlist'
 import Song, { createSongList } from 'UTIL/song'
 import { useFavorite } from 'UTIL/favorite'
-import classnames from 'classnames'
 import { usePlayerController } from 'UTIL/player-controller'
 import Lyric from './lyric'
+import { scrollToTop } from 'COMPONENTS/scroll-to-top/scroll-to-top'
 
 interface SimiUser {
   recommendReason: string
@@ -38,6 +38,7 @@ const FullScrrenPlayer: React.SFC = () => {
     } else {
       currentSong.lyric.play(getPlayCurrentTime())
     }
+    scrollToTop(['.player'])
   }, [currentSong.id])
 
   function getSongSimi () {

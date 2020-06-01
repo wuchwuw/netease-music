@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './pagination.less'
 import classnames from 'classnames'
+import { scrollToTop } from 'COMPONENTS/scroll-to-top/scroll-to-top'
 
 interface PaginationProps {
   defaultCurrentPage?: number
@@ -8,6 +9,7 @@ interface PaginationProps {
   total: number
   onChange: (currentPage: number) => void
   currentPage: number
+  scrollToTopFn?: any
 }
 
 const Pagination: React.SFC<PaginationProps> = ({
@@ -15,13 +17,15 @@ const Pagination: React.SFC<PaginationProps> = ({
   pageSize = 10,
   total = 0,
   onChange,
-  currentPage = 1
+  currentPage = 1,
+  scrollToTopFn = scrollToTop
 }) => {
   // const [currentPage, setCurrentPage] = useState(current)
   const page = Math.floor(total / pageSize) + 1
   function goPage (page: number) {
-    // setCurrentPage(page)
+    if (page === currentPage) return
     onChange(page)
+    scrollToTop()
   }
   function genPageList () {
     const pageList = []

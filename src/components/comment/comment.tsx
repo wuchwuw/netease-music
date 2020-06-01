@@ -30,6 +30,8 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
 
   useEffect(() => {
     if (!id) return
+    offset = 0
+    setCurrentPage(1)
     delay ? setTimeout(() => { getComment() }, delay) : getComment()
   }, [id])
 

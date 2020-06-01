@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import routes from './router'
 import { setGlobalCSSVar } from 'UTIL/css-var'
-import { refresh } from 'UTIL/login'
+import { refresh } from 'UTIL/account'
 import { Provider } from 'react-redux'
 import { store } from './store/index'
 

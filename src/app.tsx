@@ -4,16 +4,14 @@ import TopBar from 'COMPONENTS/top-bar/top-bar'
 import Player from 'VIEWS/player/player'
 import PanelContainer from 'VIEWS/panel/container'
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
-import { useFavorite } from 'UTIL/favorite'
-import { useUserPlaylist } from 'UTIL/user-playlist'
+import ScrollToTop from 'COMPONENTS/scroll-to-top/scroll-to-top'
+import { useAccountInit } from 'UTIL/account'
 
 const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
-  const { getFavoriteIds } = useFavorite()
-  const { getUserPlaylist } = useUserPlaylist()
+  const { initAccount } = useAccountInit()
 
   useEffect(() => {
-    getFavoriteIds(98931610)
-    getUserPlaylist()
+    initAccount()
   }, [])
 
   return (
@@ -29,6 +27,7 @@ const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
       </div>
       <div className="bottom"><Player></Player></div>
       <PanelContainer></PanelContainer>
+      <ScrollToTop></ScrollToTop>
     </div>
   )
 }

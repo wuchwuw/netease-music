@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { checkLoginStatus } from 'UTIL/login'
+import { checkLoginStatus } from 'UTIL/account'
 import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()

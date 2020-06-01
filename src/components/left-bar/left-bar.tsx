@@ -10,7 +10,7 @@ import { usePlaylistContextMenu } from 'UTIL/menu'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 import { usePageForword } from 'ROUTER/hooks'
-import { logout } from 'UTIL/login'
+import { logout } from 'UTIL/account'
 import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
 
 const MENU_NAME = 'left-bar-contextmenu'

@@ -19,7 +19,7 @@
   flex-wrap: wrap;
   > span {
     margin: 0 5px;
-    padding: 7px 15px;
+    padding: 7px 16px;
     border-radius: 20px;
     border: 1px solid #D9D9D9;
     margin-bottom: 10px;
@@ -28,8 +28,23 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    position: relative;
     &:hover {
       background: #F1F2F2;
+      i {
+        display: block;
+      }
+    }
+    i {
+      position: absolute;
+      right: 3px;
+      top: 7px;
+      font-size: 13px;
+      color: #999999;
+      display: none;
+      &:hover {
+        color: #666666;
+      }
     }
   }
 }

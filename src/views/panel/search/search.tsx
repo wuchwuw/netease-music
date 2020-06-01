@@ -2,11 +2,10 @@ import React, { useState, useEffect, ReactNode } from "react"
 import './search.less'
 import Spin from 'COMPONENTS/spin/spin'
 import api from 'API/index'
-import { useSelector, useDispatch } from "react-redux"
-import { RootState } from "STORE/index"
+import { useDispatch } from "react-redux"
 import Song from 'UTIL/song'
-import { SET_SEARCH_KEYWORDS, SET_HISTORY_KEYWORDS } from "STORE/commen/types"
 import { usePageForword } from "ROUTER/hooks"
+import { useSearchKeywords } from "UTIL/search-keywords"
 
 interface SuggestArtist {
   id: number
@@ -26,11 +25,9 @@ interface SuggestAlbum {
 const Search: React.SFC = () => {
   const [loading, setLoading] = useState(true)
   const [hot, setHot] = useState([])
-  const historyKeywords = useSelector((state: RootState) => state.commen.historyKeywords)
-  const keywords = useSelector((state: RootState) => state.commen.keywords)
   const [suggest, setSuggest] = useState<any>({})
-  const dispatch = useDispatch()
   const { goSearch } = usePageForword()
+  const { keywords, historyKeywords, setKeywords, addKeywordsHistory, removeKeywordsHistory } = useSearchKeywords()
 
   useEffect(() => {
     getHotKey()
@@ -125,9 +122,15 @@ const Search: React.SFC = () => {
   }
 
   function onKeywordItemClick (keywords: string) {
-    dispatch({ type: SET_SEARCH_KEYWORDS, keywords })
-    dispatch({ type: SET_HISTORY_KEYWORDS, keywords })
+    setKeywords(keywords)
+    addKeywordsHistory(keywords)
     goSearch({ keywords, tab: 'song' })
+  }
+
+  function onSearchHistoryRemove (e: React.MouseEvent, history: string) {
+    e.stopPropagation()
+    e.nativeEvent.stopImmediatePropagation();
+    removeKeywordsHistory(history)
   }
 
   return (
@@ -151,7 +154,10 @@ const Search: React.SFC = () => {
                 <div className="search-panel-keyword">
                   {
                     historyKeywords.map((item: any) => (
-                      <span onClick={() => { onKeywordItemClick(item) }} key={item}>{item}</span>
+                      <span onClick={() => { onKeywordItemClick(item) }} key={item}>
+                        {item}
+                        <i onClick={(e) => { onSearchHistoryRemove(e, item) }} className="iconfont icon-close"></i>
+                      </span>
                     ))
                   }
                 </div>

@@ -26,7 +26,7 @@ export interface setSearchKeyword {
 
 export interface setHistoryKeywords {
   type: typeof SET_HISTORY_KEYWORDS
-  keywords: string
+  history: string[]
 }
 
 export interface setShouldUpdateFavoritePlaylist {

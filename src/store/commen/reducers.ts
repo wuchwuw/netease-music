@@ -35,13 +35,7 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
       state.keywords = action.keywords
       return state
     case SET_HISTORY_KEYWORDS:
-      const history = state.historyKeywords.slice()
-      const index = history.indexOf(action.keywords)
-      if (index > -1) {
-       history.splice(index, 1)
-      }
-      history.unshift(action.keywords)
-      state.historyKeywords = history
+      state.historyKeywords = [...action.history]
       localStorage.setItem('historyKeywords', JSON.stringify(state.historyKeywords))
       return state
     case SET_UPDATE_FAVORITE_PLAYLIST:
@@ -49,8 +43,10 @@ export function CommenReducer (state = initialState, action: CommenActionTypes):
       return state
     case SET_CURRENT_CHAT:
       state.currentChat = action.currentChat
+      return state
     case SET_LOGIN_DIALOG_VISIBLE:
       state.loginDialogVisible = action.loginDialogVisible
+      return state
     default:
       return state
   }

@@ -4,12 +4,13 @@ import { NavLink, withRouter, useLocation } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
-import { SET_PANEL_TYPE, SET_SEARCH_KEYWORDS, SET_HISTORY_KEYWORDS } from 'STORE/commen/types'
+import { SET_PANEL_TYPE } from 'STORE/commen/types'
 import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
 import { setGlobalCSSVar } from 'UTIL/css-var'
+import { useSearchKeywords } from 'UTIL/search-keywords'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -27,12 +28,12 @@ const viodeSubPagePathMap: any = {
 
 const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
-  const keywords = useSelector((state: RootState) => state.commen.keywords)
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
   const location = useLocation()
   const { visiable, open } = useContainer(['#style-mode'])
   const { goSearch } = usePageForword()
+  const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
 
   function renderTopbarContent () {
     let routePath = {}
@@ -77,14 +78,21 @@ const TopBar: React.SFC = () => {
 
   function onSearchChange (value: string) {
     // todo 节流
-    dispatch({ type: SET_SEARCH_KEYWORDS, keywords: value })
+    // if panel close set search
+    setKeywords(value)
   }
 
   function onSearchKeyup (e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode === 13) {
       goSearch({ keywords, tab: 'song' })
-      dispatch({ type: SET_HISTORY_KEYWORDS, keywords })
+      addKeywordsHistory(keywords)
+      dispatch({ type: SET_PANEL_TYPE, panelType: 'close' })
     }
+  }
+
+  function onSearchClear (e: React.MouseEvent) {
+    e.nativeEvent.stopImmediatePropagation();
+    setKeywords('')
   }
 
   return (
@@ -114,6 +122,7 @@ const TopBar: React.SFC = () => {
             placeholder="搜索"
             value={keywords}
           />
+          { !!keywords && <i onClick={(e) => { onSearchClear(e) }} className="iconfont icon-close"></i> }
         </div>
       </div>
       <div className="topbar-other">

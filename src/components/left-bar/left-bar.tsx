@@ -23,7 +23,7 @@ const LeftBar: React.SFC = () => {
   const { visiable, open } = useContainer(['.leftbar-user-panel'])
   const { getPlaylistMenu } = usePlaylistContextMenu()
   const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
-  const { goUserDetail } = usePageForword()
+  const { goUserDetail, goPlaylistDetail } = usePageForword()
 
   return (
     <div className='leftbar-wrap'>
@@ -90,9 +90,9 @@ const LeftBar: React.SFC = () => {
         {
           userPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
-              <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
+              <div onClick={ () => { goPlaylistDetail(item.id, item) }} key={item.id} className="leftbar-item">
                 <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
-              </NavLink>
+              </div>
             </ContextMenuWrap>
           ))
         }

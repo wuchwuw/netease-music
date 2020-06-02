@@ -4,7 +4,7 @@ import api from 'API/index'
 import Slider from 'COMPONENTS/slider/slider.tsx'
 import { RouteChildrenProps } from 'react-router'
 import { CSSTransition } from 'react-transition-group'
-import { createBasePlaylist, PlaylistBaseClass } from 'UTIL/playlist'
+import { createBasePlaylist, PlaylistClass, createPlaylistList } from 'UTIL/playlist'
 import Song, { createSongList } from 'UTIL/song'
 import { MV, createMVList, createPrivateContentMVList } from 'UTIL/mv'
 import { genArtists } from 'VIEWS/template/template'
@@ -14,7 +14,7 @@ import { usePlayerController } from 'UTIL/player-controller'
 
 let loaded = false
 let bannersCache = []
-let playlistRecommendCache: PlaylistBaseClass[] = []
+let playlistRecommendCache: PlaylistClass[] = []
 let privatecontentCache: MV[] = []
 let mvCache: MV[] = []
 let songCache: Song[] = []
@@ -47,7 +47,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
       api.getRecomendDj()
     ]).then(res => {
       setBanners(bannersCache = res[0].data.banners)
-      setPlaylistRecomend(playlistRecommendCache = createBasePlaylist(res[1].data.result.slice(0, 10)))
+      setPlaylistRecomend(playlistRecommendCache = createPlaylistList(res[1].data.result.slice(0, 10)))
       setPrivatecontent(privatecontentCache = createPrivateContentMVList(res[2].data.result))
       setMv(mvCache = createMVList(res[3].data.result))
       setSong(songCache = createSongList(res[4].data.result.map((item: any) => item.song)))
@@ -71,7 +71,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
         <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { playlistRecomend.map(item => (
-            <div key={item.id} onClick={() => goPlaylistDetail(item.id)} className="commen-area-item commen-area-item-album">
+            <div key={item.id} onClick={() => goPlaylistDetail(item.id, item)} className="commen-area-item commen-area-item-album">
               <div className="commen-area-img-wrap">
                 <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
                 <img className="commen-area-img" src={item.coverImgUrl+'?param=250y250'} alt=""/>

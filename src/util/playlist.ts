@@ -1,6 +1,6 @@
 import Song from './song'
 import dayjs from 'dayjs'
-import { countToString } from 'UTIL/util' 
+import { countToString } from 'UTIL/util'
 
 interface Creator {
   avatarUrl: string
@@ -26,25 +26,25 @@ export class PlaylistClass {
   description: string
   subscribedCount: number
   subscribed: boolean
-  constructor ({ 
+  constructor ({
     ordered = false,
-    trackCount = 0, 
-    tags = [], 
-    tracks = [], 
-    creator = {}, 
-    coverImgUrl, 
-    commentCount = 0, 
-    createTime, 
-    id, 
-    name, 
-    playCount = 0, 
-    shareCount = 0, 
+    trackCount = 0,
+    tags = [],
+    tracks = [],
+    creator = {},
+    coverImgUrl,
+    commentCount = 0,
+    createTime,
+    id,
+    name,
+    playCount = 0,
+    shareCount = 0,
     highQuality,
     description,
     subscribedCount = 0,
     subscribed
   }: any) {
-    this.tracks = this.createSong(tracks)
+    this.tracks = tracks ? this.createSong(tracks) : []
     this.trackCount = trackCount
     this.creator = creator
     this.coverImgUrl = coverImgUrl && coverImgUrl + '?param=300y300'
@@ -66,7 +66,7 @@ export class PlaylistClass {
   get playCount_string (): string {
     return countToString(this.playCount)
   }
-  
+
   get shareCount_string (): string {
     return countToString(this.shareCount)
   }
@@ -81,7 +81,7 @@ export class PlaylistClass {
 
   createSong (songs: any): Song[] {
     let res = []
-    res = songs && songs.map((item: any) => {
+    res = songs.map((item: any) => {
       return new Song(item)
     })
     return res
@@ -125,6 +125,9 @@ export function createBasePlaylist (data: any): PlaylistBaseClass[] {
 
 export function createPlaylistList (data: any): PlaylistClass[] {
   return data.map((item: any) => {
-    return new PlaylistClass(item)
+    return new PlaylistClass({
+      coverImgUrl: item.coverImgUrl || item.picUrl,
+      ...item
+    })
   })
 }

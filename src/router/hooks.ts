@@ -1,9 +1,11 @@
 import { useHistory } from 'react-router'
 import qs from 'qs'
+import { PlaylistClass } from 'UTIL/playlist'
+import { setPlaylistDefault } from 'UTIL/playlist-cache'
 
 export function usePageForword () {
   const history = useHistory()
-  
+
   function getQueryString (query: any) {
     const queryString = qs.stringify(query)
     return queryString ? `?${queryString}` : ''
@@ -16,7 +18,8 @@ export function usePageForword () {
     goArtistDetail (artistId: number) {
       history.push(`/artist/${artistId}`)
     },
-    goPlaylistDetail (playlistId: number) {
+    goPlaylistDetail (playlistId: number, playlist?: PlaylistClass) {
+      playlist && setPlaylistDefault(playlist)
       history.push(`/playlist/${playlistId}`)
     },
     goUserDetail (userId: number) {

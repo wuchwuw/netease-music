@@ -14,6 +14,7 @@ import { useSongContextMenu } from 'UTIL/menu'
 import Song from 'UTIL/song'
 import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
+import { playlistDefault } from 'UTIL/playlist-cache'
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -30,10 +31,12 @@ const PlaylistTabMap = {
 let playlistCache = {}
 
 const Playlist = () => {
+  console.log(playlistDefault)
   const [ tab, setTab ] = useState<PlaylistTab>(PlaylistTab.SONG)
   const { id } = useParams()
   const playlistId = Number(id)
-  const [ playlist, setPlaylist ] = useState<PlaylistClass>(new PlaylistClass({}))
+  const [aa, setAa] = useState(1)
+  const [ playlist, setPlaylist ] = useState<PlaylistClass>(playlistDefault)
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
   const { getSongMenu } = useSongContextMenu()
@@ -44,13 +47,23 @@ const Playlist = () => {
   const isPersonal = useMemo(() => isUserPlaylist(playlist.id), [playlist.id])
   const isOrigin = useMemo(() => isMyFavotitePlaylist(playlist.id), [playlist.id])
 
+  useEffect(() => () => { console.log('unmount') }, [])
+
   useEffect(() => {
     getPlaylist()
   }, [playlistId, shouldUpdateFavoritePlaylist])
 
   useEffect(() => {
     setTab(PlaylistTab.SONG)
+    console.log(playlistId)
+    return () => {
+      console.log(playlistId)
+    }
   }, [playlistId])
+
+  useEffect(() => {
+    setPlaylist(playlistDefault)
+  }, [playlistDefault.id])
 
   async function getPlaylist () {
     const params = {

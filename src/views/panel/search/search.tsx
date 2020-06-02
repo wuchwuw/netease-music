@@ -139,7 +139,7 @@ const Search: React.SFC = () => {
         !keywords ? (
           <>
             <div className="search-panel-title">热门搜索</div>
-            <Spin loading={loading} delay={300}>
+            <Spin loading={loading} delay={0}>
               <div className="search-panel-keyword">
                 {
                   hot.map((item: any) => (

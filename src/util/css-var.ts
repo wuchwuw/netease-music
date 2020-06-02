@@ -60,4 +60,11 @@ export function setGlobalCSSVar (type: 'light' | 'dark') {
   Object.keys(vars).forEach((key) => {
     document.body.style.setProperty(key, vars[key])
   })
+  localStorage.setItem('mode', type)
+}
+
+export const defaultMode = (localStorage.getItem('mode') || 'light') as keyof typeof TYPE_MAP
+
+export function initGlobalCSSVar () {
+  setGlobalCSSVar(defaultMode)
 }

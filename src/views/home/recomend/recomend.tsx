@@ -18,7 +18,7 @@ let playlistRecommendCache: PlaylistBaseClass[] = []
 let privatecontentCache: MV[] = []
 let mvCache: MV[] = []
 let songCache: Song[] = []
-let djCache: any = []
+// let djCache: any = []
 
 const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
   const [banners, setBanners] = useState(bannersCache)
@@ -26,7 +26,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
   const [privatecontent, setPrivatecontent] = useState(privatecontentCache)
   const [mv, setMv] = useState(mvCache)
   const [song, setSong] = useState(songCache)
-  const [dj, setDj] = useState(djCache)
+  // const [dj, setDj] = useState(djCache)
   const [visible, setVisible] = useState(loaded)
   const { goArtistDetail, goPlaylistDetail } = usePageForword()
   const { currentSong, start } = usePlayerController()
@@ -51,7 +51,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
       setPrivatecontent(privatecontentCache = createPrivateContentMVList(res[2].data.result))
       setMv(mvCache = createMVList(res[3].data.result))
       setSong(songCache = createSongList(res[4].data.result.map((item: any) => item.song)))
-      setDj(djCache = res[5].data.result)
+      // setDj(djCache = res[5].data.result)
       setVisible(loaded = true)
     })
   }
@@ -129,7 +129,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
           ))}
         </div>
       </div>
-      <div className="home-dj">
+      {/* <div className="home-dj">
         <div className="home-recommend-title">主播电台<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-dj-content">
           { dj.map((item: any, index) => (
@@ -142,7 +142,7 @@ const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

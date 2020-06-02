@@ -21,7 +21,7 @@ const Pagination: React.SFC<PaginationProps> = ({
   scrollToTopFn = scrollToTop
 }) => {
   // const [currentPage, setCurrentPage] = useState(current)
-  const page = Math.floor(total / pageSize) + 1
+  const page = total % pageSize === 0 ? total / pageSize : Math.floor(total / pageSize) + 1
   function goPage (page: number) {
     if (page === currentPage) return
     onChange(page)

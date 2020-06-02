@@ -47,9 +47,9 @@ const MusicList: React.SFC<MusicListProps> = ({ list = [], getMenu, start, delet
         </li>
         {
           list.map((item: Song, index) => (
-            <li className="music-list-item-wrap">
+            <li className="music-list-item-wrap" key={item.id}>
               <ContextMenuWrap id={MENU_NAME} menu={getMenu(item)}>
-                <div onDoubleClick={() => start(item)} key={item.id} className="music-list-item">
+                <div onDoubleClick={() => start(item)} className="music-list-item">
                   <div className="music-list-item-action">
                     <span>{ currentSong.song.id === item.id ? <i className="iconfont icon-sound"></i> : padZero(index + 1)}</span>
                     <i onClick={() => { muisclistFavorite(item) }} className={`iconfont ${isFavorite(item.id) ? 'icon-heart-full' : 'iconxin'}`}></i>

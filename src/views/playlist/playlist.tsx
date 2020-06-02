@@ -58,6 +58,9 @@ const Playlist = () => {
     }
     try {
       const res = await api.getPlaylist(params)
+      if (isMyFavotitePlaylist(res.data.playlist.id)) {
+        res.data.playlist.name = '我最喜欢的音乐'
+      }
       playlistCache = res.data.playlist
       setPlaylist(new PlaylistClass(playlistCache))
     } catch (e) {}

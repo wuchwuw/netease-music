@@ -16,6 +16,8 @@ import { DjBaseClass, createBaseDjList } from 'UTIL/dj'
 import { UserBaseClass, createBaseUserList } from 'UTIL/user'
 import { useSongContextMenu } from 'UTIL/menu'
 import { usePlayerController } from 'UTIL/player-controller'
+import Pagination from 'COMPONENTS/pagination/pagination'
+import { usePageForword } from 'ROUTER/hooks'
 
 enum TabType {
   SONG = 'song',
@@ -74,8 +76,8 @@ const SEARCH_TAB_NAME_MAP = {
   [TabType.ALBUM]: '专辑',
   [TabType.VIDEO]: '视频',
   [TabType.PLAYLIST]: '歌单',
-  [TabType.LYRIC]: '歌词',
-  [TabType.DJ]: '主播电台',
+  // [TabType.LYRIC]: '歌词',
+  // [TabType.DJ]: '主播电台',
   [TabType.USER]: '用户'
 }
 
@@ -109,15 +111,19 @@ enum URLQueryStringKey {
   KEYWORDS = 'keywords'
 }
 
+let offset = 0
+
 const Search: React.SFC = () => {
   const keywords = getQueryStringValue(URLQueryStringKey.KEYWORDS) || ''
   const [tab, setTab] = useState<TabType>(getQueryStringValue(URLQueryStringKey.TAB) || TabType.SONG)
   const history = useHistory()
   const [result, setResult] = useState<ResultType>([])
   const [total, setTotal] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const { getSongMenu } = useSongContextMenu()
   const { start } = usePlayerController()
+  const [currentPage, setCurrentPage] = useState(1)
+  const { goArtistDetail, goUserDetail, goPlaylistDetail } = usePageForword()
 
   useEffect(() => {
     search()
@@ -127,7 +133,8 @@ const Search: React.SFC = () => {
     const params = {
       limit: SEARCH_TAB_LIMIT_MAP[tab],
       type: SEARCH_TAB_PARAM_MAP[tab],
-      keywords
+      keywords,
+      offset
     }
     try {
       const res = await api.search(params)
@@ -143,42 +150,45 @@ const Search: React.SFC = () => {
       case TabType.SONG:
         setResult(createSongList(res.data.result.songs))
         setTotal(res.data.result.songCount)
-        return
+        break
       case TabType.ARTIST:
         setResult(createBaseArtistList(res.data.result.artists))
         setTotal(res.data.result.artistCount)
-        return
+        break
       case TabType.ALBUM:
         setResult(createBaseAlbumList(res.data.result.albums))
         setTotal(res.data.result.albumCount)
-        return
+        break
       case TabType.VIDEO:
         setResult(createBaseVideoList(res.data.result.videos))
         setTotal(res.data.result.videoCount)
-        return
+        break
       case TabType.PLAYLIST:
         setResult(createBasePlaylist(res.data.result.playlists))
         setTotal(res.data.result.playlistCount)
-        return
+        break
       case TabType.DJ:
         setResult(createBaseDjList(res.data.result.djRadios))
         setTotal(res.data.result.djRadiosCount)
-        return
+        break
       case TabType.USER:
         setResult(createBaseUserList(res.data.result.userprofiles))
         setTotal(res.data.result.userprofileCount)
-        return
+        break
     }
   }
 
   function onTabSelect (currentTab: TabType) {
     if (tab === currentTab) return
-    setTab(currentTab)
     setLoading(true)
+    setTab(currentTab)
     setQueryStringValue(URLQueryStringKey.TAB, currentTab, history)
   }
 
   function genSearchContent (search: SearchResult) {
+    if (!search.result.length) {
+      return <div className="search-no-data">很抱歉，未能找到与"<span>{keywords}</span>"相关的任何{SEARCH_TAB_NAME_MAP[tab]}。</div>
+    }
     switch (search.tab) {
       case TabType.SONG:
         return genSearchSongContent(search.result)
@@ -215,16 +225,29 @@ const Search: React.SFC = () => {
 
   function genSearchArtistContent (artists: ArtistBaseClass[]) {
     return (
-      <ul className="search-artist-content">
+      // <ul className="search-artist-content">
+      //   {
+      //     artists.map(artist => (
+      //       <li className="search-artist-item" key={artist.id}>
+      //         <img className="search-artist-item-avatar" src={artist.picUrl + '?param=100y100'} alt=""/>
+      //         <span className="search-artist-item-name">{artist.name}</span>
+      //       </li>
+      //     ))
+      //   }
+      // </ul>
+      <div className="artist-content">
         {
           artists.map(artist => (
-            <li className="search-artist-item" key={artist.id}>
-              <img className="search-artist-item-avatar" src={artist.picUrl + '?param=100y100'} alt=""/>
-              <span className="search-artist-item-name">{artist.name}</span>
-            </li>
+            <div key={artist.id} className="artist-item">
+              <img onClick={ () => { goArtistDetail(artist.id) } } src={artist.img1v1Url + '?param=250y250'} alt=""/>
+              <div className="artist-item-info">
+                <span>{artist.name}</span>
+                { artist.accountId && <i onClick={ (e) => { e.stopPropagation(); goUserDetail(artist.accountId) } } className="iconfont icon-user"></i>}
+              </div>
+            </div>
           ))
         }
-      </ul>
+      </div>
     )
   }
 
@@ -249,7 +272,7 @@ const Search: React.SFC = () => {
         { videos.map(video => (
           <div key={video.vid} className="search-video-item">
             <div className="search-video-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
-            <img className="search-video-img" src={video.coverUrl+'?param=230y130'} alt=""/>
+            <img className="search-video-img" src={video.coverUrl +'?param=230y130'} alt=""/>
             <div className="search-video-text text-overflow">{video.title}</div>
             {/* <div className="home-mv-artist text-overflow">{video.artistName}</div> */}
           </div>
@@ -260,16 +283,20 @@ const Search: React.SFC = () => {
 
   function genSearchPlaylistContent (playlists: PlaylistBaseClass[]) {
     return (
-      <ul className="search-artist-content">
-        {
-          playlists.map(playlist => (
-            <li className="search-artist-item" key={playlist.id}>
-              <img className="search-artist-item-avatar" src={playlist.coverImgUrl + '?param=100y100'} alt=""/>
-              <span className="search-artist-item-name">{playlist.name}</span>
-            </li>
+      <div className="search-playlist-content">
+        { playlists.map((item) => (
+            <div onClick={() => { goPlaylistDetail(item.id) }} key={item.id} className="commen-area-item commen-area-item-album">
+              <div className="commen-area-img-wrap">
+                <img src={item.coverImgUrl +'?param=150y150'} alt=""/>
+                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                {/* <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div> */}
+                <div onClick={(e) => { e.stopPropagation(); goUserDetail(item.creator.userId) }} className="commen-area-user"><i className="iconfont icon-user"></i>{item.creator.nickname}</div>
+              </div>   
+              <div className="commen-area-text">{item.name}</div>
+            </div>
           ))
         }
-      </ul>
+      </div>
     )
   }
 
@@ -325,6 +352,17 @@ const Search: React.SFC = () => {
     }
   }
 
+  useEffect(() => {
+    offset = 0
+    setCurrentPage(1)
+  }, [tab])
+
+  function onPageChange (page: number) {
+    setCurrentPage(page)
+    offset = (page - 1) * SEARCH_TAB_LIMIT_MAP[tab]
+    search()
+  }
+
   return (
     <div className="search-container">
       <div className="search-keyword-wrap">
@@ -339,8 +377,14 @@ const Search: React.SFC = () => {
         }
       </div>
       <div className="search-content">
-        <Spin loading={loading} delay={200}>
-          {!loading && genSearchContent({ tab, result } as SearchResult)}
+        <Spin loading={loading} delay={0}>
+          { !loading && genSearchContent({ tab, result } as SearchResult)}
+          {
+            !loading && total >= SEARCH_TAB_LIMIT_MAP[tab] &&
+            <div className="pagination-wrap">
+              <Pagination currentPage={currentPage} total={total} pageSize={SEARCH_TAB_LIMIT_MAP[tab]} onChange={onPageChange}></Pagination>
+            </div>
+          }
         </Spin>
       </div>
     </div>

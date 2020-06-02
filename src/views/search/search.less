@@ -1,3 +1,5 @@
+@import '~STYLE/color.less';
+
 .search-container {
   user-select: none;
   min-width: 800px;
@@ -87,4 +89,58 @@
     font-weight: bold;
     margin-right: 3px;
   }
+}
+.search-no-data {
+  text-align: center;
+  padding-top: 50px;
+  > span {
+    color: #507DAF;
+  }
+}
+
+
+.artist-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 10px;
+}
+.artist-item {
+  margin: 0 10px 40px 10px;
+  width: 133px;
+  > img {
+    height: 133px;
+    width: 133px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
+
+.artist-item-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  > span {
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  i {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    text-align: center;
+    font-size: 11px;
+    border-radius: 50%;
+    background: @color-main;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}
+
+.search-playlist-content {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }

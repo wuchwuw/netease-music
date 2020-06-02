@@ -27,6 +27,7 @@ const HomeAlbum: React.SFC = () => {
   const [currentCate, setCurrentCate] = useState<string>('全部')
   const { goPlaylistDetail } = usePageForword()
   const [total, setTotal] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     getTopList(1)
@@ -68,6 +69,7 @@ const HomeAlbum: React.SFC = () => {
 
   function onPageChange (page: number) {
     getTopList(page)
+    setCurrentPage(page)
   }
 
   return (
@@ -116,7 +118,7 @@ const HomeAlbum: React.SFC = () => {
           ))
         }
       </div>
-      { total > 0 && <Pagination total={total} pageSize={PLAYLIST_PAGESIZE} onChange={onPageChange}></Pagination> }
+      { total > 0 && <Pagination currentPage={currentPage} total={total} pageSize={PLAYLIST_PAGESIZE} onChange={onPageChange}></Pagination> }
     </div>
   )
 }

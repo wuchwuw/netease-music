@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './top-bar.less'
 import { NavLink, withRouter, useLocation } from 'react-router-dom'
 import { RootState } from 'STORE/index'
@@ -9,13 +9,13 @@ import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
-import { setGlobalCSSVar } from 'UTIL/css-var'
+import { setGlobalCSSVar, defaultMode } from 'UTIL/css-var'
 import { useSearchKeywords } from 'UTIL/search-keywords'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
   '/home/album': '歌单',
-  '/home/radio': '主播电台',
+  // '/home/radio': '主播电台',
   '/home/toplist': '排行榜',
   '/home/artist': '歌手',
   '/home/new': '最新音乐'
@@ -34,6 +34,7 @@ const TopBar: React.SFC = () => {
   const { visiable, open } = useContainer(['#style-mode'])
   const { goSearch } = usePageForword()
   const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
+  const [mode, setMode] = useState(defaultMode)
 
   function renderTopbarContent () {
     let routePath = {}
@@ -132,9 +133,9 @@ const TopBar: React.SFC = () => {
           {
             visiable &&
             <div className="style-mode-wrap">
-              <div className="style-mode-item"><div className="style-mode-light active" onClick={() => { setGlobalCSSVar('light') }}></div><span>浅色</span></div>
-              <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div>
-              <div className="style-mode-item"><div className="style-mode-dark active"  onClick={() => { setGlobalCSSVar('dark') }}></div><span>深色</span></div>
+              <div className="style-mode-item"><div className={classnames('style-mode-light', { 'active': mode === 'light' })} onClick={() => { setMode('light'); setGlobalCSSVar('light') }}></div><span>浅色</span></div>
+              {/* <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div> */}
+              <div className="style-mode-item"><div className={classnames('style-mode-dark', { 'active': mode === 'dark' })}  onClick={() => { setMode('dark'); setGlobalCSSVar('dark') }}></div><span>深色</span></div>
             </div>
           }
         </i>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { SET_PANEL_TYPE } from 'STORE/commen/types'
 import { RootState } from "STORE/index"
 import Chat from "./chat/chat"
+import './container.less'
 
 export enum PanelType {
   Search = 'search',

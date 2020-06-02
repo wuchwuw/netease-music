@@ -78,7 +78,7 @@ const New: React.SFC = () => {
     }
   }
 
-  function setFilterType (type) {
+  function setFilterType (type: keyof typeof CURRENT_PLAYLIST_PANEL_TAB) {
     setType(type)
   }
 
@@ -143,7 +143,7 @@ const New: React.SFC = () => {
           ))
         }
       </div>
-      <Spin loading={loading} delay={100}>
+      <Spin loading={loading} delay={0}>
         {
           genContent()
         }

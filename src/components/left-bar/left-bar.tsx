@@ -89,7 +89,7 @@ const LeftBar: React.SFC = () => {
         <div className="leftbar-item-title">创建的歌单<i onClick={() => createDialogProps.toggle()} className="iconfont icon-add"></i></div>
         {
           userPlaylist.map(item => (
-            <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>
+            <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
                 <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
               </NavLink>
@@ -99,7 +99,7 @@ const LeftBar: React.SFC = () => {
         { !!subPlaylist.length && <div className="leftbar-item-title">收藏的歌单</div> }
         {
           subPlaylist.map(item => (
-            <ContextMenuWrap id={MENU_NAME} menu={getPlaylistMenu(item)}>
+            <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
                 <i className="iconfont icon-playlist"></i><div>{item.name}</div>
               </NavLink>

@@ -11,7 +11,10 @@ interface addPlaylistProps {
 
 export default {
   getPlaylist (params: any) {
-    return axios.get('playlist/detail', { params , withCredentials: true })
+    return axios.get('playlist/detail', { params })
+  },
+  getPlaylistAllCate () {
+    return axios.get('/playlist/catlist')
   },
   getPlaylistHotCate () {
     return axios.get('playlist/hot')
@@ -29,15 +32,15 @@ export default {
     return axios.get('playlist/subscribers', { params })
   },
   playlistSubscribers (params: any) {
-    return axios.get('playlist/subscribe', { params, withCredentials: true })
+    return axios.get('playlist/subscribe', { params })
   },
   addPlaylist (params: addPlaylistProps) {
-    return axios.get('playlist/create', { params, withCredentials: true })
+    return axios.get('playlist/create', { params })
   },
   deletePlaylist (params: PlaylistIdProps) {
-    return axios.get('playlist/delete', { params, withCredentials: true })
+    return axios.get('playlist/delete', { params })
   },
   addOrRemoveSong (params: { op: 'add' | 'del', pid: number, tracks: number }) {
-    return axios.get('playlist/tracks', { params, withCredentials: true })
+    return axios.get('playlist/tracks', { params })
   }
 }

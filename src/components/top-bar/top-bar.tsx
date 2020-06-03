@@ -14,7 +14,7 @@ import { useSearchKeywords } from 'UTIL/search-keywords'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
-  '/home/album': '歌单',
+  '/home/playlist': '歌单',
   // '/home/radio': '主播电台',
   '/home/toplist': '排行榜',
   '/home/artist': '歌手',
@@ -38,7 +38,7 @@ const TopBar: React.SFC = () => {
 
   function renderTopbarContent () {
     let routePath = {}
-    if (/playlist/.test(location.pathname) || fullScreen) {
+    if (fullScreen) {
       return <></>
     }
     if (/activity/.test(location.pathname)) {

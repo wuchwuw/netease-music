@@ -3,7 +3,7 @@ import App from '../app'
 import { RouteConfig } from 'react-router-config'
 import { createRedirect } from './redirect'
 const HomeRecomend = loadable(() => import('VIEWS/home/recomend/recomend'))
-const HomeAlbum = loadable(() => import('VIEWS/home/playlist/playlist'))
+const HomePlaylist = loadable(() => import('VIEWS/home/playlist/playlist'))
 const HomeToplist = loadable(() => import('VIEWS/home/toplist/toplist'))
 const HomeArtist = loadable(() => import('VIEWS/home/artist/artist'))
 const HomeNew = loadable(() => import('VIEWS/home/new/new'))
@@ -80,8 +80,8 @@ const routes: RouteConfig[] = [
             component: HomeRecomend
           },
           {
-            path: '/home/album',
-            component: HomeAlbum
+            path: '/home/playlist',
+            component: HomePlaylist
           },
           {
             path: '/home/toplist',

@@ -35,8 +35,10 @@ export function usePageForword () {
       history.push('/video/mv')
     },
     goSearch (query: any) {
-      console.log(query)
       history.push(`/search${getQueryString(query)}`)
+    },
+    goPlaylistDiscover (query: { tab: string}) {
+      history.push(`/home/playlist${getQueryString(query)}`)
     }
   }
 }

@@ -31,11 +31,9 @@ const PlaylistTabMap = {
 let playlistCache = {}
 
 const Playlist = () => {
-  console.log(playlistDefault)
   const [ tab, setTab ] = useState<PlaylistTab>(PlaylistTab.SONG)
   const { id } = useParams()
   const playlistId = Number(id)
-  const [aa, setAa] = useState(1)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(playlistDefault)
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
@@ -46,6 +44,8 @@ const Playlist = () => {
   const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist.id])
   const isPersonal = useMemo(() => isUserPlaylist(playlist.id), [playlist.id])
   const isOrigin = useMemo(() => isMyFavotitePlaylist(playlist.id), [playlist.id])
+
+  const tracks = useState<Song[]>([])
 
   useEffect(() => () => { console.log('unmount') }, [])
 
@@ -72,8 +72,9 @@ const Playlist = () => {
     try {
       const res = await api.getPlaylist(params)
       if (isMyFavotitePlaylist(res.data.playlist.id)) {
-        res.data.playlist.name = '我最喜欢的音乐'
+        res.data.playlist.name = '我喜欢的音乐'
       }
+      if (playlistDefault.id && playlistDefault.id !== res.data.playlist.id) return
       playlistCache = res.data.playlist
       setPlaylist(new PlaylistClass(playlistCache))
     } catch (e) {}
@@ -158,7 +159,8 @@ const Playlist = () => {
   return (
     <div className="playlist-wrap">
       <div className="playlist-info-wrap">
-        <div className="playlist-img" style={{backgroundImage: `url(${playlist.coverImgUrl})`}}></div>
+        {/* <div className="playlist-img" style={{backgroundImage: `url(${playlist.coverImgUrl})`}}></div> */}
+        <img className="playlist-img" src={playlist.coverImgUrl} alt=""/>
         <div className="playlist-info">
           <div className="playlist-info-title">
             <span className="playlist-info-title-icon">歌单</span>

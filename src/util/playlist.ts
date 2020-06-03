@@ -47,7 +47,7 @@ export class PlaylistClass {
     this.tracks = tracks ? this.createSong(tracks) : []
     this.trackCount = trackCount
     this.creator = creator
-    this.coverImgUrl = coverImgUrl && coverImgUrl + '?param=300y300'
+    this.coverImgUrl = coverImgUrl + '?param=300y300'
     this.commentCount = commentCount
     this.createTime = createTime
     this.createTimeString = dayjs(createTime).format('YYYY-MM-DD')

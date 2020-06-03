@@ -140,9 +140,9 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                     repliedIndex === `${title}-${index}` && (
                       <>
                         <div className={ classnames('comment-textarea-wrap replied', { 'deep': textareaType === 'deep' })}>
-                          <textarea 
-                            value={repliedContent} 
-                            onChange={(e) => { setRepliedContent(e.target.value) }} 
+                          <textarea
+                            value={repliedContent}
+                            onChange={(e) => { setRepliedContent(e.target.value) }}
                             className="comment-textarea"
                             placeholder={`回复${comment.user.nickname}:`}
                           >
@@ -171,10 +171,10 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
     <div>
       { showTitle && <div className="comment-count">听友评论<span>(已有{total}条评论)</span></div> }
       <div className={ classnames('comment-textarea-wrap', { 'deep': textareaType === 'deep' })}>
-        <textarea 
-          value={content} 
-          onChange={(e) => { setContent(e.target.value) }} 
-          className="comment-textarea" 
+        <textarea
+          value={content}
+          onChange={(e) => { setContent(e.target.value) }}
+          className="comment-textarea"
           placeholder="输入评论或@朋友"
         >
         </textarea>

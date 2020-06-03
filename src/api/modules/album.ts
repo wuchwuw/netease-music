@@ -9,6 +9,6 @@ export default {
     return axios.get('album', { params, withCredentials: true })
   },
   getUserCollectAlbum (params: { limit: number, offset: number }) {
-    return axios.get('album', { params })
+    return axios.get('album/sublist', { params })
   }
 }

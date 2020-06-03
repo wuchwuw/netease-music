@@ -26,6 +26,12 @@ const viodeSubPagePathMap: any = {
   '/video/mv': 'MV'
 }
 
+const starSubPagePathMap: any = {
+  '/star/album': '专辑',
+  '/star/artist': '歌手',
+  '/star/video': '视频',
+}
+
 const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const dispatch = useDispatch()
@@ -53,6 +59,8 @@ const TopBar: React.SFC = () => {
       routePath = homeSubPagePathMap
     } else if (/video/.test(location.pathname)) {
       routePath = viodeSubPagePathMap
+    } else if (/star/.test(location.pathname)) {
+      routePath = starSubPagePathMap
     }
     return (
       <>

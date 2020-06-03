@@ -23,6 +23,8 @@ const VideoDetail = loadable(() => import('VIEWS/video-detail/video-detail'))
 const MVDetail = loadable(() => import('VIEWS/video-detail/mv-detail'))
 const StarAlbum = loadable(() => import('VIEWS/star/album/album'))
 const StarArtist = loadable(() => import('VIEWS/star/artist/artist'))
+const StarVideo = loadable(() => import('VIEWS/star/video/video'))
+const StarContainer = loadable(() => import('VIEWS/star/index'))
 
 const routes: RouteConfig[] = [
   {
@@ -124,12 +126,27 @@ const routes: RouteConfig[] = [
         component: Friends
       },
       {
-        path: '/star/album',
-        component: StarAlbum
+        path: '/star',
+        exact: true,
+        component: createRedirect('/star/album')
       },
       {
-        path: '/star/artist',
-        component: StarArtist
+        path: '/star',
+        component: StarContainer,
+        routes: [
+          {
+            path: '/star/album',
+            component: StarAlbum
+          },
+          {
+            path: '/star/artist',
+            component: StarArtist
+          },
+          {
+            path: '/star/video',
+            component: StarVideo
+          }
+        ]
       }
     ]
   }

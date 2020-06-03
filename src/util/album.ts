@@ -52,21 +52,23 @@ export class Album {
   onSale: boolean
   info: AlbumInfo
   description: string
-  constructor ({ 
-    id, 
-    name, 
-    picUrl, 
-    artists = [], 
+  size: number
+  constructor ({
+    id,
+    name,
+    picUrl,
+    artists = [],
     songs = [],
     commentThreadId,
     publishTime,
-    paid, 
+    paid,
     onSale,
     info = {
       shareCount: 0,
       commentCount: 0
     },
-    description
+    description,
+    size = 0
   } : any) {
     this.id = id
     this.name = name
@@ -79,6 +81,7 @@ export class Album {
     this.paid = paid
     this.info = info
     this.description = description
+    this.size = size
   }
 
   get artistName (): string {

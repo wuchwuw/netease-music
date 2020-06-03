@@ -20,7 +20,7 @@ let mvCache: MV[] = []
 let songCache: Song[] = []
 // let djCache: any = []
 
-const HomeRecomend: React.SFC<RouteChildrenProps> = (props) => {
+const HomeRecomend = () => {
   const [banners, setBanners] = useState(bannersCache)
   const [playlistRecomend, setPlaylistRecomend] = useState(playlistRecommendCache)
   const [privatecontent, setPrivatecontent] = useState(privatecontentCache)

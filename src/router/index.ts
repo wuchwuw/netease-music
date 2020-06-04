@@ -25,6 +25,7 @@ const StarAlbum = loadable(() => import('VIEWS/star/album/album'))
 const StarArtist = loadable(() => import('VIEWS/star/artist/artist'))
 const StarVideo = loadable(() => import('VIEWS/star/video/video'))
 const StarContainer = loadable(() => import('VIEWS/star/index'))
+const Cloud = loadable(() => import('VIEWS/cloud/cloud'))
 
 const routes: RouteConfig[] = [
   {
@@ -147,6 +148,10 @@ const routes: RouteConfig[] = [
             component: StarVideo
           }
         ]
+      },
+      {
+        path: '/cloud',
+        component: Cloud
       }
     ]
   }

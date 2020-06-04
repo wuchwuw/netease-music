@@ -55,6 +55,13 @@ const TopBar: React.SFC = () => {
         </div>
       )
     }
+    if (/cloud/.test(location.pathname)) {
+      return (
+        <div>
+          <span className="topbar-content-item active">我的音乐云盘</span>
+        </div>
+      )
+    }
     if (/home/.test(location.pathname)) {
       routePath = homeSubPagePathMap
     } else if (/video/.test(location.pathname)) {

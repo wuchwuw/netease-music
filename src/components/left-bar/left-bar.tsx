@@ -84,7 +84,9 @@ const LeftBar: React.SFC = () => {
           <i className="iconfont iconfriend"></i>朋友
         </NavLink>
         <div className="leftbar-item-title">我的音乐</div>
-        <div className="leftbar-item"><i className="iconfont icon-cloud"></i>我的音乐云盘</div>
+        <NavLink to={'/cloud'} activeClassName="active" className="leftbar-item">
+          <i className="iconfont icon-cloud"></i>我的音乐云盘
+        </NavLink>
         <NavLink to={'/star'} activeClassName="active" className="leftbar-item">
           <i className="iconfont icon-star"></i>我的收藏
         </NavLink>

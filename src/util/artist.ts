@@ -46,6 +46,10 @@ export class Artist extends  ArtistBaseClass{
     this.accountId = accountId
     this.alias = alias
   }
+  
+  get alia_string (): string {
+    return this.alias.length ? `（${this.alias.join('、')}）` : ''
+  }
 }
 
 export function createArtist (data: any): Artist {

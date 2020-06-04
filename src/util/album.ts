@@ -53,6 +53,7 @@ export class Album {
   info: AlbumInfo
   description: string
   size: number
+  alia: String[]
   constructor ({
     id,
     name,
@@ -68,7 +69,8 @@ export class Album {
       commentCount: 0
     },
     description,
-    size = 0
+    size = 0,
+    alia = []
   } : any) {
     this.id = id
     this.name = name
@@ -82,6 +84,11 @@ export class Album {
     this.info = info
     this.description = description
     this.size = size
+    this.alia = alia
+  }
+
+  get alia_string (): string {
+    return this.alia.length ? `（${this.alia.join('、')}）` : ''
   }
 
   get artistName (): string {
@@ -97,11 +104,14 @@ export class Album {
 }
 
 export function createAlbum (data: any): Album {
-  return new Album (data)
+  return new Album ({
+    alia: data.alia || data.alias,
+    ...data
+  })
 }
 
 export function createAlbumList (data: any): Album[] {
   return data.map((item: any) => {
-    return new Album(item)
+    return createAlbum(item)
   })
 }

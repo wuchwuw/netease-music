@@ -17,9 +17,9 @@ export default class Song {
   constructor ({ id, name, al = {}, ar = [], mv, dt, alia = [] }: any) {
     this.id = id
     this.name = name
-    this.artists = createBaseArtistList(ar)
+    this.artists = ar ? createBaseArtistList(ar) : []
     this.mv = mv
-    this.album = createBaseAlbum(al)
+    this.album = al ? createBaseAlbum(al) : {} as AlbumBaseClass
     this.duration = dt
     this.lyric = null
     this.alia = alia

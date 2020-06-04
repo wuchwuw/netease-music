@@ -1,0 +1,125 @@
+@import '~STYLE/color.less';
+
+.cloud-list-item-wrap {
+  &:nth-child(even) {
+    background: var(--musiclist-background-even);
+  }
+  &:not(:first-child) {
+    &:hover {
+      background: var(--musiclist-background-hover);
+    }
+  }
+}
+
+.cloud-container {
+  padding: 20px;
+}
+.cloud-title {
+  display: flex;
+  align-items: center;
+}
+.cloud-disk-bar {
+  position: relative;
+  display: inline-block;
+  height: 5px;
+  width: 100px;
+}
+.cloud-disk-bar-default {
+  display: inline-block;
+  height: 5px;
+  width: 100px;
+  border-radius: 5px;
+  background: #F2F2F2;
+  position: absolute;
+}
+.cloud-disk-bar-current {
+  position: absolute;
+  height: 5px;
+  width: 50%;
+  border-radius: 5px;
+  background: #000000;
+  left: 0;
+  top: 0;
+}
+.cloud-list {
+  margin: 20px -20px;
+}
+.cloud-list-item {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  font-size: 13px;
+  user-select: none;
+  > div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &:nth-child(1) {
+      width: 50px;
+      .icon-heart-full {
+        color: @color-main;
+      }
+    }
+    &:nth-child(2) {
+      padding-right: 10px;
+      width: 30%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      i {
+        color: @color-main;
+        font-size: 15px !important;
+        margin-left: 3px;
+        cursor: pointer;
+      }
+    }
+    &:nth-child(3) {
+      width: 20%;
+    }
+    &:nth-child(4) {
+      width: 10%;
+    }
+    &:nth-child(5) {
+      width: 10%;
+    }
+    &:nth-child(6) {
+      width: 10%;
+    }
+    &:nth-child(7) {
+      width: 10%;
+    }
+    &:nth-child(8) {
+      width: 10%;
+    }
+  }
+  .cloud-list-item-playing {
+    color: @color-main
+  }
+}
+.cloud-list-item-action {
+  > span {
+    color: #C0C0C0;
+    margin: 0 10px 0 20px;
+    flex: 0 0 30px;
+  }
+  > i {
+    height: 18px;
+    cursor: pointer;
+    color: #C0C0C0;
+  }
+  .icon-sound {
+    color: @color-main
+  }
+}
+
+.cloud-list-item-link {
+  color: #666666;
+  cursor: pointer;
+  &:hover {
+    color: #333333;
+  }
+}
+
+.cloud-list-item-duration {
+  color: #999999;
+}

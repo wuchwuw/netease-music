@@ -13,7 +13,7 @@ import { padZero } from 'UTIL/util'
 import { usePlayerController } from 'UTIL/player-controller'
 
 let loaded = false
-let bannersCache = []
+let bannersCache: string[] = []
 let playlistRecommendCache: PlaylistClass[] = []
 let privatecontentCache: MV[] = []
 let mvCache: MV[] = []

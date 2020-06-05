@@ -4,6 +4,15 @@ import Lyric from './lyric-parser'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
 import { AlbumBaseClass, createBaseAlbum } from 'UTIL/album'
 
+interface SongPrivileges {
+  cp: number
+  playMaxbr: number
+  payed: number
+  fee: number
+  st: number
+  sp: number
+}
+
 export default class Song {
   name: string
   id: number
@@ -13,8 +22,18 @@ export default class Song {
   duration: number
   lyric: any
   alia: string[]
+  privileges: SongPrivileges
 
-  constructor ({ id, name, al = {}, ar = [], mv, dt, alia = [] }: any) {
+  constructor ({ 
+    id, 
+    name, 
+    al = {}, 
+    ar = [], 
+    mv, 
+    dt, 
+    alia = [], 
+    privileges = {}
+  }: any) {
     this.id = id
     this.name = name
     this.artists = ar ? createBaseArtistList(ar) : []
@@ -23,6 +42,7 @@ export default class Song {
     this.duration = dt
     this.lyric = null
     this.alia = alia
+    this.privileges = privileges
   }
 
   get alia_string (): string {
@@ -53,15 +73,7 @@ export default class Song {
 
 export function createSongList (data: any): Song[] {
   return data.map((item: any) => {
-    return new Song({
-      id: item.id,
-      ar: item.artists || item.ar,
-      al: item.album || item.al,
-      dt: item.duration || item.dt,
-      name: item.name,
-      mv: item.mv || item.mvid,
-      alia: item.alia
-    })
+    return createSong(item)
   })
 }
 
@@ -73,6 +85,24 @@ export function createSong (data: any): Song {
     dt: data.duration || data.dt,
     name: data.name,
     mv: data.mv || data.mvid,
-    alia: data.alia
+    alia: data.alia,
+    privileges: data.privileges
+  })
+}
+
+export function getSongList (ids: number[]) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await api.getSongDetail({ ids })
+      const songs = res.data.songs.map((item: any, index: number) => {
+        createSong({
+          ...item,
+          privileges: res.data.privileges[index]
+        })
+      })
+      resolve(songs)
+    } catch (e) {
+      reject(e)
+    }
   })
 }

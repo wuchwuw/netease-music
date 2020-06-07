@@ -24,14 +24,14 @@ export default class Song {
   alia: string[]
   privileges: SongPrivileges
 
-  constructor ({ 
-    id, 
-    name, 
-    al = {}, 
-    ar = [], 
-    mv, 
-    dt, 
-    alia = [], 
+  constructor ({
+    id,
+    name,
+    al = {},
+    ar = [],
+    mv,
+    dt,
+    alia = [],
     privileges = {}
   }: any) {
     this.id = id
@@ -90,12 +90,12 @@ export function createSong (data: any): Song {
   })
 }
 
-export function getSongList (ids: number[]) {
+export function getSongList (ids: number[]): Promise<Song[]> {
   return new Promise(async (resolve, reject) => {
     try {
       const res = await api.getSongDetail({ ids })
       const songs = res.data.songs.map((item: any, index: number) => {
-        createSong({
+        return createSong({
           ...item,
           privileges: res.data.privileges[index]
         })

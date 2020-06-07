@@ -4,17 +4,18 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { useParams } from 'react-router'
-import { PlaylistClass } from 'UTIL/playlist'
+import { PlaylistClass, createPlaylistWidthTracks } from 'UTIL/playlist'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
 import { usePlayerController } from 'UTIL/player-controller'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { useSongContextMenu } from 'UTIL/menu'
-import Song from 'UTIL/song'
+import Song, { getSongList } from 'UTIL/song'
 import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
-import { playlistDefault } from 'UTIL/playlist-cache'
+import { getPlaylistCache, setPlaylistCache } from 'UTIL/playlist-cache'
+import Spin from 'COMPONENTS/spin/spin'
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -34,38 +35,49 @@ const Playlist = () => {
   const [ tab, setTab ] = useState<PlaylistTab>(PlaylistTab.SONG)
   const { id } = useParams()
   const playlistId = Number(id)
+  let playlistDefault = getPlaylistCache(playlistId)
+  console.log('ddddd')
+  console.log(playlistDefault)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(playlistDefault)
+  const [tracks, setTracks] = useState<Song[]>(playlistDefault.tracks)
+
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
   const { getSongMenu } = useSongContextMenu()
   const { goUserDetail } = usePageForword()
   const shouldUpdateFavoritePlaylist = useSelector((state: RootState) => state.commen.shouldUpdateFavoritePlaylist)
 
-  const isEmpty = useMemo(() => playlist.tracks.length === 0, [playlist.id])
+  const isEmpty = useMemo(() => playlist.trackCount === 0, [playlist.trackCount])
   const isPersonal = useMemo(() => isUserPlaylist(playlist.id), [playlist.id])
   const isOrigin = useMemo(() => isMyFavotitePlaylist(playlist.id), [playlist.id])
 
-  const tracks = useState<Song[]>([])
-
-  useEffect(() => () => { console.log('unmount') }, [])
+  const [trackloading, setTrackLoading] = useState(true)
 
   useEffect(() => {
+    console.log(1)
     getPlaylist()
   }, [playlistId, shouldUpdateFavoritePlaylist])
 
   useEffect(() => {
+    console.log(3)
+    if (tab === PlaylistTab.SONG) return
     setTab(PlaylistTab.SONG)
-    console.log(playlistId)
-    return () => {
-      console.log(playlistId)
-    }
   }, [playlistId])
 
   useEffect(() => {
+    console.log(2)
+    if (!playlistDefault.id) return
     setPlaylist(playlistDefault)
+    console.log(111111333)
+    if (playlistDefault.tracks.length) {
+      setTracks([...playlistDefault.tracks])
+    } else {
+      setTrackLoading(true)
+    }
   }, [playlistDefault.id])
 
   async function getPlaylist () {
+    console.log(playlistId)
     const params = {
       id: playlistId
     }
@@ -74,9 +86,21 @@ const Playlist = () => {
       if (isMyFavotitePlaylist(res.data.playlist.id)) {
         res.data.playlist.name = '我喜欢的音乐'
       }
-      if (playlistDefault.id && playlistDefault.id !== res.data.playlist.id) return
+      // if (playlistDefault.id && playlistDefault.id !== res.data.playlist.id) return
       playlistCache = res.data.playlist
-      setPlaylist(new PlaylistClass(playlistCache))
+      setPlaylist(new PlaylistClass(res.data.playlist))
+      const songs = await getSongList(res.data.playlist.trackIds.map((item: any) => item.id))
+      setTracks(songs)
+      playlist.tracks = songs
+      setPlaylistCache(playlist)
+      setTrackLoading(false)
+      // console.log(playlist)
+      // createPlaylistWidthTracks(res.data.playlist, (p) => {
+      //   playlist.tracks = p
+      //   setPlaylistCache(playlist)
+      //   setTrackLoading(false)
+      //   console.log(playlist)
+      // })
     } catch (e) {}
   }
 
@@ -101,7 +125,13 @@ const Playlist = () => {
 
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
-      return <MusicList start={musiclistStart} getMenu={getMenu} list={playlist.tracks} {...deleteMyFavorite()}></MusicList>
+      return (
+        <div>
+          <Spin loading={trackloading} delay={0}>
+            <MusicList start={musiclistStart} getMenu={getMenu} list={tracks} {...deleteMyFavorite()}></MusicList>
+          </Spin>
+        </div>
+      )
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {

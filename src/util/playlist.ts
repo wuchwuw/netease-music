@@ -1,4 +1,4 @@
-import Song from './song'
+import Song, { getSongList } from './song'
 import dayjs from 'dayjs'
 import { countToString } from 'UTIL/util'
 
@@ -130,4 +130,13 @@ export function createPlaylistList (data: any): PlaylistClass[] {
       ...item
     })
   })
+}
+
+export async function createPlaylistWidthTracks (data: any, cb: (songs: Song[]) => void) {
+  console.log(data)
+  let songs: Song[] = []
+  if (data.trackIds) {
+    songs = await getSongList(data.trackIds.map((item: any) => item.id))
+  }
+  cb(songs)
 }

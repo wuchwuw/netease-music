@@ -11,19 +11,19 @@ const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
   useEffect(() => {
     const target = document.querySelector('.loadmore-container')
     function onScroll () {
-      const scrollTop = window.pageYOffset 
-      || target!.scrollTop  
-      || target!.scrollTop  
+      const scrollTop = window.pageYOffset
+      || target!.scrollTop
+      || target!.scrollTop
       || 0
       const clientHeight = target!.clientHeight
       const scrollHeight = target!.scrollHeight
+      console.log(11)
       if (scrollHeight - scrollTop - clientHeight <= 100) {
         load()
       }
     }
     target!.addEventListener('scroll', onScroll)
     return () => { target!.removeEventListener('scroll', onScroll) }
-
   })
 
   return <div className="loadmore-container">{children}</div>

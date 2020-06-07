@@ -17,6 +17,6 @@ export default {
     return axios.get('like', { params })
   },
   getSongDetail (params: { ids: number[] }) {
-    return axios.get('song/detail', { params })
+    return axios.get('song/detail', { params: { ids: params.ids.join(',') } })
   }
 }

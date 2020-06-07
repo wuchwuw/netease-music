@@ -39,5 +39,14 @@ export default {
   },
   getUserCloud (params: { limit: number, offset: number }) {
     return axios.get('user/cloud', { params })
+  },
+  getUserFollows (params: { uid: number, limit: number, offset: number }) {
+    return axios.get('user/follows', { params })
+  },
+  getUserEvent (params: { uid: number, limit: number, lasttime: number }) {
+    return axios.get('user/event', { params })
+  },
+  getUserFolloweds (params: { uid: number, limit: number, offset: number }) {
+    return axios.get('user/followeds', { params })
   }
 }

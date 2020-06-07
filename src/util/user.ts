@@ -29,6 +29,7 @@ export default class User {
   gender: number
   cityName: string
   provinceName: string
+  playlistCount: number
 
   constructor ({
     avatarUrl,
@@ -53,7 +54,8 @@ export default class User {
     artistId,
     gender,
     cityName,
-    provinceName
+    provinceName,
+    playlistCount = 0
   }: any) {
     this.avatarUrl = avatarUrl
     this.description = description
@@ -76,8 +78,9 @@ export default class User {
     this.allAuthTypes = allAuthTypes
     this.artistId = artistId
     this.gender = gender
-    this.cityName = getCityName(this.city) 
-    this.provinceName = getProvinceName(this.province) 
+    this.cityName = getCityName(this.city)
+    this.provinceName = getProvinceName(this.province)
+    this.playlistCount = playlistCount
   }
 }
 
@@ -116,4 +119,8 @@ export function createUserDetail (data: any): User {
     level: data.level,
     ...data.profile
   })
+}
+
+export function createUserList (data: any): User[] {
+  return data.map((item: any) => new User(item))
 }

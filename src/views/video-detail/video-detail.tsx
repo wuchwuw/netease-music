@@ -14,6 +14,8 @@ const VideoDetail = () => {
   useEffect(() => {
     getVideoDetail()
     getRelatedDetail()
+    const video: HTMLVideoElement = document.querySelector('#video')
+    video && video.play()
   }, [])
 
   async function getVideoDetail () {
@@ -41,7 +43,9 @@ const VideoDetail = () => {
       <div className="video-detail-container">
         <div className="video-detail-info">
           <div className="video-detail-title"><i className="iconfont icon-arrow"></i>视频详情</div>
-          <div className="video-detail-player"></div>
+          <div className="video-detail-player">
+            <video controls id="video" src="http://vodkgeyttp9.vod.126.net/vodkgeyttp8/68sKFbGS_1328070069_hd.mp4?ts=1591542084&rid=A26FD9291531EB26E1FF4A609E255D9F&rl=3&rs=rvVNfefSbCPDnVVVuMyUuAjAbCsLKjOT&sign=12e51af213db362e368b6370eb4dc59b&ext=PNYT%2BbRvGBI%2F%2BFlVT8MxfYfgHtgUh0en8jf00UE7%2B5uQCbPboo%2BHMlpMB09NfUGUTTQkc%2BMmPNaVwHMOQD%2Fx6U901qUSfKqrZTbhEY2NPL1VJtey1n9uDlD3j%2BAbgdCTcwyR6agG9fisI4%2Bcn7C3tjfElXLGx7DOxDlQ6yzbtKnWegLhL1dpC4N%2F9kECH3rykRVTYTJEKg1rC6%2FP3SGkLtHSO2%2FAf%2Bx5llJXXEg%2FJo2ePgV4R4ncBKGVzGPMd0fz"></video>
+          </div>
           <div className="video-detail-user">
             <img src={video.creator.avatarUrl} alt=""/>
             <span>{video.creator.nickname}</span>

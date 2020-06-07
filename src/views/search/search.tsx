@@ -291,7 +291,7 @@ const Search: React.SFC = () => {
                 <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
                 {/* <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div> */}
                 <div onClick={(e) => { e.stopPropagation(); goUserDetail(item.creator.userId) }} className="commen-area-user"><i className="iconfont icon-user"></i>{item.creator.nickname}</div>
-              </div>   
+              </div>
               <div className="commen-area-text">{item.name}</div>
             </div>
           ))

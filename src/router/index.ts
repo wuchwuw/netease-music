@@ -55,10 +55,6 @@ const routes: RouteConfig[] = [
         component: FM
       },
       {
-        path: '/user/:id',
-        component: User
-      },
-      {
         path: '/artist/:id',
         component: Artist
       },
@@ -152,6 +148,22 @@ const routes: RouteConfig[] = [
       {
         path: '/cloud',
         component: Cloud
+      },
+      {
+        path: '/user/:id',
+        component: User
+      },
+      {
+        path: '/follows/:userId',
+        component: loadable(() => import('VIEWS/user/follows/follows'))
+      },
+      {
+        path: '/followeds/:userId',
+        component: loadable(() => import('VIEWS/user/followeds/followeds'))
+      },
+      {
+        path: '/event/:userId',
+        component: loadable(() => import('VIEWS/user/event/event'))
       }
     ]
   }

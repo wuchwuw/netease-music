@@ -40,6 +40,15 @@ export function usePageForword () {
     },
     goPlaylistDiscover (query: { tab: string}) {
       history.push(`/home/playlist${getQueryString(query)}`)
+    },
+    goVideoDetail (videoId: string) {
+      history.push(`/v/${videoId}`)
+    },
+    goMvDetail (mvId: number) {
+      history.push(`/m/${mvId}`)
+    },
+    back () {
+      history.goBack()
     }
   }
 }
@@ -49,7 +58,8 @@ export function getQueryStringValue (): any {
   const values = qs.parse(queryString ? queryString.substring(1) : queryString)
   return values
 }
-export function setQueryStringValue<T> (value: any, history: H.History) {
+
+export function setQueryStringValue (value: any, history: H.History) {
   const queryString = window.location.search
   const values = qs.parse(queryString ? queryString.substring(1) : queryString)
   const newSearch = qs.stringify(Object.assign({}, values, value))

@@ -61,6 +61,10 @@ export default class Song {
     }, '').substring(1)
   }
 
+  get isHighQuality (): boolean {
+    return this.privileges.playMaxbr === 999000
+  }
+
   async getLyric (cb?: any) {
     try {
       let res = await api.getLyric(this.id)

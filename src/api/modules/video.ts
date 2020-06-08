@@ -30,5 +30,14 @@ export default {
   },
   getRelatedMV (params: any) {
     return axios.get('simi/mv', { params })
+  },
+  getVideoURL (params: { id: string }) {
+    return axios.get('video/url', { params })
+  },
+  getMVURL (params: { id: number }) {
+    return axios.get('mv/url', { params })
+  },
+  getMVInfo (params: { mvid: number }) {
+    return axios.get('mv/detail/info', { params })
   }
 }

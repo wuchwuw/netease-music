@@ -4,25 +4,28 @@ import { useParams } from 'react-router'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { MV } from 'UTIL/mv'
+import { usePageForword } from 'ROUTER/hooks'
 
 const VideoDetail = () => {
   const { id } = useParams()
   const mvId = Number(id)
-  const [ mv, setMV ] = useState<MV>(new MV({}))
-  const [ related, setRelated] = useState<MV[]>([])
+  const [mv, setMV ] = useState<MV>(new MV({}))
+  const [related, setRelated] = useState<MV[]>([])
+  const [url, setURL] = useState('')
+  const { back } = usePageForword()
 
   useEffect(() => {
     getMVDetail()
     getRelatedVideo()
+    getMVURL()
   }, [])
 
   async function getMVDetail () {
     try {
-      const res = await api.getMVDetail({ mvid: mvId })
-      const artist = await api.getArtistDetail({ id: res.data.data.artistId })
+      const res = await Promise.all([api.getMVDetail({ mvid: mvId }), api.getMVInfo({ mvid: mvId })])
       setMV(new MV({
-        ...res.data.data,
-        artist: artist.data.artist
+        ...res[0].data.data,
+        ...res[1].data
       }))
     } catch (e) {}
   }
@@ -34,24 +37,33 @@ const VideoDetail = () => {
     } catch (e) {}
   }
 
+  async function getMVURL () {
+    try {
+      const res = await api.getMVURL({ id: mvId })
+      setURL(res.data.data.url)
+    } catch (e) {}
+  }
+
   return (
     <div className="video-detail">
       <div className="video-detail-container">
         <div className="video-detail-info">
-          <div className="video-detail-title"><i className="iconfont icon-arrow"></i>MV详情</div>
-          <div className="video-detail-player"></div>
+          <div onClick={() => { back() }} className="video-detail-title"><i className="iconfont icon-arrow"></i>MV详情</div>
+          <div className="video-detail-player">
+            <video autoPlay controls id="video" src={url}></video>
+          </div>
           <div className="video-detail-user">
-            <img src={mv.artist.img1v1Url} alt=""/>
-            <span>{mv.artist.name}</span>
+            <img src={mv.artists[0].img1v1Url} alt=""/>
+            <span>{mv.artists[0].name}</span>
           </div>
           <div className="video-detail-info-title">{mv.name}</div>
-          <div className="video-detail-info-count">发布:&nbsp;2022-20-20&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{mv.playCount}次</div>
+          <div className="video-detail-info-count">发布:&nbsp;{mv.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{mv.playCount}次</div>
           <div className="video-detail-info-option">
-            <span className="artist-info-option-star"><i className="iconfont icon-zan"></i>点赞</span>
-            <span className="artist-info-option-user"><i className="iconfont icon-zan"></i>收藏({mv.subCount})</span>
+            <span className="artist-info-option-star"><i className="iconfont icon-zan"></i>赞({mv.likedCount})</span>
+            <span className="artist-info-option-user"><i className="iconfont icon-star"></i>收藏({mv.subCount})</span>
             <span className="artist-info-option-user"><i className="iconfont icon-share"></i>分享({mv.shareCount})</span>
           </div>
-          <Comment type="mv" id={mvId}></Comment>
+          <Comment type="mv" showTitle id={mvId}></Comment>
         </div>
         <div className="video-detail-related">
           <div className="video-detail-title">相关推荐</div>

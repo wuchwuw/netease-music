@@ -21,7 +21,7 @@ interface MusicListProps {
 }
 
 const MusicList: React.SFC<MusicListProps> = ({ list = [], getMenu, start, deleteMyFavorite }) => {
-  const { goAlbumDetail, goArtistDetail } = usePageForword()
+  const { goAlbumDetail, goArtistDetail, goMvDetail } = usePageForword()
   const { currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
 
@@ -58,7 +58,8 @@ const MusicList: React.SFC<MusicListProps> = ({ list = [], getMenu, start, delet
                     <div className={classnames('text-overflow', { 'music-list-item-playing': item.id === currentSong.song.id })} title={item.name}>
                       {item.name}<span className="music-list-item-alia">{item.alia_string}</span>
                     </div>
-                    { !!item.mv && <i className="iconfont icon-mv"></i> }
+                    { item.isHighQuality && <span className="music-list-item-highquality">SQ</span> }
+                    { !!item.mv && <i onClick={() => { goMvDetail(item.mv) }} className="iconfont icon-mv"></i> }
                   </div>
                   <div>
                     <div className="text-overflow" title={item.artistName}>

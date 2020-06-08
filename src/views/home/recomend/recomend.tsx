@@ -86,7 +86,7 @@ const HomeRecomend = () => {
         <div className="home-recommend-title">最新音乐<i className="iconfont icon-arrow home-icon-arrow"></i></div>
         <div className="home-music-content">
           { song.map((item, index) => (
-            <div onDoubleClick={() => { start(item, song) }} key={item.id} className="home-music-item">
+            <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} className="home-music-item">
               <div className="home-music-play-icon"><i className="iconfont icon-triangle-full"></i></div>
               <img className="home-music-img" src={item.album.picUrl+'?param=100y100'} alt=""/>
               <div className="home-music-num">{padZero(index + 1)}</div>
@@ -106,7 +106,7 @@ const HomeRecomend = () => {
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
               <div className="commen-area-img-wrap">
                 <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_format}</div>
-                <img className="commen-area-img" src={item.cover+'?param=250y140'} alt=""/>
+                <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
                 <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
               </div>
               <div className="commen-area-text line-one">{item.name}</div>
@@ -121,7 +121,7 @@ const HomeRecomend = () => {
           { privatecontent.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
               <div className="commen-area-img-wrap">
-                <img className="commen-area-img" src={item.cover+'?param=250y140'} alt=""/>
+                <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
                 <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
               </div>
               <div className="commen-area-text line-more">{item.name}</div>

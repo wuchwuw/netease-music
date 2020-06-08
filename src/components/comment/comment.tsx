@@ -130,9 +130,13 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   <div className="comment-item-info-action">
                     <span className="comment-item-info-time">{comment.timeFormat}</span>
                     {/* <span className="comment-item-info-action-report">举报</span> */}
-                    <i className={`iconfont icon-zan ${comment.liked ? 'active' : ''}`} onClick={() => { commentLike(comment) }}>
+                    {/* <i className={`iconfont icon-zan ${comment.liked ? 'active' : ''}`} onClick={() => { commentLike(comment) }}>
                       { !!comment.likedCount && <span className="comment-item-info-like">{comment.likedCount}</span>}
-                    </i>
+                    </i> */}
+                    <span className="comment-item-info-like">
+                      <i className={`iconfont icon-zan ${comment.liked ? 'active' : ''}`} onClick={() => { commentLike(comment) }}></i>
+                      { !!comment.likedCount && comment.likedCount}
+                    </span>
                     <i className="iconfont icon-share"></i>
                     <i onClick={() => { showReplied(`${title}-${index}`) }} className="iconfont icon-comment"></i>
                   </div>

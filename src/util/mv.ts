@@ -1,13 +1,17 @@
 import { timeFormat } from "./util"
 import { Artist, createArtistList } from "UTIL/artist"
 
+interface MVInfo {
+
+}
+
 export class MV {
   id: number
   name: string
   playCount: number
   subCount: number
   shareCount: number
-  likeCount: number
+  likedCount: number
   commentCount: number
   duration: number
   publishTime: string
@@ -20,25 +24,24 @@ export class MV {
     playCount = 0,
     subCount = 0,
     shareCount = 0,
-    likeCount = 0,
+    likedCount = 0,
     commentCount = 0,
     duration = 0,
     publishTime,
     cover,
-    artist,
-    artists = []
+    artists = [{ img1v1Url: ''}]
   }: any) {
     this.id = id
     this.name = name
     this.playCount = playCount
     this.subCount = subCount
     this.shareCount = shareCount
-    this.likeCount = likeCount
+    this.likedCount = likedCount
     this.commentCount = commentCount
     this.duration = duration
     this.publishTime = publishTime
     this.cover = cover
-    this.artists = artists ? createArtistList(artists) : createArtistList([artist])
+    this.artists = artists.length ? createArtistList(artists) : []
   }
 
   get playCount_format (): string {

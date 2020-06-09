@@ -67,7 +67,7 @@ const HomeRecomend = () => {
         <Slider images={banners}></Slider>
       </div>
       <div className="home-personalized">
-        <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow home-icon-arrow"></i></div>
+        <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { playlistRecomend.map(item => (
             <div key={item.id} onClick={() => goPlaylistDetail(item.id, item)} className="commen-area-item commen-area-item-album">
@@ -82,7 +82,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div className="home-music">
-        <div className="home-recommend-title">最新音乐<i className="iconfont icon-arrow home-icon-arrow"></i></div>
+        <div className="home-recommend-title">最新音乐<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="home-music-content">
           { song.map((item, index) => (
             <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} className="home-music-item">
@@ -99,7 +99,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div className="home-mv">
-        <div className="home-recommend-title">推荐MV<i className="iconfont icon-arrow home-icon-arrow"></i></div>
+        <div className="home-recommend-title">推荐MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { mv.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
@@ -115,7 +115,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div className="home-privatecontent">
-        <div className="home-recommend-title">独家放送<i className="iconfont icon-arrow home-icon-arrow"></i></div>
+        <div className="home-recommend-title">独家放送<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { privatecontent.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">

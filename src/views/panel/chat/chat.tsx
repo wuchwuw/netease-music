@@ -49,7 +49,7 @@ const Chat = () => {
     const height = content!.clientHeight
     const scrollHeight = content!.scrollHeight
     content!.scrollTop = scrollHeight - height
-  } 
+  }
 
   function isMe (chat: ChatClass) {
     return chat.fromUser.userId === user.userId
@@ -140,7 +140,7 @@ const Chat = () => {
   return (
     <div className="chat-panel-container">
       <div className="chat-panel-title">
-        <i onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setPanelType(PanelType.Message) }} className="iconfont icon-arrow chat-panel-icon-arrow"></i>
+        <i onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setPanelType(PanelType.Message) }} className="iconfont icon-arrow-left chat-panel-icon-arrow"></i>
         <span>{currentChat.nickname}</span>
       </div>
       <div className="chat-panel-content">

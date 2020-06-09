@@ -48,7 +48,7 @@ const VideoDetail = () => {
     <div className="video-detail">
       <div className="video-detail-container">
         <div className="video-detail-info">
-          <div onClick={() => { back() }} className="video-detail-title"><i className="iconfont icon-arrow"></i>MV详情</div>
+          <div onClick={() => { back() }} className="video-detail-title"><i className="iconfont icon-arrow-left"></i>MV详情</div>
           <div className="video-detail-player">
             <video autoPlay controls id="video" src={url}></video>
           </div>

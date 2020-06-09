@@ -8,6 +8,11 @@
   width: 100%;
   height: 200px;
   justify-content: center;
+  &:hover {
+    .slider-control {
+      display: flex;
+    }
+  }
 }
 #slider-wrap {
   overflow: hidden;
@@ -72,4 +77,25 @@
   &.active {
     background: var(--main-color);
   }
+}
+.slider-control {
+  position: absolute;
+  width: 95px;
+  z-index: 1;
+  height: 160px;
+  color: #FFFFFF;
+  align-items: center;
+  cursor: pointer;
+  display: none;
+  i {
+    font-size: 30px !important;
+    font-weight: 700;
+  }
+}
+.slider-left {
+  left: 18px;
+}
+.slider-right {
+  right: 18px;
+  justify-content: flex-end;
 }

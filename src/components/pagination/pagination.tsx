@@ -112,9 +112,9 @@ const Pagination: React.SFC<PaginationProps> = ({
 
   return (
     <ul className="pagination-container">
-      <li className="pagination-item"><i className="iconfont icon-arrow rorate"></i></li>
+      <li className="pagination-item"><i className="iconfont icon-arrow-left"></i></li>
       {genPageList()}
-      <li className="pagination-item"><i className="iconfont icon-arrow"></i></li>
+      <li className="pagination-item"><i className="iconfont icon-arrow-right"></i></li>
     </ul>
   )
 }

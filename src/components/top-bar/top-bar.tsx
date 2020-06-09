@@ -117,8 +117,8 @@ const TopBar: React.SFC = () => {
         {
           !fullScreen ?
             <div className="topbar-arrow-wrap left">
-              <i className="iconfont icon-arrow topbar-arrow-left"></i>
-              <i className="iconfont icon-arrow"></i>
+              <i className="iconfont icon-arrow-left topbar-arrow-left"></i>
+              <i className="iconfont icon-arrow-right"></i>
             </div>
           :
             <div className="topbar-arrow-wrap right">

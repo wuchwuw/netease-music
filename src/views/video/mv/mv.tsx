@@ -94,7 +94,7 @@ const MvRecomend: React.SFC = () => {
   return (
     <div className="video-mv-container">
       <div className="video-mv-title">
-        <span>最新MV<i className="iconfont icon-arrow home-icon-arrow"></i></span>
+        <span>最新MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
         <div className="commen-filter-item">
           {
             MV_CATE.map(item => (
@@ -111,7 +111,7 @@ const MvRecomend: React.SFC = () => {
         </Spin>
       </div>
       <div className="video-mv-title">
-        <span>热播MV<i className="iconfont icon-arrow home-icon-arrow"></i></span>
+        <span>热播MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
       </div>
       <div className="video-mv-content">
         <Spin loading={hotLoading} delay={300}>
@@ -121,7 +121,7 @@ const MvRecomend: React.SFC = () => {
         </Spin>
       </div>
       <div className="video-mv-title">
-        <span>网易出品<i className="iconfont icon-arrow home-icon-arrow"></i></span>
+        <span>网易出品<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
       </div>
       <div className="video-mv-content">
         <Spin loading={exclusiveLoading} delay={300}>
@@ -131,7 +131,7 @@ const MvRecomend: React.SFC = () => {
         </Spin>
       </div>
       <div className="video-mv-title">
-        <span>MV排行榜<i className="iconfont icon-arrow home-icon-arrow"></i></span>
+        <span>MV排行榜<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
         <div className="commen-filter-item">
           {
             MV_CATE.map(item => (

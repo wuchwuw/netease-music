@@ -77,7 +77,7 @@ const Toplist: React.SFC = () => {
                     ))
                   }
                   <div className="toplist-netease-item-more">
-                    <span onClick={() => { goPlaylistDetail(playlist.id) }}>查看全部<i className="iconfont icon-arrow"></i></span>
+                    <span onClick={() => { goPlaylistDetail(playlist.id) }}>查看全部<i className="iconfont icon-arrow-right"></i></span>
                   </div>
                 </div>
               </div>

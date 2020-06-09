@@ -52,7 +52,7 @@ const VideoDetail = () => {
     <div className="video-detail">
       <div className="video-detail-container">
         <div className="video-detail-info">
-          <div className="video-detail-title"><i className="iconfont icon-arrow"></i>视频详情</div>
+          <div className="video-detail-title"><i className="iconfont icon-arrow-left"></i>视频详情</div>
           <div className="video-detail-player">
             <video autoPlay onCanPlay={onVideoCanPlay} controls id="video" src={url}></video>
           </div>

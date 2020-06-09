@@ -33,7 +33,13 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
   })
 
   function round (num: number) {
-    return num > images.length - 1 ? 0 : num
+    if (num < 0) {
+      return images.length - 1
+    } else if (num > images.length - 1) {
+      return 0
+    } else {
+      return num
+    }
   }
 
   useEffect(() => {
@@ -78,6 +84,8 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
           ))
         }
       </div>
+      <div onClick={() => { next(round(currentIndex - 1)) }} className="slider-control slider-left"><i className="iconfont icon-arrow-left"></i></div>
+      <div onClick={() => { next(round(currentIndex + 1)) }} className="slider-control slider-right"><i className="iconfont icon-arrow-right"></i></div>
     </div>
   )
 }

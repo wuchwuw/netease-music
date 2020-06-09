@@ -58,13 +58,13 @@ const Viode: React.SFC = () => {
   return (
     <LoadMore load={loadmore}>
       <div className="video-container">
-        <div className="video-filter"> 
-          <div className="video-filter-btn">全部视频<i className="iconfont icon-arrow"></i></div>
+        <div className="video-filter">
+          <div className="video-filter-btn">全部视频<i className="iconfont icon-arrow-right"></i></div>
           <div className="video-filter">
             {
               tags.map(cate => (
                 <span
-                  className={classnames('video-filter-item', {'active': currentTags === cate.id})} 
+                  className={classnames('video-filter-item', {'active': currentTags === cate.id})}
                   key={cate.id}
                   onClick={() => { setCurrentTags(cate.id) }}
                 >
@@ -83,7 +83,7 @@ const Viode: React.SFC = () => {
                   <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
                   <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
                   <div className="commen-area-duration">{video.duration_format}</div>
-                </div>         
+                </div>
                 <div className="commen-area-text">{video.title}</div>
                 <div className="commen-area-artist">by <span className="commen-link-999999 active">{video.creator.nickname}</span></div>
               </div>

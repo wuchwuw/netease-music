@@ -121,7 +121,7 @@ const HomeAlbum: React.SFC = () => {
       <div className="home-album-filter">
         <div className="home-album-filter-btn-wrap">
           <div className="home-album-filter-btn" onClick={open}>
-            {currentCate}<i className="iconfont icon-arrow"></i>
+            {currentCate}<i className="iconfont icon-arrow-right"></i>
           </div>
           {
             visiable && (
@@ -138,7 +138,7 @@ const HomeAlbum: React.SFC = () => {
                           ))
                         }
                       </div>
-                    </div>   
+                    </div>
                   ))
                 }
               </div>

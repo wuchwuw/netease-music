@@ -1,43 +1,58 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './slider.less'
 import classnames from 'classnames'
 
-const Slider: React.SFC = (props) => {
-  const [currentIndex, setCurrentIndex] = useState(1)
+interface SliderProps {
+  images: any[]
+}
+
+const Slider: React.SFC<SliderProps> = ({ images = []}) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [prevIndex, setPrevIndex] = useState(0)
-  const [nextIndex, setNextIndex] = useState(2)
+  const [nextIndex, setNextIndex] = useState(0)
+  const savedCallback = useRef<any>()
   let timer = null
 
   function loopStart () {
     timer = setInterval(() => {
-      next()
+      savedCallback.current()
     }, 4000)
   }
-  function next (index) {
-    setCurrentIndex(prev => {
-      return round(index ? index : prev + 1)
-    })
-    setPrevIndex(prev => round(prev + 1))
-    setNextIndex(prev => round(prev + 1))
-  }
-  function round (num) {
-    return num > props.images.length - 1 ? 0 : num
+
+  function next (index?: number) {
+    const current = round(index ? index : currentIndex + 1)
+    const prev = round(current - 1)
+    const next = round(current + 1)
+    setCurrentIndex(current)
+    setPrevIndex(prev)
+    setNextIndex(next)
   }
 
   useEffect(() => {
-    if (props.images.length) {
+    savedCallback.current = next
+  })
+
+  function round (num: number) {
+    return num > images.length - 1 ? 0 : num
+  }
+
+  useEffect(() => {
+    if (images.length) {
+      setCurrentIndex(0)
+      setPrevIndex(images.length - 1)
+      setNextIndex(1)
       loopStart()
     }
     return function cleanup () {
       clearInterval(timer)
     }
-  }, [props.images])
+  }, [images.length])
 
   return (
-    <div id="slider"onClick={()=> next(5)}>
+    <div id="slider">
       <div id="slider-wrap">
         {
-          props.images.map((item: any, index: any) => (
+          images.map((item: any, index: any) => (
             <div
               className={classnames("slider-item", {
                 'left': index === prevIndex,
@@ -51,15 +66,18 @@ const Slider: React.SFC = (props) => {
           ))
         }
       </div>
-      {/* <div class="dot">
-        <span
-          class="dot-item"
-          :class="currentIndex === index ? 'active' : ''"
-          v-for="index in images.length"
-          :key="index"
-        >
-        </span>
-      </div> */}
+      <div className="dot">
+        {
+          images.map((item: any, index: any) => (
+            <span
+              onClick={()=> next(index)}
+              className={classnames('dot-item', { 'active': currentIndex === index })}
+              key={index}
+            >
+            </span>
+          ))
+        }
+      </div>
     </div>
   )
 }

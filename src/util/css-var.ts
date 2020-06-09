@@ -1,4 +1,5 @@
 export const light = {
+  '--main-color': '#D33931',
   '--main-background': '#FFFFFF',
   /* topbar */
   '--topbar-background': '#F8F8F9',
@@ -24,6 +25,7 @@ export const light = {
 }
 
 export const dark = {
+  '--main-color': '#D33931',
   '--main-background': '#252525',
   /* topbar */
   '--topbar-background': '#2A2A2A',

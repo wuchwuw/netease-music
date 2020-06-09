@@ -1,6 +1,6 @@
 #slider {
   font-size: 0;
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
   user-select: none;
   display: flex;
@@ -51,9 +51,25 @@
 
 .slider-img {
   width: 100%;
-  -webkit-backface-visibility: hidden;
+  // -webkit-backface-visibility: hidden;
   border-radius: 5px;
 }
-// .slider-item-active {
-//   w
-// }
+
+.dot {
+  position: absolute;
+  bottom: -18px;
+  display: flex;
+}
+.dot-item {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background: #F3F3F3;
+  cursor: pointer;
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+  &.active {
+    background: var(--main-color);
+  }
+}

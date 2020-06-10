@@ -11,7 +11,7 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
   const [prevIndex, setPrevIndex] = useState(0)
   const [nextIndex, setNextIndex] = useState(0)
   const savedCallback = useRef<any>()
-  let timer = null
+  let timer: NodeJS.Timeout | null = null
 
   function loopStart () {
     timer = setInterval(() => {

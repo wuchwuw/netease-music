@@ -1,1 +1,42 @@
-// todo
+.playlist-edit-container {
+  padding: 30px;
+  display: flex;
+}
+.playlist-edit-title {
+  position: fixed;
+  top: 15px;
+  z-index: 100;
+  font-weight: bold;
+}
+.playlist-form {
+  width: 500px;
+}
+.playlist-form-item {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  > span {
+    flex: 0 0 60px;
+    font-size: 13px;
+  }
+  > input, textarea {
+    flex: 1;
+    outline: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    padding-left: 10px;
+  }
+  > input {
+    height: 30px;
+  }
+}
+.playlist-form-addtag {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.playlist-edit-cover {
+  height: 150px;
+  width: 150px;
+  border-radius: 5px;
+  margin-left: 40px;
+}

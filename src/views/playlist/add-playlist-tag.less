@@ -1,0 +1,68 @@
+@import '~STYLE/color.less';
+
+.add-playlist-tag-container {
+  position: relative;
+}
+.add-playlist-tag {
+  position: absolute;
+  left: 0;
+  bottom: -402px;
+  height: 400px;
+  width: 500px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 5px #cccccc;
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.add-playlist-cate-wrap {
+  padding-bottom: 20px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, .1);
+  width: 500px;
+  height: 400px;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.playlist-cate {
+  overflow-y: auto;
+  flex: 1;
+}
+.playlist-cate-item {
+  margin-top: 10px;
+  display: flex;
+  font-size: 13px;
+}
+.playlist-cate-label {
+  margin-right: 20px;
+  color: #999999;
+  flex: 0 0 50px;
+  padding-top: 4px
+}
+.playlist-cate-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  > span {
+    cursor: pointer;
+    padding: 4px 10px;
+    margin-bottom: 20px;
+    margin-right: 5px;
+    border-radius: 15px;
+    &:hover {
+      color: @color-main
+    }
+    &.active {
+      color: @color-main;
+      background: rgba(211, 57, 49, .1);
+    }
+  }
+}
+.playlist-cate-button {
+  background: @color-main;
+}

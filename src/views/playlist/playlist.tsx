@@ -16,6 +16,7 @@ import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
 import { getPlaylistCache, setPlaylistCache } from 'UTIL/playlist-cache'
 import Spin from 'COMPONENTS/spin/spin'
+import AddPlaylistTag from 'VIEWS/playlist/add-playlist-tag'
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -30,16 +31,15 @@ const PlaylistTabMap = {
 }
 
 let playlistCache = {}
+let playlistCacheId = -1
 
 const Playlist = () => {
   const [ tab, setTab ] = useState<PlaylistTab>(PlaylistTab.SONG)
   const { id } = useParams()
   const playlistId = Number(id)
-  let playlistDefault = getPlaylistCache(playlistId)
-  console.log('ddddd')
-  console.log(playlistDefault)
+  const playlistDefault = getPlaylistCache(playlistId)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(playlistDefault)
-  const [tracks, setTracks] = useState<Song[]>(playlistDefault.tracks)
+  const [tracks, setTracks] = useState<Song[]>([])
 
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
@@ -54,21 +54,18 @@ const Playlist = () => {
   const [trackloading, setTrackLoading] = useState(true)
 
   useEffect(() => {
-    console.log(1)
     getPlaylist()
   }, [playlistId, shouldUpdateFavoritePlaylist])
 
   useEffect(() => {
-    console.log(3)
     if (tab === PlaylistTab.SONG) return
     setTab(PlaylistTab.SONG)
   }, [playlistId])
 
   useEffect(() => {
-    console.log(2)
     if (!playlistDefault.id) return
+    if (playlistCacheId !== playlistId) return
     setPlaylist(playlistDefault)
-    console.log(111111333)
     if (playlistDefault.tracks.length) {
       setTracks([...playlistDefault.tracks])
     } else {
@@ -77,7 +74,7 @@ const Playlist = () => {
   }, [playlistDefault.id])
 
   async function getPlaylist () {
-    console.log(playlistId)
+    playlistCacheId = playlistId
     const params = {
       id: playlistId
     }
@@ -86,13 +83,18 @@ const Playlist = () => {
       if (isMyFavotitePlaylist(res.data.playlist.id)) {
         res.data.playlist.name = '我喜欢的音乐'
       }
-      // if (playlistDefault.id && playlistDefault.id !== res.data.playlist.id) return
+      if (playlistCacheId !== playlistId) return
       playlistCache = res.data.playlist
       setPlaylist(new PlaylistClass(res.data.playlist))
       const songs = await getSongList(res.data.playlist.trackIds.map((item: any) => item.id))
+      setPlaylist(p => {
+        if (p.id !== res.data.playlist.id) return p
+        p.tracks = songs
+        // console.log(p)
+        setPlaylistCache(p)
+        return p
+      })
       setTracks(songs)
-      playlist.tracks = songs
-      setPlaylistCache(playlist)
       setTrackLoading(false)
       // console.log(playlist)
       // createPlaylistWidthTracks(res.data.playlist, (p) => {
@@ -141,32 +143,6 @@ const Playlist = () => {
     }
   }
 
-  function genPlaylistTag (playlist: PlaylistClass) {
-    const tags = playlist.tags
-    const isShowEdit = !isOrigin && isPersonal
-    if (tags.length) {
-      return (
-        <div>
-          <span className="playlist-info-num-label">标签：</span>
-          {
-            tags.map((item, index) => <><span className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
-          }
-        </div>
-      )
-    } else {
-      return isShowEdit ? <div><span className="playlist-info-num-label">标签：</span><span className="commen-link-blue">添加标签</span></div> : null
-    }
-  }
-
-  function genPlaylistDesc (playlist: PlaylistClass) {
-    const isShowEdit = !isOrigin && isPersonal
-    if (playlist.description) {
-      return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
-    } else {
-      return isShowEdit ? <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span className="commen-link-blue">添加简介</span></div> : null
-    }
-  }
-
   function getSource () {
     return {
       id: `playlist-${playlist.id}`,
@@ -183,6 +159,32 @@ const Playlist = () => {
       }
     } else {
       return {}
+    }
+  }
+
+  function genPlaylistTag (playlist: PlaylistClass) {
+    const tags = playlist.tags
+    const isShowEdit = !isOrigin && isPersonal
+    if (tags.length) {
+      return (
+        <div>
+          <span className="playlist-info-num-label">标签：</span>
+          {
+            tags.map((item, index) => <><span className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
+          }
+        </div>
+      )
+    } else {
+      return isShowEdit ? <div><span className="playlist-info-num-label">标签：</span><AddPlaylistTag><span className="commen-link-blue">添加标签</span></AddPlaylistTag></div> : null
+    }
+  }
+
+  function genPlaylistDesc (playlist: PlaylistClass) {
+    const isShowEdit = !isOrigin && isPersonal
+    if (playlist.description) {
+      return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
+    } else {
+      return isShowEdit ? <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span className="commen-link-blue">添加简介</span></div> : null
     }
   }
 

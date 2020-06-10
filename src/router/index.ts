@@ -51,6 +51,10 @@ const routes: RouteConfig[] = [
         component: Playlist,
       },
       {
+        path: '/playlist-edit/:id',
+        component: loadable(() => import('VIEWS/playlist-edit/playlist-edit'))
+      },
+      {
         path: '/fm',
         component: FM
       },

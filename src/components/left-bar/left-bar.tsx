@@ -12,6 +12,7 @@ import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-
 import { usePageForword } from 'ROUTER/hooks'
 import { logout } from 'UTIL/account'
 import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
+import { setPlaylistCacheOnce } from 'UTIL/playlist-cache'
 
 const MENU_NAME = 'left-bar-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -91,7 +92,7 @@ const LeftBar: React.SFC = () => {
           <i className="iconfont icon-star"></i>我的收藏
         </NavLink>
         <div className="leftbar-item-title">创建的歌单<i onClick={() => createDialogProps.toggle()} className="iconfont icon-add"></i></div>
-        {
+        {/* {
           userPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <div onClick={ () => { goPlaylistDetail(item.id, item) }} key={item.id} className="leftbar-item">
@@ -99,12 +100,21 @@ const LeftBar: React.SFC = () => {
               </div>
             </ContextMenuWrap>
           ))
+        } */}
+        {
+          userPlaylist.map(item => (
+            <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
+              <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
+                <i className="iconfont icon-playlist"></i><div>{item.name}</div>
+              </NavLink>
+            </ContextMenuWrap>
+          ))
         }
         { !!subPlaylist.length && <div className="leftbar-item-title">收藏的歌单</div> }
         {
           subPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
-              <NavLink key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
+              <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
                 <i className="iconfont icon-playlist"></i><div>{item.name}</div>
               </NavLink>
             </ContextMenuWrap>

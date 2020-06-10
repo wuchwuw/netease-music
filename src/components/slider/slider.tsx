@@ -15,6 +15,7 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
 
   function loopStart () {
     timer = setInterval(() => {
+      console.log(111)
       savedCallback.current()
     }, 4000)
   }

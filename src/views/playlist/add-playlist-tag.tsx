@@ -3,6 +3,7 @@ import './add-playlist-tag.less'
 import { useContainer } from 'COMPONENTS/container/container'
 import api from 'API/index'
 import classnames from 'classnames'
+import Button from 'COMPONENTS/button/button'
 
 interface PlaylistCate {
   name: string,
@@ -18,16 +19,21 @@ interface AllCate {
 interface AddPlaylistTagProps {
   children: React.ReactNode
   selected: string[]
+  onSave: (selected: string[]) => void
 }
 
-const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [] }) => {
+const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [], onSave }) => {
   const [allCate, setAllCate] = useState<AllCate[]>([])
-  const { open, visiable } = useContainer(['.add-playlist-tag-container'])
+  const { open, visiable, close } = useContainer(['.add-playlist-tag-container'])
   const [select, setSelect] = useState(selected)
 
   useEffect(() => {
     getAllCate()
   }, [])
+
+  useEffect(() => {
+    setSelect([...selected])
+  }, [selected.length])
 
   async function getAllCate () {
     try {
@@ -76,7 +82,7 @@ const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [
                   ))
                 }
               </div>
-              <div className="playlist-cate-button">保存</div>
+              <div className="add-playlist-tag-button"><Button onClick={(e) => { e.stopPropagation(); onSave(select); close() }} type="primary">保存</Button></div>
             </div>
           )
         }

@@ -4,7 +4,7 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { useParams } from 'react-router'
-import { PlaylistClass, createPlaylistWidthTracks } from 'UTIL/playlist'
+import { PlaylistClass } from 'UTIL/playlist'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import classnames from 'classnames'
@@ -16,7 +16,6 @@ import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
 import { getPlaylistCache, setPlaylistCache } from 'UTIL/playlist-cache'
 import Spin from 'COMPONENTS/spin/spin'
-import AddPlaylistTag from 'VIEWS/playlist/add-playlist-tag'
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -44,7 +43,7 @@ const Playlist = () => {
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
   const { getSongMenu } = useSongContextMenu()
-  const { goUserDetail } = usePageForword()
+  const { goUserDetail, goPlaylistEdit, goPlaylistDiscover } = usePageForword()
   const shouldUpdateFavoritePlaylist = useSelector((state: RootState) => state.commen.shouldUpdateFavoritePlaylist)
 
   const isEmpty = useMemo(() => playlist.trackCount === 0, [playlist.trackCount])
@@ -170,12 +169,12 @@ const Playlist = () => {
         <div>
           <span className="playlist-info-num-label">标签：</span>
           {
-            tags.map((item, index) => <><span className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
+            tags.map((item, index) => <><span onClick={() => { goPlaylistDiscover({ cate: item }) }} className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
           }
         </div>
       )
     } else {
-      return isShowEdit ? <div><span className="playlist-info-num-label">标签：</span><AddPlaylistTag><span className="commen-link-blue">添加标签</span></AddPlaylistTag></div> : null
+      return isShowEdit ? <div><span className="playlist-info-num-label">标签：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加标签</span></div> : null
     }
   }
 
@@ -184,7 +183,7 @@ const Playlist = () => {
     if (playlist.description) {
       return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
     } else {
-      return isShowEdit ? <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span className="commen-link-blue">添加简介</span></div> : null
+      return isShowEdit ? <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加简介</span></div> : null
     }
   }
 

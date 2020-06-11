@@ -1,6 +1,7 @@
 .playlist-edit-container {
   padding: 30px;
   display: flex;
+  min-width: 700px;
 }
 .playlist-edit-title {
   position: fixed;
@@ -24,10 +25,13 @@
     outline: none;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
-    padding-left: 10px;
   }
   > input {
     height: 30px;
+    padding-left: 10px;
+  }
+  > textarea {
+    padding: 10px;
   }
 }
 .playlist-form-addtag {
@@ -39,4 +43,24 @@
   width: 150px;
   border-radius: 5px;
   margin-left: 40px;
+}
+.playlist-form-button {
+  margin: 30px 0 0 62px;
+  > button {
+    &:first-child {
+      margin-right: 14px;
+    }
+  }
+}
+.playlist-edit-selected {
+  font-size: 12px;
+  > span {
+    padding: 2px 10px;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    margin-right: 5px;
+    &:last-child {
+      margin-right: 10px;
+    }
+  }
 }

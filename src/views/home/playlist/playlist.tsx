@@ -3,9 +3,10 @@ import './playlist.less'
 import api from 'API/index'
 import classnames from 'classnames'
 import { PlaylistClass, createPlaylistList } from 'UTIL/playlist'
-import { usePageForword } from 'ROUTER/hooks'
+import { usePageForword, getQueryStringValue, setQueryStringValue } from 'ROUTER/hooks'
 import Pagination from 'COMPONENTS/pagination/pagination'
 import { useContainer } from 'COMPONENTS/container/container'
+import { useHistory } from 'react-router'
 
 interface PlaylistHighQuality {
   coverImgUrl: string
@@ -30,18 +31,25 @@ const HomeAlbum: React.SFC = () => {
   const [top, setTop] = useState<PlaylistClass[]>([])
   const [hotCate, setHotCate] = useState<PlaylistCate[]>([])
   const [highquality, setHighquality] = useState<PlaylistHighQuality>({} as PlaylistHighQuality)
-  const [currentCate, setCurrentCate] = useState<string>('全部')
+  const cate = getQueryStringValue().cate || '全部'
+  const [currentCate, setCurrentCate] = useState<string>(cate)
   const { goPlaylistDetail, goUserDetail } = usePageForword()
   const [total, setTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const { open, visiable } = useContainer(['.home-album-filter-btn'])
   const [allCate, setAllCate] = useState<AllCate[]>([])
+  const history = useHistory()
 
   useEffect(() => {
     getTopList(1)
     setCurrentPage(1)
     getHighquality()
+    setQueryStringValue({ cate: currentCate }, history)
   }, [currentCate])
+
+  useEffect(() => {
+    setCurrentCate(cate)
+  }, [cate])
 
   useEffect(() => {
     getHotCate()

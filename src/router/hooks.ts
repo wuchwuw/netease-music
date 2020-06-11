@@ -29,16 +29,13 @@ export function usePageForword () {
     goNewSong () {
       history.push('/home/new')
     },
-    goAllPlaylist () {
-      history.push('/home/playlist')
-    },
     goMVDiscover () {
       history.push('/video/mv')
     },
     goSearch (query: any) {
       history.push(`/search${getQueryString(query)}`)
     },
-    goPlaylistDiscover (query: { tab: string}) {
+    goPlaylistDiscover (query: { cate: string }) {
       history.push(`/home/playlist${getQueryString(query)}`)
     },
     goVideoDetail (videoId: string) {
@@ -46,6 +43,9 @@ export function usePageForword () {
     },
     goMvDetail (mvId: number) {
       history.push(`/m/${mvId}`)
+    },
+    goPlaylistEdit (playlistId: number) {
+      history.push(`/playlist-edit/${playlistId}`)
     },
     back () {
       history.goBack()

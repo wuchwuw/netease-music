@@ -115,7 +115,8 @@ let offset = 0
 
 const Search: React.SFC = () => {
   const keywords = getQueryStringValue(URLQueryStringKey.KEYWORDS) || ''
-  const [tab, setTab] = useState<TabType>(getQueryStringValue(URLQueryStringKey.TAB) || TabType.SONG)
+  const queryTab = getQueryStringValue(URLQueryStringKey.TAB)
+  const [tab, setTab] = useState<TabType>(queryTab || TabType.SONG)
   const history = useHistory()
   const [result, setResult] = useState<ResultType>([])
   const [total, setTotal] = useState(0)
@@ -129,6 +130,11 @@ const Search: React.SFC = () => {
     search()
   }, [tab, keywords])
 
+  useEffect(() => {
+    setLoading(true)
+    setTab(queryTab)
+  }, [queryTab])
+
   async function search () {
     const params = {
       limit: SEARCH_TAB_LIMIT_MAP[tab],
@@ -140,39 +146,44 @@ const Search: React.SFC = () => {
       const res = await api.search(params)
       processResult(res, tab)
       setLoading(false)
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {}
   }
 
   function processResult (res: any, tab: TabType) {
+    function fixResult (result: any) {
+      if (!Array.isArray(result)) {
+        return []
+      } else {
+        return result
+      }
+    }
     switch (tab) {
       case TabType.SONG:
-        setResult(createSongList(res.data.result.songs))
+        setResult(createSongList(fixResult(res.data.result.songs)))
         setTotal(res.data.result.songCount)
         break
       case TabType.ARTIST:
-        setResult(createBaseArtistList(res.data.result.artists))
+        setResult(createBaseArtistList(fixResult(res.data.result.artists)))
         setTotal(res.data.result.artistCount)
         break
       case TabType.ALBUM:
-        setResult(createBaseAlbumList(res.data.result.albums))
+        setResult(createBaseAlbumList(fixResult(res.data.result.albums)))
         setTotal(res.data.result.albumCount)
         break
       case TabType.VIDEO:
-        setResult(createBaseVideoList(res.data.result.videos))
+        setResult(createBaseVideoList(fixResult(res.data.result.videos)))
         setTotal(res.data.result.videoCount)
         break
       case TabType.PLAYLIST:
-        setResult(createBasePlaylist(res.data.result.playlists))
+        setResult(createBasePlaylist(fixResult(res.data.result.playlists)))
         setTotal(res.data.result.playlistCount)
         break
       case TabType.DJ:
-        setResult(createBaseDjList(res.data.result.djRadios))
+        setResult(createBaseDjList(fixResult(res.data.result.djRadios)))
         setTotal(res.data.result.djRadiosCount)
         break
       case TabType.USER:
-        setResult(createBaseUserList(res.data.result.userprofiles))
+        setResult(createBaseUserList(fixResult(res.data.result.userprofiles)))
         setTotal(res.data.result.userprofileCount)
         break
     }

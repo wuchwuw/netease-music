@@ -40,7 +40,7 @@ export class PlaylistClass {
     playCount = 0,
     shareCount = 0,
     highQuality,
-    description,
+    description = '',
     subscribedCount = 0,
     subscribed
   }: any) {
@@ -58,7 +58,7 @@ export class PlaylistClass {
     this.highQuality = highQuality
     this.tags = tags
     this.ordered = ordered
-    this.description = description
+    this.description = description ? description : ''
     this.subscribedCount = subscribedCount
     this.subscribed = subscribed
   }

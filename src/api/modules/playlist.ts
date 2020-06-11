@@ -10,7 +10,7 @@ interface addPlaylistProps {
 }
 
 export default {
-  getPlaylist (params: any) {
+  getPlaylist (params: { id: number }) {
     return axios.get('playlist/detail', { params })
   },
   getPlaylistAllCate () {
@@ -19,7 +19,7 @@ export default {
   getPlaylistHotCate () {
     return axios.get('playlist/hot')
   },
-  getPlaylistHighquality (params: any) {
+  getPlaylistHighquality (params: { cat: string, limit: number }) {
     return axios.get('top/playlist/highquality', { params })
   },
   getToplist () {
@@ -28,10 +28,10 @@ export default {
   getToplistIndex (params: any) {
     return axios.get('top/list', { params })
   },
-  getPlaylistSubscribers (params: any) {
+  getPlaylistSubscribers (params: { id: number, limit: number, offset: number }) {
     return axios.get('playlist/subscribers', { params })
   },
-  playlistSubscribers (params: any) {
+  playlistSubscribers (params: { t: number, id: number }) {
     return axios.get('playlist/subscribe', { params })
   },
   addPlaylist (params: addPlaylistProps) {
@@ -42,5 +42,8 @@ export default {
   },
   addOrRemoveSong (params: { op: 'add' | 'del', pid: number, tracks: number }) {
     return axios.get('playlist/tracks', { params })
+  },
+  updatePlaylistInfo (params: { id: number, name: string, tags: string, desc: string }) {
+    return axios.get('playlist/update', { params })
   }
 }

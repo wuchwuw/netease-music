@@ -34,9 +34,11 @@ export function createBaseAlbumList (data: any): AlbumBaseClass[] {
 }
 
 interface AlbumInfo {
-  liked: boolean
+  isSub: boolean
+  subCount: number
+  // liked: boolean
   commentCount: number
-  likedCount: number
+  // likedCount: number
   shareCount: number
 }
 
@@ -66,7 +68,9 @@ export class Album {
     onSale,
     info = {
       shareCount: 0,
-      commentCount: 0
+      commentCount: 0,
+      subCount: 0,
+      isSub: false
     },
     description,
     size = 0,
@@ -105,8 +109,9 @@ export class Album {
 
 export function createAlbum (data: any): Album {
   return new Album ({
+    ...data,
     alia: data.alia || data.alias,
-    ...data
+    artists: data.artists || [data.artist]
   })
 }
 

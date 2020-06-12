@@ -2,30 +2,35 @@ import React, { useState, useEffect, ReactNode } from "react"
 import './search.less'
 import Spin from 'COMPONENTS/spin/spin'
 import api from 'API/index'
-import { useDispatch } from "react-redux"
-import Song from 'UTIL/song'
 import { usePageForword } from "ROUTER/hooks"
 import { useSearchKeywords } from "UTIL/search-keywords"
+import Song, { createSongList } from "UTIL/song"
+import { Album, createAlbumList } from "UTIL/album"
+import { PlaylistClass, createPlaylistList } from "UTIL/playlist"
+import { MV, createMVList } from "UTIL/mv"
+import { Artist, createArtistList } from "UTIL/artist"
 
-interface SuggestArtist {
-  id: number
-  name: string
+interface Suggest {
+  songs: Song[]
+  artists: Artist[]
+  albums: Album[]
+  mvs: MV[]
+  playlists: PlaylistClass[]
+  order: SuggestOrder
 }
-
-interface SuggestPlaylist {
-  id: number
-  name: string
-}
-
-interface SuggestAlbum {
-  id: number
-  name: string
-}
+type SuggestOrder = ('songs' | 'albums' | 'mvs' | 'playlists' | 'artists')[]
 
 const Search: React.SFC = () => {
   const [loading, setLoading] = useState(true)
   const [hot, setHot] = useState([])
-  const [suggest, setSuggest] = useState<any>({})
+  const [suggest, setSuggest] = useState<Suggest>({
+    order: [],
+    songs: [],
+    artists: [],
+    albums: [],
+    mvs: [],
+    playlists: []
+  })
   const { goSearch } = usePageForword()
   const { keywords, historyKeywords, setKeywords, addKeywordsHistory, removeKeywordsHistory } = useSearchKeywords()
 
@@ -52,25 +57,56 @@ const Search: React.SFC = () => {
   async function getSearchSuggest () {
     try {
       const res = await api.getSearchSuggest({ keywords })
-      setSuggest(res.data.result)
+      setSuggest(processSuggest(res.data.result))
     } catch (e) {}
   }
 
+  function processSuggest (suggest: any): Suggest {
+    let res: Suggest = {
+      order: [],
+      songs: [],
+      artists: [],
+      albums: [],
+      mvs: [],
+      playlists: []
+    }
+    if (!suggest.order) return res
+    const order = res.order = suggest.order
+    order.forEach(item => {
+      if (item === 'songs') {
+        res.songs = createSongList(suggest.songs)
+      } else if (item === 'artists') {
+        res.artists = createArtistList(suggest.artists)
+      } else if (item === 'albums') {
+        res.albums = createAlbumList(suggest.albums)
+      } else if (item === 'mvs') {
+        res.mvs = createMVList(suggest.mvs)
+      } else if (item === 'playlists') {
+        res.playlists = createPlaylistList(suggest.playlists)
+      }
+    })
+
+    return res
+  }
+
   function genSuggestContent () {
+
     if (!suggest.order) return null
-    const order = suggest.order
+
     let ret: ReactNode[] = []
-    order.forEach((item: any) => {
+    const order: SuggestOrder = suggest.order
+    
+    order.forEach((item) => {
       if (item === 'songs') {
         ret.push(
-        <>
-          <div className="search-suggest-title"><i className="iconfont icon-neteastmusic"></i>单曲</div>
-          {
-            suggest.songs.map(item => (
-              <div className="search-suggest-item">{item.name}-{item.artists[0].name}</div>
-            ))
-          }
-        </>
+          <>
+            <div className="search-suggest-title"><i className="iconfont icon-neteastmusic"></i>单曲</div>
+            {
+              suggest.songs.map(item => (
+                <div className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
+              ))
+            }
+          </>
         )
       } else if (item === 'artists') {
         ret.push(
@@ -89,7 +125,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-playlist"></i>专辑</div>
             {
               suggest.albums.map(item => (
-                <div className="search-suggest-item">{item.name}-{item.artist.name}</div>
+              <div className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -100,7 +136,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-mv"></i>视频</div>
             {
               suggest.mvs.map(item => (
-                <div className="search-suggest-item">{item.name}-{item.artistName}</div>
+                <div className="search-suggest-item">{item.name}</div>
               ))
             }
           </>

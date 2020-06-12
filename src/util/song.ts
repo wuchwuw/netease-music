@@ -104,7 +104,6 @@ export function getSongList (ids: number[]): Promise<Song[]> {
           privileges: res.data.privileges[index]
         })
       })
-      console.log(11111)
       resolve(songs)
     } catch (e) {
       reject(e)

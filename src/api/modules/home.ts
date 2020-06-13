@@ -21,5 +21,8 @@ export default {
   },
   getRecomendDj () {
     return axios.get('personalized/djprogram')
+  },
+  getRecomendSong () {
+    return axios.get('recommend/songs')
   }
 }

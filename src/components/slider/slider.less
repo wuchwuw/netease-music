@@ -28,6 +28,8 @@
   width: 432px;
   transition: all 300ms ease;
   visibility: hidden;
+  background: #F3F3F3;
+  border-radius: 8px;
   &.left {
     transform: translateX(-150px);
     transition-duration: 500ms;
@@ -54,10 +56,28 @@
   }
 }
 
+.slider-item-tag {
+  position: absolute;
+  padding: 5px 10px;
+  background: #D33931;
+  bottom: 0;
+  z-index: 1;
+  right: 0;
+  color: #FFFFFF;
+  font-size: 12px;
+  border-radius: 8px 0 8px 0;
+  &.red {
+    background: #D33931;
+  }
+  &.blue {
+    background: blue;
+  }
+}
+
 .slider-img {
   width: 100%;
   // -webkit-backface-visibility: hidden;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .dot {

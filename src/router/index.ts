@@ -168,6 +168,10 @@ const routes: RouteConfig[] = [
       {
         path: '/event/:userId',
         component: loadable(() => import('VIEWS/user/event/event'))
+      },
+      {
+        path: '/daily',
+        component: loadable(() => import('VIEWS/daily/daily'))
       }
     ]
   }

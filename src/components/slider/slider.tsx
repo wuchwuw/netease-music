@@ -1,9 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './slider.less'
 import classnames from 'classnames'
+import { usePageForword } from 'ROUTER/hooks'
+import { getSongList } from 'UTIL/song'
+import { usePlayerController } from 'UTIL/player-controller'
+
+interface ImageItem {
+  targetId: number
+  targetType: number
+  imageUrl: string
+  titleColor: string
+  typeTitle: string
+  url: string
+}
 
 interface SliderProps {
-  images: any[]
+  images: ImageItem[]
 }
 
 const Slider: React.SFC<SliderProps> = ({ images = []}) => {
@@ -11,11 +23,12 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
   const [prevIndex, setPrevIndex] = useState(0)
   const [nextIndex, setNextIndex] = useState(0)
   const savedCallback = useRef<any>()
+  const { goAlbumDetail, goMVDetail } = usePageForword()
+  const { start } = usePlayerController()
   let timer: NodeJS.Timeout | null = null
 
   function loopStart () {
     timer = setInterval(() => {
-      console.log(111)
       savedCallback.current()
     }, 4000)
   }
@@ -51,16 +64,32 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
       loopStart()
     }
     return function cleanup () {
-      clearInterval(timer)
+      clearInterval(timer!)
     }
   }, [images.length])
+
+  async function handleImageClick (e: React.MouseEvent<HTMLElement> ,item: ImageItem) {
+    e.stopPropagation()
+    const { targetType, targetId, url } = item
+    if (targetType === 1) {
+      const songs = await getSongList([targetId])
+      songs.length && start({id: '', name: '发现页'}, songs[0])
+    } else if (targetType === 10) {
+      goAlbumDetail(targetId)
+    } else if (targetType === 1004) {
+      goMVDetail(targetId)
+    } else if (targetType === 3000) {
+      window.open(url)
+    }
+  }
 
   return (
     <div id="slider">
       <div id="slider-wrap">
         {
-          images.map((item: any, index: any) => (
+          images.map((item, index: any) => (
             <div
+              onClick={(e) => { handleImageClick(e, item) }}
               className={classnames("slider-item", {
                 'left': index === prevIndex,
                 'right': index === nextIndex,
@@ -68,7 +97,8 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
               })}
               key={index}
             >
-              <img className="slider-img" src={item.imageUrl || item.pic} alt="" />
+              <img className="slider-img" src={item.imageUrl} alt="" />
+              <div className={classnames('slider-item-tag', item.titleColor )}>{item.typeTitle}</div>
             </div>
           ))
         }

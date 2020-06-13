@@ -1,10 +1,6 @@
 import { timeFormat } from "./util"
 import { Artist, createArtistList } from "UTIL/artist"
 
-interface MVInfo {
-
-}
-
 export class MV {
   id: number
   name: string
@@ -29,7 +25,7 @@ export class MV {
     duration = 0,
     publishTime,
     cover,
-    artists = [{ img1v1Url: ''}]
+    artists = [{ img1v1Url: '', name: '' }]
   }: any) {
     this.id = id
     this.name = name

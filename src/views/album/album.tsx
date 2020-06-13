@@ -38,8 +38,18 @@ const Album = () => {
 
   async function getAlbum () {
     try {
-      const res = await api.getAlbumContent({ id: albumId })
-      setAlbum(new AlbumClass({ ...res.data.album, songs: res.data.songs }))
+      const res = await Promise.all([api.getAlbumContent({ id: albumId }), api.getAlbumDynamic({ id: albumId })])
+      const resInfo = res[1].data
+      setAlbum(new AlbumClass({ 
+        ...res[0].data.album, 
+        songs: res[0].data.songs,
+        info: {
+          shareCount: resInfo.shareCount,
+          commentCount: resInfo.commentCount,
+          subCount: resInfo.subCount,
+          isSub: resInfo.isSub
+        }
+      }))
     } catch (e) {}
   }
 
@@ -88,7 +98,7 @@ const Album = () => {
               <div onClick={() => { album.songs.length && musiclistStart(album.songs[0]) }}><i className="iconfont icon-play" ></i>播放全部</div>
               <i onClick={() => { nextPlayPlaylist({ id: `album-${album.id}`, name: album.name }, album.songs) }} className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-add"></i>添加到歌单</div>
+            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>{album.info.isSub ? '已收藏' : '收藏'}({album.info.subCount})</div>
             <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({album.info.shareCount})</div>
           </div>
           <div className="playlist-info-num">

@@ -4,13 +4,14 @@ import Lyric from './lyric-parser'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
 import { AlbumBaseClass, createBaseAlbum } from 'UTIL/album'
 
-interface SongPrivileges {
+interface SongPrivilege {
   cp: number
   playMaxbr: number
   payed: number
   fee: number
   st: number
   sp: number
+  maxbr: number
 }
 
 export default class Song {
@@ -22,7 +23,7 @@ export default class Song {
   duration: number
   lyric: any
   alia: string[]
-  privileges: SongPrivileges
+  privilege: SongPrivilege
 
   constructor ({
     id,
@@ -32,7 +33,7 @@ export default class Song {
     mv,
     dt,
     alia = [],
-    privileges = {}
+    privilege = {}
   }: any) {
     this.id = id
     this.name = name
@@ -42,7 +43,7 @@ export default class Song {
     this.duration = dt
     this.lyric = null
     this.alia = alia
-    this.privileges = privileges
+    this.privilege = privilege
   }
 
   get alia_string (): string {
@@ -62,7 +63,7 @@ export default class Song {
   }
 
   get isHighQuality (): boolean {
-    return this.privileges.playMaxbr === 999000
+    return this.privilege.playMaxbr === 999000 || this.privilege.maxbr === 999000
   }
 
   async getLyric (cb?: any) {
@@ -90,7 +91,7 @@ export function createSong (data: any): Song {
     name: data.name,
     mv: data.mv || data.mvid,
     alia: data.alia,
-    privileges: data.privileges
+    privilege: data.privilege
   })
 }
 
@@ -101,7 +102,7 @@ export function getSongList (ids: number[]): Promise<Song[]> {
       const songs = res.data.songs.map((item: any, index: number) => {
         return createSong({
           ...item,
-          privileges: res.data.privileges[index]
+          privilege: res.data.privileges[index]
         })
       })
       resolve(songs)

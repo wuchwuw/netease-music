@@ -1,7 +1,6 @@
 import Confirm, { ConfirmProps } from 'COMPONENTS/dialog/confirm/confirm'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import LoginDialog from 'COMPONENTS/dialog/login/login-dialog'
 
 const CONTAINER_NAME = 'confirm-container'
 const parent = document.body

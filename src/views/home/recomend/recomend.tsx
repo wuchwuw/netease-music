@@ -27,7 +27,7 @@ const HomeRecomend = () => {
   const [song, setSong] = useState(songCache)
   // const [dj, setDj] = useState(djCache)
   const [visible, setVisible] = useState(loaded)
-  const { goArtistDetail, goPlaylistDetail } = usePageForword()
+  const { goArtistDetail, goPlaylistDetail, goDaily } = usePageForword()
   const { currentSong, start } = usePlayerController()
 
   useEffect(() => {
@@ -42,11 +42,11 @@ const HomeRecomend = () => {
       api.getPersonalized(),
       api.getPrivatecontent(),
       api.getRecommendwMV(),
-      api.getRecomendNewSong(),
-      api.getRecomendDj()
+      api.getRecomendNewSong()
+      // api.getRecomendDj()
     ]).then(res => {
       setBanners(bannersCache = res[0].data.banners)
-      setPlaylistRecomend(playlistRecommendCache = createPlaylistList(res[1].data.result.slice(0, 10)))
+      setPlaylistRecomend(playlistRecommendCache = createPlaylistList(res[1].data.result.slice(0, 9)))
       setPrivatecontent(privatecontentCache = createPrivateContentMVList(res[2].data.result))
       setMv(mvCache = createMVList(res[3].data.result))
       setSong(songCache = createSongList(res[4].data.result.map((item: any) => item.song)))
@@ -69,6 +69,13 @@ const HomeRecomend = () => {
       <div className="home-personalized">
         <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
+          <div className="commen-area-item">
+            <div className="recomend-daily-icon" onClick={ goDaily }>
+              <div className="recomend-daily-day">星期{(['日', '一', '二', '三', '四', '五', '六'])[(new Date).getDay()]}</div>
+              <div className="recomend-daily-date">{(new Date).getDate()}</div>
+            </div>
+            <div className="commen-area-text line-more" onClick={ goDaily }>每日歌曲推荐</div>
+          </div>
           { playlistRecomend.map(item => (
             <div key={item.id} onClick={() => goPlaylistDetail(item.id, item)} className="commen-area-item commen-area-item-album">
               <div className="commen-area-img-wrap">

@@ -49,6 +49,9 @@ export function usePageForword () {
     },
     back () {
       history.goBack()
+    },
+    goDaily () {
+      history.push('/daily')
     }
   }
 }

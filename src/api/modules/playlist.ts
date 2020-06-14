@@ -45,5 +45,8 @@ export default {
   },
   updatePlaylistInfo (params: { id: number, name: string, tags: string, desc: string }) {
     return axios.get('playlist/update', { params })
+  },
+  addSongs (params: { op: 'add', pid: number, tracks: number[]}) {
+    return axios.get('playlist/tracks', { params })
   }
 }

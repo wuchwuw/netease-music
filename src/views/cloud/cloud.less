@@ -1,6 +1,9 @@
 @import '~STYLE/color.less';
 
 .cloud-list-item-wrap {
+  &:first-child {
+    border-top: 1px solid var(--border);
+  }
   &:nth-child(even) {
     background: var(--musiclist-background-even);
   }
@@ -13,10 +16,19 @@
 
 .cloud-container {
   padding: 20px;
+  min-width: 800px;
 }
 .cloud-title {
   display: flex;
   align-items: center;
+  font-size: 13px;
+  color: #999999;
+  > span {
+    margin-right: 10px;
+  }
+}
+.cloud-disk-option {
+  padding-top: 20px;
 }
 .cloud-disk-bar {
   position: relative;
@@ -54,8 +66,15 @@
     height: 100%;
     display: flex;
     align-items: center;
+    > span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
     &:nth-child(1) {
       width: 50px;
+      display: flex;
+      justify-content: center;
       .icon-heart-full {
         color: @color-main;
       }

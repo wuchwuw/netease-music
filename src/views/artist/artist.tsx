@@ -51,7 +51,7 @@ const Artist = () => {
   const [ desc, setDesc ] = useState<ArtistDesc[]>([])
   const [ simi, setSimi ] = useState<ArtistBaseClass[]>([])
   const [ showMore, setShowMore ] = useState(false)
-  const { goAlbumDetail, goUserDetail, goArtistDetail } = usePageForword()
+  const { goAlbumDetail, goUserDetail, goArtistDetail, goMVDetail } = usePageForword()
   const { start, currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
   const { getSongMenu } = useSongContextMenu()
@@ -170,7 +170,11 @@ const Artist = () => {
                     <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
                       <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
                       <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
-                      <span>{song.name}<span>{song.alia_string}</span></span>
+                      <span>
+                        {song.name}<span className="artist-album-item-alia">{song.alia_string}</span>
+                        { song.isHighQuality && <span className="music-list-item-highquality">SQ</span> }
+                        { !!song.mv && <i onClick={() => { goMVDetail(song.mv) }} className="iconfont icon-mv"></i> }
+                      </span>
                       <span>{song.duration_string}</span>
                     </div>
                   </ContextMenuWrap>
@@ -192,7 +196,7 @@ const Artist = () => {
               <div className="artist-album-item-list">
                 <div className="artist-album-name">
                   {album.name}
-                  <span><i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i><i className="iconfont icon-add-folder"></i></span>
+                  <span><i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i><i onClick={() => { addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i></span>
                 </div>
                 {
                   album.songs.slice(0, 10).map((song, index) => (
@@ -201,7 +205,11 @@ const Artist = () => {
                         <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
                           <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
                           <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
-                          <span>{song.name}<span>{song.alia_string}</span></span>
+                          <span>
+                            {song.name}<span className="artist-album-item-alia">{song.alia_string}</span>
+                            { song.isHighQuality && <span className="music-list-item-highquality">SQ</span> }
+                            { !!song.mv && <i onClick={() => { goMVDetail(song.mv) }} className="iconfont icon-mv"></i> }
+                          </span>
                           <span>{song.duration_string}</span>
                         </div>
                       </ContextMenuWrap>

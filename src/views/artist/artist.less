@@ -121,8 +121,13 @@
       white-space: nowrap;
       flex: 1;
       margin-left: 15px;
-      > span {
+      display: flex;
+      align-items: center;
+      .artist-album-item-alia {
         color: #999999;
+      }
+      i {
+        color: @color-main;
       }
     }
     &:nth-child(4) {
@@ -189,4 +194,15 @@
   color: #666666;
   margin-top: 5px;
   font-size: 13px;
+}
+
+.music-list-item-highquality {
+  display: inline-block;
+  color: @color-main;
+  border: 1px solid @color-main;
+  font-size: 12px;
+  border-radius: 3px;
+  padding: 1px;
+  transform: scale(0.8);
+  margin-left: 2px;
 }

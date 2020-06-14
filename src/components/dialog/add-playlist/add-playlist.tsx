@@ -3,8 +3,13 @@ import Dialog from 'COMPONENTS/dialog/dialog'
 import './add-playlist.less'
 import { UseDialogProps } from '..'
 import { useUserPlaylist } from 'UTIL/user-playlist'
+import Song from 'UTIL/song'
 
-const AddPlaylistDialog: React.SFC<UseDialogProps> = (props) => {
+interface AddPlaylistDialogProps {
+  songs: Song[]
+}
+
+const AddPlaylistDialog: React.SFC<UseDialogProps & AddPlaylistDialogProps> = (props) => {
   const { userPlaylist } = useUserPlaylist()
   return (
     <Dialog width={470} {...props}>

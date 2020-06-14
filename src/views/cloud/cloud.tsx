@@ -4,6 +4,8 @@ import api from 'API/index'
 import './cloud.less'
 import dayjs from 'dayjs'
 import { padZero } from 'UTIL/util'
+import Button from 'COMPONENTS/button/button'
+import { usePlayerController } from 'UTIL/player-controller'
 
 class CloudSong extends Song {
   fileType: string
@@ -28,7 +30,7 @@ let offset = 0
 
 const Cloud = () => {
   const [songs, setSongs] = useState<CloudSong[]>([])
-
+  const { start } = usePlayerController()
 
   useEffect(() => {
     getUserCloud()
@@ -55,6 +57,7 @@ const Cloud = () => {
         <span>0.1G/60G</span>
         <span>歌曲永久保存，随时随地多端畅听</span>
       </div>
+      <div className="cloud-disk-option"><Button type="primary">播放全部</Button></div>
       <ul className="cloud-list">
         <li className="cloud-list-item-wrap">
           <div className="cloud-list-item">
@@ -70,16 +73,16 @@ const Cloud = () => {
         </li>
         {
           songs.map((song, index) => (
-            <li key={song.id} className="cloud-list-item-wrap">
+            <li onDoubleClick={() => { start({ id: 'cloud', name: '我的音乐云盘'}, song, songs) }} key={song.id} className="cloud-list-item-wrap">
               <div className="cloud-list-item">
-              <div>{padZero(index + 1)}</div>
-              <div>{song.name}</div>
-              <div>{song.artistName}</div>
-              <div>{song.album.name}</div>
-              <div>{song.duration_string}</div>
-              <div>{song.fileType}</div>
-              <div>{song.size}</div>
-              <div>{song.uploadTime}</div>
+                <div><span>{padZero(index + 1)}</span></div>
+                <div><span>{song.name}</span></div>
+                <div><span>{song.artistName}</span></div>
+                <div><span>{song.album.name}</span></div>
+                <div><span>{song.duration_string}</span></div>
+                <div><span>{song.fileType}</span></div>
+                <div><span>{song.size}</span></div>
+                <div><span>{song.uploadTime}</span></div>
               </div>
             </li>
           ))

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './dialog.less'
-import { CSSTransition } from 'react-transition-group'
 import { UseDialogProps } from '.'
 
 interface DialogProps {

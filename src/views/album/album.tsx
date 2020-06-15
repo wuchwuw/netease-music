@@ -10,6 +10,7 @@ import { usePlayerController } from 'UTIL/player-controller'
 import './album.less'
 import { genArtists } from 'VIEWS/template/template'
 import { usePageForword } from 'ROUTER/hooks'
+import notificationApi from 'COMPONENTS/notification'
 
 enum AlbumTab {
   SONG = 'SONG',
@@ -22,6 +23,8 @@ const AlbumTabMap = {
   'COMMENT': '评论',
   'DESC': '专辑详情'
 }
+
+let albumCache: any = {}
 
 const Album = () => {
   const { id } = useParams()
@@ -40,8 +43,8 @@ const Album = () => {
     try {
       const res = await Promise.all([api.getAlbumContent({ id: albumId }), api.getAlbumDynamic({ id: albumId })])
       const resInfo = res[1].data
-      setAlbum(new AlbumClass({ 
-        ...res[0].data.album, 
+      setAlbum(new AlbumClass(albumCache = {
+        ...res[0].data.album,
         songs: res[0].data.songs,
         info: {
           shareCount: resInfo.shareCount,
@@ -50,6 +53,18 @@ const Album = () => {
           isSub: resInfo.isSub
         }
       }))
+    } catch (e) {}
+  }
+
+  async function subAlbum () {
+    const t = album.info.isSub ? 2 : 1
+    try {
+      const res = await api.subAlbum({ t, id: album.id })
+      notificationApi.success({
+        content: album.info.isSub ? '取消收藏专辑' : '收藏专辑成功'
+      })
+      albumCache.info.isSub = !album.info.isSub
+      setAlbum(new AlbumClass(albumCache))
     } catch (e) {}
   }
 
@@ -76,8 +91,8 @@ const Album = () => {
                 <pre>{album.description}</pre>
               </div>
               :
-              <div style={{textAlign: 'center'}}>暂无详情</div>              
-            }    
+              <div style={{textAlign: 'center'}}>暂无详情</div>
+            }
           </>
         )
       default:
@@ -98,7 +113,7 @@ const Album = () => {
               <div onClick={() => { album.songs.length && musiclistStart(album.songs[0]) }}><i className="iconfont icon-play" ></i>播放全部</div>
               <i onClick={() => { nextPlayPlaylist({ id: `album-${album.id}`, name: album.name }, album.songs) }} className="iconfont icon-add"></i>
             </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-star"></i>{album.info.isSub ? '已收藏' : '收藏'}({album.info.subCount})</div>
+            <div onClick={ subAlbum } className="playlist-info-action-star"><i className="iconfont icon-star"></i>{album.info.isSub ? '已收藏' : '收藏'}({album.info.subCount})</div>
             <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({album.info.shareCount})</div>
           </div>
           <div className="playlist-info-num">

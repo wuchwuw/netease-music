@@ -10,6 +10,7 @@ interface ButtonProps {
   icon?: React.ReactNode
   children?: React.ReactNode
   onClick?: React.MouseEventHandler<HTMLElement>
+  block?: boolean
 }
 
 const Button: React.SFC<ButtonProps> = ({
@@ -18,12 +19,14 @@ const Button: React.SFC<ButtonProps> = ({
   icon,
   onClick,
   children,
-  disabled = false
+  disabled = false,
+  block = false
 }) => {
   const [innerLoading, setInnerLoading] = React.useState(!!loading)
   const classes = classnames('button-commen', {
-    [`button-type-${type}`]: type,
-    [`button-type-disabled`]: disabled
+    [`button-${type}`]: type,
+    'button-disabled': disabled,
+    'button-block': block
   })
 
   React.useEffect(() => {
@@ -46,7 +49,7 @@ const Button: React.SFC<ButtonProps> = ({
   }
 
   return (
-    <button 
+    <button
       className={classes}
       onClick={handleClick}
     >

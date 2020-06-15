@@ -3,7 +3,7 @@ import './dialog.less'
 import { UseDialogProps } from '.'
 
 interface DialogProps {
-  width: number
+  width?: number
   title?: string
   children: React.ReactNode
 }

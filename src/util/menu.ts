@@ -1,8 +1,6 @@
 import { PlaylistClass } from 'UTIL/playlist'
 import { usePlayerController, Source } from 'UTIL/player-controller'
-import { useSelector } from 'react-redux'
-import { RootState } from 'STORE/index'
-import { useConfirm } from 'COMPONENTS/dialog/create'
+import { useCreateDialog, COMFIRM_DIALOG } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from './user-playlist'
 import Song from './song'
 import { Album } from './album'
@@ -15,7 +13,7 @@ export interface MenuType {
 
 export function usePlaylistContextMenu () {
   const { start, nextPlayPlaylist } = usePlayerController()
-  const confirm = useConfirm()
+  const confirm = useCreateDialog(COMFIRM_DIALOG)
   const { deletePlaylist, subscribePlaylist, getUserPlaylistDetail } = useUserPlaylist()
 
   function play (playlist: PlaylistClass, next: boolean) {
@@ -69,15 +67,13 @@ export function usePlaylistContextMenu () {
 
 export function useSongContextMenu () {
   const { start, nextPlaySong } = usePlayerController()
-  // const usePlaylist = useSelector((state: RootState) => state.user.playlist)
-  const user = useSelector((state: RootState) => state.user.user)
-  const { addOrRemoveSong, removeSongWidthComfirm, userPlaylist } = useUserPlaylist()
+  const { addOrRemoveSong, removeSongWidthComfirm, userPlaylist, isUserPlaylist } = useUserPlaylist()
 
   function getSongMenu (source: Source, song: Song, playlist?: PlaylistClass, callback?: () => void) {
 
     function getCollectSubType (playlist?: PlaylistClass) {
       return userPlaylist.map((item) => {
-        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, song.id, 'add') }}
+        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, [song.id], 'add') }}
       })
     }
     const defaultMenu: MenuType[] = [
@@ -87,7 +83,7 @@ export function useSongContextMenu () {
       { name: '收藏', sub: getCollectSubType(playlist) }
     ]
     const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => { removeSongWidthComfirm(playlist!.id, song.id, callback) } }
-    if (playlist && playlist.creator.userId === user.userId) {
+    if (playlist && isUserPlaylist(playlist.id)) {
       return [...defaultMenu, deleteMenu]
     } else {
       return [...defaultMenu]
@@ -101,13 +97,12 @@ export function useSongContextMenu () {
 
 export function useAlbumContextMenu () {
   const { start, nextPlaySong } = usePlayerController()
-  const { addOrRemoveSong } = useUserPlaylist()
-  const usePlaylist = useSelector((state: RootState) => state.user.playlist)
+  const { addOrRemoveSong, userPlaylist } = useUserPlaylist()
 
   function getAlubmMenu (source: Source, song: Song, album: Album) {
     function getCollectSubType () {
-      return usePlaylist.map((item) => {
-        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, song.id, 'add') }}
+      return userPlaylist.map((item) => {
+        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, [song.id], 'add') }}
       })
     }
     const defaultMenu: MenuType[] = [

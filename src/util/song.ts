@@ -63,12 +63,23 @@ export default class Song {
   }
 
   get isHighQuality (): boolean {
-    return this.privilege.playMaxbr === 999000 || this.privilege.maxbr === 999000
+    const { playMaxbr, maxbr } = this.privilege
+    return playMaxbr === 999000 || maxbr === 999000
+  }
+
+  get isVip (): boolean {
+    const { cp, fee, payed } = this.privilege
+    return cp === 0 && fee > 0 && payed === 0
+  }
+
+  get hasPublish (): boolean {
+    const { cp, st } = this.privilege
+    return cp === 0 && st < 0
   }
 
   async getLyric (cb?: any) {
     try {
-      let res = await api.getLyric(this.id)
+      let res = await api.getLyric({ id: this.id })
       const lyric = new Lyric(res.data)
       this.lyric = lyric
       cb && cb(lyric)

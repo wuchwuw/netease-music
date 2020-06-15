@@ -5,6 +5,7 @@ import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType } from 'STORE/player/types'
 import { PlyerMode, FM } from 'STORE/player/types'
 import notificationApi from "COMPONENTS/notification"
+import { useCreateDialog, VIP_DIALOG } from 'COMPONENTS/dialog/create'
 
 // page-id or page
 export interface Source {
@@ -58,6 +59,16 @@ export function usePlayerController () {
   const mode = useSelector((state: RootState) => state.player.mode)
   const playHistory = useSelector((state: RootState) => state.player.playHistory)
   const fmScreenMusicList = useSelector((state: RootState) => state.player.fmScreenMusicList)
+  const vipDialog = useCreateDialog(VIP_DIALOG)
+  // vipDialog.open()
+
+  function canPlay (song: Song): boolean {
+    if(song.isVip) {
+      vipDialog.open()
+      return false
+    }
+    return true
+  }
 
   function setPlayHistory (song: SongWidthSource) {
     const index = getSongIndexInMusiclist(playHistory, song)
@@ -183,7 +194,9 @@ export function usePlayerController () {
   }
 
   function start (source: Source, song: Song, musiclist?: Song[]) {
-    // TODO check song
+    if (!canPlay(song)) {
+      return
+    }
     const songWidthSource = getSongWidthSource(song, source)
     playSong(songWidthSource)
     if (musiclist) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ActivityInfo, ActivityClassType, ActivityType } from 'UTIL/activity'
+import { ActivityInfo, ActivityClassType, ActivityType, ActivityClass } from 'UTIL/activity'
 import api from 'API/index'
 import Comment from 'COMPONENTS/comment/comment'
 import { usePlayerController } from 'UTIL/player-controller'
@@ -58,8 +58,9 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
               </div>
               <div className="activity-use-info-time">{act.showTimeFormat}</div>
               <div className="activity-use-info-message">{act.message}</div>
-              <div>{genActivityContent(act)}</div>
-              <div>{genActivityOption(act)}</div>
+              <div className="activity-content">{genActivityContent(act)}</div>
+              {genActivityImages(act)}
+              {genActivityOption(act)}
               { commentIndex === act.id &&
                 <div className="activity-comment-wrap">
                   <Comment type="event" textareaType="deep" id={act.info.commentThread.id}></Comment>
@@ -69,6 +70,21 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
           </div>
         )
     }
+  }
+
+  const genActivityImages = (act: ActivityClassType) => {
+    const images = act.pics
+    return (
+      <div className="activity-image-content">
+        {
+          images.map((image) => (
+            <div className="activity-image-item">
+              <img src={image.pcSquareUrl} alt=""/>
+            </div>
+          ))
+        }
+      </div>
+    )
   }
 
   const genActivityOption = (act: ActivityClassType) => {
@@ -113,14 +129,15 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
       case ActivityType.Forword:
         return (
           <div className="activity-forword">
-            <div className="activity-forword-info"><span>{'@' + act.content.user.nickname}</span>{act.content.activityText + ':' + act.content.message}</div>
+            <div className="activity-forword-info"><span>{'@' + act.content.user.nickname}</span>{act.content.activityText + ': ' + act.content.message}</div>
             <div className="activity-forword-content">{genActivityContent(act.content)}</div>
-            <div>{genActivityOption(act.content)}</div>
+            {genActivityImages(act.content)}
+            {genActivityOption(act.content)}
             { commentIndex === act.content.id &&
-                <div className="activity-comment-wrap">
-                  <Comment type="event" textareaType="deep" id={act.content.info.commentThread.id}></Comment>
-                </div>
-              }
+              <div className="activity-comment-wrap">
+                <Comment type="event" textareaType="deep" id={act.content.info.commentThread.id}></Comment>
+              </div>
+            }
           </div>
         )
       case ActivityType.Album:

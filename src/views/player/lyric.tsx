@@ -15,7 +15,7 @@ const Lyric = () => {
 
   async function getLyric () {
     try {
-      const res = await api.getLyric(song.id)
+      const res = await api.getLyric({ id: song.id })
       const lyric = new LyricClass(res.data, handler)
       setLines(lyric.lines)
       lyric.play(0, false)

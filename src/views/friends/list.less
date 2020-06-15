@@ -72,7 +72,10 @@
   background: #F5F5F5;
   border-radius: 5px;
   &:hover {
-    background: #EDEDEB;
+    background: #EDEDED;
+  }
+  &.deep {
+    background: #EDEDED;
   }
   img {
     height: 40px;
@@ -164,6 +167,7 @@
 .activity-forword-info {
   font-size: 13px;
   margin-bottom: 10px;
+  line-height: 1.5;
   > span {
     color: #507DAF;
     cursor: pointer;
@@ -226,4 +230,23 @@
   margin-top: 10px;
   padding: 15px;
   background: #F5F5F5;
+}
+
+.activity-image-content {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0;
+}
+
+.activity-image-item {
+  margin: 0 5px 5px 0;
+  > img {
+    height: 120px;
+    width: 120px;
+    border-radius: 5px;
+  }
+}
+
+.activity-content, .activity-forword-content {
+  margin-bottom: 10px;
 }

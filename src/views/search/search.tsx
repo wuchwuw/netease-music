@@ -5,7 +5,7 @@ import qs from 'qs'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import classnames from 'classnames'
-import Song, { createSongList } from 'UTIL/song'
+import Song, { getSongList } from 'UTIL/song'
 import Spin from 'COMPONENTS/spin/spin'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
@@ -93,7 +93,7 @@ const SEARCH_TAB_PARAM_MAP = {
 }
 
 const SEARCH_TAB_LIMIT_MAP = {
-  [TabType.SONG]: 100,
+  [TabType.SONG]: 50,
   [TabType.ARTIST]: 20,
   [TabType.ALBUM]: 20,
   [TabType.VIDEO]: 20,
@@ -145,21 +145,28 @@ const Search: React.SFC = () => {
     try {
       const res = await api.search(params)
       processResult(res, tab)
-      setLoading(false)
+      if (tab !== TabType.SONG) {
+        setLoading(false)
+      }
     } catch (e) {}
   }
 
-  function processResult (res: any, tab: TabType) {
-    function fixResult (result: any) {
-      if (!Array.isArray(result)) {
-        return []
-      } else {
-        return result
-      }
+  function fixResult (result: any) {
+    if (!Array.isArray(result)) {
+      return []
+    } else {
+      return result
     }
+  }
+
+  function processResult (res: any, tab: TabType) {
     switch (tab) {
       case TabType.SONG:
-        setResult(createSongList(fixResult(res.data.result.songs)))
+        getSongList(fixResult(res.data.result.songs).map((item: any) => item.id))
+          .then(songs => {
+            setResult(songs)
+            setLoading(false)
+          })
         setTotal(res.data.result.songCount)
         break
       case TabType.ARTIST:

@@ -34,7 +34,7 @@ export default {
     return axios.get('artist/mv', { params })
   },
   artistSub (params: { t: number, id: number }) {
-    return axios.get('artist/sub', { params })
+    return axios.get('artist/sub', { params, needLogin: true })
   },
   getUserCollectArtist (params: { limit: number, offset: number }) {
     return axios.get('artist/sublist', { params })

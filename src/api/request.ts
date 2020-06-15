@@ -1,6 +1,13 @@
 import axios from 'axios'
 import { checkLoginStatus } from 'UTIL/account'
 import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
+
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    needLogin?: boolean
+  }
+}
+
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
 
@@ -9,8 +16,6 @@ axios.defaults.cancelToken = source.token
 axios.defaults.withCredentials = true
 
 axios.interceptors.request.use((config) => {
-  // const store = configureStore()
-  // store.getState().user.isLogin = false
   if (config.needLogin && !checkLoginStatus()) {
     openLoginDialog()
     source.cancel()

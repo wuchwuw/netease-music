@@ -27,7 +27,7 @@ const HomeRecomend = () => {
   const [song, setSong] = useState(songCache)
   // const [dj, setDj] = useState(djCache)
   const [visible, setVisible] = useState(loaded)
-  const { goArtistDetail, goPlaylistDetail, goDaily } = usePageForword()
+  const { goArtistDetail, goPlaylistDetail, goDaily, goMVDetail, goNewSong, goPlaylistDiscover, goMVDiscover } = usePageForword()
   const { currentSong, start } = usePlayerController()
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const HomeRecomend = () => {
         <Slider images={banners}></Slider>
       </div>
       <div className="home-personalized">
-        <div className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           <div className="commen-area-item">
             <div className="recomend-daily-icon" onClick={ goDaily }>
@@ -89,7 +89,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div className="home-music">
-        <div className="home-recommend-title">最新音乐<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={ goNewSong } className="home-recommend-title">最新音乐<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="home-music-content">
           { song.map((item, index) => (
             <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} className="home-music-item">
@@ -106,31 +106,31 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div className="home-mv">
-        <div className="home-recommend-title">推荐MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={ goMVDiscover } className="home-recommend-title">推荐MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { mv.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
-              <div className="commen-area-img-wrap">
+              <div onClick={() => { goMVDetail(item.id) }} className="commen-area-img-wrap">
                 <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_format}</div>
                 <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
                 <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
               </div>
-              <div className="commen-area-text line-one">{item.name}</div>
+              <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text line-one">{item.name}</div>
               <div className="commen-area-artist">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
             </div>
           ))}
         </div>
       </div>
       <div className="home-privatecontent">
-        <div className="home-recommend-title">独家放送<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={ goMVDiscover } className="home-recommend-title">独家放送<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { privatecontent.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
-              <div className="commen-area-img-wrap">
+              <div onClick={() => { goMVDetail(item.id) }} className="commen-area-img-wrap">
                 <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
                 <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
               </div>
-              <div className="commen-area-text line-more">{item.name}</div>
+              <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text line-more">{item.name}</div>
             </div>
           ))}
         </div>

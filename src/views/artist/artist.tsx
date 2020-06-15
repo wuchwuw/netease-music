@@ -56,6 +56,7 @@ const Artist = () => {
   const { isFavorite, favorite } = useFavorite()
   const { getSongMenu } = useSongContextMenu()
   const addPlaylistDialogProps = useDialog()
+  const [addPlaylistSongs, setAddPlaylistSongs] = useState<Song[]>([])
 
   useEffect(() => {
     getArtistDetail()
@@ -161,7 +162,10 @@ const Artist = () => {
           <div className="artist-album-item-list">
             <div className="artist-album-name">
               热门50首
-              <span><i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i><i onClick={() => { addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i></span>
+              <span>
+                <i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i>
+                <i onClick={() => { setAddPlaylistSongs(hotSong); addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i>
+              </span>
             </div>
             {
               hotSong.slice(0, 10).map((song, index) => (
@@ -196,7 +200,10 @@ const Artist = () => {
               <div className="artist-album-item-list">
                 <div className="artist-album-name">
                   {album.name}
-                  <span><i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i><i onClick={() => { addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i></span>
+                  <span>
+                    <i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i>
+                    <i onClick={() => { setAddPlaylistSongs(album.songs); addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i>
+                  </span>
                 </div>
                 {
                   album.songs.slice(0, 10).map((song, index) => (
@@ -332,7 +339,7 @@ const Artist = () => {
           }
           <Menu></Menu>
         </div>
-        <AddPlaylistDialog {...addPlaylistDialogProps}></AddPlaylistDialog>
+        <AddPlaylistDialog songs={addPlaylistSongs} {...addPlaylistDialogProps}></AddPlaylistDialog>
       </div>
     </LoadMore>
   )

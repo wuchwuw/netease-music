@@ -23,7 +23,7 @@ export default {
     return axios.get(`comment/${params.type}`, {  params: params.params })
   },
   sendComment (params: SendCommentParams) {
-    return axios.get('/comment', {  params, withCredentials: true })
+    return axios.get('/comment', {  params, needLogin: true })
   },
   commentLike (params: { id: number | string, cid: number, t: number, type: number }) {
     return axios.get('/comment/like', {  params, withCredentials: true, needLogin: true })

@@ -5,7 +5,7 @@ import { SET_USER_PLAYLIST } from 'STORE/user/types'
 import { createPlaylistList, PlaylistClass } from './playlist'
 import { useDispatch } from 'react-redux'
 import { SET_UPDATE_FAVORITE_PLAYLIST } from 'STORE/commen/types'
-import { useConfirm } from 'COMPONENTS/dialog/create'
+import { useCreateDialog, COMFIRM_DIALOG } from 'COMPONENTS/dialog/create'
 import { useFavorite } from './favorite'
 import notificationApi from 'COMPONENTS/notification'
 
@@ -15,7 +15,7 @@ export function useUserPlaylist () {
   const userPlaylist = playlist.filter(item => item.creator.userId === user.userId)
   const subPlaylist = playlist.filter(item => item.creator.userId !== user.userId)
   const dispatch = useDispatch()
-  const confirm = useConfirm()
+  const confirm = useCreateDialog(COMFIRM_DIALOG)
   const { updateFavoriteIds } = useFavorite()
 
   async function getUserPlaylist (userId?: number) {
@@ -82,20 +82,28 @@ export function useUserPlaylist () {
       text: '确定将选中的歌曲从该歌单中删除?',
       buttonText: '确定',
       confirm: (confirmCallback) => {
-        addOrRemoveSong(playlistId, songId, 'del', () => {
+        addOrRemoveSong(playlistId, [songId], 'del', () => {
           confirmCallback && confirmCallback()
           callback && callback()
-          if (isMyFavotitePlaylist(playlistId)) {
-            updateFavoriteIds(songId)
-          }
         })
       }
     })
   }
 
-  async function addOrRemoveSong (playlistId: number, songId: number, type: 'add' | 'del', cb?: Function) {
+  async function addOrRemoveSong (playlistId: number, songId: number[], type: 'add' | 'del', cb?: Function) {
     try {
-      await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: songId })
+      const res = await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: songId })
+      if (type === 'add') {
+        if (res.data.code > 200) {
+          notificationApi.error({ content: res.data.message })
+        } else {
+          notificationApi.success({ content: '已添加到歌单' })
+        }
+      }
+      // 如果是最喜欢的歌单，则更新favoriteIds
+      if (isMyFavotitePlaylist(playlistId)) {
+        updateFavoriteIds(songId)
+      }
       cb && cb()
     } catch (e) {}
   }

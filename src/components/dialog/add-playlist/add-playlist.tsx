@@ -4,13 +4,23 @@ import './add-playlist.less'
 import { UseDialogProps } from '..'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import Song from 'UTIL/song'
+import { PlaylistClass } from 'UTIL/playlist'
 
 interface AddPlaylistDialogProps {
   songs: Song[]
 }
 
 const AddPlaylistDialog: React.SFC<UseDialogProps & AddPlaylistDialogProps> = (props) => {
-  const { userPlaylist } = useUserPlaylist()
+  const { userPlaylist, addOrRemoveSong } = useUserPlaylist()
+
+  function addPlaylistSong (playlist: PlaylistClass) {
+    try {
+      addOrRemoveSong(playlist.id, props.songs.map(song => song.id), 'add', () => {
+        props.close()
+      })
+    } catch (e) {}
+  }
+
   return (
     <Dialog width={470} {...props}>
       <div className="add-playlist-dialog-wrap">
@@ -24,7 +34,7 @@ const AddPlaylistDialog: React.SFC<UseDialogProps & AddPlaylistDialogProps> = (p
         <div className="add-playlist-item-wrap">
           {
             userPlaylist.map(playlist => (
-              <div key={playlist.id} className="add-playlist-item playlist">
+              <div onClick={() => { addPlaylistSong(playlist) }} key={playlist.id} className="add-playlist-item playlist">
                 <div className="add-playlist-cover"><img src={playlist.coverImgUrl} alt=""/></div>
                 <div className="add-playlist-info">
                   <div className="add-playlist-info-name">{playlist.name}</div>

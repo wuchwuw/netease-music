@@ -17,14 +17,18 @@ export function useFavorite () {
     dispatch({ type: SET_FAVORITE_IDS, favoriteIds: favoriteIds })
   }
 
-  function updateFavoriteIds (id: number) {
-    const index = favoriteIds.indexOf(id)
-    if (index > -1) {
-      favoriteIds.splice(index, 1)
-    } else {
-      favoriteIds.unshift(id)
-    }
-    setFavoriteIds(favoriteIds)
+  function updateFavoriteIds (ids: number[]) {
+    let fIds = favoriteIds.slice()
+
+    ids.forEach((id) => {
+      const index = favoriteIds.indexOf(id)
+      if (index > -1) {
+        fIds.splice(index, 1)
+      } else {
+        fIds.unshift(id)
+      }
+    })
+    setFavoriteIds(fIds)
   }
 
   async function getFavoriteIds (uid: number) {
@@ -38,7 +42,7 @@ export function useFavorite () {
     try {
       const like = !isFavorite(id)
       await api.like({ id, like })
-      updateFavoriteIds(id)
+      updateFavoriteIds([id])
       notificationApi.success({
         content: like? '已添加到我喜欢的音乐' : '取消喜欢成功'
       })

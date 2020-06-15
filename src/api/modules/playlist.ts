@@ -40,8 +40,8 @@ export default {
   deletePlaylist (params: PlaylistIdProps) {
     return axios.get('playlist/delete', { params })
   },
-  addOrRemoveSong (params: { op: 'add' | 'del', pid: number, tracks: number }) {
-    return axios.get('playlist/tracks', { params })
+  addOrRemoveSong (params: { op: 'add' | 'del', pid: number, tracks: number[] }) {
+    return axios.get('playlist/tracks', { params: { ...params, tracks: params.tracks.join(',')} })
   },
   updatePlaylistInfo (params: { id: number, name: string, tags: string, desc: string }) {
     return axios.get('playlist/update', { params })

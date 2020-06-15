@@ -1,30 +1,48 @@
 import Confirm, { ConfirmProps } from 'COMPONENTS/dialog/confirm/confirm'
+import VipDialog from 'COMPONENTS/dialog/vip/vip-dialog'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const CONTAINER_NAME = 'confirm-container'
+export const COMFIRM_DIALOG = 'confirm-container'
+export const VIP_DIALOG = 'vip-container'
 const parent = document.body
 
-export function useConfirm () {
-  const confirmProps = {
+export function useCreateDialog (dialogName: string) {
+  const defaultProps = {
     visible: true,
     open: () => {},
     toggle: () => {},
     close: () => {
-      const container = document.getElementById(CONTAINER_NAME)
+      const container = document.getElementById(dialogName)
       if (container) {
         parent.removeChild(container)
       }
     }
   }
 
-  function open (props: ConfirmProps) {
+  function createContainer () {
     const container = document.createElement('div')
-    container.setAttribute('id', CONTAINER_NAME)
+    container.setAttribute('id', dialogName)
     parent.appendChild(container)
-    ReactDOM.render(<Confirm {...props} {...confirmProps}></Confirm>, container)
+    return container
   }
+
+  function getOpen () {
+    switch (dialogName) {
+      case COMFIRM_DIALOG:
+        return (props: ConfirmProps) => {
+          ReactDOM.render(<Confirm {...props} {...defaultProps}></Confirm>, createContainer())
+        }
+      case VIP_DIALOG:
+        return () => {
+          ReactDOM.render(<VipDialog {...defaultProps}></VipDialog>, createContainer())
+        }
+      default:
+        return () => {}
+    }
+  }
+
   return {
-    open
+    open: getOpen()
   }
 }

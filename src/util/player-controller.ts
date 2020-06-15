@@ -63,6 +63,10 @@ export function usePlayerController () {
   // vipDialog.open()
 
   function canPlay (song: Song): boolean {
+    if (!song.hasPublish) {
+      notificationApi.error({ content: '因合作方要求，该资源暂时下架' })
+      return false
+    }
     if(song.isVip) {
       vipDialog.open()
       return false

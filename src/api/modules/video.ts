@@ -39,5 +39,8 @@ export default {
   },
   getMVInfo (params: { mvid: number }) {
     return axios.get('mv/detail/info', { params })
+  },
+  getMVSubList () {
+    return axios.get('mv/sublist')
   }
 }

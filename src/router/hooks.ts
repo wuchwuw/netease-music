@@ -41,7 +41,7 @@ export function usePageForword () {
     goVideoDetail (videoId: string) {
       history.push(`/v/${videoId}`)
     },
-    goMVDetail (mvId: number) {
+    goMVDetail (mvId: number | string) {
       history.push(`/m/${mvId}`)
     },
     goPlaylistEdit (playlistId: number) {

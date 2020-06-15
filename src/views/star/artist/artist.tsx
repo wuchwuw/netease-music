@@ -11,7 +11,7 @@ import { usePageForword } from 'ROUTER/hooks'
 const StarArtist = () => {
   const [artists, setArtists] = useState<Artist[]>([])
   const { goArtistDetail } = usePageForword()
-  // const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0)
   // const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const StarArtist = () => {
     try {
       const res = await api.getUserCollectArtist({ limit: 30, offset: 0 })
       setArtists(createArtistList(res.data.data))
-      // setTotal(res.data.count)
+      setTotal(res.data.count)
     } catch (e) {}
   }
 
@@ -34,7 +34,7 @@ const StarArtist = () => {
 
   return (
     <div className="star-artist">
-      <div className="star-artist-title">收藏的歌手({artists.length})</div>
+      <div className="star-artist-title">收藏的歌手({total})</div>
       <div className="star-artist-list">
         {
           artists.map(artist => (

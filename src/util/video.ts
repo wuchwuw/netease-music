@@ -57,6 +57,30 @@ export class Video extends VideoBaseClass {
   }
 }
 
+type VideoType = 'video' | 'mv'
+interface CreateBy {
+  userName: string
+  userId: string
+}
+
+export class VideoWidthType extends Video {
+  type: VideoType
+  createBy: CreateBy[]
+  constructor(data: any) {
+    super(data)
+    this.type = data.type === 1 ? 'video' : 'mv'
+    this.createBy = data.creator
+  }
+}
+
+export function createVideoListWidthType (data: any): VideoWidthType[] {
+  if (!data || !data.length) return []
+  return data.map((item: any) => new VideoWidthType({
+    duration: item.durationms,
+    ...item
+  }))
+}
+
 export function createBaseVideoList (data: any): VideoBaseClass[] {
   return data.map((item: any) => {
     return createBaseVideo(item)

@@ -64,7 +64,7 @@ const TopBar: React.SFC = () => {
     }
     if (/home/.test(location.pathname)) {
       routePath = homeSubPagePathMap
-    } else if (/video/.test(location.pathname)) {
+    } else if (['/video/index', '/video/mv'].includes(location.pathname)) {
       routePath = viodeSubPagePathMap
     } else if (/star/.test(location.pathname)) {
       routePath = starSubPagePathMap

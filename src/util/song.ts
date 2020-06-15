@@ -74,7 +74,7 @@ export default class Song {
 
   get hasPublish (): boolean {
     const { cp, st } = this.privilege
-    return cp === 0 && st < 0
+    return !(cp === 0 && st < 0)
   }
 
   async getLyric (cb?: any) {

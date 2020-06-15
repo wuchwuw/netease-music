@@ -6,14 +6,12 @@ import PanelContainer from 'VIEWS/panel/container'
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 import ScrollToTop from 'COMPONENTS/scroll-to-top/scroll-to-top'
 import { useAccountInit } from 'UTIL/account'
-import { useCreateDialog, VIP_DIALOG } from 'COMPONENTS/dialog/create'
 
 const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
   const { initAccount } = useAccountInit()
-  const vipDialog = useCreateDialog(VIP_DIALOG)
+
   useEffect(() => {
     initAccount()
-    vipDialog.open()
   }, [])
 
   return (

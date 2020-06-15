@@ -35,7 +35,7 @@ const StarAlbum = () => {
 
   return (
     <div className="star-album">
-      <div className="star-album-title">收藏的专辑({albums.length})</div>
+      <div className="star-album-title">收藏的专辑({total})</div>
       <div className="star-album-list">
         {
           albums.map(album => (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import './playlist.less'
 import MusicList from 'COMPONENTS/music-list/music-list'
 import Comment from 'COMPONENTS/comment/comment'
@@ -14,7 +14,7 @@ import { useSongContextMenu } from 'UTIL/menu'
 import Song, { getSongList } from 'UTIL/song'
 import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
-import { getPlaylistCache, setPlaylistCache } from 'UTIL/playlist-cache'
+import { getPlaylistCache, setPlaylistCache, getPlaylistTracksCache, setPlaylistTracksCache } from 'UTIL/playlist-cache'
 import Spin from 'COMPONENTS/spin/spin'
 
 enum PlaylistTab {
@@ -37,8 +37,9 @@ const Playlist = () => {
   const { id } = useParams()
   const playlistId = Number(id)
   const playlistDefault = getPlaylistCache(playlistId)
+  const tracksDefault = getPlaylistTracksCache(playlistId)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(playlistDefault)
-  const [tracks, setTracks] = useState<Song[]>([])
+  const [tracks, setTracks] = useState<Song[]>(tracksDefault)
 
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
@@ -52,6 +53,14 @@ const Playlist = () => {
 
   const [trackloading, setTrackLoading] = useState(true)
 
+  const time = useRef(+new Date())
+
+  useEffect(() => {
+    return () => {
+      time.current = +new Date()
+    }
+  }, [])
+
   useEffect(() => {
     getPlaylist()
   }, [playlistId, shouldUpdateFavoritePlaylist])
@@ -62,15 +71,13 @@ const Playlist = () => {
   }, [playlistId])
 
   useEffect(() => {
-    if (!playlistDefault.id) return
-    if (playlistCacheId !== playlistId) return
     setPlaylist(playlistDefault)
-    if (playlistDefault.tracks.length) {
-      setTracks([...playlistDefault.tracks])
+    if (tracksDefault.length) {
+      setTracks(tracksDefault)
     } else {
       setTrackLoading(true)
     }
-  }, [playlistDefault.id])
+  }, [playlistId])
 
   async function getPlaylist () {
     playlistCacheId = playlistId
@@ -82,26 +89,14 @@ const Playlist = () => {
       if (isMyFavotitePlaylist(res.data.playlist.id)) {
         res.data.playlist.name = '我喜欢的音乐'
       }
-      if (playlistCacheId !== playlistId) return
       playlistCache = res.data.playlist
-      setPlaylist(new PlaylistClass(res.data.playlist))
+      const p = new PlaylistClass(res.data.playlist)
+      setPlaylist(p)
+      setPlaylistCache(p)
       const songs = await getSongList(res.data.playlist.trackIds.map((item: any) => item.id))
-      setPlaylist(p => {
-        if (p.id !== res.data.playlist.id) return p
-        p.tracks = songs
-        // console.log(p)
-        setPlaylistCache(p)
-        return p
-      })
       setTracks(songs)
+      setPlaylistTracksCache(p, songs)
       setTrackLoading(false)
-      // console.log(playlist)
-      // createPlaylistWidthTracks(res.data.playlist, (p) => {
-      //   playlist.tracks = p
-      //   setPlaylistCache(playlist)
-      //   setTrackLoading(false)
-      //   console.log(playlist)
-      // })
     } catch (e) {}
   }
 

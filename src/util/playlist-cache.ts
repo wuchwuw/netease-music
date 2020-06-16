@@ -1,6 +1,8 @@
 import { PlaylistClass } from './playlist'
+import Song from './song'
 
 const PlaylistCache = new Map<number, PlaylistClass>()
+const PlaylistTracksCache = new Map<number, Song[]>()
 
 export const setPlaylistCache = (playlist: PlaylistClass) => {
   if (!playlist.id) return
@@ -18,8 +20,14 @@ export const getPlaylistCache = (playlistId: number) => {
   return p ? p : new PlaylistClass({})
 }
 
-export let playlistDefault = new PlaylistClass({})
-
-export function setPlaylistDefault (p: PlaylistClass) {
-  playlistDefault = p
+export const setPlaylistTracksCache = (playlist: PlaylistClass, songs: Song[]) => {
+  if (!playlist.id) return
+  PlaylistTracksCache.set(playlist.id, songs)
 }
+
+export const getPlaylistTracksCache = (playlistId: number): Song[] => {
+  const songs = PlaylistTracksCache.get(playlistId)
+  return songs ? songs : []
+}
+
+export let playlistDefault = new PlaylistClass({})

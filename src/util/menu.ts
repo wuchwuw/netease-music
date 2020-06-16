@@ -73,7 +73,7 @@ export function useSongContextMenu () {
 
     function getCollectSubType (playlist?: PlaylistClass) {
       return userPlaylist.map((item) => {
-        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, [song.id], 'add') }}
+        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, [song], 'add') }}
       })
     }
     const defaultMenu: MenuType[] = [
@@ -82,7 +82,7 @@ export function useSongContextMenu () {
       { name: '查看评论', trigger: () => {} },
       { name: '收藏', sub: getCollectSubType(playlist) }
     ]
-    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => { removeSongWidthComfirm(playlist!.id, song.id, callback) } }
+    const deleteMenu: MenuType = { name: '从歌单中删除', trigger: () => { removeSongWidthComfirm(playlist!.id, song, callback) } }
     if (playlist && isUserPlaylist(playlist.id)) {
       return [...defaultMenu, deleteMenu]
     } else {
@@ -102,7 +102,7 @@ export function useAlbumContextMenu () {
   function getAlubmMenu (source: Source, song: Song, album: Album) {
     function getCollectSubType () {
       return userPlaylist.map((item) => {
-        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, [song.id], 'add') }}
+        return { name: item.name, data: item, trigger: () => { addOrRemoveSong(item.id, [song], 'add') }}
       })
     }
     const defaultMenu: MenuType[] = [

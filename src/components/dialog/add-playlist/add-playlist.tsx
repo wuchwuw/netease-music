@@ -15,7 +15,7 @@ const AddPlaylistDialog: React.SFC<UseDialogProps & AddPlaylistDialogProps> = (p
 
   function addPlaylistSong (playlist: PlaylistClass) {
     try {
-      addOrRemoveSong(playlist.id, props.songs.map(song => song.id), 'add', () => {
+      addOrRemoveSong(playlist.id, props.songs, 'add', () => {
         props.close()
       })
     } catch (e) {}

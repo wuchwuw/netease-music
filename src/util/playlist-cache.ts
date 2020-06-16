@@ -20,9 +20,9 @@ export const getPlaylistCache = (playlistId: number) => {
   return p ? p : new PlaylistClass({})
 }
 
-export const setPlaylistTracksCache = (playlist: PlaylistClass, songs: Song[]) => {
-  if (!playlist.id) return
-  PlaylistTracksCache.set(playlist.id, songs)
+export const setPlaylistTracksCache = (playlistId: number, songs: Song[]) => {
+  if (!playlistId) return
+  PlaylistTracksCache.set(playlistId, songs)
 }
 
 export const getPlaylistTracksCache = (playlistId: number): Song[] => {

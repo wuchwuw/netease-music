@@ -53,17 +53,22 @@ const Playlist = () => {
 
   const [trackloading, setTrackLoading] = useState(true)
 
-  const time = useRef(+new Date())
+  const time = useRef(0)
 
   useEffect(() => {
     return () => {
-      time.current = +new Date()
+      console.log(1111)
+      time.current = ++time.current
     }
-  }, [])
+  }, [playlistId])
 
   useEffect(() => {
     getPlaylist()
-  }, [playlistId, shouldUpdateFavoritePlaylist])
+  }, [playlistId])
+
+  useEffect(() => {
+    setTracks(getPlaylistTracksCache(playlistId))
+  }, [shouldUpdateFavoritePlaylist])
 
   useEffect(() => {
     if (tab === PlaylistTab.SONG) return
@@ -80,7 +85,7 @@ const Playlist = () => {
   }, [playlistId])
 
   async function getPlaylist () {
-    playlistCacheId = playlistId
+    const currentTime = time.current
     const params = {
       id: playlistId
     }
@@ -91,17 +96,21 @@ const Playlist = () => {
       }
       playlistCache = res.data.playlist
       const p = new PlaylistClass(res.data.playlist)
-      setPlaylist(p)
-      setPlaylistCache(p)
+      if (time.current === currentTime) {
+        setPlaylist(p)
+        setPlaylistCache(p)
+      }
       const songs = await getSongList(res.data.playlist.trackIds.map((item: any) => item.id))
-      setTracks(songs)
-      setPlaylistTracksCache(p, songs)
+      if (time.current === currentTime) {
+        setTracks(songs)
+        setPlaylistTracksCache(p.id, songs)
+      }
       setTrackLoading(false)
     } catch (e) {}
   }
 
   function updatePlaylist () {
-    getPlaylist()
+    // getPlaylist()
   }
 
   async function follow () {
@@ -148,7 +157,7 @@ const Playlist = () => {
     if (isOrigin) {
       return {
         deleteMyFavorite: (song: Song) => {
-          removeSongWidthComfirm(playlist.id, song.id, updatePlaylist)
+          removeSongWidthComfirm(playlist.id, song, updatePlaylist)
         }
       }
     } else {

@@ -8,6 +8,8 @@ import { SET_UPDATE_FAVORITE_PLAYLIST } from 'STORE/commen/types'
 import { useCreateDialog, COMFIRM_DIALOG } from 'COMPONENTS/dialog/create'
 import { useFavorite } from './favorite'
 import notificationApi from 'COMPONENTS/notification'
+import Song from './song'
+import { getPlaylistTracksCache, setPlaylistTracksCache } from './playlist-cache'
 
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
@@ -77,12 +79,12 @@ export function useUserPlaylist () {
 
   function createPlaylist () {}
 
-  function removeSongWidthComfirm (playlistId: number, songId: number, callback?: () => void) {
+  function removeSongWidthComfirm (playlistId: number, song: Song, callback?: () => void) {
     confirm.open({
       text: '确定将选中的歌曲从该歌单中删除?',
       buttonText: '确定',
       confirm: (confirmCallback) => {
-        addOrRemoveSong(playlistId, [songId], 'del', () => {
+        addOrRemoveSong(playlistId, [song], 'del', () => {
           confirmCallback && confirmCallback()
           callback && callback()
         })
@@ -90,9 +92,10 @@ export function useUserPlaylist () {
     })
   }
 
-  async function addOrRemoveSong (playlistId: number, songId: number[], type: 'add' | 'del', cb?: Function) {
+  async function addOrRemoveSong (playlistId: number, songs: Song[], type: 'add' | 'del', cb?: Function) {
     try {
-      const res = await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: songId })
+      const ids = songs.map(item => item.id)
+      const res = await api.addOrRemoveSong({ op: type, pid: playlistId, tracks: ids })
       if (type === 'add') {
         if (res.data.code > 200) {
           notificationApi.error({ content: res.data.message })
@@ -102,10 +105,28 @@ export function useUserPlaylist () {
       }
       // 如果是最喜欢的歌单，则更新favoriteIds
       if (isMyFavotitePlaylist(playlistId)) {
-        updateFavoriteIds(songId)
+        updateFavoriteIds(ids)
       }
+      updatePlaylistTracks(playlistId, songs, type)
       cb && cb()
     } catch (e) {}
+  }
+
+  function updatePlaylistTracks (playlistId: number, songs: Song[], type: 'add' | 'del') {
+    let tracks = getPlaylistTracksCache(playlistId).slice()
+    if (!tracks.length) return
+    if (type === 'add') {
+      tracks = songs.concat(tracks)
+    } else if (type === 'del') {
+      songs.forEach(song => {
+        const index = tracks.findIndex(track => track.id === song.id)
+        if (index > -1) {
+          tracks.splice(index, 1)
+        }
+      })
+    }
+    setPlaylistTracksCache(playlistId, tracks)
+    dispatch({ type: SET_UPDATE_FAVORITE_PLAYLIST })
   }
 
   async function getUserPlaylistDetail (playlistId: number, cb?: (p: PlaylistClass) => void) {
@@ -118,7 +139,7 @@ export function useUserPlaylist () {
   function shouldUpdateUserFavoritePlaylist (playlistId: number) {
     if (!playlist[0] || !playlistId) return
     if (playlist[0].id === playlistId) {
-      dispatch({ type: SET_UPDATE_FAVORITE_PLAYLIST})
+      dispatch({ type: SET_UPDATE_FAVORITE_PLAYLIST })
     }
   }
 

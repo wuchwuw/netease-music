@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ActivityInfo, ActivityClassType, ActivityType, ActivityClass } from 'UTIL/activity'
+import { ActivityInfo, ActivityClassType, ActivityType } from 'UTIL/activity'
 import api from 'API/index'
 import Comment from 'COMPONENTS/comment/comment'
 import { usePlayerController } from 'UTIL/player-controller'
@@ -26,12 +26,12 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
     } catch (e) {}
   }
 
-  function showComment (index: number) {
-    if (index === commentIndex) {
+  function showComment (actId: number) {
+    if (actId === commentIndex) {
       setCommentIndex(-1)
       return
     }
-    setCommentIndex(index)
+    setCommentIndex(actId)
   }
 
   const genActivityItem = (act: ActivityClassType, index: number) => {
@@ -122,6 +122,19 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
             </div>
             <div className="activity-video-info">
               <span><i className="iconfont icon-triangle"></i>{act.content.playTime_format}</span>
+              <span>{act.content.duration_format}</span>
+            </div>
+          </div>
+        )
+      case ActivityType.MV:
+        return (
+          <div className="activity-video">
+            <div className="activity-song-wrap">
+              <i className="iconfont icon-triangle-full activity-play-icon activity-video-play-icon"></i>
+              <img src={act.content.cover} alt=""/>
+            </div>
+            <div className="activity-video-info">
+              <span><i className="iconfont icon-triangle"></i>{act.content.playCount_format}</span>
               <span>{act.content.duration_format}</span>
             </div>
           </div>

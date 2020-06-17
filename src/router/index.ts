@@ -151,7 +151,8 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/cloud',
-        component: Cloud
+        component: Cloud,
+        name: 'aaa'
       },
       {
         path: '/user/:id',

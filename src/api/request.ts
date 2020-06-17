@@ -29,4 +29,12 @@ axios.interceptors.request.use((config) => {
   console.log(err)
 })
 
+axios.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  // if (error.response.data.code === 301) {
+  //   openLoginDialog()
+  // }
+})
+
 export default axios

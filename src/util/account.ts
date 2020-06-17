@@ -15,18 +15,24 @@ export async function refresh () {
       await api.refreshLogin()
     } catch (e) {}
   } else {
-    logout()
+    clearCache()
   }
 }
 
-export function logout () {
-  Cookies.remove('__csrf')
+function clearCache () {
   const user = JSON.parse(localStorage.getItem('user') || '{}')
   if (user.userId) {
     localStorage.removeItem('user')
     localStorage.removeItem('playlist')
-    window.location.href = window.location.origin
   }
+}
+
+export async function logout () {
+  try {
+    await api.logout()
+    clearCache()
+    window.location.href = window.location.origin
+  } catch (e) {}
 }
 
 export function useAccountInit () {

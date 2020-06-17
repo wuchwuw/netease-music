@@ -4,11 +4,12 @@ import Spin from 'COMPONENTS/spin/spin'
 import api from 'API/index'
 import { usePageForword } from "ROUTER/hooks"
 import { useSearchKeywords } from "UTIL/search-keywords"
-import Song, { createSongList } from "UTIL/song"
+import Song, { createSongList, getSongList } from "UTIL/song"
 import { Album, createAlbumList } from "UTIL/album"
 import { PlaylistClass, createPlaylistList } from "UTIL/playlist"
 import { MV, createMVList } from "UTIL/mv"
 import { Artist, createArtistList } from "UTIL/artist"
+import { usePlayerController } from "UTIL/player-controller"
 
 interface Suggest {
   songs: Song[]
@@ -33,6 +34,8 @@ const Search: React.SFC = () => {
   })
   const { goSearch } = usePageForword()
   const { keywords, historyKeywords, setKeywords, addKeywordsHistory, removeKeywordsHistory } = useSearchKeywords()
+  const { goPlaylistDetail, goMVDetail, goArtistDetail, goAlbumDetail} = usePageForword()
+  const { start } = usePlayerController()
 
   useEffect(() => {
     getHotKey()
@@ -72,7 +75,7 @@ const Search: React.SFC = () => {
     }
     if (!suggest.order) return res
     const order = res.order = suggest.order
-    order.forEach(item => {
+    order.forEach((item: any) => {
       if (item === 'songs') {
         res.songs = createSongList(suggest.songs)
       } else if (item === 'artists') {
@@ -89,8 +92,14 @@ const Search: React.SFC = () => {
     return res
   }
 
-  function genSuggestContent () {
+  async function handleSuggestSong (song: Song) {
+    try {
+      const songs = await getSongList([song.id])
+      songs.length && start({ name: '搜索页', id: `/search?keywords=${keywords}&tab=song` }, songs[0])
+    } catch (e) {}
+  }
 
+  function genSuggestContent () {
     if (!suggest.order) return null
 
     let ret: ReactNode[] = []
@@ -103,7 +112,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-neteastmusic"></i>单曲</div>
             {
               suggest.songs.map(item => (
-                <div className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
+                <div onClick={() => { handleSuggestSong(item) }} key={item.id} className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -114,7 +123,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-user"></i>歌手</div>
             {
               suggest.artists.map(item => (
-                <div className="search-suggest-item">{item.name}</div>
+                <div key={item.id} onClick={() => { goArtistDetail(item.id) }} className="search-suggest-item">{item.name}</div>
               ))
             }
           </>
@@ -125,7 +134,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-playlist"></i>专辑</div>
             {
               suggest.albums.map(item => (
-              <div className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
+                <div key={item.id} onClick={() => { goAlbumDetail(item.id) }} className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -136,7 +145,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-mv"></i>视频</div>
             {
               suggest.mvs.map(item => (
-                <div className="search-suggest-item">{item.name}</div>
+                <div key={item.id} onClick={() => { goMVDetail(item.id) }} className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -147,7 +156,7 @@ const Search: React.SFC = () => {
             <div className="search-suggest-title"><i className="iconfont icon-playlist"></i>歌单</div>
             {
               suggest.playlists.map(item => (
-                <div className="search-suggest-item">{item.name}</div>
+                <div key={item.id} onClick={() => { goPlaylistDetail(item.id) }} className="search-suggest-item">{item.name}</div>
               ))
             }
           </>

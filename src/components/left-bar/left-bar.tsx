@@ -24,7 +24,7 @@ const LeftBar: React.SFC = () => {
   const { visiable, open } = useContainer(['.leftbar-user-panel'])
   const { getPlaylistMenu } = usePlaylistContextMenu()
   const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
-  const { goUserDetail, goPlaylistDetail } = usePageForword()
+  const { goUserDetail } = usePageForword()
 
   return (
     <div className='leftbar-wrap'>
@@ -92,20 +92,11 @@ const LeftBar: React.SFC = () => {
           <i className="iconfont icon-star"></i>我的收藏
         </NavLink>
         <div className="leftbar-item-title">创建的歌单<i onClick={() => createDialogProps.toggle()} className="iconfont icon-add"></i></div>
-        {/* {
-          userPlaylist.map(item => (
-            <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
-              <div onClick={ () => { goPlaylistDetail(item.id, item) }} key={item.id} className="leftbar-item">
-                <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
-              </div>
-            </ContextMenuWrap>
-          ))
-        } */}
         {
           userPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
-                <i className="iconfont icon-playlist"></i><div>{item.name}</div>
+                <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
               </NavLink>
             </ContextMenuWrap>
           ))

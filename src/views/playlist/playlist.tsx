@@ -30,7 +30,6 @@ const PlaylistTabMap = {
 }
 
 let playlistCache = {}
-let playlistCacheId = -1
 
 const Playlist = () => {
   const [ tab, setTab ] = useState<PlaylistTab>(PlaylistTab.SONG)
@@ -57,7 +56,6 @@ const Playlist = () => {
 
   useEffect(() => {
     return () => {
-      console.log(1111)
       time.current = ++time.current
     }
   }, [playlistId])

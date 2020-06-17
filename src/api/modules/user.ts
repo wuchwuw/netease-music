@@ -13,6 +13,9 @@ export default {
   login (params: loginParams) {
     return axios.get('login/cellphone', { params })
   },
+  logout () {
+    return axios.get('logout')
+  },
   refreshLogin () {
     return axios.get('login/refresh')
   },

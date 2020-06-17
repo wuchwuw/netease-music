@@ -2,6 +2,7 @@ import Song, { createSong } from 'UTIL/song'
 import dayjs from 'dayjs'
 import { VideoBaseClass, createVideo } from 'UTIL/video'
 import { createBaseAlbum, AlbumBaseClass } from 'UTIL/album'
+import { MV, createMV } from './mv'
 
 export interface Topic {
   actId: number
@@ -44,6 +45,7 @@ export enum ActivityType {
   Song = 18,
   Topic = 33,
   Video = 39,
+  MV = 21,
   Forword = 22,
   Album = 19
 }
@@ -150,6 +152,21 @@ export class ActivityAlbumClass extends ActivityClass {
   }
 }
 
+export class ActivityMVClass extends ActivityClass {
+  type: ActivityType.MV
+  activityText: string
+  message: string
+  content: MV
+  constructor ({ user, type, info, id, eventTime, json, showTime, pics }: any) {
+    super({user, info, id, eventTime, showTime, pics })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = createMV(this.json.mv)
+    this.message = this.json.msg
+    this.activityText = '分享MV'
+  }
+}
+
 function cretaeActicity (data: any): ActivityClassType {
   switch (data.type) {
     case ActivityType.Topic:
@@ -162,6 +179,8 @@ function cretaeActicity (data: any): ActivityClassType {
       return new ActivityForwordClass(data)
     case ActivityType.Album:
       return new ActivityAlbumClass(data)
+    case ActivityType.MV:
+      return new ActivityMVClass(data)
     default:
       return new ActivityTopicClass(data)
   }
@@ -178,4 +197,5 @@ export type ActivityClassType =
   ActivitySongClass |
   ActivityVideoClass |
   ActivityForwordClass |
-  ActivityAlbumClass
+  ActivityAlbumClass |
+  ActivityMVClass

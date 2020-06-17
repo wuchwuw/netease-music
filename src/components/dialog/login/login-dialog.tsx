@@ -62,10 +62,7 @@ const LoignDialog = () => {
           </div>
         </div>
         <div className="login-dialog-btn" onClick={() => { login() }}>登录</div>
-        <div className="login-dialog-tip">1、本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
-        <div className="login-dialog-tip">2、如不想使用以上登录方式，您可以前往<span>网易云音乐个人主页</span>，登录并复制链接上的UID，
-          <span>使用UID</span>仍然可以正常获取个人歌单等信息，不过部分需要登录的功能将无法使用。
-        </div>
+        <div className="login-dialog-tip">本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
       </div>
     </Dialog>
   )

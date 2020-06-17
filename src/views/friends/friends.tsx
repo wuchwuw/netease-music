@@ -37,14 +37,12 @@ const Friends: React.SFC = () => {
       loading = true
       !loadmore && setActivityLoading(true)
       const res = await api.getActivity({ lasttime, limit: 20 })
-      setActivity(activity => activity.concat(cretaeActicityList(res.data.event)))
+      res.data && setActivity(activity => activity.concat(cretaeActicityList(res.data.event)))
       setActivityLoading(false)
       hasmore = res.data.more
       loading = false
       lasttime = res.data.lasttime
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {}
   }
 
   function loadmore () {

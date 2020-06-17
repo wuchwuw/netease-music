@@ -14,6 +14,7 @@ import { getPlaylistTracksCache, setPlaylistTracksCache } from './playlist-cache
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
   const user = useSelector((state: RootState) => state.user.user)
+  const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const userPlaylist = playlist.filter(item => item.creator.userId === user.userId)
   const subPlaylist = playlist.filter(item => item.creator.userId !== user.userId)
   const dispatch = useDispatch()
@@ -21,6 +22,7 @@ export function useUserPlaylist () {
   const { updateFavoriteIds } = useFavorite()
 
   async function getUserPlaylist (userId?: number) {
+    console.log(isLogin)
     try {
       const { data: { playlist } } = await api.getUserPlaylist({ uid: userId || user.userId })
       if (playlist.length) {

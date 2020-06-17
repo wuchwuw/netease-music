@@ -42,5 +42,8 @@ export default {
   },
   getMVSubList () {
     return axios.get('mv/sublist')
+  },
+  getAllVideo (params: { offset: number }) {
+    return axios.get('video/timeline/all', { params })
   }
 }

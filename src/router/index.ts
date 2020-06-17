@@ -56,7 +56,11 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/fm',
-        component: FM
+        component: FM,
+        needLogin: true,
+        state: {
+          needLogin: true
+        }
       },
       {
         path: '/artist/:id',

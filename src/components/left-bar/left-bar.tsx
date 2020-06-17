@@ -72,7 +72,7 @@ const LeftBar: React.SFC = () => {
         </div>
       }
       <div className="leftbar-playlist">
-        <NavLink to={'/home'} activeClassName="active" className="leftbar-item">
+        <NavLink to={{ pathname: '/home', state: { needLogin: true }}} activeClassName="active" className="leftbar-item">
           <i className="iconfont icon-neteastmusic"></i>发现音乐
         </NavLink>
         <NavLink to={'/fm'} activeClassName="active" className="leftbar-item">

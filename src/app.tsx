@@ -11,7 +11,6 @@ import { useHistory, Prompt } from 'react-router'
 const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
   const { initAccount } = useAccountInit()
   const history = useHistory()
-  const [aa, setAa] = useState(false)
   useEffect(() => {
     initAccount()
     // history.listen(l => {

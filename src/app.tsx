@@ -7,15 +7,18 @@ import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 import ScrollToTop from 'COMPONENTS/scroll-to-top/scroll-to-top'
 import { useAccountInit } from 'UTIL/account'
 import { useHistory, Prompt } from 'react-router'
+import routes from './router'
+import { RouteWithSubRoutes } from 'ROUTER/redirect'
+import {
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom'
 
-const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
+const App = () => {
   const { initAccount } = useAccountInit()
-  const history = useHistory()
   useEffect(() => {
     initAccount()
-    // history.listen(l => {
-    //   setAa(true)
-    // })
   }, [])
 
   return (
@@ -26,11 +29,15 @@ const App: React.SFC<RouteConfigComponentProps> = ({ route }) => {
           <LeftBar></LeftBar>
         </div>
         <div className="main-right">
-          {renderRoutes(route!.routes)}
+          <Switch>
+            {routes.map((route, i) => (
+              <RouteWithSubRoutes key={i} {...route} />
+            ))}
+          </Switch>
         </div>
-        <Prompt message={(l) => { console.log(l); return false;}}></Prompt>
       </div>
       <div className="bottom"><Player></Player></div>
+      {/* <Prompt message={(l) => { console.log(l); return false;}}></Prompt> */}
       <PanelContainer></PanelContainer>
       <ScrollToTop></ScrollToTop>
     </div>

@@ -27,158 +27,310 @@ const StarVideo = loadable(() => import('VIEWS/star/video/video'))
 const StarContainer = loadable(() => import('VIEWS/star/index'))
 const Cloud = loadable(() => import('VIEWS/cloud/cloud'))
 
-const routes: RouteConfig[] = [
+// const routes: RouteConfig[] = [
+//   {
+//     component: App,
+//     routes: [
+//       {
+//         path: '/',
+//         exact: true,
+//         component: createRedirect('/home/index')
+//       },
+//       {
+//         path: '/home',
+//         exact: true,
+//         component: createRedirect('/home/index')
+//       },
+//       {
+//         path: '/video',
+//         exact: true,
+//         component: createRedirect('/video/index'),
+//         needLogin: true
+//       },
+//       {
+//         path: '/playlist/:id',
+//         component: Playlist,
+//       },
+//       {
+//         path: '/playlist-edit/:id',
+//         component: loadable(() => import('VIEWS/playlist-edit/playlist-edit'))
+//       },
+//       {
+//         path: '/fm',
+//         component: FM,
+//         needLogin: true
+//       },
+//       {
+//         path: '/artist/:id',
+//         component: Artist
+//       },
+//       {
+//         path: '/album/:id',
+//         component: Album
+//       },
+//       {
+//         path: '/v/:id',
+//         component: VideoDetail
+//       },
+//       {
+//         path: '/m/:id',
+//         component: MVDetail
+//       },
+//       {
+//         path: '/home',
+//         component: Home,
+//         routes: [
+//           {
+//             path: '/home/index',
+//             component: HomeRecomend
+//           },
+//           {
+//             path: '/home/playlist',
+//             component: HomePlaylist
+//           },
+//           {
+//             path: '/home/toplist',
+//             component: HomeToplist
+//           },
+//           {
+//             path: '/home/artist',
+//             component: HomeArtist
+//           },
+//           {
+//             path: '/home/new',
+//             component: HomeNew
+//           },
+//           {
+//             path: '/home/radio',
+//             component: HomeRadio
+//           }
+//         ]
+//       },
+//       {
+//         path: '/search',
+//         component: Search
+//       },
+//       {
+//         path: '/video',
+//         component: VideoContainer,
+//         routes: [
+//           {
+//             path: '/video/index',
+//             component: Video
+//           },
+//           {
+//             path: '/video/mv',
+//             component: MvRecomend
+//           }
+//         ]
+//       },
+//       {
+//         path: '/activity',
+//         component: Friends
+//       },
+//       {
+//         path: '/star',
+//         exact: true,
+//         component: createRedirect('/star/album')
+//       },
+//       {
+//         path: '/star',
+//         component: StarContainer,
+//         routes: [
+//           {
+//             path: '/star/album',
+//             component: StarAlbum
+//           },
+//           {
+//             path: '/star/artist',
+//             component: StarArtist
+//           },
+//           {
+//             path: '/star/video',
+//             component: StarVideo
+//           }
+//         ]
+//       },
+//       {
+//         path: '/cloud',
+//         component: Cloud,
+//         name: 'aaa'
+//       },
+//       {
+//         path: '/user/:id',
+//         component: User
+//       },
+//       {
+//         path: '/follows/:userId',
+//         component: loadable(() => import('VIEWS/user/follows/follows'))
+//       },
+//       {
+//         path: '/followeds/:userId',
+//         component: loadable(() => import('VIEWS/user/followeds/followeds'))
+//       },
+//       {
+//         path: '/event/:userId',
+//         component: loadable(() => import('VIEWS/user/event/event'))
+//       },
+//       {
+//         path: '/daily',
+//         component: loadable(() => import('VIEWS/daily/daily'))
+//       }
+//     ]
+//   }
+// ]
+// interface RouterItem {
+//   path: string
+//   component: React.ReactElement
+
+// }
+
+const routes = [
   {
-    component: App,
+    path: '/',
+    exact: true,
+    component: createRedirect('/home/index')
+  },
+  {
+    path: '/home',
+    exact: true,
+    component: createRedirect('/home/index')
+  },
+  {
+    path: '/video',
+    exact: true,
+    component: createRedirect('/video/index'),
+    needLogin: true
+  },
+  {
+    path: '/playlist/:id',
+    component: Playlist,
+  },
+  {
+    path: '/playlist-edit/:id',
+    component: loadable(() => import('VIEWS/playlist-edit/playlist-edit'))
+  },
+  {
+    path: '/fm',
+    component: FM,
+    needLogin: true
+  },
+  {
+    path: '/artist/:id',
+    component: Artist
+  },
+  {
+    path: '/album/:id',
+    component: Album
+  },
+  {
+    path: '/v/:id',
+    component: VideoDetail
+  },
+  {
+    path: '/m/:id',
+    component: MVDetail
+  },
+  {
+    path: '/home',
+    component: Home,
     routes: [
       {
-        path: '/',
-        exact: true,
-        component: createRedirect('/home/index')
+        path: '/home/index',
+        component: HomeRecomend,
+        isAuth: true
       },
       {
-        path: '/home',
-        exact: true,
-        component: createRedirect('/home/index')
+        path: '/home/playlist',
+        component: HomePlaylist
       },
       {
-        path: '/video',
-        exact: true,
-        component: createRedirect('/video/index')
+        path: '/home/toplist',
+        component: HomeToplist
       },
       {
-        path: '/playlist/:id',
-        component: Playlist,
+        path: '/home/artist',
+        component: HomeArtist
       },
       {
-        path: '/playlist-edit/:id',
-        component: loadable(() => import('VIEWS/playlist-edit/playlist-edit'))
+        path: '/home/new',
+        component: HomeNew
       },
       {
-        path: '/fm',
-        component: FM,
-        needLogin: true,
-        state: {
-          needLogin: true
-        }
-      },
-      {
-        path: '/artist/:id',
-        component: Artist
-      },
-      {
-        path: '/album/:id',
-        component: Album
-      },
-      {
-        path: '/v/:id',
-        component: VideoDetail
-      },
-      {
-        path: '/m/:id',
-        component: MVDetail
-      },
-      {
-        path: '/home',
-        component: Home,
-        routes: [
-          {
-            path: '/home/index',
-            component: HomeRecomend
-          },
-          {
-            path: '/home/playlist',
-            component: HomePlaylist
-          },
-          {
-            path: '/home/toplist',
-            component: HomeToplist
-          },
-          {
-            path: '/home/artist',
-            component: HomeArtist
-          },
-          {
-            path: '/home/new',
-            component: HomeNew
-          },
-          {
-            path: '/home/radio',
-            component: HomeRadio
-          }
-        ]
-      },
-      {
-        path: '/search',
-        component: Search
-      },
-      {
-        path: '/video',
-        component: VideoContainer,
-        routes: [
-          {
-            path: '/video/index',
-            component: Video
-          },
-          {
-            path: '/video/mv',
-            component: MvRecomend
-          }
-        ]
-      },
-      {
-        path: '/activity',
-        component: Friends
-      },
-      {
-        path: '/star',
-        exact: true,
-        component: createRedirect('/star/album')
-      },
-      {
-        path: '/star',
-        component: StarContainer,
-        routes: [
-          {
-            path: '/star/album',
-            component: StarAlbum
-          },
-          {
-            path: '/star/artist',
-            component: StarArtist
-          },
-          {
-            path: '/star/video',
-            component: StarVideo
-          }
-        ]
-      },
-      {
-        path: '/cloud',
-        component: Cloud,
-        name: 'aaa'
-      },
-      {
-        path: '/user/:id',
-        component: User
-      },
-      {
-        path: '/follows/:userId',
-        component: loadable(() => import('VIEWS/user/follows/follows'))
-      },
-      {
-        path: '/followeds/:userId',
-        component: loadable(() => import('VIEWS/user/followeds/followeds'))
-      },
-      {
-        path: '/event/:userId',
-        component: loadable(() => import('VIEWS/user/event/event'))
-      },
-      {
-        path: '/daily',
-        component: loadable(() => import('VIEWS/daily/daily'))
+        path: '/home/radio',
+        component: HomeRadio
       }
     ]
+  },
+  {
+    path: '/search',
+    component: Search
+  },
+  {
+    path: '/video',
+    component: VideoContainer,
+    routes: [
+      {
+        path: '/video/index',
+        component: Video
+      },
+      {
+        path: '/video/mv',
+        component: MvRecomend
+      }
+    ]
+  },
+  {
+    path: '/activity',
+    component: Friends
+  },
+  {
+    path: '/star',
+    exact: true,
+    component: createRedirect('/star/album')
+  },
+  {
+    path: '/star',
+    component: StarContainer,
+    routes: [
+      {
+        path: '/star/album',
+        component: StarAlbum
+      },
+      {
+        path: '/star/artist',
+        component: StarArtist
+      },
+      {
+        path: '/star/video',
+        component: StarVideo
+      }
+    ]
+  },
+  {
+    path: '/cloud',
+    component: Cloud,
+    name: 'aaa'
+  },
+  {
+    path: '/user/:id',
+    component: User
+  },
+  {
+    path: '/follows/:userId',
+    component: loadable(() => import('VIEWS/user/follows/follows'))
+  },
+  {
+    path: '/followeds/:userId',
+    component: loadable(() => import('VIEWS/user/followeds/followeds'))
+  },
+  {
+    path: '/event/:userId',
+    component: loadable(() => import('VIEWS/user/event/event'))
+  },
+  {
+    path: '/daily',
+    component: loadable(() => import('VIEWS/daily/daily'))
   }
 ]
 

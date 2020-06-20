@@ -1,10 +1,15 @@
 import React from 'react'
-import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
+import { RouteWithSubRoutes } from 'ROUTER/redirect'
 
-const Home: React.SFC<RouteConfigComponentProps> = ({ route }) => {
+const Home = ({ routes }) => {
+  console.log(routes)
   return (
-    <>{renderRoutes(route!.routes)}</>
+    <>
+      {routes.map((route, i) => (
+        <RouteWithSubRoutes key={i} {...route} />
+      ))}
+    </>
   )
 }
 
-export default Home 
+export default Home

@@ -1,4 +1,4 @@
-import { getCityName, getProvinceName } from "./area/area"
+import { getAreaName } from "./area/area"
 
 interface AuthType {
   type: number
@@ -53,8 +53,6 @@ export default class User {
     allAuthTypes = [],
     artistId,
     gender,
-    cityName,
-    provinceName,
     playlistCount = 0
   }: any) {
     this.avatarUrl = avatarUrl
@@ -78,8 +76,9 @@ export default class User {
     this.allAuthTypes = allAuthTypes
     this.artistId = artistId
     this.gender = gender
-    this.cityName = getCityName(this.city)
-    this.provinceName = getProvinceName(this.province)
+    const { cityName, provinceName } = getAreaName(this.province, this.city)
+    this.cityName = cityName
+    this.provinceName = provinceName
     this.playlistCount = playlistCount
   }
 }

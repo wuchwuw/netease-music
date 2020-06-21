@@ -238,7 +238,6 @@ const routes = [
       {
         path: '/home/index',
         component: HomeRecomend,
-        isAuth: true
       },
       {
         path: '/home/playlist',
@@ -269,10 +268,12 @@ const routes = [
   {
     path: '/video',
     component: VideoContainer,
+    needLogin: true,
     routes: [
       {
         path: '/video/index',
-        component: Video
+        component: Video,
+        needLogin: true,
       },
       {
         path: '/video/mv',
@@ -282,7 +283,8 @@ const routes = [
   },
   {
     path: '/activity',
-    component: Friends
+    component: Friends,
+    needLogin: true
   },
   {
     path: '/star',
@@ -292,29 +294,37 @@ const routes = [
   {
     path: '/star',
     component: StarContainer,
+    needLogin: true,
     routes: [
       {
         path: '/star/album',
-        component: StarAlbum
+        component: StarAlbum,
+        needLogin: true
       },
       {
         path: '/star/artist',
-        component: StarArtist
+        component: StarArtist,
+        needLogin: true
       },
       {
         path: '/star/video',
-        component: StarVideo
+        component: StarVideo,
+        needLogin: true
       }
     ]
   },
   {
     path: '/cloud',
     component: Cloud,
-    name: 'aaa'
+    needLogin: true
   },
   {
     path: '/user/:id',
     component: User
+  },
+  {
+    path: '/user-edit',
+    component: loadable(() => import('VIEWS/user/edit/user-edit'))
   },
   {
     path: '/follows/:userId',
@@ -330,7 +340,8 @@ const routes = [
   },
   {
     path: '/daily',
-    component: loadable(() => import('VIEWS/daily/daily'))
+    component: loadable(() => import('VIEWS/daily/daily')),
+    needLogin: true
   }
 ]
 

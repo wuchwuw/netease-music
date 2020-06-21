@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './top-bar.less'
-import { NavLink, withRouter, useLocation } from 'react-router-dom'
+import { NavLink, withRouter, useLocation, useHistory, useRouteMatch } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
@@ -11,6 +11,7 @@ import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
 import { setGlobalCSSVar, defaultMode } from 'UTIL/css-var'
 import { useSearchKeywords } from 'UTIL/search-keywords'
+import { matchPath } from 'react-router'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -37,15 +38,26 @@ const TopBar: React.SFC = () => {
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
   const location = useLocation()
+  const history = useHistory()
   const { visiable, open } = useContainer(['#style-mode'])
   const { goSearch } = usePageForword()
   const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
   const [mode, setMode] = useState(defaultMode)
-
+  // const m = useRouteMatch('/playlist/:id')
+  // const mm = matchPath(location.pathname, {
+  //   path: '/playlist/:id'
+  // })
   function renderTopbarContent () {
     let routePath = {}
     if (fullScreen) {
       return <></>
+    }
+    if (location.pathname === '/user-edit') {
+      return (
+        <div>
+          <span className="topbar-content-item active">编辑个人信息</span>
+        </div>
+      )
     }
     if (/activity/.test(location.pathname)) {
       return (

@@ -1,0 +1,46 @@
+.user-edit-container {
+  padding: 30px;
+}
+.playlist-form {
+  width: 500px;
+}
+.playlist-form-item {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  > span {
+    flex: 0 0 60px;
+    font-size: 13px;
+  }
+  > input, textarea {
+    flex: 1;
+    outline: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+  }
+  > input {
+    height: 30px;
+    padding-left: 10px;
+  }
+  > textarea {
+    padding: 10px;
+  }
+}
+.form-item-radio {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  font-size: 13px;
+  > span {
+    display: inline-block;
+    border: 1px solid #CCCCCC;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+    &.active {
+      background: var(--main-color);
+      border: none;
+    }
+  }
+}

@@ -1,35 +1,46 @@
-import cityjson from './city.json'
-import proincejson from './province.json'
 
-export interface City {
-  code: number
+import areajson from './area.json'
+
+export interface AreaItem {
+  id: number
   name: string
 }
 
-export interface Province {
-  code: number
+export interface Area {
+  id: number
   name: string
+  cities: {
+    id: number
+    name: string
+  }[]
 }
 
-export const city: City[] = cityjson
-export const province: Province[] = proincejson
+export const area: Area[] = getArea(areajson)
 
-export const getCity = (cityId: number): City | undefined => {
-  return city.find(item => Number(item.code) === cityId)
+function getArea (area: any): Area[] {
+  return area.map((item: any) => {
+    let res = {
+      id: item.id,
+      name: item.name,
+      cities: Object.keys(item.cities).map((key: any) => ({
+        id: Number(key),
+        name: item.cities[key]
+      }))
+    }
+    return res
+  })
 }
 
-export const getProvince = (provinceId: number): Province | undefined => {
-  return province.find(item => Number(item.code) === provinceId)
+export const getCities = (provinceId: number) => {
+  const province = area.find(item => item.id === provinceId)
+  return province ? province.cities : []
 }
 
-export const getCityName = (cityId: number) => {
-  if (!cityId) return ''
-  const city = getCity(cityId)
-  return city ? city.name : ''
-}
-
-export const getProvinceName = (provinceId: number) => {
-  if (!provinceId) return ''
-  const province = getProvince(provinceId)
-  return province ? province.name : ''
+export const getAreaName = (provinceId: number, cityId: number) => {
+  const province = area.find(item => item.id === provinceId)
+  const city = province && province.cities.find(item => item.id === cityId)
+  return {
+    provinceName: province ? province.name : '',
+    cityName: city ? city.name : ''
+  }
 }

@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import './user-edit.less'
 import { Select } from 'COMPONENTS/select/select'
 import { area, getCities } from 'UTIL/area/area'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'STORE/index'
 import Button from 'COMPONENTS/button/button'
-import { usePageForword } from 'ROUTER/hooks'
+import api from 'API/index'
+import notificationApi from 'COMPONENTS/notification'
+import { SET_USER_PROFILE } from 'STORE/user/types'
+import User from 'UTIL/user'
 
 const MaxYear = (new Date).getFullYear()
 
@@ -17,6 +20,8 @@ const genderOption = {
   '男': 1,
   '女': 2
 }
+
+type genderType = keyof typeof genderOption
 
 const UserEdit = () => {
   const user = useSelector((state: RootState) => state.user.user)
@@ -30,10 +35,31 @@ const UserEdit = () => {
   const [day, setDay] = useState(d ? d.getDate() : '')
   const [gender, setGender] = useState(user.gender)
   const [cityOption, setCityOption] = useState(getCities(user.province))
-  const { back } = usePageForword()
+  const dispatch = useDispatch()
 
-  function updateUsertInfo () {
+  async function updateUsertInfo () {
+    const params = {
+      province: provinceId,
+      city: cityId,
+      birthday: +new Date(`${year}-${month}-${day}`),
+      gender,
+      nickname,
+      signature
+    }
+    try {
+      await api.updateUserInfo(params)
+      notificationApi.success({ content: '修改个人资料成功' })
+      getUserInfo()
+    } catch (e) {
+      notificationApi.error({ content: e.data.message })
+    }
+  }
 
+  async function getUserInfo () {
+    try {
+      const res = await api.getUserDetail({ uid: user.userId })
+      dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
+    } catch (e) {}
   }
 
   function onProvinceChange (value: any) {
@@ -44,41 +70,43 @@ const UserEdit = () => {
 
   return (
     <div className="user-edit-container">
-      <div className="playlist-form">
-        <div className="playlist-form-item">
-          <span>昵称:</span>
-          <input onChange={(e) => { setNickname(e.target.value) }} value={nickname} type="text"/>
+      <div style={{display: 'flex'}}>
+        <div className="user-edit-form">
+          <div className="user-edit-form-item">
+            <span>昵称:</span>
+            <input onChange={(e) => { setNickname(e.target.value) }} value={nickname} type="text"/>
+          </div>
+          <div className="user-edit-form-item">
+            <span>简介:</span>
+            <textarea onChange={(e) => { setSignature(e.target.value) }} rows={6} value={signature}/>
+          </div>
+          <div className="user-edit-form-item">
+            <span>性别:</span>
+            {
+              (Object.keys(genderOption) as genderType[]).map((item) => (
+                <div key={genderOption[item]} className="form-item-radio">
+                  <span onClick={() => { setGender(genderOption[item]) }} className={gender === genderOption[item] ? 'active' : ''}></span>
+                  {item}
+                </div>
+              ))
+            }
+          </div>
+          <div className="user-edit-form-item">
+            <span>生日:</span>
+            <Select options={yearOption} value={year} onChange={setYear}></Select>
+            <Select options={monOption} value={month} onChange={setMonth}></Select>
+            <Select options={dayOption} value={day} onChange={setDay}></Select>
+          </div>
+          <div className="user-edit-form-item">
+            <span>地区:</span>
+            <Select valueName="id" labelName="name" options={area} value={provinceId} onChange={onProvinceChange}></Select>
+            <Select valueName="id" labelName="name" options={cityOption} value={cityId} onChange={setCityId}></Select>
+          </div>
         </div>
-        <div className="playlist-form-item">
-          <span>简介:</span>
-          <textarea onChange={(e) => { setSignature(e.target.value) }} rows={6} value={signature}/>
-        </div>
-        <div className="playlist-form-item">
-          <span>性别:</span>
-          {
-            (Object.keys(genderOption)).map((item: any) => (
-              <div className="form-item-radio">
-                <span onClick={() => { setGender(genderOption[item]) }} className={gender === genderOption[item] ? 'active' : ''}></span>
-                {item}
-              </div>
-            ))
-          }
-        </div>
-        <div className="playlist-form-item">
-          <span>生日:</span>
-          <Select options={yearOption} value={year} onChange={() => {}}></Select>
-          <Select options={monOption} value={month} onChange={() => {}}></Select>
-          <Select options={dayOption} value={day} onChange={() => {}}></Select>
-        </div>
-        <div className="playlist-form-item">
-          <span>地区:</span>
-          <Select valueName="id" labelName="name" options={area} value={provinceId} onChange={onProvinceChange}></Select>
-          <Select valueName="id" labelName="name" options={cityOption} value={cityId} onChange={setCityId}></Select>
-        </div>
+        <img className="user-edit-avatar" src={user.avatarUrl} alt=""/>
       </div>
-      <div className="playlist-form-button">
+      <div className="user-edit-form-button">
         <Button type="primary" onClick={()=> { updateUsertInfo() }}>保存</Button>
-        <Button onClick={back}>取消</Button>
       </div>
     </div>
   )

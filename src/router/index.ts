@@ -342,6 +342,10 @@ const routes = [
     path: '/daily',
     component: loadable(() => import('VIEWS/daily/daily')),
     needLogin: true
+  },
+  {
+    path: '/allmv',
+    component: loadable(() => import('VIEWS/mv/all/all-mv'))
   }
 ]
 

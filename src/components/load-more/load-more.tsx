@@ -17,7 +17,6 @@ const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
       || 0
       const clientHeight = target!.clientHeight
       const scrollHeight = target!.scrollHeight
-      console.log(11)
       if (scrollHeight - scrollTop - clientHeight <= 100) {
         load()
       }

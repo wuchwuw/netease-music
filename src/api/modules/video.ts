@@ -45,5 +45,8 @@ export default {
   },
   getAllVideo (params: { offset: number }) {
     return axios.get('video/timeline/all', { params })
+  },
+  getAllMV (params: { area: string, type: string, order: string, limit: number, offset: number }) {
+    return axios.get('mv/all', { params })
   }
 }

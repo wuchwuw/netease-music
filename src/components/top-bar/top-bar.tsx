@@ -59,6 +59,13 @@ const TopBar: React.SFC = () => {
         </div>
       )
     }
+    if (location.pathname === '/allmv') {
+      return (
+        <div>
+          <span className="topbar-content-item active">全部MV</span>
+        </div>
+      )
+    }
     if (/activity/.test(location.pathname)) {
       return (
         <div>
@@ -134,7 +141,7 @@ const TopBar: React.SFC = () => {
             </div>
           :
             <div className="topbar-arrow-wrap right">
-              <i onClick={() => { dispatch({type: PLAYER_FULL_SCREEN, fullScreen: false}) }} className="iconfont icon-arrow topbar-arrow-down"></i>
+              <i onClick={() => { dispatch({type: PLAYER_FULL_SCREEN, fullScreen: false}) }} className="iconfont icon-arrow-right topbar-arrow-down"></i>
             </div>
         }
       </div>

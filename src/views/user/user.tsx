@@ -35,7 +35,7 @@ const User = () => {
       const playlist = createPlaylistList(res.data.playlist)
       setUserPlaylist(playlist.filter(item => item.creator.userId === userId))
       setSubUserPlaylist(playlist.filter(item => item.creator.userId !== userId))
-    } catch (e) { console.log(e) }
+    } catch (e) {}
   }
 
   function genUserTag (user: UserClass) {
@@ -53,11 +53,13 @@ const User = () => {
       })
     }
     tags.push(<span className="user-tag-level">Lv.{user.level}</span>)
-    tags.push(
-      <span className={user.gender === 1 ? 'user-tag-boy' : 'user-tag-girl'}>
-        <i className={classNames('iconfont', user.gender === 1 ? 'icon-boy' : 'icon-girl')}></i>
-      </span>
-    )
+    if (user.gender > 0) {
+      tags.push(
+        <span className={user.gender === 1 ? 'user-tag-boy' : 'user-tag-girl'}>
+          <i className={classNames('iconfont', user.gender === 1 ? 'icon-boy' : 'icon-girl')}></i>
+        </span>
+      )
+    }
     return tags
   }
 

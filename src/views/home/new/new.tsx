@@ -5,6 +5,9 @@ import Song, { createSongList } from 'UTIL/song'
 import { createBaseAlbumList, AlbumBaseClass } from 'UTIL/album'
 import './new.less'
 import Spin from 'COMPONENTS/spin/spin'
+import { genArtists, genSongName } from 'VIEWS/template/template'
+import { usePageForword } from 'ROUTER/hooks'
+import { usePlayerController } from 'UTIL/player-controller'
 
 const FILTER_TYPE = {
   '0': '全部',
@@ -25,6 +28,8 @@ const New: React.SFC = () => {
   const [album, setAlbum] = useState<AlbumBaseClass[]>([])
   const [type, setType] = useState('0')
   const [loading, setLoading] = useState(true)
+  const { goArtistDetail, goAlbumDetail } = usePageForword()
+  const { start, currentSong } = usePlayerController()
 
   useEffect(() => {
     switch (tab) {
@@ -78,7 +83,7 @@ const New: React.SFC = () => {
     }
   }
 
-  function setFilterType (type: keyof typeof CURRENT_PLAYLIST_PANEL_TAB) {
+  function setFilterType (type: keyof typeof FILTER_TYPE) {
     setType(type)
   }
 
@@ -91,12 +96,12 @@ const New: React.SFC = () => {
       <ul className="newsong">
         {
           song.map((item, index) => (
-            <li key={item.id} className="newsong-item">
+            <li onDoubleClick={() => { start({ name: '新歌速递页', id: '/home/new'}, item) }} key={item.id} className="newsong-item">
               <span>{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
-              <span><img className="newsong-item-pic" src={item.album.picUrl + '?param=60y60'} alt=""/></span>
-              <span>{item.name}</span>
-              <span>{item.artistName}</span>
-              <span>{item.album.name}</span>
+              <span><img className="newsong-item-pic" src={item.album.picUrl + '?param=100y100'} alt=""/></span>
+              <span>{genSongName(item)}</span>
+              <span>{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</span>
+              <span onClick={() => goAlbumDetail(item.album.id)} className="commen-link-666666 active">{item.album.name}</span>
               <span>{item.duration_string}</span>
             </li>
           ))

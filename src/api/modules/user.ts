@@ -51,5 +51,8 @@ export default {
   },
   getUserFolloweds (params: { uid: number, limit: number, offset: number }) {
     return axios.get('user/followeds', { params })
+  },
+  updateUserInfo (params: { gender: number, birthday: number, nickname: string, province: number, city: number, signature: string }) {
+    return axios.get('user/update', { params })
   }
 }

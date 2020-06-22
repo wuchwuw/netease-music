@@ -6,7 +6,7 @@ import { PlaylistClass, createPlaylistList } from 'UTIL/playlist'
 import { usePageForword, getQueryStringValue, setQueryStringValue } from 'ROUTER/hooks'
 import Pagination from 'COMPONENTS/pagination/pagination'
 import { useContainer } from 'COMPONENTS/container/container'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 
 interface PlaylistHighQuality {
   coverImgUrl: string
@@ -26,35 +26,43 @@ interface PlaylistCate {
 }
 
 const PLAYLIST_PAGESIZE = 36
+let firstRender = true
 
 const HomeAlbum: React.SFC = () => {
   const [top, setTop] = useState<PlaylistClass[]>([])
   const [hotCate, setHotCate] = useState<PlaylistCate[]>([])
   const [highquality, setHighquality] = useState<PlaylistHighQuality>({} as PlaylistHighQuality)
-  const cate = getQueryStringValue().cate || '全部'
-  const [currentCate, setCurrentCate] = useState<string>(cate)
+  const [currentCate, setCurrentCate] = useState<string>(getQueryStringValue().cate || '全部')
   const { goPlaylistDetail, goUserDetail } = usePageForword()
   const [total, setTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const { open, visiable } = useContainer(['.home-album-filter-btn'])
   const [allCate, setAllCate] = useState<AllCate[]>([])
   const history = useHistory()
+  const location = useLocation()
 
   useEffect(() => {
     getTopList(1)
     setCurrentPage(1)
     getHighquality()
-    setQueryStringValue({ cate: currentCate }, history)
   }, [currentCate])
-
-  useEffect(() => {
-    setCurrentCate(cate)
-  }, [cate])
 
   useEffect(() => {
     getHotCate()
     getAllCate()
   }, [])
+
+  useEffect(() => {
+    if (!firstRender) {
+      const query = getQueryStringValue()
+      setCurrentCate(query.cate || '全部')
+    }
+    firstRender = false
+  }, [location.search])
+
+  function setCate (value: string) {
+    setQueryStringValue({ cate: value }, history)
+  }
 
   async function getTopList (page: number) {
     try {
@@ -134,7 +142,7 @@ const HomeAlbum: React.SFC = () => {
           {
             visiable && (
               <div className="playlist-cate">
-                <div className="playlist-cate-all" onClick={() => { setCurrentCate('全部') }}>全部歌单</div>
+                <div className="playlist-cate-all" onClick={() => { setCate('全部') }}>全部歌单</div>
                 {
                   allCate.map(item => (
                     <div className="playlist-cate-item">
@@ -142,7 +150,7 @@ const HomeAlbum: React.SFC = () => {
                       <div className="playlist-cate-wrap">
                         {
                           item.sub.map(s => (
-                            <span onClick={() => { setCurrentCate(s.name) }} className={classnames({ 'active': currentCate === s.name})}>{s.name}</span>
+                            <span onClick={() => { setCate(s.name) }} className={classnames({ 'active': currentCate === s.name})}>{s.name}</span>
                           ))
                         }
                       </div>
@@ -156,7 +164,7 @@ const HomeAlbum: React.SFC = () => {
         <div className="home-album-filter">
           {
             hotCate.map(cate => (
-              <span onClick={() => { setCurrentCate(cate.name) }} className={classnames('home-album-filter-item', {'active': currentCate === cate.name})} key={cate.id}>{cate.name}</span>
+              <span onClick={() => { setCate(cate.name) }} className={classnames('home-album-filter-item', {'active': currentCate === cate.name})} key={cate.id}>{cate.name}</span>
             ))
           }
         </div>

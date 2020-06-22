@@ -1,0 +1,49 @@
+@import '~STYLE/color.less';
+.artist-filter-item {
+  display: flex;
+  font-size: 12px;
+  margin-bottom: 10px;
+  > span {
+    flex: 0 0 50px;
+    padding: 5px 0;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    span {
+      cursor: pointer;
+      display: inline-block;
+      flex: 0 0 50px;
+      border-radius: 20px;
+      text-align: center;
+      padding: 5px 0;
+      position: relative;
+      margin-bottom: 10px;
+      &:not(:last-child) {
+        margin-right: 15px;
+        &:after {
+          content: '';
+          position: absolute;
+          height: 10px;
+          width: 1px;
+          background: #f2f2f2;
+          right: -7px;
+        }
+      }
+      &.active {
+        color: @color-main;
+        background: rgba(211, 57, 49, .1);
+      }
+      &:hover {
+        color: @color-main;
+      }
+    }
+  }
+}
+.allmv-container {
+  padding: 20px 30px;
+  min-width: 800px;
+}

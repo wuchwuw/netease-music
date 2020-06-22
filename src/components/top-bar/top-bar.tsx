@@ -11,7 +11,8 @@ import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
 import { setGlobalCSSVar, defaultMode } from 'UTIL/css-var'
 import { useSearchKeywords } from 'UTIL/search-keywords'
-import { matchPath } from 'react-router'
+import Button from 'COMPONENTS/button/button'
+import { useCreateDialog, SHARE_ACTIVITY_DIALOG } from 'COMPONENTS/dialog/create'
 
 const homeSubPagePathMap: any = {
   '/home/index': '个性推荐',
@@ -43,6 +44,7 @@ const TopBar: React.SFC = () => {
   const { goSearch } = usePageForword()
   const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
   const [mode, setMode] = useState(defaultMode)
+  const { open: openActivityDialog } = useCreateDialog(SHARE_ACTIVITY_DIALOG)
   // const m = useRouteMatch('/playlist/:id')
   // const mm = matchPath(location.pathname, {
   //   path: '/playlist/:id'
@@ -70,7 +72,7 @@ const TopBar: React.SFC = () => {
       return (
         <div>
           <span className="topbar-content-item active">动态</span>
-          <span className="topbar-activity-btn">发动态</span>
+          <Button type="primary" onClick={() => { openActivityDialog() }}>发动态</Button>
         </div>
       )
     }

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import api from 'API/index'
 import classnames from 'classnames'
-import { usePlayerController } from 'UTIL/player-controller'
 import LyricClass, { LyricLine } from 'UTIL/lyric-parser'
+import Song from 'UTIL/song'
 
-const Lyric = () => {
+interface LyricProps {
+  song: Song
+}
+
+const Lyric: React.SFC<LyricProps> = ({
+  song
+}) => {
   const [lines, setLines] = useState<LyricLine[]>([])
   const [currentLine, setCurrentLine] = useState(0)
-  const { currentSong: { song } } = usePlayerController()
 
   useEffect(() => {
     getLyric()
@@ -18,7 +23,7 @@ const Lyric = () => {
       const res = await api.getLyric({ id: song.id })
       const lyric = new LyricClass(res.data, handler)
       setLines(lyric.lines)
-      lyric.play(0, false)
+      // lyric.play(0, false)
     } catch (e) {}
   }
 

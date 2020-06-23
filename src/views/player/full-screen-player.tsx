@@ -79,7 +79,7 @@ const FullScrrenPlayer: React.SFC = () => {
             <div className="text-overflow">来源:<span className="commen-link-blue">{source.name}</span></div>
           </div>
           <div className="player-info-lyrics">
-            <Lyric></Lyric>
+            <Lyric song={currentSong}></Lyric>
           </div>
         </div>
       </div>

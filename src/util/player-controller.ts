@@ -60,7 +60,6 @@ export function usePlayerController () {
   const playHistory = useSelector((state: RootState) => state.player.playHistory)
   const fmScreenMusicList = useSelector((state: RootState) => state.player.fmScreenMusicList)
   const vipDialog = useCreateDialog(VIP_DIALOG)
-  // vipDialog.open()
 
   function canPlay (song: Song): boolean {
     if (!song.hasPublish) {
@@ -246,7 +245,7 @@ export function usePlayerController () {
       getFM()
     }
     setFMScreenMusicList(fmScreenMusicList)
-    return getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM'})
+    return getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM' })
   }
 
   function fmDelete () {
@@ -255,6 +254,7 @@ export function usePlayerController () {
     getFMByType('next').type = 'current'
     d.song = FMList.shift()!
     d.type = 'next'
+    playSong(getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM' }))
     if (FMList.length <= 1) {
       getFM()
     }
@@ -266,9 +266,7 @@ export function usePlayerController () {
       const res = await api.getFM()
       FMList.push(...createSongList(res.data.data))
       cb && cb()
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {}
   }
 
   function initFM () {
@@ -286,8 +284,7 @@ export function usePlayerController () {
       canDelete = false
       await api.addFMTrash({ id: songId })
       fmDelete()
-      canDelete = true
-    } catch (e) {
+    } catch (e) {} finally {
       canDelete = true
     }
   }

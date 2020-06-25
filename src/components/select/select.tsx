@@ -11,7 +11,7 @@ interface SelectProps {
   placeholder?: string
 }
 
-export const Select: React.SFC<SelectProps> = ({
+const Select: React.SFC<SelectProps> = ({
   onChange,
   labelName = 'label',
   valueName = 'value',
@@ -57,3 +57,5 @@ export const Select: React.SFC<SelectProps> = ({
     </div>
   )
 }
+
+export default Select

@@ -2,10 +2,16 @@
   height: 50px;
   display: flex;
   align-items: center;
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: 0 10px;
+  &:hover {
+    background: #F5F5F5;
+  }
 }
 .activity-dialog-textarea-wrap {
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   margin-top: 10px;
   padding: 5px 10px 10px;
 }
@@ -23,4 +29,58 @@
 }
 .activity-dialog-textarea-reset {
   margin-left: auto;
+}
+.activity-dialog-add-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 4px;
+  background-image: linear-gradient(to right, #FC5045, #D53A32);
+  color: #FFFFFF;
+}
+.activity-dialog-button-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+.activity-dialog-add-tip {
+  font-size: 14px;
+  margin-left: 10px;
+}
+.activity-dialog-search {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+.activity-dialog-input-wrap {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  padding: 0 10px;
+  border-radius: 5px;
+  flex: 1;
+  input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    &:::placeholder {
+      font-size: 14px;
+    }
+  }
+}
+.activity-dialog-search-content {
+  flex: 1;
+  overflow-y: auto;
+}
+.activity-dialog-selected {
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+  i {
+    display: inline-block;
+    transform: rotate(90deg) scale(0.8) !important;
+  }
 }

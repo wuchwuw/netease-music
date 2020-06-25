@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './user-edit.less'
-import { Select } from 'COMPONENTS/select/select'
+import Select from 'COMPONENTS/select/select'
 import { area, getCities } from 'UTIL/area/area'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'STORE/index'

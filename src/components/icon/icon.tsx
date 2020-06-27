@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import classnames from 'classnames'
 import './icon.less'
 
@@ -6,29 +6,26 @@ interface IconProps {
   name: string,
   fontSize?: number
   onClick?: React.MouseEventHandler<HTMLElement>
-  active?: boolean
-  activeClassName?: string
   className?: string
+  style?: CSSProperties
 }
 
 const Icon: React.SFC<IconProps> = ({
   name,
   fontSize = 16,
   onClick,
-  active = false,
-  activeClassName,
-  className
+  className = '',
+  style = {}
 }) => {
 
-  const cls = classnames(`iconfont ${name} ${className}`, {
-   [ activeClassName ? activeClassName : 'icon-active']: active
-  })
+  const cls = classnames(`iconfont ${name} ${className}`)
 
-  const style = {
-    fontSize: fontSize + 'px'
+  const s = {
+    fontSize: fontSize + 'px',
+    ...style
   }
 
-  return <i onClick={onClick} className={cls} style={style}></i>
+  return <i onClick={onClick} className={cls} style={s}></i>
 }
 
 export default Icon

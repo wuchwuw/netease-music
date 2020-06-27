@@ -9,6 +9,7 @@ import api from 'API/index'
 import notificationApi from 'COMPONENTS/notification'
 import { SET_USER_PROFILE } from 'STORE/user/types'
 import User from 'UTIL/user'
+import PageTitle from 'COMPONENTS/page-title/page-title'
 
 const MaxYear = (new Date).getFullYear()
 
@@ -70,6 +71,7 @@ const UserEdit = () => {
 
   return (
     <div className="user-edit-container">
+      <PageTitle>编辑个人信息</PageTitle>
       <div style={{display: 'flex'}}>
         <div className="user-edit-form">
           <div className="user-edit-form-item">

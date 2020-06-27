@@ -1,19 +1,27 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import api from 'API/index'
+import React, { useEffect, useMemo } from 'react'
 import Comment from 'COMPONENTS/comment/comment'
 import { usePlayerController } from 'UTIL/player-controller'
 import './fm.less'
 import { useFavorite } from 'UTIL/favorite'
 import Lyric from 'VIEWS/player/lyric'
+import Icon from 'COMPONENTS/icon/icon'
 
 const FM = () => {
-  const { currentFM, startFM, initFM, fmScreenMusicList, playing, next, addFMTrash } = usePlayerController()
+  const { playerStatus ,currentFM, startFM, initFM, fmScreenMusicList, playing, next, addFMTrash } = usePlayerController()
   const CommentComponent = useMemo(() => <Comment delay={500} showTitle={true} type="music" id={currentFM.song.id} />, [currentFM.song.id])
   const { favorite, isFavorite } = useFavorite()
 
   useEffect(() => {
     initFM()
   }, [])
+
+  function isPlaying () {
+    if (playerStatus === 'default') {
+      return false
+    } else {
+      return playing
+    }
+  }
 
   return (
     <div className="fm-container">
@@ -27,15 +35,19 @@ const FM = () => {
                 </div>
               ))
             }
-            <div onClick={() => { startFM() }} className={`fm-play-icon ${playing ? 'pause' : 'play'}`}>
-              <i className={`iconfont ${playing ? 'icon-pause' : 'icon-triangle-full'}`}></i>
+            <div onClick={() => { startFM() }} className={`fm-play-icon ${isPlaying() ? 'pause' : 'play'}`}>
+              <Icon className="icon-color-main" fontSize={18} name={`${isPlaying() ? 'icon-pause' : 'icon-triangle-full'}`}></Icon>
             </div>
           </div>
           <div className="fm-action">
-            <i onClick={() => { favorite(currentFM.song.id) }} className={`iconfont ${isFavorite(currentFM.song.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
-            <i onClick={() => { addFMTrash(currentFM.song.id) }} className="iconfont icon-delete"></i>
-            <i onClick={() => { next() }} className="iconfont icon-fmnext"></i>
-            <i className="iconfont icon-menu"></i>
+            <Icon
+              className={`icon-color-${isFavorite(currentFM.song.id) ? 'main' : '6'}`}
+              onClick={() => { favorite(currentFM.song.id) }}
+              name={`${isFavorite(currentFM.song.id) ? 'icon-heart-full' : 'iconxin'}`}
+            ></Icon>
+            <Icon className="icon-color-6" onClick={() => { addFMTrash(currentFM.song.id) }} name="icon-delete"></Icon>
+            <Icon className="icon-color-6" onClick={() => { next() }} name="icon-fmnext"></Icon>
+            <Icon className="icon-color-6" name="icon-menu"></Icon>
           </div>
         </div>
         <div className="fm-info">

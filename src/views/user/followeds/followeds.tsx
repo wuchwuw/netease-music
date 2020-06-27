@@ -6,6 +6,7 @@ import User, { createUserList } from 'UTIL/user'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import { getQueryStringValue } from 'ROUTER/hooks'
 import './followeds.less'
+import PageTitle from 'COMPONENTS/page-title/page-title'
 
 let offset = 0
 let limit = 30
@@ -52,7 +53,7 @@ const Follows = () => {
 
   return (
     <div style={{ height: '100%' }}>
-      { query.username && <div className="followeds-title">{query.username}的粉丝</div>}
+      <PageTitle>{ query.username && <span>{query.username}的粉丝</span>}</PageTitle>
       <LoadMore load={loadmore}>
         <UserList type="followeds" users={followeds} updateList={updateList}></UserList>
       </LoadMore>

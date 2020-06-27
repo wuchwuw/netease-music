@@ -10,6 +10,7 @@ export const PLAYER_FULL_SCREEN = 'PLAYER_FULL_SCREEN'
 export const SET_MODE = 'SET_MODE'
 export const SET_PLAY_HISTORY = 'SET_PLAY_HISTORY'
 export const SET_FM_SCREEN_MUSIC = 'SET_FM_SCREEN_MUSIC'
+export const SET_PLAYERSTATUS = 'SET_PLAYERSTATUS'
 
 export enum PlyerMode {
   LOOP,
@@ -50,10 +51,16 @@ interface setPlayHistory {
 
 export type FMType = 'current' | 'next' | 'prev' | 'remove' | 'delete' | 'pre'
 export type FM = { song: Song , type: FMType }
+export type playerStatusType = 'default' | 'fm'
 
 interface setFMScreenMusicList {
   type: typeof SET_FM_SCREEN_MUSIC,
   fmScreenMusicList: FM[]
+}
+
+interface setPlayerStatus {
+  type: typeof SET_PLAYERSTATUS,
+  playerStatus: playerStatusType
 }
 
 export interface PlayerState {
@@ -63,7 +70,8 @@ export interface PlayerState {
   playHistory: SongWidthSource[],
   fullScreen: boolean,
   mode: PlyerMode,
-  fmScreenMusicList: FM[]
+  fmScreenMusicList: FM[],
+  playerStatus: playerStatusType
 }
 
 export type PlayerActionTypes =
@@ -73,4 +81,5 @@ export type PlayerActionTypes =
   PLAYER_FULL_SCREEN |
   SetMode |
   setPlayHistory |
-  setFMScreenMusicList
+  setFMScreenMusicList |
+  setPlayerStatus

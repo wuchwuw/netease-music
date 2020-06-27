@@ -8,14 +8,26 @@ import classNames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
 import { useChat } from 'UTIL/chat-controller'
 import notificationApi from 'COMPONENTS/notification'
+import Button from 'COMPONENTS/button/button'
+import Icon from 'COMPONENTS/icon/icon'
+import { useSelector } from 'react-redux'
+import { RootState } from 'STORE/index'
 
 const User = () => {
   const { id } = useParams()
   const userId = Number(id)
+  const u = useSelector((state: RootState) => state.user.user)
   const [userPlaylist, setUserPlaylist] = useState<PlaylistClass[]>([])
   const [userSubPlaylist, setSubUserPlaylist] = useState<PlaylistClass[]>([])
   const [user, setUser] = useState<UserClass>(createUserDetail({}))
-  const { goArtistDetail, goPlaylistDetail } = usePageForword()
+  const {
+    goArtistDetail,
+    goPlaylistDetail,
+    goUserEdit,
+    goUserFollow,
+    goUserFollowed,
+    goUserEvent
+  } = usePageForword()
   const { setCurrentChat } = useChat()
   useEffect(() => {
     getUserDetail()
@@ -72,6 +84,30 @@ const User = () => {
     } catch (e) {}
   }
 
+  function genUserOption () {
+    if (!user.userId) return null
+    if (userId === u.userId) {
+      return (
+        <div className="user-option">
+          <Button onClick={() => { goUserEdit() }} icon={<Icon name="icon-share"></Icon>}>编辑个人资料</Button>
+        </div>
+      )
+    } else {
+      return (
+        <div className="user-option">
+          { !!user.artistId && <Button icon={<Icon style={{marginRight: '3px'}} name="icon-artist"></Icon>} onClick={() => { goArtistDetail(user.artistId) }}>歌手页</Button>}
+          <Button icon={<Icon style={{marginRight: '3px'}} name="icon-email"></Icon>} onClick={() => { setCurrentChat(user) }}>发私信</Button>
+          <Button
+            icon={<Icon style={{marginRight: '3px'}} name={user.followed ? 'icon-gou' : 'icon-add'}></Icon>}
+            onClick={() => { follow() }}
+          >
+            {user.followed ? '已关注' : '关注'}
+          </Button>
+        </div>
+      )
+    }
+  }
+
   return (
     <div className="user-container">
       <div className="user-info-wrap">
@@ -82,22 +118,20 @@ const User = () => {
             <div className="user-tag">
               { genUserTag(user) }
             </div>
-            <div className="user-option">
-              { !!user.artistId && <span onClick={() => { goArtistDetail(user.artistId) }}><i className="iconfont icon-artist"></i>歌手页</span>}
-              <span onClick={() => { setCurrentChat(user) }}><i className="iconfont icon-email"></i>发私信</span>
-              <span onClick={() => { follow() }}>{user.followed ? <><i className="iconfont icon-gou"></i>已关注</> : <><i className="iconfont icon-add"></i>关注</>}</span>
-            </div>
+            {
+              genUserOption()
+            }
           </div>
           <div className="user-social">
-            <div className="user-social-item">
+            <div onClick={() => { goUserEvent(userId, { username: user.nickname }) }} className="user-social-item">
               <div>{user.eventCount}</div>
               <div>动态</div>
             </div>
-            <div className="user-social-item">
+            <div onClick={() => { goUserFollow(userId, { username: user.nickname }) }} className="user-social-item">
               <div>{user.follows}</div>
               <div>关注</div>
             </div>
-            <div className="user-social-item">
+            <div onClick={() => { goUserFollowed(userId, { username: user.nickname }) }} className="user-social-item">
               <div>{user.followeds}</div>
               <div>粉丝</div>
             </div>

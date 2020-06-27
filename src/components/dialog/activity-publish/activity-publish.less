@@ -40,6 +40,14 @@
   background-image: linear-gradient(to right, #FC5045, #D53A32);
   color: #FFFFFF;
 }
+.activity-dialog-add-cover {
+  > img {
+    height: 30px;
+    width: 30px;
+    border-radius: 4px;
+    background: #F5F5F5;
+  }
+}
 .activity-dialog-button-wrap {
   display: flex;
   justify-content: flex-end;
@@ -65,9 +73,10 @@
   input {
     border: none;
     outline: none;
-    font-size: 14px;
-    &:::placeholder {
-      font-size: 14px;
+    font-size: 13px;
+    width: 100%;
+    &::placeholder {
+      font-size: 13px;
     }
   }
 }
@@ -79,8 +88,40 @@
   font-size: 14px;
   cursor: pointer;
   margin-right: 10px;
+  position: relative;
   i {
     display: inline-block;
     transform: rotate(90deg) scale(0.8) !important;
+  }
+}
+.activity-dialog-selected-content {
+  position: absolute;
+}
+.activity-dialog-search-list {
+  margin-top: 10px;
+}
+.activity-dialog-search-item {
+  height: 30px;
+  font-size: 13px;
+  line-height: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  &:hover {
+    background: #F5F5F5;
+  }
+}
+.activity-dialog-selected-content {
+  background: #FFFFFF;
+  width: 50px;
+  top: 20px;
+  box-shadow: 0px 0px 3px -3px rgba(0, 0, 0, .2);
+  li {
+    height: 25px;
+    font-size: 13px;
+    line-height: 25px;
+    &:hover {
+      background: #F5F5F5;
+    }
   }
 }

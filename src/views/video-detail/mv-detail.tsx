@@ -5,6 +5,7 @@ import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { MV } from 'UTIL/mv'
 import { usePageForword } from 'ROUTER/hooks'
+import Share from 'COMPONENTS/share/share'
 
 const VideoDetail = () => {
   const { id } = useParams()
@@ -58,6 +59,7 @@ const VideoDetail = () => {
           </div>
           <div className="video-detail-info-title">{mv.name}</div>
           <div className="video-detail-info-count">发布:&nbsp;{mv.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{mv.playCount}次</div>
+          <Share type='mv' shareContent={mv} count={mv.shareCount}></Share>
           <div className="video-detail-info-option">
             <span className="artist-info-option-star"><i className="iconfont icon-zan"></i>赞({mv.likedCount})</span>
             <span className="artist-info-option-user"><i className="iconfont icon-star"></i>收藏({mv.subCount})</span>

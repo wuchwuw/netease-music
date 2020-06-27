@@ -125,10 +125,14 @@ export function createBasePlaylist (data: any): PlaylistBaseClass[] {
 
 export function createPlaylistList (data: any): PlaylistClass[] {
   return data.map((item: any) => {
-    return new PlaylistClass({
-      coverImgUrl: item.coverImgUrl || item.picUrl,
-      ...item
-    })
+    return createPlaylist(item)
+  })
+}
+
+export function createPlaylist (data: any): PlaylistClass {
+  return new PlaylistClass({
+    coverImgUrl: data.coverImgUrl || data.picUrl,
+    ...data
   })
 }
 

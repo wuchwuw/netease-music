@@ -14,6 +14,7 @@ import { usePageForword } from 'ROUTER/hooks'
 import { useFavorite } from 'UTIL/favorite'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { useLocation } from 'react-router'
+import Icon from 'COMPONENTS/icon/icon'
 
 const voice_shared = {
   pageY: 0,
@@ -33,8 +34,8 @@ export default function Player () {
   const progressWrapRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const { setPanelType, currentPanelType } = usePanelContaienr()
-  const { prev, next, togglePlay, currentSong: { song: currentSong }, playing } = usePlayerController()
-  const { goArtistDetail } = usePageForword()
+  const { addFMTrash, playerStatus, prev, next, togglePlay, currentSong: { song: currentSong }, playing } = usePlayerController()
+  const { goArtistDetail, goFM } = usePageForword()
   const { isFavorite, favorite } = useFavorite()
   const { shouldUpdateUserFavoritePlaylist } = useUserPlaylist()
   const location = useLocation()
@@ -85,7 +86,11 @@ export default function Player () {
 
   function setFullScreen () {
     if (!currentSong.id) return
-    dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
+    if (playerStatus === 'fm') {
+      goFM()
+    } else {
+      dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: !fullScreen })
+    }
   }
 
   function onVoicePointerDown (e: React.PointerEvent<HTMLDivElement>) {
@@ -113,6 +118,7 @@ export default function Player () {
   }
 
   function genPlayerModeIcon () {
+    if (playerStatus === 'fm') return null
     const cls = ['loop', 'loopone', 'random', 'order']
     const text = ['列表循环', '单曲循环', '随机播放', '顺序播放']
     return (
@@ -157,13 +163,14 @@ export default function Player () {
           </div>
           <div className="mini-player-control">
             <i onClick={() => { currentSongFavorite() } } className={`iconfont ${isFavorite(currentSong.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
-            <i onClick={prev} className="iconfont iconforward"></i>
+            <i onClick={prev} className={classnames('iconfont iconforward', { 'fail': playerStatus === 'fm'})}></i>
             <i onClick={togglePlay} className={classnames('iconfont', { 'icon-play': !playing, 'iconzanting': playing })}></i>
             <i onClick={next} className="iconfont iconforward1"></i>
+            { playerStatus === 'fm' && <Icon hover onClick={() => { addFMTrash(currentSong.id) }} style={{fontSize: '19px', marginLeft: '20px'}} name="icon-delete"></Icon>}
           </div>
           <div className="mini-player-action">
             { genPlayerModeIcon() }
-            <i onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} className={classnames('iconfont iconlist', {'active': currentPanelType === PanelType.CurrentPlaylist})}></i>
+            { playerStatus !== 'fm' && <i onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} className={classnames('iconfont iconlist', {'active': currentPanelType === PanelType.CurrentPlaylist})}></i>}
             <i className="iconfont icon1 mini-player-voice-wrap">
               <div className="mini-player-voice">
                 <div className="mini-player-voice-content">

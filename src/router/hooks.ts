@@ -52,6 +52,21 @@ export function usePageForword () {
     },
     goDaily () {
       history.push('/daily')
+    },
+    goUserEdit () {
+      history.push('/user-edit')
+    },
+    goUserFollow (userId: number, query: { username: string }) {
+      history.push(`/follows/${userId}${getQueryString(query)}`)
+    },
+    goUserFollowed (userId: number, query: { username: string }) {
+      history.push(`/followeds/${userId}${getQueryString(query)}`)
+    },
+    goUserEvent (userId: number, query: { username: string }) {
+      history.push(`/event/${userId}${getQueryString(query)}`)
+    },
+    goFM () {
+      history.push('/fm')
     }
   }
 }

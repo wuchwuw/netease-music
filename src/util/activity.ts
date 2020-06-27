@@ -3,6 +3,8 @@ import dayjs from 'dayjs'
 import { VideoBaseClass, createVideo } from 'UTIL/video'
 import { createBaseAlbum, AlbumBaseClass } from 'UTIL/album'
 import { MV, createMV } from './mv'
+import { PlaylistClass, createPlaylist } from './playlist'
+import { createArtist, Artist } from './artist'
 
 export interface Topic {
   actId: number
@@ -45,9 +47,12 @@ export enum ActivityType {
   Song = 18,
   Topic = 33,
   Video = 39,
+  VideoShare = 41,
   MV = 21,
   Forword = 22,
-  Album = 19
+  Album = 19,
+  PLAYLIST = 13,
+  ARTIST = 36
 }
 
 export class ActivityClass {
@@ -108,7 +113,7 @@ export class ActivityTopicClass extends ActivityClass {
 }
 
 export class ActivityVideoClass extends ActivityClass {
-  type: ActivityType.Video
+  type: ActivityType.Video | ActivityType.VideoShare
   activityText: string
   message: string
   content: VideoBaseClass
@@ -118,7 +123,7 @@ export class ActivityVideoClass extends ActivityClass {
     this.json = JSON.parse(json)
     this.content = createVideo(this.json.video)
     this.message = this.json.msg
-    this.activityText = '发布视频'
+    this.activityText = type === ActivityType.Video ? '发布视频' : '分享视频'
   }
 }
 
@@ -167,13 +172,44 @@ export class ActivityMVClass extends ActivityClass {
   }
 }
 
-function cretaeActicity (data: any): ActivityClassType {
+export class ActivityPlaylistClass extends ActivityClass {
+  type: ActivityType.PLAYLIST
+  activityText: string
+  message: string
+  content: PlaylistClass
+  constructor ({ user, type, info, id, eventTime, json, showTime, pics }: any) {
+    super({user, info, id, eventTime, showTime, pics })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = createPlaylist(this.json.playlist)
+    this.message = this.json.msg
+    this.activityText = '分享歌单'
+  }
+}
+
+export class ActivityArtistClass extends ActivityClass {
+  type: ActivityType.ARTIST
+  activityText: string
+  message: string
+  content: Artist
+  constructor ({ user, type, info, id, eventTime, json, showTime, pics }: any) {
+    super({user, info, id, eventTime, showTime, pics })
+    this.type = type
+    this.json = JSON.parse(json)
+    this.content = createArtist(this.json.resource)
+    this.message = this.json.msg
+    this.activityText = '分享歌手'
+  }
+}
+
+export function cretaeActicity (data: any): ActivityClassType {
   switch (data.type) {
     case ActivityType.Topic:
       return new ActivityTopicClass(data)
     case ActivityType.Song:
       return new ActivitySongClass(data)
     case ActivityType.Video:
+    case ActivityType.VideoShare:
       return new ActivityVideoClass(data)
     case ActivityType.Forword:
       return new ActivityForwordClass(data)
@@ -181,6 +217,10 @@ function cretaeActicity (data: any): ActivityClassType {
       return new ActivityAlbumClass(data)
     case ActivityType.MV:
       return new ActivityMVClass(data)
+    case ActivityType.PLAYLIST:
+      return new ActivityPlaylistClass(data)
+    case ActivityType.ARTIST:
+      return new ActivityArtistClass(data)
     default:
       return new ActivityTopicClass(data)
   }
@@ -198,4 +238,6 @@ export type ActivityClassType =
   ActivityVideoClass |
   ActivityForwordClass |
   ActivityAlbumClass |
-  ActivityMVClass
+  ActivityMVClass |
+  ActivityPlaylistClass |
+  ActivityArtistClass

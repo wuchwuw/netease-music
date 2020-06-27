@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "STORE/index"
 import Song, { createSongList } from "./song"
 import api from "API/index"
-import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType } from 'STORE/player/types'
+import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType, SET_PLAYERSTATUS } from 'STORE/player/types'
 import { PlyerMode, FM } from 'STORE/player/types'
 import notificationApi from "COMPONENTS/notification"
 import { useCreateDialog, VIP_DIALOG } from 'COMPONENTS/dialog/create'
@@ -46,7 +46,6 @@ function getSongIndexInMusiclist (musiclist: SongWidthSource[], song: SongWidthS
 
 let randomPlaylist: SongWidthSource[] = []
 let cacheMusiclist: SongWidthSource[] = []
-let cacheCurrentSong: SongWidthSource = { song: new Song({}), source: { id: '', name: ''}}
 let sourceIds: string[] = []
 let FMList: Song[] = []
 let canDelete = true
@@ -55,6 +54,7 @@ export function usePlayerController () {
   const currentSong = useSelector((state: RootState) => state.player.currentSong)
   const currentMusiclist = useSelector((state: RootState) => state.player.playlist)
   const playing = useSelector((state: RootState) => state.player.playing)
+  const playerStatus = useSelector((state: RootState) => state.player.playerStatus)
   const dispatch = useDispatch()
   const mode = useSelector((state: RootState) => state.player.mode)
   const playHistory = useSelector((state: RootState) => state.player.playHistory)
@@ -153,7 +153,6 @@ export function usePlayerController () {
 
   function setCurrentSongWidthSource (song: SongWidthSource) {
     dispatch({ type: SET_CURRENT_SONG, currentSong: song })
-    cacheCurrentSong = song
   }
 
   function getAudio () {
@@ -202,6 +201,7 @@ export function usePlayerController () {
     }
     const songWidthSource = getSongWidthSource(song, source)
     playSong(songWidthSource)
+    dispatch({ type: SET_PLAYERSTATUS, playerStatus: 'default' })
     if (musiclist) {
       // 替换列表
       let musiclistWidthSource = getSonglistWidthSource(musiclist, source)
@@ -227,6 +227,7 @@ export function usePlayerController () {
       return
     }
     const song = getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM'})
+    dispatch({ type: SET_PLAYERSTATUS, playerStatus: 'fm' })
     playSong(song)
   }
 
@@ -310,6 +311,7 @@ export function usePlayerController () {
     startFM,
     addFMTrash,
     currentFM: fmScreenMusicList.find(item => item.type === 'current')!,
-    getPlayCurrentTime
+    getPlayCurrentTime,
+    playerStatus
   }
 }

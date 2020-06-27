@@ -7,6 +7,7 @@ import Spin from 'COMPONENTS/spin/spin'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import EventList from 'VIEWS/friends/list'
 import './event.less'
+import PageTitle from 'COMPONENTS/page-title/page-title'
 
 let hasmore = true
 let loading = true
@@ -50,6 +51,7 @@ const Event = () => {
 
   return (
     <LoadMore load={loadmore}>
+      <PageTitle>{ query.username && <span>{query.username}的动态</span>}</PageTitle>
       <div className="user-event-container">
       <Spin loading={activityLoading} delay={0}>
         <EventList list={activity} updateList={() => { setActivity([...activity]) }}></EventList>

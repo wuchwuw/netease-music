@@ -5,6 +5,10 @@ import { Topic, cretaeActicityList, ActivityClassType } from 'UTIL/activity'
 import Spin from 'COMPONENTS/spin/spin'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import EventList from './list'
+import PageTitle from 'COMPONENTS/page-title/page-title'
+import Button from 'COMPONENTS/button/button'
+import { useCreateDialog, SHARE_ACTIVITY_DIALOG } from 'COMPONENTS/dialog/create'
+import Icon from 'COMPONENTS/icon/icon'
 
 let hasmore = true
 let loading = true
@@ -14,6 +18,7 @@ const Friends: React.SFC = () => {
   const [activity, setActivity] = useState<ActivityClassType[]>([])
   const [topic, setTopic] = useState<Topic[]>([])
   const [activityLoading, setActivityLoading] = useState(false)
+  const { open: openActivityDialog } = useCreateDialog(SHARE_ACTIVITY_DIALOG)
 
   useEffect(() => {
     getActivity(false)
@@ -51,8 +56,24 @@ const Friends: React.SFC = () => {
     getActivity(true)
   }
 
+  function shareSuccess (a: ActivityClassType) {
+    setActivity([a, ...activity])
+  }
+
   return (
     <LoadMore load={loadmore}>
+      <PageTitle>
+        <div>
+          <span className="topbar-content-item active">动态</span>
+          <Button
+            icon={<Icon name="icon-share"></Icon>}
+            type="primary"
+            onClick={() => { openActivityDialog({ shareSuccess }) }}
+          >
+            发动态
+          </Button>
+        </div>
+      </PageTitle>
       <div className="activity-container">
         <div className="activity-list">
           <Spin loading={activityLoading} delay={300}>

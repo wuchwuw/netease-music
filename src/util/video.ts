@@ -106,6 +106,7 @@ export function createVideoList (data: any): Video[] {
 export function createVideo (data: any): Video {
   return new Video({
     ...data,
+    creator: data.creator || {},
     duration: data.durationms
   })
 }

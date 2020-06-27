@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { Video, createVideo } from 'UTIL/video'
+import Share from 'COMPONENTS/share/share'
 
 const VideoDetail = () => {
   const { id: videoId = '' } = useParams()
@@ -54,7 +55,7 @@ const VideoDetail = () => {
         <div className="video-detail-info">
           <div className="video-detail-title"><i className="iconfont icon-arrow-left"></i>视频详情</div>
           <div className="video-detail-player">
-            <video autoPlay onCanPlay={onVideoCanPlay} controls id="video" src={url}></video>
+            <video onCanPlay={onVideoCanPlay} controls id="video" src={url}></video>
           </div>
           <div className="video-detail-user">
             <img src={video.creator.avatarUrl} alt=""/>
@@ -62,6 +63,7 @@ const VideoDetail = () => {
           </div>
           <div className="video-detail-info-title">{video.title}</div>
           <div className="video-detail-info-count">发布:&nbsp;{video.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{video.playTime_format}次</div>
+          <Share type="video" count={video.shareCount} shareContent={video}></Share>
           <div className="video-detail-info-option">
             <span className="artist-info-option-star"><i className="iconfont icon-zan"></i>赞({video.praisedCount})</span>
             <span className="artist-info-option-user"><i className="iconfont icon-zan"></i>收藏({video.subscribeCount})</span>

@@ -48,7 +48,7 @@ export default class User {
     province,
     city,
     eventCount,
-    level,
+    level = 0,
     mainAuthType,
     allAuthTypes = [],
     artistId,

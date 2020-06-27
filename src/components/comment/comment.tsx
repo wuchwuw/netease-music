@@ -5,6 +5,8 @@ import Pagination from 'COMPONENTS/pagination/pagination'
 import Spin from 'COMPONENTS/spin/spin'
 import CommentCls, { createCommentList } from 'UTIL/comment'
 import classnames from 'classnames'
+import Icon from 'COMPONENTS/icon/icon'
+import Button from 'COMPONENTS/button/button'
 
 interface CommentProps {
   id: number | string
@@ -154,10 +156,10 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                           <span className="comment-textarea-reset">140</span>
                         </div>
                         <div className="comment-textarea-action">
-                          <i className="iconfont icon-face"></i>
-                          <i className="iconfont icon-aite"></i>
-                          <i className="iconfont icon-addtag"></i>
-                          <span onClick={() => { sendComment(comment.commentId, [{ beRepliedCommentId: comment.commentId, content: comment.content, user: comment.user }]) }} className="comment-textarea-action-btn">评论</span>
+                          <Icon className="icon-color-6 hover" name="icon-face"></Icon>
+                          <Icon className="icon-color-6 hover" name="icon-aite"></Icon>
+                          <Icon className="icon-color-6 hover" name="icon-addtag"></Icon>
+                          <Button onClick={() => { sendComment(comment.commentId, [{ beRepliedCommentId: comment.commentId, content: comment.content, user: comment.user }]) }}>评论</Button>
                         </div>
                       </>
                     )
@@ -185,10 +187,10 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
         <span className="comment-textarea-reset">140</span>
       </div>
       <div className="comment-textarea-action">
-        <i className="iconfont icon-face"></i>
-        <i className="iconfont icon-aite"></i>
-        <i className="iconfont icon-addtag"></i>
-        <span onClick={() => { sendComment() }} className="comment-textarea-action-btn">评论</span>
+        <Icon className="icon-color-6 hover" name="icon-face"></Icon>
+        <Icon className="icon-color-6 hover" name="icon-aite"></Icon>
+        <Icon className="icon-color-6 hover" name="icon-addtag"></Icon>
+        <Button onClick={() => { sendComment() }}>评论</Button>
       </div>
       <div className="comment-content">
         <Spin loading={loading} delay={100}>

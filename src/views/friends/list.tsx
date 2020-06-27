@@ -114,6 +114,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
           </div>
         )
       case ActivityType.Video:
+      case ActivityType.VideoShare:
         return (
           <div className="activity-video">
             <div className="activity-song-wrap">
@@ -160,6 +161,24 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
             <div className="activity-song-info">
               <div>{act.content.name}</div>
               <div>{act.content.artistName}</div>
+            </div>
+          </div>
+        )
+      case ActivityType.ARTIST:
+        return (
+          <div className="activity-song">
+            <img src={act.content.img1v1Url} alt=""/>
+            <div className="activity-song-info">
+              <div>{act.content.name}</div>
+            </div>
+          </div>
+        )
+      case ActivityType.PLAYLIST:
+        return (
+          <div className="activity-song">
+            <img src={act.content.coverImgUrl} alt=""/>
+            <div className="activity-song-info">
+              <div>{act.content.name}</div>
             </div>
           </div>
         )

@@ -131,16 +131,17 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   }
                   <div className="comment-item-info-action">
                     <span className="comment-item-info-time">{comment.timeFormat}</span>
-                    {/* <span className="comment-item-info-action-report">举报</span> */}
-                    {/* <i className={`iconfont icon-zan ${comment.liked ? 'active' : ''}`} onClick={() => { commentLike(comment) }}>
-                      { !!comment.likedCount && <span className="comment-item-info-like">{comment.likedCount}</span>}
-                    </i> */}
                     <span className="comment-item-info-like">
-                      <i className={`iconfont icon-zan ${comment.liked ? 'active' : ''}`} onClick={() => { commentLike(comment) }}></i>
+                      <Icon
+                        name="icon-zan"
+                        className={`icon-color-${comment.liked ? 'main' : '6'} hover`}
+                        onClick={() => { commentLike(comment) }}
+                      >
+                      </Icon>
                       { !!comment.likedCount && comment.likedCount}
                     </span>
-                    <i className="iconfont icon-share"></i>
-                    <i onClick={() => { showReplied(`${title}-${index}`) }} className="iconfont icon-comment"></i>
+                    <Icon className="icon-color-6 hover" name="icon-share"></Icon>
+                    <Icon className="icon-color-6 hover" onClick={() => { showReplied(`${title}-${index}`) }} name="icon-comment"></Icon>
                   </div>
                   {
                     repliedIndex === `${title}-${index}` && (

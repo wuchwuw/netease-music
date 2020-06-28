@@ -5,9 +5,11 @@ import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType, SET_PLAYERSTATUS } from 'STORE/player/types'
 import { PlyerMode, FM } from 'STORE/player/types'
 import notificationApi from "COMPONENTS/notification"
-import { useCreateDialog, VIP_DIALOG } from 'COMPONENTS/dialog/create'
+import { createCheckVipDialog, VIP_DIALOG } from 'COMPONENTS/dialog/create'
 
-// page-id or page
+// 歌曲来源
+// id -> page path
+// name -> page name
 export interface Source {
   id: string
   name: string
@@ -59,7 +61,7 @@ export function usePlayerController () {
   const mode = useSelector((state: RootState) => state.player.mode)
   const playHistory = useSelector((state: RootState) => state.player.playHistory)
   const fmScreenMusicList = useSelector((state: RootState) => state.player.fmScreenMusicList)
-  const vipDialog = useCreateDialog(VIP_DIALOG)
+  const openVipDialog = createCheckVipDialog()
 
   function canPlay (song: Song): boolean {
     if (!song.hasPublish) {
@@ -67,7 +69,7 @@ export function usePlayerController () {
       return false
     }
     if(song.isVip) {
-      vipDialog.open()
+      openVipDialog()
       return false
     }
     return true
@@ -249,6 +251,16 @@ export function usePlayerController () {
     return getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM' })
   }
 
+  function fmPrev () {
+    const next = getFMByType('next')
+    getFMByType('current').type = 'next'
+    getFMByType('prev').type = 'current'
+    next.type = 'prev'
+    next.song = new Song({})
+    playSong(getSongWidthSource(getFMByType('current').song, { id: 'fm', name: '私人FM' }))
+    setFMScreenMusicList(fmScreenMusicList)
+  }
+
   function fmDelete () {
     let d = getFMByType('delete')
     getFMByType('current').type = 'delete'
@@ -309,6 +321,7 @@ export function usePlayerController () {
     initFM,
     fmScreenMusicList,
     startFM,
+    fmPrev,
     addFMTrash,
     currentFM: fmScreenMusicList.find(item => item.type === 'current')!,
     getPlayCurrentTime,

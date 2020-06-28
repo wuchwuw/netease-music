@@ -4,7 +4,6 @@ import { useParams } from 'react-router'
 import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { Video, createVideo } from 'UTIL/video'
-import Share from 'COMPONENTS/share/share'
 
 const VideoDetail = () => {
   const { id: videoId = '' } = useParams()
@@ -63,7 +62,6 @@ const VideoDetail = () => {
           </div>
           <div className="video-detail-info-title">{video.title}</div>
           <div className="video-detail-info-count">发布:&nbsp;{video.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{video.playTime_format}次</div>
-          <Share type="video" count={video.shareCount} shareContent={video}></Share>
           <div className="video-detail-info-option">
             <span className="artist-info-option-star"><i className="iconfont icon-zan"></i>赞({video.praisedCount})</span>
             <span className="artist-info-option-user"><i className="iconfont icon-zan"></i>收藏({video.subscribeCount})</span>

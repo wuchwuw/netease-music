@@ -5,7 +5,7 @@ import { SET_USER_PLAYLIST } from 'STORE/user/types'
 import { createPlaylistList, PlaylistClass } from './playlist'
 import { useDispatch } from 'react-redux'
 import { SET_UPDATE_FAVORITE_PLAYLIST } from 'STORE/commen/types'
-import { useCreateDialog, COMFIRM_DIALOG } from 'COMPONENTS/dialog/create'
+import { createComfirmDialog } from 'COMPONENTS/dialog/create'
 import { useFavorite } from './favorite'
 import notificationApi from 'COMPONENTS/notification'
 import Song from './song'
@@ -18,7 +18,7 @@ export function useUserPlaylist () {
   const userPlaylist = playlist.filter(item => item.creator.userId === user.userId)
   const subPlaylist = playlist.filter(item => item.creator.userId !== user.userId)
   const dispatch = useDispatch()
-  const confirm = useCreateDialog(COMFIRM_DIALOG)
+  const confirm = createComfirmDialog()
   const { updateFavoriteIds } = useFavorite()
 
   async function getUserPlaylist (userId?: number) {
@@ -58,7 +58,7 @@ export function useUserPlaylist () {
       } catch (e) {}
     }
     if (subPlaylist.subscribed) {
-      confirm.open({
+      confirm({
         text: '确定不再收藏该歌单?',
         buttonText: '确定',
         confirm: (confirmCallback) => {
@@ -82,7 +82,7 @@ export function useUserPlaylist () {
   function createPlaylist () {}
 
   function removeSongWidthComfirm (playlistId: number, song: Song, callback?: () => void) {
-    confirm.open({
+    confirm({
       text: '确定将选中的歌曲从该歌单中删除?',
       buttonText: '确定',
       confirm: (confirmCallback) => {

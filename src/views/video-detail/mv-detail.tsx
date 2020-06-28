@@ -5,7 +5,13 @@ import Comment from 'COMPONENTS/comment/comment'
 import api from 'API/index'
 import { MV } from 'UTIL/mv'
 import { usePageForword } from 'ROUTER/hooks'
-import Share from 'COMPONENTS/share/share'
+import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
+import Button from 'COMPONENTS/button/button'
+import Icon from 'COMPONENTS/icon/icon'
+import classnames from 'classnames'
+import { genArtists } from 'VIEWS/template/template'
+
+let mvCache: any = {}
 
 const VideoDetail = () => {
   const { id } = useParams()
@@ -13,18 +19,19 @@ const VideoDetail = () => {
   const [mv, setMV ] = useState<MV>(new MV({}))
   const [related, setRelated] = useState<MV[]>([])
   const [url, setURL] = useState('')
-  const { back } = usePageForword()
+  const { back, goArtistDetail } = usePageForword()
+  const openShareDialog = createShareDialog()
 
   useEffect(() => {
     getMVDetail()
     getRelatedVideo()
     getMVURL()
-  }, [])
+  }, [mvId])
 
   async function getMVDetail () {
     try {
       const res = await Promise.all([api.getMVDetail({ mvid: mvId }), api.getMVInfo({ mvid: mvId })])
-      setMV(new MV({
+      setMV(new MV(mvCache = {
         ...res[0].data.data,
         ...res[1].data
       }))
@@ -45,13 +52,47 @@ const VideoDetail = () => {
     } catch (e) {}
   }
 
+  async function like () {
+    try {
+      const params = {
+        t: mv.liked ? 2 : 1,
+        type: 1,
+        id: mv.id
+      }
+      await api.likeResource(params)
+      setMV(new MV(mvCache = {
+        ...mvCache,
+        likedCount: mv.liked ? -- mv.likedCount : ++ mv.likedCount,
+        liked: !mv.liked
+      }))
+    } catch (e) { console.log(e) }
+  }
+  
+  async function sub () {
+    try {
+      const params = {
+        t: mv.subed ? 2 : 1,
+        mvid: mv.id
+      }
+      await api.subMV(params)
+      setMV(new MV(mvCache = {
+        ...mvCache,
+        subCount: mv.subCount ? -- mv.subCount : ++ mv.subCount,
+        subed: !mv.subed
+      }))
+    } catch (e) {}
+  }
+
   return (
     <div className="video-detail">
       <div className="video-detail-container">
         <div className="video-detail-info">
-          <div onClick={() => { back() }} className="video-detail-title"><i className="iconfont icon-arrow-left"></i>MV详情</div>
+          <div onClick={() => { back() }} className="video-detail-title commen-link-333333 active">
+            <Icon fontSize={18} name="icon-arrow-left"></Icon>
+            MV详情
+          </div>
           <div className="video-detail-player">
-            <video autoPlay controls id="video" src={url}></video>
+            <video controls id="video" src={url}></video>
           </div>
           <div className="video-detail-user">
             <img src={mv.artists[0].img1v1Url} alt=""/>
@@ -59,11 +100,10 @@ const VideoDetail = () => {
           </div>
           <div className="video-detail-info-title">{mv.name}</div>
           <div className="video-detail-info-count">发布:&nbsp;{mv.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{mv.playCount}次</div>
-          <Share type='mv' shareContent={mv} count={mv.shareCount}></Share>
           <div className="video-detail-info-option">
-            <span className="artist-info-option-star"><i className="iconfont icon-zan"></i>赞({mv.likedCount})</span>
-            <span className="artist-info-option-user"><i className="iconfont icon-star"></i>收藏({mv.subCount})</span>
-            <span className="artist-info-option-user"><i className="iconfont icon-share"></i>分享({mv.shareCount})</span>
+            <Button onClick={like} icon={<Icon className={classnames({ 'icon-color-main': mv.liked })} name="icon-zan"></Icon>}>赞({mv.likedCount})</Button>
+            <Button onClick={sub} icon={<Icon name="icon-star"></Icon>}>{mv.subed ? '已收藏' : '收藏'}({mv.subCount})</Button>
+            <Button onClick={() => { openShareDialog({ type: ShareType.MV, shareContent: mv }) }} icon={<Icon name="icon-share"></Icon>}>分享({mv.shareCount})</Button>
           </div>
           <Comment type="mv" showTitle id={mvId}></Comment>
         </div>
@@ -80,7 +120,7 @@ const VideoDetail = () => {
                   </div>
                   <div className="video-related-list-item-info">
                     <div>{mv.name}</div>
-                    {/* <div>by {mv.creator.nickname}</div> */}
+                    <div>{genArtists(mv.artists, goArtistDetail, 'commen-link-999999')}</div>
                   </div>
                 </li>
               ))

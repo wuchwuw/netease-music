@@ -15,9 +15,9 @@ import { useFavorite } from 'UTIL/favorite'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import { ContextMenuWrap, ConnectedMenu } from 'COMPONENTS/context-menu/context-menu'
 import { useSongContextMenu } from 'UTIL/menu'
-import AddPlaylistDialog from 'COMPONENTS/dialog/add-playlist/add-playlist'
-import { useDialog } from 'COMPONENTS/dialog'
 import notificationApi from 'COMPONENTS/notification'
+import { createAddPlaylistSongDialog } from 'COMPONENTS/dialog/create'
+import { useUserPlaylist } from 'UTIL/user-playlist'
 
 const MENU_NAME = 'music-list-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -55,8 +55,8 @@ const Artist = () => {
   const { start, currentSong } = usePlayerController()
   const { isFavorite, favorite } = useFavorite()
   const { getSongMenu } = useSongContextMenu()
-  const addPlaylistDialogProps = useDialog()
-  const [addPlaylistSongs, setAddPlaylistSongs] = useState<Song[]>([])
+  const openAddPlaylistSongDialog = createAddPlaylistSongDialog()
+  const { userPlaylist, addOrRemoveSong } = useUserPlaylist()
 
   useEffect(() => {
     getArtistDetail()
@@ -164,7 +164,7 @@ const Artist = () => {
               热门50首
               <span>
                 <i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i>
-                <i onClick={() => { setAddPlaylistSongs(hotSong); addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i>
+                <i onClick={() => { openAddPlaylistSongDialog({ songs: hotSong, userPlaylist, addOrRemoveSong }) }} className="iconfont icon-add-folder"></i>
               </span>
             </div>
             {
@@ -202,7 +202,7 @@ const Artist = () => {
                   {album.name}
                   <span>
                     <i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i>
-                    <i onClick={() => { setAddPlaylistSongs(album.songs); addPlaylistDialogProps.open() }} className="iconfont icon-add-folder"></i>
+                    <i onClick={() => { openAddPlaylistSongDialog({ songs: album.songs, userPlaylist, addOrRemoveSong  }) }} className="iconfont icon-add-folder"></i>
                   </span>
                 </div>
                 {
@@ -339,7 +339,6 @@ const Artist = () => {
           }
           <Menu></Menu>
         </div>
-        <AddPlaylistDialog songs={addPlaylistSongs} {...addPlaylistDialogProps}></AddPlaylistDialog>
       </div>
     </LoadMore>
   )

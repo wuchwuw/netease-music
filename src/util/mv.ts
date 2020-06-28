@@ -1,5 +1,6 @@
 import { timeFormat } from "./util"
 import { Artist, createArtistList } from "UTIL/artist"
+import { immerable, produce } from 'immer'
 
 export class MV {
   id: number
@@ -13,6 +14,9 @@ export class MV {
   publishTime: string
   cover: string
   artists: Artist[]
+  [immerable] = true
+  subed: boolean
+  liked: boolean
 
   constructor ({
     id,
@@ -25,7 +29,9 @@ export class MV {
     duration = 0,
     publishTime,
     cover,
-    artists = [{ img1v1Url: '', name: '' }]
+    artists = [{ img1v1Url: '', name: '' }],
+    subed = false,
+    liked = false
   }: any) {
     this.id = id
     this.name = name
@@ -38,6 +44,8 @@ export class MV {
     this.publishTime = publishTime
     this.cover = cover
     this.artists = artists.length ? createArtistList(artists) : []
+    this.subed = subed
+    this.liked = liked
   }
 
   get playCount_format (): string {
@@ -46,6 +54,21 @@ export class MV {
 
   get duration_format (): string {
     return timeFormat(this.duration / 1000)
+  }
+  
+  sub (count: number, subed: boolean) {
+    return produce(this, draft => {
+      draft.subCount = count
+      draft.subed = subed
+    })
+  }
+
+  like (count: number, liked: boolean) {
+    return produce(this, draft => {
+      draft.likedCount = count
+      draft.liked = liked
+      return draft
+    })
   }
 }
 

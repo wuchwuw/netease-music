@@ -1,6 +1,6 @@
 import { PlaylistClass } from 'UTIL/playlist'
 import { usePlayerController, Source } from 'UTIL/player-controller'
-import { useCreateDialog, COMFIRM_DIALOG } from 'COMPONENTS/dialog/create'
+import { createComfirmDialog } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from './user-playlist'
 import Song from './song'
 import { Album } from './album'
@@ -13,7 +13,7 @@ export interface MenuType {
 
 export function usePlaylistContextMenu () {
   const { start, nextPlayPlaylist } = usePlayerController()
-  const confirm = useCreateDialog(COMFIRM_DIALOG)
+  const confirm = createComfirmDialog()
   const { deletePlaylist, subscribePlaylist, getUserPlaylistDetail } = useUserPlaylist()
 
   function play (playlist: PlaylistClass, next: boolean) {
@@ -30,7 +30,7 @@ export function usePlaylistContextMenu () {
   function getPlaylistMenu (playlist: PlaylistClass) {
 
     function deletePlaylistConfirm (playlist: PlaylistClass) {
-      confirm.open({
+      confirm({
         text: '确定删除该歌单?',
         buttonText: '确定',
         confirm: !playlist.subscribed ? (callback?: () => void) => {

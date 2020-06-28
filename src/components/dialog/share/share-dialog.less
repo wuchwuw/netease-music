@@ -1,0 +1,30 @@
+.share-dialog-container {
+  margin: 20px -14px 10px
+}
+.share-dialog-item {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+  }
+  &:hover {
+    background: #F5F5F5;
+  }
+}
+.share-dialog-item-icon {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.activity {
+    color: #FFFFFF;
+    background: var(--main-color);
+  }
+}
+.share-dialog-item-text {
+  margin-left: 5px;
+}

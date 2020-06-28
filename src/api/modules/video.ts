@@ -48,5 +48,8 @@ export default {
   },
   getAllMV (params: { area: string, type: string, order: string, limit: number, offset: number }) {
     return axios.get('mv/all', { params })
+  },
+  subMV (params: { t: number, mvid: number }) {
+    return axios.get('mv/sub', { params })
   }
 }

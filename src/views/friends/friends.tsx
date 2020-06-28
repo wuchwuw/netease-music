@@ -7,7 +7,7 @@ import LoadMore from 'COMPONENTS/load-more/load-more'
 import EventList from './list'
 import PageTitle from 'COMPONENTS/page-title/page-title'
 import Button from 'COMPONENTS/button/button'
-import { useCreateDialog, SHARE_ACTIVITY_DIALOG } from 'COMPONENTS/dialog/create'
+import { createActivityPublishDialog } from 'COMPONENTS/dialog/create'
 import Icon from 'COMPONENTS/icon/icon'
 
 let hasmore = true
@@ -18,7 +18,7 @@ const Friends: React.SFC = () => {
   const [activity, setActivity] = useState<ActivityClassType[]>([])
   const [topic, setTopic] = useState<Topic[]>([])
   const [activityLoading, setActivityLoading] = useState(false)
-  const { open: openActivityDialog } = useCreateDialog(SHARE_ACTIVITY_DIALOG)
+  const openActivityDialog = createActivityPublishDialog()
 
   useEffect(() => {
     getActivity(false)

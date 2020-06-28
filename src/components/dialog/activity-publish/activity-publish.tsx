@@ -60,7 +60,7 @@ const SEARCH_TAB_PARAM_MAP = {
 type SearchResult = SongResult | ArtistResult | AlbumResult| PlaylistResult
 type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | PlaylistBaseClass[]
 
-enum ShareType {
+export enum ShareType {
   SONG = 'song',
   ARTIST = 'artist',
   ALBUM = 'album',
@@ -99,7 +99,7 @@ interface MVShare  {
   result: MV
 }
 
-type SearchShare = SongShare | ArtistShare | PlaylistShare| AlbumShare | VideoShare | MVShare
+export type SearchShare = SongShare | ArtistShare | PlaylistShare| AlbumShare | VideoShare | MVShare
 
 export interface ActivityPublishProps {
   type: ShareType
@@ -132,7 +132,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
         msg: content
       }
       if (share.tab) {
-        if (share.tab === 'video') {
+        if (share.tab === ShareType.VIDEO) {
           params.vid = share.result.vid
         } else {
           params.id = share.result.id

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './pagination.less'
 import classnames from 'classnames'
 import { scrollToTop } from 'COMPONENTS/scroll-to-top/scroll-to-top'
+import Icon from 'COMPONENTS/icon/icon'
 
 interface PaginationProps {
   defaultCurrentPage?: number
@@ -29,10 +30,10 @@ const Pagination: React.SFC<PaginationProps> = ({
   }
   function genPageList () {
     const pageList = []
-    const first = <li onClick={() => { goPage(1) }} className={classnames("pagination-item", {'pagination-item-active': currentPage === 1})}>1</li>
-    const last = <li onClick={() => { goPage(page) }} className={classnames("pagination-item", {'pagination-item-active': currentPage === page})}>{page}</li>
-    const prev = <li className="pagination-item">...</li>
-    const next = <li className="pagination-item">...</li>
+    const first = <li onClick={() => { goPage(1) }} styleName={classnames("pagination-item", {'pagination-item-active': currentPage === 1})}>1</li>
+    const last = <li onClick={() => { goPage(page) }} styleName={classnames("pagination-item", {'pagination-item-active': currentPage === page})}>{page}</li>
+    const prev = <li styleName="pagination-item">...</li>
+    const next = <li styleName="pagination-item">...</li>
 
     let left
     let right
@@ -42,7 +43,7 @@ const Pagination: React.SFC<PaginationProps> = ({
       right = page
       for (let i = left; i <= right; i ++) {
         pageList.push(
-          <li className={classnames(
+          <li styleName={classnames(
             'pagination-item',
             {'pagination-item-active': currentPage === i}
           )}
@@ -60,7 +61,7 @@ const Pagination: React.SFC<PaginationProps> = ({
       right = currentPage + 2
       for (let i = left; i <= right; i ++) {
         pageList.push(
-          <li className={classnames(
+          <li styleName={classnames(
             'pagination-item',
             {'pagination-item-active': currentPage === i}
           )}
@@ -77,7 +78,7 @@ const Pagination: React.SFC<PaginationProps> = ({
       right = 5
       for (let i = left; i <= right; i ++) {
         pageList.push(
-          <li className={classnames(
+          <li styleName={classnames(
             'pagination-item',
             {'pagination-item-active': currentPage === i}
           )}
@@ -94,7 +95,7 @@ const Pagination: React.SFC<PaginationProps> = ({
       right = page - 1
       for (let i = left; i <= right; i ++) {
         pageList.push(
-          <li className={classnames(
+          <li styleName={classnames(
             'pagination-item',
             {'pagination-item-active': currentPage === i}
           )}
@@ -111,10 +112,10 @@ const Pagination: React.SFC<PaginationProps> = ({
   }
 
   return (
-    <ul className="pagination-container">
-      <li className="pagination-item"><i className="iconfont icon-arrow-left"></i></li>
+    <ul styleName="pagination-container">
+      <li styleName="pagination-item"><Icon name="icon-arrow-left"></Icon></li>
       {genPageList()}
-      <li className="pagination-item"><i className="iconfont icon-arrow-right"></i></li>
+      <li styleName="pagination-item"><Icon name="icon-arrow-right"></Icon></li>
     </ul>
   )
 }

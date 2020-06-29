@@ -15,7 +15,7 @@ import {
 } from './types'
 import Song from 'UTIL/song'
 
-let FM_TYPE: FMType[] = ['current', 'next', 'prev', 'remove', 'delete', 'pre']
+let FM_TYPE: FMType[] = ['current', 'next', 'prev', 'remove', 'delete']
 
 const initialState: PlayerState = {
   currentSong: { song: new Song({}), source: { id: '', name: ''} },

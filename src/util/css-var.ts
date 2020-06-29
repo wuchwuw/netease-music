@@ -10,18 +10,22 @@ export const light = {
   /* bottombar */
   '--player-progress-default': '#F5F5F5',
   /* text */
-  '--text-main': '#333333',
-  '--text-mid': '#666666',
+  '--text-3': '#333333',
+  '--text-6': '#666666',
+  '--text-9': '#999999',
+  '--text-c': '#CCCCCC',
   /* musiclist */
   '--musiclist-background-even': '#FAFAFA',
   '--musiclist-background-active': '#F2F2F2',
   '--musiclist-background-hover': '#F2F2F2',
 
-  /* border */
-  '--border': '#F3F3F3',
-
   /* scroll bar */
-  '--scrollbar-thumb': '#e1e1e1'
+  '--scrollbar-thumb': '#e1e1e1',
+
+  /* commen */
+  '--border': '#F3F3F3',
+  '--default-background-hover': '#F5F5F5',
+  '--color-white': '#FFFFFF'
 }
 
 export const dark = {
@@ -36,20 +40,23 @@ export const dark = {
   /* bottombar */
   '--player-progress-default': '#232323',
   /* text */
-  '--text-main': '#B2B2B2',
-  '--text-mid': '#B6B6B6',
-  '--text-light': '#5C5C5C',
-  '--text-failt': '#5F5F5F',
+  '--text-3': '#B2B2B2',
+  '--text-6': '#B6B6B6',
+  '--text-9': '#5C5C5C',
+  '--text-c': '#5F5F5F',
   /* musiclist */
   '--musiclist-background-even': '#2A2A2A',
   '--musiclist-background-active': '#343434',
   '--musiclist-background-hover': '#343434',
 
+  /* scroll bar */
+  '--scrollbar-thumb': '#414141',
+
+  /* commen */
   /* border */
   '--border': '#313131',
-
-  /* scroll bar */
-  '--scrollbar-thumb': '#414141'
+  '--default-background-hover': '#232323',
+  '--color-white': '#252525'
 }
 
 const TYPE_MAP = {

@@ -105,23 +105,23 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
   function genCommentNode (title: string, list: CommentCls[]) {
     return (
       <>
-        <div className="comment-title">{title}</div>
-        <div className="comment-list">
+        <div styleName="comment-title">{title}</div>
+        <div>
           {
             list.map((comment, index) => (
-              <div key={comment.commentId + comment.parentCommentId} className="comment-item">
-                <img className="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=100y100'} alt=""/>
-                <div className={ classnames('comment-item-info', { 'deep': textareaType === 'deep' })}>
-                  <div className="comment-item-info-text">
-                    <span className="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}
+              <div key={comment.commentId + comment.parentCommentId} styleName="comment-item">
+                <img styleName="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=100y100'} alt=""/>
+                <div styleName={ classnames('comment-item-info', { 'deep': textareaType === 'deep' })}>
+                  <div styleName="comment-item-info-text">
+                    <span styleName="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}
                   </div>
                   {
                     comment.replied && (
-                      <div className={ classnames('comment-item-info-replay', { 'deep': textareaType === 'deep' })}>
-                        <div className="comment-item-info-text replied">
+                      <div styleName={ classnames('comment-item-info-replay', { 'deep': textareaType === 'deep' })}>
+                        <div styleName="comment-item-info-text replied">
                           {
                             comment.replied.content ?
-                            <><span className="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}</>
+                            <><span styleName="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}</>
                             :
                             <div style={{textAlign: 'center'}}>该评论已删除</div>
                           }
@@ -129,9 +129,9 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                       </div>
                     )
                   }
-                  <div className="comment-item-info-action">
-                    <span className="comment-item-info-time">{comment.timeFormat}</span>
-                    <span className="comment-item-info-like">
+                  <div styleName="comment-item-info-action">
+                    <span styleName="comment-item-info-time">{comment.timeFormat}</span>
+                    <span styleName="comment-item-info-like">
                       <Icon
                         name="icon-zan"
                         className={`icon-color-${comment.liked ? 'main' : '6'} hover`}
@@ -146,17 +146,17 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                   {
                     repliedIndex === `${title}-${index}` && (
                       <>
-                        <div className={ classnames('comment-textarea-wrap replied', { 'deep': textareaType === 'deep' })}>
+                        <div styleName={ classnames('comment-textarea-wrap replied', { 'deep': textareaType === 'deep' })}>
                           <textarea
                             value={repliedContent}
                             onChange={(e) => { setRepliedContent(e.target.value) }}
-                            className="comment-textarea"
+                            styleName="comment-textarea"
                             placeholder={`回复${comment.user.nickname}:`}
                           >
                           </textarea>
-                          <span className="comment-textarea-reset">140</span>
+                          <span styleName="comment-textarea-reset">140</span>
                         </div>
-                        <div className="comment-textarea-action">
+                        <div styleName="comment-textarea-action">
                           <Icon className="icon-color-6 hover" name="icon-face"></Icon>
                           <Icon className="icon-color-6 hover" name="icon-aite"></Icon>
                           <Icon className="icon-color-6 hover" name="icon-addtag"></Icon>
@@ -176,39 +176,36 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
 
   return (
     <div>
-      { showTitle && <div className="comment-count">听友评论<span>(已有{total}条评论)</span></div> }
-      <div className={ classnames('comment-textarea-wrap', { 'deep': textareaType === 'deep' })}>
+      { showTitle && <div styleName="comment-count">听友评论<span>(已有{total}条评论)</span></div> }
+      <div styleName={ classnames('comment-textarea-wrap', { 'deep': textareaType === 'deep' })}>
         <textarea
           value={content}
           onChange={(e) => { setContent(e.target.value) }}
-          className="comment-textarea"
+          styleName="comment-textarea"
           placeholder="输入评论或@朋友"
         >
         </textarea>
-        <span className="comment-textarea-reset">140</span>
+        <span styleName="comment-textarea-reset">140</span>
       </div>
-      <div className="comment-textarea-action">
+      <div styleName="comment-textarea-action">
         <Icon className="icon-color-6 hover" name="icon-face"></Icon>
         <Icon className="icon-color-6 hover" name="icon-aite"></Icon>
         <Icon className="icon-color-6 hover" name="icon-addtag"></Icon>
         <Button onClick={() => { sendComment() }}>评论</Button>
       </div>
-      <div className="comment-content">
+      <div>
         <Spin loading={loading} delay={100}>
           {
             list.length ? (
               <>
                 {
-                  !!hot.length &&
-                  <div className="comment-hot">
-                    {genCommentNode('精彩评论', hot)}
-                  </div>
+                  !!hot.length && genCommentNode('精彩评论', hot)
                 }
-                <div className="comment-new">
+                <div>
                   {genCommentNode('最新评论', list)}
                   {
                     total >= PAGE_SIZE &&
-                    <div className="pagination-wrap">
+                    <div>
                       <Pagination currentPage={currentPage} total={total} pageSize={PAGE_SIZE} onChange={onPageChange}></Pagination>
                     </div>
                   }
@@ -216,7 +213,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
               </>
             )
             :
-            <div className="comment-nodata">还没有评论，快来抢沙发~</div>
+            <div styleName="comment-nodata">还没有评论，快来抢沙发~</div>
           }
         </Spin>
       </div>

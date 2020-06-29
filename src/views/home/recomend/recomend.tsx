@@ -10,6 +10,7 @@ import { genArtists } from 'VIEWS/template/template'
 import { usePageForword } from 'ROUTER/hooks'
 import { padZero } from 'UTIL/util'
 import { usePlayerController } from 'UTIL/player-controller'
+import Icon from 'COMPONENTS/icon/icon'
 
 let loaded = false
 let bannersCache: string[] = []
@@ -56,23 +57,23 @@ const HomeRecomend = () => {
   }
 
   return (
-    <div className="container home-wrap">
+    <div className="container" styleName="home-wrap">
       <CSSTransition in={!visible} timeout={500} unmountOnExit classNames="fade">
-        <div className="home-loading">
-          <i className="iconfont icon-default"></i>
+        <div styleName="home-loading">
+          <Icon name="icon-default"></Icon>
           <p>正在生成个性化推荐...</p>
         </div>
       </CSSTransition>
-      <div className="home-banner-wrap">
+      <div styleName="home-banner-wrap">
         <Slider images={banners}></Slider>
       </div>
-      <div className="home-personalized">
-        <div onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} className="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+      <div styleName="home-personalized">
+        <div onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} styleName="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           <div className="commen-area-item">
-            <div className="recomend-daily-icon" onClick={ goDaily }>
-              <div className="recomend-daily-day">星期{(['日', '一', '二', '三', '四', '五', '六'])[(new Date).getDay()]}</div>
-              <div className="recomend-daily-date">{(new Date).getDate()}</div>
+            <div styleName="recomend-daily-icon" onClick={ goDaily }>
+              <div styleName="recomend-daily-day">星期{(['日', '一', '二', '三', '四', '五', '六'])[(new Date).getDay()]}</div>
+              <div styleName="recomend-daily-date">{(new Date).getDate()}</div>
             </div>
             <div className="commen-area-text line-more" onClick={ goDaily }>每日歌曲推荐</div>
           </div>
@@ -88,25 +89,25 @@ const HomeRecomend = () => {
           ))}
         </div>
       </div>
-      <div className="home-music">
-        <div onClick={ goNewSong } className="home-recommend-title">最新音乐<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
-        <div className="home-music-content">
+      <div>
+        <div onClick={ goNewSong } styleName="home-recommend-title">最新音乐<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div styleName="home-music-content">
           { song.map((item, index) => (
-            <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} className="home-music-item">
-              <div className="home-music-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-              <img className="home-music-img" src={item.album.picUrl+'?param=100y100'} alt=""/>
-              <div className="home-music-num">{padZero(index + 1)}</div>
-              <div className="home-music-info">
-                <div className="home-music-name text-overflow">{item.name}</div>
-                <div className="home-music-artist text-overflow">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
+            <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} styleName="home-music-item">
+              <div styleName="home-music-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+              <img styleName="home-music-img" src={item.album.picUrl+'?param=100y100'} alt=""/>
+              <div styleName="home-music-num">{padZero(index + 1)}</div>
+              <div styleName="home-music-info">
+                <div styleName="home-music-name" className="text-overflow">{item.name}</div>
+                <div styleName="home-music-artist" className="text-overflow">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
               </div>
               { !!item.mv && <i className="iconfont icon-mv"></i> }
             </div>
           ))}
         </div>
       </div>
-      <div className="home-mv">
-        <div onClick={ goMVDiscover } className="home-recommend-title">推荐MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+      <div>
+        <div onClick={ goMVDiscover } styleName="home-recommend-title">推荐MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { mv.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
@@ -121,8 +122,8 @@ const HomeRecomend = () => {
           ))}
         </div>
       </div>
-      <div className="home-privatecontent">
-        <div onClick={ goMVDiscover } className="home-recommend-title">独家放送<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+      <div>
+        <div onClick={ goMVDiscover } styleName="home-recommend-title">独家放送<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
         <div className="commen-area-content">
           { privatecontent.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">

@@ -13,6 +13,7 @@ import { usePageForword } from 'ROUTER/hooks'
 import { logout } from 'UTIL/account'
 import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
 import { setPlaylistCacheOnce } from 'UTIL/playlist-cache'
+import Icon from 'COMPONENTS/icon/icon'
 
 const MENU_NAME = 'left-bar-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -21,92 +22,98 @@ const LeftBar: React.SFC = () => {
   const createDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const { visiable, open } = useContainer(['.leftbar-user-panel'])
+  const { visiable, open } = useContainer(['#leftbar-user'])
   const { getPlaylistMenu } = usePlaylistContextMenu()
   const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
   const { goUserDetail } = usePageForword()
 
   return (
-    <div className='leftbar-wrap'>
+    <div styleName='leftbar-wrap'>
       {
         isLogin ?
-        <div className="leftbar-user">
-          <div onClick={ () => { goUserDetail(user.userId) }} className="leftbar-login">
-            <img className="leftbar-login-avatar" src={user.avatarUrl+'?param=100y100'} alt=""/>
+        <div styleName="leftbar-user">
+          <div onClick={ () => { goUserDetail(user.userId) }} styleName="leftbar-login">
+            <img styleName="leftbar-login-avatar" src={user.avatarUrl+'?param=100y100'} alt=""/>
           </div>
-          <div onClick={ () => { open() }} className="leftbar-login-username">
+          <div onClick={ () => { open() }} styleName="leftbar-login-username">
             {user.nickname}
-            <i className="iconfont icon-triangle-full"></i>
+            <Icon fontSize={12} name="icon-triangle-full"></Icon>
             {
               visiable &&
-              <div className="leftbar-user-panel">
-                <div className="leftbar-user-social">
-                  <div className="leftbar-user-social-item">
+              <div id="leftbar-user" styleName="leftbar-user-panel">
+                <div styleName="leftbar-user-social">
+                  <div styleName="leftbar-user-social-item">
                     <div>{user.eventCount}</div>
                     <div>动态</div>
                   </div>
-                  <div className="leftbar-user-social-item">
+                  <div styleName="leftbar-user-social-item">
                     <div>{user.follows}</div>
                     <div>关注</div>
                   </div>
-                  <div className="leftbar-user-social-item">
+                  <div styleName="leftbar-user-social-item">
                     <div>{user.followeds}</div>
                     <div>粉丝</div>
                   </div>
                 </div>
-                <div className="leftbar-user-panel-item">
-                  <div><i className="iconfont icon-vip"></i>会员中心</div>
-                  <div><i className="iconfont icon-level"></i>等级</div>
-                  <div><i className="iconfont icon-mail"></i>商城</div>
-                  <div><i className="iconfont icon-setting"></i>个人信息设置</div>
-                  <div><i className="iconfont icon-phone"></i>绑定社交账号</div>
-                  <div onClick={() => { logout() }}><i className="iconfont icon-logout"></i>退出登录</div>
+                <div styleName="leftbar-user-panel-item">
+                  <div><Icon fontSize={18} name="icon-vip"></Icon>会员中心</div>
+                  <div><Icon fontSize={19} name="icon-level"></Icon>等级</div>
+                  <div><Icon name="icon-mail"></Icon>商城</div>
+                  <div><Icon name="icon-setting"></Icon>个人信息设置</div>
+                  <div><Icon name="icon-phone"></Icon>绑定社交账号</div>
+                  <div onClick={() => { logout() }}><Icon name="icon-logout"></Icon>退出登录</div>
                 </div>
               </div>
             }
           </div>
         </div>
         :
-        <div className="leftbar-user">
-          <div className="leftbar-login" onClick={() => openLoginDialog()}><i className="iconfont icon-userlogin"></i></div>未登录<span className="leftbar-triangle"></span>
+        <div styleName="leftbar-user">
+          <div styleName="leftbar-login" onClick={() => openLoginDialog()}>
+            <Icon name="icon-userlogin"></Icon>
+          </div>未登录<span className="leftbar-triangle"></span>
         </div>
       }
-      <div className="leftbar-playlist">
-        <NavLink to={{ pathname: '/home', state: { needLogin: true }}} activeClassName="active" className="leftbar-item">
-          <i className="iconfont icon-neteastmusic"></i>发现音乐
+      <div styleName="leftbar-playlist">
+        <NavLink to={{ pathname: '/home', state: { needLogin: true }}} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon name="icon-neteastmusic"></Icon>发现音乐
         </NavLink>
-        <NavLink to={'/fm'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont iconxinhao"></i>私人FM
+        <NavLink to={'/fm'} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon fontSize={14} name="iconxinhao"></Icon>私人FM
         </NavLink>
-        <NavLink to={'/video'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont icon-mv"></i>视频
+        <NavLink to={'/video'} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon name="icon-mv"></Icon>视频
         </NavLink>
-        <NavLink to={'/activity'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont iconfriend"></i>朋友
+        <NavLink to={'/activity'} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon name="iconfriend"></Icon>朋友
         </NavLink>
-        <div className="leftbar-item-title">我的音乐</div>
-        <NavLink to={'/cloud'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont icon-cloud"></i>我的音乐云盘
+        <div styleName="leftbar-item-title">我的音乐</div>
+        <NavLink to={'/cloud'} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon name="icon-cloud"></Icon>我的音乐云盘
         </NavLink>
-        <NavLink to={'/star'} activeClassName="active" className="leftbar-item">
-          <i className="iconfont icon-star"></i>我的收藏
+        <NavLink to={'/star'} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon name="icon-star"></Icon>我的收藏
         </NavLink>
-        <div className="leftbar-item-title">创建的歌单<i onClick={() => createDialogProps.toggle()} className="iconfont icon-add"></i></div>
+        <div styleName="leftbar-item-title">
+          创建的歌单
+          <Icon className="icon-color-3 hover" onClick={() => createDialogProps.toggle()} name="icon-add"></Icon>
+        </div>
         {
           userPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
-              <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
-                <i className={`iconfont ${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></i><div>{item.name}</div>
+              <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="leftbar-item-active" styleName="leftbar-item">
+                <Icon name={`${isMyFavotitePlaylist(item.id) ? 'iconxin' : 'icon-playlist'}`}></Icon>
+                <div>{item.name}</div>
               </NavLink>
             </ContextMenuWrap>
           ))
         }
-        { !!subPlaylist.length && <div className="leftbar-item-title">收藏的歌单</div> }
+        { !!subPlaylist.length && <div styleName="leftbar-item-title">收藏的歌单</div> }
         {
           subPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
-              <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="active" className="leftbar-item">
-                <i className="iconfont icon-playlist"></i><div>{item.name}</div>
+              <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="leftbar-item-active" styleName="leftbar-item">
+                <Icon name="icon-playlist"></Icon><div>{item.name}</div>
               </NavLink>
             </ContextMenuWrap>
           ))

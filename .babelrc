@@ -7,6 +7,14 @@
       "libraryName": "antd",
       "libraryDirectory": "es",
       "style": "css"
+    }],
+    ["react-css-modules", {
+      "generateScopedName": "[local]___[hash:base64:5]",
+      "filetypes": {
+        ".less": {
+          "syntax": "postcss-less"
+        }
+      }
     }]
 	]
 }

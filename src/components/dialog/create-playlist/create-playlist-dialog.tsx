@@ -21,19 +21,19 @@ const CreatePlaylistDialog: React.SFC<UseDialogProps> = (props) => {
 
   return (
     <Dialog width={470} {...props}>
-      <div className="create-playlist-dialog-wrap">
+      <div>
         <div className="dialog-title">新建歌单</div>
-        <div className="create-playlist-dialog-form-item">
+        <div styleName="create-playlist-dialog-form-item">
           <input onChange={(e) => { setName(e.target.value) }} placeholder="请输入新歌单标题"/>
         </div>
-        <div className="create-playlist-checkbox-wrap">
+        <div styleName="create-playlist-checkbox-wrap">
           <span
             onClick={() => { setIsPersonal(isPersonal => !isPersonal) }}
-            className={classnames('create-playlist-checkbox', { 'active': isPersonal })}>
+            styleName={classnames('create-playlist-checkbox', { 'active': isPersonal })}>
           </span>
           设置为隐私歌单
         </div>
-        <div onClick={() => { addPlaylist() }} className="create-playlist-button">创建</div>
+        <div onClick={() => { addPlaylist() }} styleName="create-playlist-button">创建</div>
       </div>
     </Dialog>
   )

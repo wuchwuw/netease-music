@@ -17,7 +17,7 @@
   font-size: 14px;
   overflow: hidden;
   width: 200px;
-  color: var(--text-main);
+  color: var(--text-3);
   > div {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -30,24 +30,6 @@
   &:hover {
     background: var(--leftbar-background-active);
   }
-  &.active {
-    background: var(--leftbar-background-active);
-    color: @color-main;
-    i {
-      color: @color-main;
-    }
-  }
-}
-.icon-neteastmusic {
-  height: 20px;
-  font-size: 19px !important;
-}
-.icon-mv {
-  width: 20px;
-  font-size: 18px !important;
-}
-.iconfriend {
-  font-size: 20px !important;
 }
 
 .leftbar-item-title {
@@ -67,13 +49,12 @@
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  background: #e0e0e0;
+  background: var(--leftbar-background-active);
   text-align: center;
   line-height: 40px;
   margin: 0 10px;
   i {
-    font-size: 14px;
-    color: #fff;
+    color: var(--color-white);
   }
 }
 .leftbar-login-avatar {
@@ -87,12 +68,12 @@
 }
 .leftbar-user-panel {
   width: 320px;
-  background: #FFFFFF;
+  background: var(--color-white);
   position: absolute;
   z-index: 10;
   left: 88px;
   top: 0;
-  box-shadow: 0px 0px 5px #cccccc;
+  box-shadow: 0px 0px 5px var(--text-c);
   border-radius: 5px;
 }
 .leftbar-login-username {
@@ -100,7 +81,7 @@
   i {
     font-size: 11px;
     margin-left: 5px;
-    color: #999999;
+    color: var(--text-9);
   }
 }
 
@@ -120,7 +101,7 @@
     }
     &:last-child {
       font-size: 12px;
-      color: #666666;
+      color: var(--text-6);
       margin-top: 5px;
     }
   }
@@ -128,7 +109,7 @@
     padding-left: 0;
   }
   &:not(:last-child) {
-    border-right: 1px solid #F3F3F3;
+    border-right: 1px solid var(--border);
   }
 }
 
@@ -142,29 +123,30 @@
     padding: 0 10px;
     cursor: pointer;
     &:hover {
-      background: #F3F3F3;
+      background: var(--default-background-hover);
     }
     &:nth-child(1) {
-      border-top: 1px solid #F2F2F2;
-      > i {
-        font-size: 18px;
-      }
-    }
-    &:nth-child(2) {
-      > i {
-        font-size: 18px;
-      }
+      border-top: 1px solid var(--border);
     }
     &:nth-child(4) {
-      border-top: 1px solid #F2F2F2;
+      border-top: 1px solid var(--border);
     }
     &:nth-child(6) {
-      border-top: 1px solid #F2F2F2;
+      border-top: 1px solid var(--border);
     }
   }
   i {
-    font-size: 16px;
     margin-right: 8px;
-    color: #333333;
+    color: var(--text-3);
+  }
+}
+
+:global {
+  .leftbar-item-active {
+    background: var(--leftbar-background-active);
+    color: @color-main;
+    i {
+      color: @color-main;
+    }
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './select.less'
 import { useContainer } from 'COMPONENTS/container/container'
+import Icon from 'COMPONENTS/icon/icon'
 
 interface SelectProps {
   options: any[]
@@ -38,17 +39,17 @@ const Select: React.SFC<SelectProps> = ({
   }
 
   return (
-    <div className="select">
-      <div onClick={open} className="select-content">
-        <input placeholder={placeholder} value={label} readOnly className="select-content-text"></input>
-        <span className="select-content-icon"><i className="iconfont icon-triangle-full"></i></span>
+    <div styleName="select">
+      <div onClick={open} styleName="select-content">
+        <input placeholder={placeholder} value={label} readOnly styleName="select-content-text"></input>
+        <span styleName="select-content-icon"><Icon name="icon-triangle-full"></Icon></span>
       </div>
       {
         visiable && (
-          <ul className="select-option">
+          <ul styleName="select-option">
             {
               options.map(option => (
-                <li key={option[valueName]} onClick={() => { onSelectChange(option) }} className="select-option-item">{option[labelName]}</li>
+                <li key={option[valueName]} onClick={() => { onSelectChange(option) }} styleName="select-option-item">{option[labelName]}</li>
               ))
             }
           </ul>

@@ -8,6 +8,7 @@ interface IconProps {
   onClick?: React.MouseEventHandler<HTMLElement>
   className?: string
   style?: CSSProperties
+  styleName?: string
 }
 
 const Icon: React.SFC<IconProps> = ({
@@ -15,7 +16,8 @@ const Icon: React.SFC<IconProps> = ({
   fontSize = 16,
   onClick,
   className = '',
-  style = {}
+  style = {},
+  styleName = ''
 }) => {
 
   const cls = classnames(`iconfont ${name} ${className}`)
@@ -25,7 +27,7 @@ const Icon: React.SFC<IconProps> = ({
     ...style
   }
 
-  return <i onClick={onClick} className={cls} style={s}></i>
+  return <i onClick={onClick} className={cls} style={s} styleName={styleName}></i>
 }
 
 export default Icon

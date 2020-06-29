@@ -24,12 +24,12 @@ const Spin: React.SFC<SpinProps> = (props) => {
     }
   }, [props.loading])
   return (
-    <div className="spin-container">
+    <div>
       {
         spin ?
-          <div className="spin-content">
-            <div className="spinner">
-              <div className="spinner-loading">
+          <div styleName="spin-content">
+            <div styleName="spinner">
+              <div styleName="spinner-loading">
                 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
               </div>
             </div>

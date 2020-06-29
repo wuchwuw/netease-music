@@ -28,7 +28,7 @@
     font-size: 18px;
     font-weight: 600;
     &:hover {
-      background: #ECEBED;
+      background: var(--default-background-hover);
     }
   }
 }
@@ -38,23 +38,6 @@
 .topbar-arrow-down {
   transform: rotate(90deg);
   margin-left: 20px;
-}
-.topbar-content {
-  display: flex;
-  align-items: center;
-  padding-left: 30px;
-}
-.topbar-content-item {
-  color: #646464;
-  margin-right: 28px;
-  font-size: 14px;
-  &:last-child {
-    margin-right: 0;
-  }
-  &:hover, &.active {
-    color: #000000;
-    font-weight: 600;
-  }
 }
 .topbar-search {
   display: flex;
@@ -79,16 +62,16 @@
     font-size: 13px;
     &::placeholder {
       font-size: 13px;
-      color: #999999;
+      color: var(--text-9);
     }
   }
   i {
-    color: #999999;
+    color: var(--text-9);
     font-size: 14px;
     margin-top: 1px;
     cursor: pointer;
     &:hover {
-      color: #666666;
+      color: var(--text-6);
     }
   }
 }
@@ -107,16 +90,16 @@
     text-align: center;
     border-radius: 50%;
     &:hover {
-      background: #ECEBED;
+      background: var(--default-background-hover);
     }
     &.active {
       color: @color-main;
-      background: #ECEBED;
+      background: var(--default-background-hover);
     }
   }
 }
 
-#style-mode {
+.style-mode {
   position: relative;
 }
 
@@ -140,7 +123,7 @@
       font-size: 12px;
       line-height: 12px;
       margin-top: 8px;
-      color: #333333;
+      color: var(--text-3);
     }
     > div {
       height: 20px;
@@ -170,11 +153,11 @@
       }
     }
     .style-mode-red {
-      background: @color-main;
+      background: var(--main-color);
       &.active {
         &:after {
-          border-left: 1px solid #FFFFFF;
-          border-bottom: 1px solid #FFFFFF;
+          border-left: 1px solid var(--color-white);
+          border-bottom: 1px solid var(--color-white);
         }
       }
     }
@@ -182,8 +165,8 @@
       background: #000000;
       &.active {
         &:after {
-          border-left: 1px solid #FFFFFF;
-          border-bottom: 1px solid #FFFFFF;
+          border-left: 1px solid var(--color-white);
+          border-bottom: 1px solid var(--color-white);
         }
       }
     }

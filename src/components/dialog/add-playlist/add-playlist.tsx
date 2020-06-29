@@ -23,22 +23,22 @@ const AddPlaylistDialog: React.SFC<UseDialogProps & AddPlaylistDialogProps> = (p
 
   return (
     <Dialog width={470} {...props}>
-      <div className="add-playlist-dialog-wrap">
+      <div styleName="add-playlist-dialog-wrap">
         <div className="dialog-title">收藏到歌单</div>
-        <div className="add-playlist-item">
-          <div className="add-playlist-cover"><i className="iconfont icon-add active"></i></div>
-          <div className="add-playlist-info">
-            <div className="add-playlist-name">创建为新歌单</div>
+        {/* <div styleName="add-playlist-item">
+          <div styleName="add-playlist-cover"><i className="iconfont icon-add active"></i></div>
+          <div styleName="add-playlist-info">
+            <div styleName="add-playlist-name">创建为新歌单</div>
           </div>
-        </div>
-        <div className="add-playlist-item-wrap">
+        </div> */}
+        <div styleName="add-playlist-item-wrap">
           {
             props.userPlaylist.map(playlist => (
-              <div onClick={() => { addPlaylistSong(playlist) }} key={playlist.id} className="add-playlist-item playlist">
-                <div className="add-playlist-cover"><img src={playlist.coverImgUrl} alt=""/></div>
-                <div className="add-playlist-info">
-                  <div className="add-playlist-info-name">{playlist.name}</div>
-                  <div className="add-playlist-info-trackcount">{playlist.trackCount}首音乐</div>
+              <div onClick={() => { addPlaylistSong(playlist) }} key={playlist.id} styleName="add-playlist-item playlist">
+                <div styleName="add-playlist-cover"><img src={playlist.coverImgUrl} alt=""/></div>
+                <div styleName="add-playlist-info">
+                  <div>{playlist.name}</div>
+                  <div styleName="add-playlist-info-trackcount">{playlist.trackCount}首音乐</div>
                 </div>
               </div>
             ))

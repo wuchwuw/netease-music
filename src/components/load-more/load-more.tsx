@@ -25,7 +25,7 @@ const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
     return () => { target!.removeEventListener('scroll', onScroll) }
   })
 
-  return <div className="loadmore-container">{children}</div>
+  return <div styleName="loadmore-container">{children}</div>
 }
 
 export default LoadMore

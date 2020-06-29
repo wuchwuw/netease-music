@@ -10,7 +10,7 @@ interface PageTitleProps {
 const PageTitle: React.SFC<PageTitleProps> = (props) => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   return (
-    fullScreen ? <></> : <div className="page-title-container">{props.children}</div>
+    fullScreen ? <></> : <div styleName="page-title-container">{props.children}</div>
   )
 }
 

@@ -3,6 +3,7 @@ import api from 'API/index'
 import classnames from 'classnames'
 import LyricClass, { LyricLine } from 'UTIL/lyric-parser'
 import Song from 'UTIL/song'
+import './lyric.less'
 
 interface LyricProps {
   song: Song
@@ -37,12 +38,12 @@ const Lyric: React.SFC<LyricProps> = ({
   }
 
   return (
-    <div className="lyric-container">
+    <div>
       {
         lines.map((item: any, index: any) => (
-          <div key={index} className={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>
+          <div key={index} styleName={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>
             <div>{item.txt}</div>
-            { item.translate && <div className="player-info-lyrics-item-translate">{item.translate}</div> }
+            { item.translate && <div styleName="player-info-lyrics-item-translate">{item.translate}</div> }
           </div>
         ))
       }

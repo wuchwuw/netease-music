@@ -12,10 +12,10 @@ const VipDialog: React.SFC<UseDialogProps> = (props) => {
     <Dialog {...props}>
       {
         !isPaying ?
-        <div className="vip-dialog-pay">
-          <div className="vip-dialog-background"></div>
-          <div className="vip-dialog-content">
-            <div className="vip-dialog-pay-text">版权方要求，该歌曲仅限开通VIP使用</div>
+        <div styleName="vip-dialog-pay">
+          <div styleName="vip-dialog-background"></div>
+          <div styleName="vip-dialog-content">
+            <div styleName="vip-dialog-pay-text">版权方要求，该歌曲仅限开通VIP使用</div>
             <Button block={true} type="primary" onClick={() => { window.open('https://music.163.com/#/member') }}>开通音乐包</Button>
           </div>
         </div>

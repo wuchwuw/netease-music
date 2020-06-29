@@ -24,13 +24,13 @@ const Dialog: React.SFC<DialogProps & UseDialogProps> = (props) => {
     <>
       {
         props.visible &&
-        <div className="dialog-wrap">
-          <div className="dialog-content-wrap" style={{ width: `${props.width}px`}}>
-            <span className="dialog-close" onClick={() => props.close()}><i className="iconfont icon-close"></i></span>
-            <div className="dialog-header">
+        <div styleName="dialog-wrap">
+          <div styleName="dialog-content-wrap" style={{ width: `${props.width}px`}}>
+            <span styleName="dialog-close" onClick={() => props.close()}><i className="iconfont icon-close"></i></span>
+            <div styleName="dialog-header">
               {props.title}
             </div>
-            <div className="dialog-content">{props.children}</div>
+            <div>{props.children}</div>
           </div>
         </div>
       }

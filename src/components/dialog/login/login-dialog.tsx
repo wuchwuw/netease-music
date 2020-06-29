@@ -49,20 +49,20 @@ const LoignDialog = () => {
 
   return (
     <Dialog width={350} {...dialogProps}>
-      <div className="login-dialog-wrap">
-        <img className="login-dialog-img" src={login_dialog_img} alt=""/>
-        <div className="login-dialog-form">
-          <div className="login-dialog-form-item">
+      <div styleName="login-dialog-wrap">
+        <img styleName="login-dialog-img" src={login_dialog_img} alt=""/>
+        <div styleName="login-dialog-form">
+          <div styleName="login-dialog-form-item">
             <i className="iconfont icon-phone"></i>
             <input value={phone} onChange={(e) => { setPhone(e.target.value) }} placeholder="请输入手机号" type="text"/>
           </div>
-          <div className="login-dialog-form-item">
+          <div styleName="login-dialog-form-item">
             <i className="iconfont icon-lock"></i>
             <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder="请输入密码"/>
           </div>
         </div>
-        <div className="login-dialog-btn" onClick={() => { login() }}>登录</div>
-        <div className="login-dialog-tip">本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
+        <div styleName="login-dialog-btn" onClick={() => { login() }}>登录</div>
+        <div styleName="login-dialog-tip">本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
       </div>
     </Dialog>
   )

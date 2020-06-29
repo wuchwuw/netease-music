@@ -56,10 +56,10 @@ const Button: React.SFC<ButtonProps> = ({
 
   return (
     <button
-      className={classes}
+      styleName={classes}
       onClick={handleClick}
     >
-      <div className='button-content'>
+      <div styleName='button-content'>
         {getChildren()}
       </div>
     </button>

@@ -20,9 +20,9 @@ const Confirm: React.SFC<ConfirmProps & UseDialogProps> = ({
 }) => {
   return (
     <Dialog width={400} {...{visible, open, close, toggle}}>
-      <div className="confirm-wrap">
-        <div className="confirm-text">{text}</div>
-        <div className="confirm-button" onClick={() => { confirm(() => { close() }) }}>{buttonText}</div>
+      <div styleName="confirm-wrap">
+        <div styleName="confirm-text">{text}</div>
+        <div styleName="confirm-button" onClick={() => { confirm(() => { close() }) }}>{buttonText}</div>
       </div>
     </Dialog>
   )

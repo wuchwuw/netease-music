@@ -122,9 +122,10 @@ export default function Player () {
     const cls = ['loop', 'loopone', 'random', 'order']
     const text = ['列表循环', '单曲循环', '随机播放', '顺序播放']
     return (
-      <i onClick={() => { setPlayerMode() }} className={`mini-player-mode-wrap iconfont icon-${cls[mode]}`}>
+      <span styleName="mini-player-mode-wrap">
+        <Icon onClick={setPlayerMode} name={`icon-${cls[mode]}`}></Icon>
         <span>{text[mode]}</span>
-      </i>
+      </span>
     )
   }
 
@@ -140,45 +141,46 @@ export default function Player () {
 
   return (
     <>
-      <div className="mini-player-wrap">
-        <div ref={progressWrapRef} className="mini-player-progress-wrap">
-          <div className="mini-player-progress-default"></div>
-          <div ref={progressRef} className="mini-player-progress" style={{width: `${precent}%`}}>
+      <div styleName="mini-player-wrap">
+        <div ref={progressWrapRef} styleName="mini-player-progress-wrap">
+          <div styleName="mini-player-progress-default"></div>
+          <div ref={progressRef} styleName="mini-player-progress" style={{width: `${precent}%`}}>
             <div
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
-              className="mini-player-progress-icon"
+              styleName="mini-player-progress-icon"
               >
             </div>
           </div>
         </div>
-        <div className="mini-player-content">
-          <div className="mini-player-song">
-            <img onClick={setFullScreen} className="mini-player-song-img" src={currentSong.album.picUrl+'?param=100y100'} alt=""/>
-            <div className="mini-player-song-info">
-              <div className="mini-player-song-name">{getSongName()}</div>
-              <div className="mini-player-song-duration">{getCurrentTime()}</div>
+        <div styleName="mini-player-content">
+          <div styleName="mini-player-song">
+            <img onClick={setFullScreen} styleName="mini-player-song-img" src={currentSong.album.picUrl+'?param=100y100'} alt=""/>
+            <div styleName="mini-player-song-info">
+              <div styleName="mini-player-song-name">{getSongName()}</div>
+              <div styleName="mini-player-song-duration">{getCurrentTime()}</div>
             </div>
           </div>
-          <div className="mini-player-control">
-            <i onClick={() => { currentSongFavorite() } } className={`iconfont ${isFavorite(currentSong.id) ? 'icon-heart-full' : 'iconxin'}`}></i>
-            <i onClick={prev} className={classnames('iconfont iconforward', { 'fail': playerStatus === 'fm'})}></i>
-            <i onClick={togglePlay} className={classnames('iconfont', { 'icon-play': !playing, 'iconzanting': playing })}></i>
-            <i onClick={next} className="iconfont iconforward1"></i>
-            { playerStatus === 'fm' && <Icon hover onClick={() => { addFMTrash(currentSong.id) }} style={{fontSize: '19px', marginLeft: '20px'}} name="icon-delete"></Icon>}
+          <div styleName="mini-player-control">
+            <Icon className={`icon-color-${isFavorite(currentSong.id) ? 'main' : '6'} hover`} style={{marginRight: '25px'}} onClick={() => { currentSongFavorite() } } name={isFavorite(currentSong.id) ? 'icon-heart-full' : 'iconxin'}></Icon>
+            <Icon className="icon-color-main hover" style={{marginRight: '10px'}} fontSize={20} onClick={prev} name={classnames('iconfont iconforward', { 'fail': playerStatus === 'fm'})}></Icon>
+            <Icon className="icon-color-main hover" fontSize={35} onClick={togglePlay} name={!playing ? 'icon-play': 'iconzanting'}></Icon>
+            <Icon className="icon-color-main hover" style={{marginLeft: '10px'}} fontSize={20} onClick={next} name="iconfont iconforward1"></Icon>
+            { playerStatus === 'fm' && <Icon onClick={() => { addFMTrash(currentSong.id) }} style={{fontSize: '19px', marginLeft: '20px'}} name="icon-delete"></Icon>}
           </div>
-          <div className="mini-player-action">
+          <div styleName="mini-player-action">
             { genPlayerModeIcon() }
-            { playerStatus !== 'fm' && <i onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} className={classnames('iconfont iconlist', {'active': currentPanelType === PanelType.CurrentPlaylist})}></i>}
-            <i className="iconfont icon1 mini-player-voice-wrap">
-              <div className="mini-player-voice">
-                <div className="mini-player-voice-content">
-                  <div ref={voiceBar} className="mini-player-voice-bar-default"></div>
-                  <div style={{height: `${voice}px`}} className="mini-player-voice-bar"></div>
+            { playerStatus !== 'fm' && <Icon style={{marginLeft: '20px'}} onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} name="iconlist" className={classnames({'icon-color-main': currentPanelType === PanelType.CurrentPlaylist})}></Icon>}
+            <span styleName="mini-player-voice-wrap">
+              <Icon name="icon1"></Icon>
+              <div styleName="mini-player-voice">
+                <div styleName="mini-player-voice-content">
+                  <div ref={voiceBar} styleName="mini-player-voice-bar-default"></div>
+                  <div style={{height: `${voice}px`}} styleName="mini-player-voice-bar"></div>
                   <div
                     style={{bottom: `${voice - 6}px`}}
-                    className="mini-player-voice-control"
+                    styleName="mini-player-voice-control"
                     onPointerDown={onVoicePointerDown}
                     onPointerMove={onVoicePointerMove}
                     onPointerUp={onVoicePointerUp}
@@ -186,7 +188,7 @@ export default function Player () {
                   </div>
                 </div>
               </div>
-            </i>
+            </span>
           </div>
         </div>
         <audio ref={audioRef} id="player-audio" onTimeUpdate={onTimeUpdate} onEnded={onEnd}></audio>

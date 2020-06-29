@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
 import { getSongList } from 'UTIL/song'
 import { usePlayerController } from 'UTIL/player-controller'
+import Icon from 'COMPONENTS/icon/icon'
 
 interface ImageItem {
   targetId: number
@@ -84,39 +85,39 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
   }
 
   return (
-    <div id="slider">
-      <div id="slider-wrap">
+    <div styleName="slider">
+      <div styleName="slider-wrap">
         {
           images.map((item, index: any) => (
             <div
               onClick={(e) => { handleImageClick(e, item) }}
-              className={classnames("slider-item", {
+              styleName={classnames("slider-item", {
                 'left': index === prevIndex,
                 'right': index === nextIndex,
                 'active': index === currentIndex
               })}
               key={index}
             >
-              <img className="slider-img" src={item.imageUrl} alt="" />
-              <div className={classnames('slider-item-tag', item.titleColor )}>{item.typeTitle}</div>
+              <img styleName="slider-img" src={item.imageUrl} alt="" />
+              <div styleName={classnames('slider-item-tag', item.titleColor )}>{item.typeTitle}</div>
             </div>
           ))
         }
       </div>
-      <div className="dot">
+      <div styleName="dot">
         {
           images.map((item: any, index: any) => (
             <span
               onClick={()=> next(index)}
-              className={classnames('dot-item', { 'active': currentIndex === index })}
+              styleName={classnames('dot-item', { 'active': currentIndex === index })}
               key={index}
             >
             </span>
           ))
         }
       </div>
-      <div onClick={() => { next(round(currentIndex - 1)) }} className="slider-control slider-left"><i className="iconfont icon-arrow-left"></i></div>
-      <div onClick={() => { next(round(currentIndex + 1)) }} className="slider-control slider-right"><i className="iconfont icon-arrow-right"></i></div>
+      <div onClick={() => { next(round(currentIndex - 1)) }} styleName="slider-control slider-left"><Icon name="icon-arrow-left"></Icon></div>
+      <div onClick={() => { next(round(currentIndex + 1)) }} styleName="slider-control slider-right"><Icon name="icon-arrow-right"></Icon></div>
     </div>
   )
 }

@@ -84,31 +84,6 @@
   align-items: center;
   width: 20%;
   justify-content: center;
-  .icon-play, .iconzanting {
-    font-size: 45px;
-    margin: 0 20px;
-    color: @color-main;
-    cursor: pointer;
-  }
-  .iconforward, .iconforward1 {
-    font-size: 18px;
-    color: @color-main;
-    cursor: pointer;
-    &.fail {
-      opacity: 0.5;
-    }
-  }
-  .iconxin {
-    font-size: 18px;
-    margin-right: 25px;
-    cursor: pointer;
-  }
-  .icon-heart-full {
-    color: @color-main;
-    font-size: 18px;
-    margin-right: 25px;
-    cursor: pointer;
-  }
 }
 
 .mini-player-action {
@@ -118,19 +93,9 @@
   justify-content: flex-end;
   padding-right: 25px;
   i {
-    margin-left: 25px;
     &.active {
       color: @color-main;
     }
-  }
-  .iconlist {
-    font-size: 18px;
-  }
-  .icon1 {
-    font-size: 18px;
-    height: 50px;
-    display: flex;
-    align-items: center;
   }
   .mini-player-mode-wrap {
     height: 50px;
@@ -173,6 +138,8 @@
 }
 .mini-player-voice-wrap {
   position: relative;
+  margin-left: 20px;
+  line-height: 50px;
   &:hover {
     .mini-player-voice {
       display: flex;

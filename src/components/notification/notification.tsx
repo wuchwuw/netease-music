@@ -16,7 +16,6 @@ const NotificationContainer = forwardRef((porps, ref) => {
   useImperativeHandle(ref, () => ({
     open: (content: NotificationContent) => {
       if (timer) clearTimeout(timer)
-      console.log(11)
       setContent(content.content)
       setVisiable(true)
       timer = setTimeout(() => {
@@ -30,9 +29,9 @@ const NotificationContainer = forwardRef((porps, ref) => {
   }
 
   return (
-    <div className="notifiaction-container">
+    <div styleName="notifiaction-container">
       <CSSTransition in={visiable} unmountOnExit timeout={300} classNames="notification-transition">
-        <div className="notifiaction">
+        <div styleName="notifiaction">
           {contnet}
         </div>
       </CSSTransition>

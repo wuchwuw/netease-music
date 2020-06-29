@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './top-bar.less'
-import { NavLink, withRouter, useLocation, useHistory, useRouteMatch } from 'react-router-dom'
 import { RootState } from 'STORE/index'
 import { useSelector, useDispatch } from 'react-redux'
 import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
@@ -11,15 +10,6 @@ import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
 import { setGlobalCSSVar, defaultMode } from 'UTIL/css-var'
 import { useSearchKeywords } from 'UTIL/search-keywords'
-
-const homeSubPagePathMap: any = {
-  '/home/index': '个性推荐',
-  '/home/playlist': '歌单',
-  // '/home/radio': '主播电台',
-  '/home/toplist': '排行榜',
-  '/home/artist': '歌手',
-  '/home/new': '最新音乐'
-}
 
 const viodeSubPagePathMap: any = {
   '/video/index': '视频',
@@ -36,8 +26,6 @@ const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
-  const location = useLocation()
-  const history = useHistory()
   const { visiable, open } = useContainer(['#style-mode'])
   const { goSearch } = usePageForword()
   const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
@@ -51,43 +39,41 @@ const TopBar: React.SFC = () => {
     if (fullScreen) {
       return <></>
     }
-    if (location.pathname === '/allmv') {
-      return (
-        <div>
-          <span className="topbar-content-item active">全部MV</span>
-        </div>
-      )
-    }
-    if (/cloud/.test(location.pathname)) {
-      return (
-        <div>
-          <span className="topbar-content-item active">我的音乐云盘</span>
-        </div>
-      )
-    }
-    if (/home/.test(location.pathname)) {
-      routePath = homeSubPagePathMap
-    } else if (['/video/index', '/video/mv'].includes(location.pathname)) {
-      routePath = viodeSubPagePathMap
-    } else if (/star/.test(location.pathname)) {
-      routePath = starSubPagePathMap
-    }
-    return (
-      <>
-        {
-          (Object.keys(routePath) as Array<keyof typeof routePath>).map((key) => (
-            <NavLink
-              to={key}
-              activeClassName="active"
-              className="topbar-content-item"
-              key={key}
-            >
-              {routePath[key]}
-            </NavLink>
-          ))
-        }
-      </>
-    )
+    // if (location.pathname === '/allmv') {
+    //   return (
+    //     <div>
+    //       <span className="topbar-content-item active">全部MV</span>
+    //     </div>
+    //   )
+    // }
+    // if (/cloud/.test(location.pathname)) {
+    //   return (
+    //     <div>
+    //       <span className="topbar-content-item active">我的音乐云盘</span>
+    //     </div>
+    //   )
+    // }
+    // if (['/video/index', '/video/mv'].includes(location.pathname)) {
+    //   routePath = viodeSubPagePathMap
+    // } else if (/star/.test(location.pathname)) {
+    //   routePath = starSubPagePathMap
+    // }
+    // return (
+    //   <>
+    //     {
+    //       (Object.keys(routePath) as Array<keyof typeof routePath>).map((key) => (
+    //         <NavLink
+    //           to={key}
+    //           activeClassName="active"
+    //           className="topbar-content-item"
+    //           key={key}
+    //         >
+    //           {routePath[key]}
+    //         </NavLink>
+    //       ))
+    //     }
+    //   </>
+    // )
   }
 
   function onSearchFocus () {
@@ -115,23 +101,23 @@ const TopBar: React.SFC = () => {
   }
 
   return (
-    <div className="topbar-wrap">
-      <div className="topbar-arrow">
+    <div styleName="topbar-wrap">
+      <div styleName="topbar-arrow">
         {
           !fullScreen ?
-            <div className="topbar-arrow-wrap left">
+            <div styleName="topbar-arrow-wrap left">
               <i className="iconfont icon-arrow-left topbar-arrow-left"></i>
               <i className="iconfont icon-arrow-right"></i>
             </div>
           :
-            <div className="topbar-arrow-wrap right">
+            <div styleName="topbar-arrow-wrap right">
               <i onClick={() => { dispatch({type: PLAYER_FULL_SCREEN, fullScreen: false}) }} className="iconfont icon-arrow-right topbar-arrow-down"></i>
             </div>
         }
       </div>
-      <div className="topbar-content">{renderTopbarContent()}</div>
-      <div className="topbar-search">
-        <div className="topbar-search-content">
+      {/* <div styleName="topbar-content">{renderTopbarContent()}</div> */}
+      <div styleName="topbar-search">
+        <div styleName="topbar-search-content">
           <i className="iconfont icon-search"></i>
           <input
             onChange={(e) => onSearchChange(e.target.value) }
@@ -144,16 +130,16 @@ const TopBar: React.SFC = () => {
           { !!keywords && <i onClick={(e) => { onSearchClear(e) }} className="iconfont icon-close"></i> }
         </div>
       </div>
-      <div className="topbar-other">
+      <div styleName="topbar-other">
         <i className="iconfont icon-setting"></i>
         <i id="message-icon" onClick={() => { setPanelType(PanelType.Message) }} className={classnames('iconfont icon-email', {'active': currentPanelType === PanelType.Message})}></i>
-        <i id="style-mode" className={classnames('iconfont icon-style', { 'active': visiable })} onClick={() => { open() }}>
+        <i id="style-mode" styleName="style-mode" className={classnames('iconfont icon-style', { 'active': visiable })} onClick={() => { open() }}>
           {
             visiable &&
-            <div className="style-mode-wrap">
-              <div className="style-mode-item"><div className={classnames('style-mode-light', { 'active': mode === 'light' })} onClick={() => { setMode('light'); setGlobalCSSVar('light') }}></div><span>浅色</span></div>
+            <div styleName="style-mode-wrap">
+              <div styleName="style-mode-item"><div styleName={classnames('style-mode-light', { 'active': mode === 'light' })} onClick={() => { setMode('light'); setGlobalCSSVar('light') }}></div><span>浅色</span></div>
               {/* <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div> */}
-              <div className="style-mode-item"><div className={classnames('style-mode-dark', { 'active': mode === 'dark' })}  onClick={() => { setMode('dark'); setGlobalCSSVar('dark') }}></div><span>深色</span></div>
+              <div styleName="style-mode-item"><div styleName={classnames('style-mode-dark', { 'active': mode === 'dark' })}  onClick={() => { setMode('dark'); setGlobalCSSVar('dark') }}></div><span>深色</span></div>
             </div>
           }
         </i>
@@ -162,4 +148,4 @@ const TopBar: React.SFC = () => {
   )
 }
 
-export default withRouter(TopBar)
+export default TopBar

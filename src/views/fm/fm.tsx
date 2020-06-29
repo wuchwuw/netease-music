@@ -42,34 +42,35 @@ const FM = () => {
   }
 
   return (
-    <div className="fm-container">
-      <div className="fm-song">
-        <div className="fm-song-left">
-          <div className="fm-song-cover">
+    <div styleName="fm-container">
+      <div styleName="fm-song">
+        <div styleName="fm-song-left">
+          <div styleName="fm-song-cover">
             {
               fmScreenMusicList.map(fm => (
-                <div onClick={() => { handleFMCoverClick(fm.type) }} key={fm.song.id} className={`fm-song-cover-content ${fm.type}`}>
+                <div onClick={() => { handleFMCoverClick(fm.type) }} key={fm.song.id} styleName={`fm-song-cover-content ${fm.type}`}>
                   <img src={fm.song.album.picUrl + '?param=400y400'} alt=""/>
                 </div>
               ))
             }
-            <div onClick={() => { startFM() }} className={`fm-play-icon ${isPlaying() ? 'pause' : 'play'}`}>
+            <div onClick={() => { startFM() }} styleName={`fm-play-icon ${isPlaying() ? 'pause' : 'play'}`}>
               <Icon className="icon-color-main" fontSize={18} name={`${isPlaying() ? 'icon-pause' : 'icon-triangle-full'}`}></Icon>
             </div>
           </div>
-          <div className="fm-action">
+          <div styleName="fm-action">
             <Icon
-              className={`icon-color-${isFavorite(currentFM.song.id) ? 'main' : '6'} fm-action-item`}
+              className={`icon-color-${isFavorite(currentFM.song.id) ? 'main' : '6'}`}
+              styleName="fm-action-item"
               onClick={() => { favorite(currentFM.song.id) }}
               name={`${isFavorite(currentFM.song.id) ? 'icon-heart-full' : 'iconxin'}`}
             ></Icon>
-            <Icon className="icon-color-6 fm-action-item" onClick={() => { addFMTrash(currentFM.song.id) }} name="icon-delete"></Icon>
-            <Icon className="icon-color-6 fm-action-item" onClick={() => { next() }} name="icon-fmnext"></Icon>
-            <span onClick={open} className="fm-action-item fm-context-menu-wrap">
+            <Icon className="icon-color-6" styleName="fm-action-item" onClick={() => { addFMTrash(currentFM.song.id) }} name="icon-delete"></Icon>
+            <Icon className="icon-color-6" styleName="fm-action-item" onClick={() => { next() }} name="icon-fmnext"></Icon>
+            <span onClick={open} styleName="fm-action-item fm-context-menu-wrap">
               <Icon className="icon-color-6" name="icon-menu"></Icon>
               {
                 visiable && (
-                  <ul className="fm-context-menu">
+                  <ul styleName="fm-context-menu">
                     <li onClick={() => { openAddPlaylistSongDialog({ songs: [currentFM.song], userPlaylist, addOrRemoveSong }) }} className="fm-context-menu-item">收藏</li>
                     <li onClick={() => { openShareDialog({ shareContent: currentFM.song, type: ShareType.SONG }) }} className="fm-context-menu-item">分享</li>
                   </ul>
@@ -78,13 +79,13 @@ const FM = () => {
             </span>
           </div>
         </div>
-        <div className="fm-info">
-          <div className="fm-info-name">{currentFM.song.name}</div>
-          <div className="fm-info-album">
-            <div>专辑:<span onClick={() => { goAlbumDetail(currentFM.song.album.id) }} className="fm-info-album-text commen-link-blue">{currentFM.song.album.name}</span></div>
-            <div>歌手:<span className="fm-info-album-text">{genArtists(currentFM.song.artists, goArtistDetail, 'commen-link-blue')}</span></div>
+        <div styleName="fm-info">
+          <div styleName="fm-info-name">{currentFM.song.name}</div>
+          <div styleName="fm-info-album">
+            <div>专辑:<span onClick={() => { goAlbumDetail(currentFM.song.album.id) }} styleName="fm-info-album-text" className="commen-link-blue">{currentFM.song.album.name}</span></div>
+            <div>歌手:<span styleName="fm-info-album-text">{genArtists(currentFM.song.artists, goArtistDetail, 'commen-link-blue')}</span></div>
           </div>
-          <div className="fm-info-lyrics">
+          <div styleName="fm-info-lyrics">
             <Lyric song={currentFM.song}></Lyric>
           </div>
         </div>

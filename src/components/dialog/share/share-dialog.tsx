@@ -23,12 +23,12 @@ const ShareDialog: React.SFC<ShareDialogProps & UseDialogProps> = (props) => {
     <Dialog {...props} width={360}>
       <div>
         <div className="dialog-title">分享</div>
-        <div className="share-dialog-container">
-          <div onClick={handleActivityClick} className="share-dialog-item">
-            <span className="share-dialog-item-icon activity">
+        <div styleName="share-dialog-container">
+          <div onClick={handleActivityClick} styleName="share-dialog-item">
+            <span styleName="share-dialog-item-icon activity">
               <Icon name="icon-neteastmusic"></Icon>
             </span>
-            <span className="share-dialog-item-text">分享到云音乐动态</span>
+            <span styleName="share-dialog-item-text">分享到云音乐动态</span>
           </div>
         </div>
       </div>

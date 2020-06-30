@@ -6,7 +6,7 @@ import { getSongList } from 'UTIL/song'
 import { usePlayerController } from 'UTIL/player-controller'
 import Icon from 'COMPONENTS/icon/icon'
 
-interface ImageItem {
+export interface ImageItem {
   targetId: number
   targetType: number
   imageUrl: string

@@ -190,10 +190,10 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
     switch (res.tab) {
       case TabType.SONG:
         return (
-          <ul className="activity-dialog-search-list">
+          <ul styleName="activity-dialog-search-list">
             {
               res.result.map(song => (
-                <li onClick={() => { setShareData(song) }} key={song.id} className="activity-dialog-search-item">
+                <li onClick={() => { setShareData(song) }} key={song.id} styleName="activity-dialog-search-item">
                   <span>{song.name}</span> - <span>{song.artistName}</span>
                 </li>
               ))
@@ -202,10 +202,10 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
         )
       case TabType.ALBUM:
         return (
-          <ul className="activity-dialog-search-list">
+          <ul styleName="activity-dialog-search-list">
             {
               res.result.map(album => (
-                <li onClick={() => { setShareData(album) }} key={album.id} className="activity-dialog-search-item">
+                <li onClick={() => { setShareData(album) }} key={album.id} styleName="activity-dialog-search-item">
                   {album.name} - {album.artistName}
                 </li>
               ))
@@ -214,10 +214,10 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
         )
       case TabType.ARTIST:
         return (
-          <ul className="activity-dialog-search-list">
+          <ul styleName="activity-dialog-search-list">
             {
               res.result.map(artist => (
-                <li onClick={() => { setShareData(artist) }} key={artist.id} className="activity-dialog-search-item">
+                <li onClick={() => { setShareData(artist) }} key={artist.id} styleName="activity-dialog-search-item">
                   {artist.name}
                 </li>
               ))
@@ -226,10 +226,10 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
         )
         case TabType.PLAYLIST:
           return (
-            <ul className="activity-dialog-search-list">
+            <ul styleName="activity-dialog-search-list">
               {
                 res.result.map(playlist => (
-                  <li onClick={() => { setShareData(playlist) }} key={playlist.id} className="activity-dialog-search-item">
+                  <li onClick={() => { setShareData(playlist) }} key={playlist.id} styleName="activity-dialog-search-item">
                     {playlist.name}
                   </li>
                 ))
@@ -242,18 +242,18 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
   function genShareContent () {
     if (!share.tab) {
       return (
-        <div onClick={() => { setSelected(true) }} className="activity-dialog-add-content">
-          <span className="activity-dialog-add-icon"><Icon fontSize={14} name="icon-neteastmusic"></Icon></span>
-          <span className="activity-dialog-add-tip">给动态配上内容~</span>
+        <div onClick={() => { setSelected(true) }} styleName="activity-dialog-add-content">
+          <span styleName="activity-dialog-add-icon"><Icon fontSize={14} name="icon-neteastmusic"></Icon></span>
+          <span styleName="activity-dialog-add-tip">给动态配上内容~</span>
         </div>
       )
     }
 
     function genContent (cover: string, text: string) {
       return (
-        <div onClick={() => { setSelected(true) }} className="activity-dialog-add-content">
-          <span className="activity-dialog-add-cover"><img src={cover} alt=""/></span>
-          <span className="activity-dialog-add-tip">{text}</span>
+        <div onClick={() => { setSelected(true) }} styleName="activity-dialog-add-content">
+          <span styleName="activity-dialog-add-cover"><img src={cover} alt=""/></span>
+          <span styleName="activity-dialog-add-tip">{text}</span>
         </div>
       )
     }
@@ -288,36 +288,36 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
       {
         !selected ? (
           <div>
-            <div className="activity-dialog-textarea-wrap">
+            <div styleName="activity-dialog-textarea-wrap">
               <textarea
                 value={content}
                 onChange={(e) => { setContent(e.target.value) }}
-                className="activity-dialog-textarea"
+                styleName="activity-dialog-textarea"
                 placeholder="一起聊聊音乐吧~"
                 rows={8}
               >
               </textarea>
-              <div className="activity-dialog-textarea-option">
+              <div styleName="activity-dialog-textarea-option">
                 <Icon name="icon-face" fontSize={18}></Icon>
                 <Icon name="icon-aite" fontSize={18}></Icon>
                 <Icon name="icon-addtag" fontSize={18}></Icon>
-                <span className="activity-dialog-textarea-reset">140</span>
+                <span styleName="activity-dialog-textarea-reset">140</span>
               </div>
             </div>
             <>{genShareContent()}</>
-            <div className="activity-dialog-button-wrap"><Button onClick={shareActivity} type="primary">分享</Button></div>
+            <div styleName="activity-dialog-button-wrap"><Button onClick={shareActivity} type="primary">分享</Button></div>
           </div>
         )
         :
         (
-          <div className="activity-dialog-search">
+          <div styleName="activity-dialog-search">
             <div style={{display: 'flex', alignItems: 'center', marginTop: '10px'}}>
-              <span onClick={open} className="activity-dialog-selected">
+              <span onClick={open} styleName="activity-dialog-selected">
                 <span>{SEARCH_TAB_NAME_MAP[tab]}</span>
                 <Icon fontSize={12} name="icon-triangle-full"></Icon>
                 {
                   visiable && (
-                    <ul className="activity-dialog-selected-content">
+                    <ul styleName="activity-dialog-selected-content">
                       {
                         (Object.keys(SEARCH_TAB_NAME_MAP) as TabType[]).map(item => (
                           <li key={item} onClick={() => { setTab(item) }}>{SEARCH_TAB_NAME_MAP[item]}</li>
@@ -327,7 +327,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
                   )
                 }
               </span>
-              <div className="activity-dialog-input-wrap">
+              <div styleName="activity-dialog-input-wrap">
                 <Icon fontSize={13} name="icon-search"></Icon>
                 <input
                   value={keywords}
@@ -337,7 +337,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
                 />
               </div>
             </div>
-            <div className="activity-dialog-search-content">
+            <div styleName="activity-dialog-search-content">
               <Spin loading={loading} delay={0}>
                 {genSearchContent()}
               </Spin>

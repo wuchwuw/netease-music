@@ -75,6 +75,9 @@
   display: flex;
   align-items: center;
   margin-top: 20px;
+  > button {
+    margin-left: 5px;
+  }
 }
 .playlist-info-action-playall {
   height: 30px;
@@ -94,7 +97,7 @@
   }
   div {
     flex: 0 0 105px;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
     height: 30px;
     display: flex;
@@ -125,32 +128,6 @@
   }
 }
 
-.playlist-info-action-star {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  height: 30px;
-  border: 1px solid #D9D9D9;
-  border-radius: 20px;
-  font-size: 14px;
-  margin-left: 10px;
-  &:hover {
-    background: #F3F3F3;
-  }
-  i {
-    margin-right: 2px;
-  }
-  &.fail {
-    color: #CCCCCC;
-    cursor: default;
-    &:hover {
-      background: #FFFFFF;
-    }
-  }
-}
-
 .playlist-tab-wrap {
   margin: 30px 30px 0;
 }
@@ -165,8 +142,6 @@
     position: absolute;
     top: 0;
     right: 10px;
-    font-size: 12px;
-    transform-origin: center;
     &.up {
       transform: rotate(-90deg);
     }

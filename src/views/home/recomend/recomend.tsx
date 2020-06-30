@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './recomend.less'
 import api from 'API/index'
-import Slider from 'COMPONENTS/slider/slider.tsx'
+import Slider, { ImageItem } from 'COMPONENTS/slider/slider.tsx'
 import { CSSTransition } from 'react-transition-group'
 import { PlaylistClass, createPlaylistList } from 'UTIL/playlist'
 import Song, { createSongList } from 'UTIL/song'
@@ -13,7 +13,7 @@ import { usePlayerController } from 'UTIL/player-controller'
 import Icon from 'COMPONENTS/icon/icon'
 
 let loaded = false
-let bannersCache: string[] = []
+let bannersCache: ImageItem[] = []
 let playlistRecommendCache: PlaylistClass[] = []
 let privatecontentCache: MV[] = []
 let mvCache: MV[] = []
@@ -21,7 +21,7 @@ let songCache: Song[] = []
 // let djCache: any = []
 
 const HomeRecomend = () => {
-  const [banners, setBanners] = useState(bannersCache)
+  const [banners, setBanners] = useState<ImageItem[]>(bannersCache)
   const [playlistRecomend, setPlaylistRecomend] = useState(playlistRecommendCache)
   const [privatecontent, setPrivatecontent] = useState(privatecontentCache)
   const [mv, setMv] = useState(mvCache)
@@ -60,7 +60,7 @@ const HomeRecomend = () => {
     <div className="container" styleName="home-wrap">
       <CSSTransition in={!visible} timeout={500} unmountOnExit classNames="fade">
         <div styleName="home-loading">
-          <Icon name="icon-default"></Icon>
+          <Icon className="icon-color-main" fontSize={100} name="icon-default"></Icon>
           <p>正在生成个性化推荐...</p>
         </div>
       </CSSTransition>

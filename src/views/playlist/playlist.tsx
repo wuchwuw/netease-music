@@ -16,6 +16,9 @@ import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
 import { getPlaylistCache, setPlaylistCache, getPlaylistTracksCache, setPlaylistTracksCache } from 'UTIL/playlist-cache'
 import Spin from 'COMPONENTS/spin/spin'
+import Button from 'COMPONENTS/Button/Button'
+import Icon from 'COMPONENTS/Icon/Icon'
+import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -39,19 +42,16 @@ const Playlist = () => {
   const tracksDefault = getPlaylistTracksCache(playlistId)
   const [ playlist, setPlaylist ] = useState<PlaylistClass>(playlistDefault)
   const [tracks, setTracks] = useState<Song[]>(tracksDefault)
-
   const { start, nextPlayPlaylist } = usePlayerController()
   const { subscribePlaylist, isMyFavotitePlaylist, isUserPlaylist, removeSongWidthComfirm } = useUserPlaylist()
   const { getSongMenu } = useSongContextMenu()
   const { goUserDetail, goPlaylistEdit, goPlaylistDiscover } = usePageForword()
   const shouldUpdateFavoritePlaylist = useSelector((state: RootState) => state.commen.shouldUpdateFavoritePlaylist)
-
   const isEmpty = useMemo(() => playlist.trackCount === 0, [playlist.trackCount])
   const isPersonal = useMemo(() => isUserPlaylist(playlist.id), [playlist.id])
   const isOrigin = useMemo(() => isMyFavotitePlaylist(playlist.id), [playlist.id])
-
   const [trackloading, setTrackLoading] = useState(true)
-
+  const openShareDialog = createShareDialog()
   const time = useRef(0)
 
   useEffect(() => {
@@ -169,68 +169,67 @@ const Playlist = () => {
     if (tags.length) {
       return (
         <div>
-          <span className="playlist-info-num-label">标签：</span>
+          <span styleName="playlist-info-num-label">标签：</span>
           {
             tags.map((item, index) => <><span onClick={() => { goPlaylistDiscover({ cate: item }) }} className="commen-link-blue">{item}</span> {index !== tags.length - 1 ? '/' : ''} </>)
           }
         </div>
       )
     } else {
-      return isShowEdit ? <div><span className="playlist-info-num-label">标签：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加标签</span></div> : null
+      return isShowEdit ? <div><span styleName="playlist-info-num-label">标签：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加标签</span></div> : null
     }
   }
 
   function genPlaylistDesc (playlist: PlaylistClass) {
     const isShowEdit = !isOrigin && isPersonal
     if (playlist.description) {
-      return <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span>{playlist.description}<i className="iconfont icon-triangle-full down"></i></div>
+      return <div styleName="playlist-info-desc clid"><span styleName="playlist-info-num-label">简介：</span>{playlist.description}<Icon fontSize={12} name="icon-triangle-full" styleName="down"></Icon></div>
     } else {
-      return isShowEdit ? <div className="playlist-info-desc clid"><span className="playlist-info-num-label">简介：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加简介</span></div> : null
+      return isShowEdit ? <div styleName="playlist-info-desc clid"><span styleName="playlist-info-num-label">简介：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加简介</span></div> : null
     }
   }
 
   return (
-    <div className="playlist-wrap">
-      <div className="playlist-info-wrap">
-        {/* <div className="playlist-img" style={{backgroundImage: `url(${playlist.coverImgUrl})`}}></div> */}
-        <img className="playlist-img" src={playlist.coverImgUrl} alt=""/>
-        <div className="playlist-info">
-          <div className="playlist-info-title">
-            <span className="playlist-info-title-icon">歌单</span>
+    <div styleName="playlist-wrap">
+      <div styleName="playlist-info-wrap">
+        <img styleName="playlist-img" src={playlist.coverImgUrl} alt=""/>
+        <div styleName="playlist-info">
+          <div styleName="playlist-info-title">
+            <span styleName="playlist-info-title-icon">歌单</span>
             {playlist.name}
           </div>
-          <div className="playlist-info-user">
-            <div className="playlist-info-user-avatar" style={{backgroundImage: `url(${playlist.creator.avatarUrl})`}}></div>
+          <div styleName="playlist-info-user">
+            <div styleName="playlist-info-user-avatar" style={{backgroundImage: `url(${playlist.creator.avatarUrl})`}}></div>
             {
               playlist.creator.nickname &&
               <>
-                <span className="playlist-info-user-name" onClick={() => { goUserDetail(playlist.creator.userId) }}>{playlist.creator.nickname}</span>
-                <span className="playlist-info-user-create">{playlist.createTimeString}创建</span>
+                <span styleName="playlist-info-user-name" onClick={() => { goUserDetail(playlist.creator.userId) }}>{playlist.creator.nickname}</span>
+                <span>{playlist.createTimeString}创建</span>
               </>
             }
           </div>
-          <div className="playlist-info-action">
-            <div className={classnames('playlist-info-action-playall', { 'fail': isEmpty })}>
-              <div onClick={() => { start(getSource(), playlist.tracks[0], playlist.tracks) }}><i className="iconfont icon-play" ></i>播放全部</div>
-              <i className="iconfont icon-add" onClick={() => { nextPlayPlaylist(getSource(), playlist.tracks) }}></i>
+          <div styleName="playlist-info-action">
+            <div styleName={classnames('playlist-info-action-playall', { 'fail': isEmpty })}>
+              <div onClick={() => { start(getSource(), playlist.tracks[0], playlist.tracks) }}><Icon name="icon-play"></Icon>播放全部</div>
+              <Icon name="icon-add" onClick={() => { nextPlayPlaylist(getSource(), playlist.tracks) }}></Icon>
             </div>
-            <div
+            <Button
               onClick={() => { follow() }}
-              className={classnames('playlist-info-action-star', { 'fail': isPersonal })}
+              // className={classnames('playlist-info-action-star', { 'fail': isPersonal })}
+              icon={<Icon name="icon-star"></Icon>}
             >
-              <i className="iconfont icon-star"></i>
               {playlist.subscribed ? '已收藏' : '收藏'}({playlist.subscribedCount_string})
-            </div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({playlist.shareCount_string})</div>
+            </Button>
+            <Button onClick={() => { openShareDialog({ type: ShareType.PLAYLIST, shareContent: playlist }) }} icon={<Icon name="icon-share"></Icon>}>分享({playlist.shareCount_string})</Button>
           </div>
-          <div className="playlist-info-num">
+          <div styleName="playlist-info-num">
             {genPlaylistTag(playlist)}
             <div>歌曲数: {playlist.trackCount}&nbsp;&nbsp;&nbsp;播放数: {playlist.playCount_string}</div>
             {genPlaylistDesc(playlist)}
           </div>
         </div>
       </div>
-      <div className="playlist-tab-wrap">
+      <div styleName="playlist-tab-wrap">
         <div className="playlist-tab">
           {
             (Object.keys(PlaylistTab) as PlaylistTab[]).map((item => (

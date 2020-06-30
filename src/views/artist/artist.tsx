@@ -18,6 +18,8 @@ import { useSongContextMenu } from 'UTIL/menu'
 import notificationApi from 'COMPONENTS/notification'
 import { createAddPlaylistSongDialog } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from 'UTIL/user-playlist'
+import Button from 'COMPONENTS/button/button'
+import Icon from 'COMPONENTS/icon/icon'
 
 const MENU_NAME = 'music-list-contextmenu'
 const Menu = ConnectedMenu(MENU_NAME)
@@ -57,6 +59,14 @@ const Artist = () => {
   const { getSongMenu } = useSongContextMenu()
   const openAddPlaylistSongDialog = createAddPlaylistSongDialog()
   const { userPlaylist, addOrRemoveSong } = useUserPlaylist()
+
+  useEffect(() => {
+    return () => {
+      offset = 0
+      hasmore = true
+      loading = false
+    }
+  }, [])
 
   useEffect(() => {
     getArtistDetail()
@@ -157,27 +167,34 @@ const Artist = () => {
   function genArtistAlbumContent () {
     return (
       <div>
-        <div className="artist-album-item">
-          <img className="artist-album-item-img" src={top50} alt=""/>
-          <div className="artist-album-item-list">
-            <div className="artist-album-name">
+        <div styleName="artist-album-item">
+          <img styleName="artist-album-item-img" src={top50} alt=""/>
+          <div styleName="artist-album-item-list">
+            <div styleName="artist-album-name">
               热门50首
               <span>
-                <i onClick={() => { playAlbum(hotSong[0], hotSong) }} className="iconfont icon-play"></i>
-                <i onClick={() => { openAddPlaylistSongDialog({ songs: hotSong, userPlaylist, addOrRemoveSong }) }} className="iconfont icon-add-folder"></i>
+                <Icon onClick={() => { playAlbum(hotSong[0], hotSong) }} name="icon-play"></Icon>
+                <Icon onClick={() => { openAddPlaylistSongDialog({ songs: hotSong, userPlaylist, addOrRemoveSong }) }} name="icon-add-folder"></Icon>
               </span>
             </div>
             {
               hotSong.slice(0, 10).map((song, index) => (
-                <div className="artist-album-item-list-item-wrap">
+                <div styleName="artist-album-item-list-item-wrap" key={song.id}>
                   <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)} >
-                    <div onDoubleClick={() => { playAlbum(song, hotSong) }} className="artist-album-item-list-item" key={song.id}>
-                      <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
-                      <span><i onClick={() => { favorite(song.id) }} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
+                    <div onDoubleClick={() => { playAlbum(song, hotSong) }} styleName="artist-album-item-list-item">
+                      <span>{ currentSong.song.id === song.id ? <Icon name="icon-sound" className="icon-color-main"></Icon> : padZero(index + 1)}</span>
                       <span>
-                        {song.name}<span className="artist-album-item-alia">{song.alia_string}</span>
-                        { song.isHighQuality && <span className="music-list-item-highquality">SQ</span> }
-                        { !!song.mv && <i onClick={() => { goMVDetail(song.mv) }} className="iconfont icon-mv"></i> }
+                        <Icon
+                          onClick={() => { favorite(song.id) }}
+                          name={`${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}
+                          className={`icon-color-${isFavorite(song.id) ? 'main' : '9'} hover`}
+                        >
+                        </Icon>
+                      </span>
+                      <span>
+                        {song.name}<span styleName="artist-album-item-alia">{song.alia_string}</span>
+                        { song.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                        { !!song.mv && <Icon onClick={() => { goMVDetail(song.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
                       </span>
                       <span>{song.duration_string}</span>
                     </div>
@@ -192,30 +209,37 @@ const Artist = () => {
         </div>
         {
           albums.map(album => (
-            <div key={album.id} className="artist-album-item">
+            <div key={album.id} styleName="artist-album-item">
               <div>
-                <img onClick={() => { goAlbumDetail(album.id) }} className="artist-album-item-img" src={album.picUrl + '?param=200y200'} alt=""/>
-                <div className="artist-album-time">{album.publishTimeFormat}</div>
+                <img onClick={() => { goAlbumDetail(album.id) }} styleName="artist-album-item-img" src={album.picUrl + '?param=200y200'} alt=""/>
+                <div styleName="artist-album-time">{album.publishTimeFormat}</div>
               </div>
-              <div className="artist-album-item-list">
-                <div className="artist-album-name">
+              <div styleName="artist-album-item-list">
+                <div styleName="artist-album-name">
                   {album.name}
                   <span>
-                    <i onClick={() => { playAlbum(album.songs[0], album.songs) }} className="iconfont icon-play"></i>
-                    <i onClick={() => { openAddPlaylistSongDialog({ songs: album.songs, userPlaylist, addOrRemoveSong  }) }} className="iconfont icon-add-folder"></i>
+                    <Icon onClick={() => { playAlbum(album.songs[0], album.songs) }} name="icon-play"></Icon>
+                    <Icon onClick={() => { openAddPlaylistSongDialog({ songs: album.songs, userPlaylist, addOrRemoveSong  }) }} name="icon-add-folder"></Icon>
                   </span>
                 </div>
                 {
                   album.songs.slice(0, 10).map((song, index) => (
-                    <div className="artist-album-item-list-item-wrap">
+                    <div styleName="artist-album-item-list-item-wrap" key={song.id}>
                       <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)}>
-                        <div onDoubleClick={() => { playAlbum(song, album.songs) }} className="artist-album-item-list-item" key={song.id}>
-                          <span>{ currentSong.song.id === song.id ? <i className="iconfont icon-sound active"></i> : padZero(index + 1)}</span>
-                          <span><i onClick={() => { favorite(song.id)}} className={`iconfont ${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}></i></span>
+                        <div onDoubleClick={() => { playAlbum(song, album.songs) }} styleName="artist-album-item-list-item">
+                          <span>{ currentSong.song.id === song.id ? <Icon name="icon-sound" className="icon-color-main"></Icon> : padZero(index + 1)}</span>
                           <span>
-                            {song.name}<span className="artist-album-item-alia">{song.alia_string}</span>
-                            { song.isHighQuality && <span className="music-list-item-highquality">SQ</span> }
-                            { !!song.mv && <i onClick={() => { goMVDetail(song.mv) }} className="iconfont icon-mv"></i> }
+                          <Icon
+                            onClick={() => { favorite(song.id) }}
+                            name={`${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}
+                            className={`icon-color-${isFavorite(song.id) ? 'main' : '9'} hover`}
+                          >
+                          </Icon>
+                          </span>
+                          <span>
+                            {song.name}<span styleName="artist-album-item-alia">{song.alia_string}</span>
+                            { song.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                            { !!song.mv && <Icon onClick={() => { goMVDetail(song.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
                           </span>
                           <span>{song.duration_string}</span>
                         </div>
@@ -241,9 +265,9 @@ const Artist = () => {
           mv.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-large">
               <div className="commen-area-img-wrap">
-                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
                 <img src={item.cover} alt=""/>
-                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_format}</div>
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_format}</div>
                 <div className="commen-area-duration">{item.duration_format}</div>
               </div>
               <div className="commen-area-text">{item.name}</div>
@@ -259,10 +283,10 @@ const Artist = () => {
       <>
         {
           desc.map(item => (
-            <>
-              <div className="artist-desc-title">{item.ti}</div>
-              <div className="artist-desc-content">{item.txt}</div>
-            </>
+            <div key={item.ti}>
+              <div styleName="artist-desc-title">{item.ti}</div>
+              <div styleName="artist-desc-content">{item.txt}</div>
+            </div>
           ))
         }
       </>
@@ -291,49 +315,64 @@ const Artist = () => {
     if (type === 'more') {
       return showMore ? (
         songs.slice(10).map((song, index) => (
-          <div className="artist-album-item-list-item" key={song.id}>
-            <span>{padZero(index + 11)}</span>
-            <span><i className="iconfont iconxin"></i></span>
-            <span>{song.name}</span>
-            <span>{song.duration_string}</span>
+          <div styleName="artist-album-item-list-item-wrap" key={song.id}>
+            <ContextMenuWrap id={MENU_NAME} menu={getMenu(song)} >
+              <div onDoubleClick={() => { playAlbum(song, hotSong) }} styleName="artist-album-item-list-item">
+                <span>{ currentSong.song.id === song.id ? <Icon name="icon-sound" className="icon-color-main"></Icon> : padZero(index + 1)}</span>
+                <span>
+                  <Icon
+                    onClick={() => { favorite(song.id) }}
+                    name={`${isFavorite(song.id) ? 'icon-heart-full' : 'iconxin'}`}
+                    className={`icon-color-${isFavorite(song.id) ? 'main' : '9'} hover`}
+                  >
+                  </Icon>
+                </span>
+                <span>
+                  {song.name}<span styleName="artist-album-item-alia">{song.alia_string}</span>
+                  { song.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                  { !!song.mv && <Icon onClick={() => { goMVDetail(song.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
+                </span>
+                <span>{song.duration_string}</span>
+              </div>
+            </ContextMenuWrap>
           </div>
         ))
       )
       :
-      <div className="artist-album-more"><span onClick={() => setShowMore(true)}>查看全部{songs.length}首<i className="iconfont icon-arrow"></i></span></div>
+      <div styleName="artist-album-more"><span onClick={() => setShowMore(true)}>查看全部{songs.length}首<Icon name="icon-arrow-right"></Icon></span></div>
     } else if (type === 'detail') {
-      return <div className="artist-album-more"><span onClick={() => { goAlbumDetail(albumId!) }}>查看全部<i className="iconfont icon-arrow"></i></span></div>
+      return <div styleName="artist-album-more"><span onClick={() => { goAlbumDetail(albumId!) }}>查看全部<Icon name="icon-arrow-right"></Icon></span></div>
     }
   }
 
   return (
     <LoadMore load={loadmore}>
-      <div className="artist-container">
-        <div className="artist-info-wrap">
-          <div className="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
-          <div className="artist-info">
-            <div className="artist-info-name">{artist.name}</div>
-            <div className="artist-info-other">
+      <div styleName="artist-container">
+        <div styleName="artist-info-wrap">
+          <div styleName="artist-info-img" style={{backgroundImage: `url(${artist.img1v1Url + '?param=300y300'})`}}></div>
+          <div styleName="artist-info">
+            <div styleName="artist-info-name">{artist.name}</div>
+            <div styleName="artist-info-other">
               <span>单曲数: {artist.musicSize}</span>
               <span>专辑数: {artist.albumSize}</span>
               <span>MV数: {artist.mvSize}</span>
             </div>
-            <div className="artist-info-option">
-              <span className="artist-info-option-star" onClick={() => { artistSub() }}>
-                <i className={`iconfont ${artist.followed ? 'icon-star-full' : 'icon-star'}`}></i>{artist.followed ? '已收藏' : '收藏'}
-              </span>
-              { artist.accountId && <span onClick={() => { goUserDetail(artist.accountId) }} className="artist-info-option-user"><i className="iconfont icon-user"></i>个人主页</span>}
+            <div styleName="artist-info-option">
+              <Button icon={<Icon name="icon-star"></Icon>} onClick={() => { artistSub() }}>
+                {artist.followed ? '已收藏' : '收藏'}
+              </Button>
+              { artist.accountId && <Button icon={<Icon name="icon-user"></Icon>} onClick={() => { goUserDetail(artist.accountId) }}>个人主页</Button>}
             </div>
           </div>
         </div>
         <div className="playlist-tab">
           {
             (Object.keys(ArtistTab) as ArtistTabType[]).map(item => (
-              <span onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>{ ArtistTab[item] }</span>
+              <span key={item} onClick={() => setTab(item)} className={tab === item ? 'active' : ''}>{ ArtistTab[item] }</span>
             ))
           }
         </div>
-        <div className="artist-tab-content">
+        <div styleName="artist-tab-content">
           {
             genArtistContent(tab)
           }

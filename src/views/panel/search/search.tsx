@@ -104,7 +104,7 @@ const Search: React.SFC = () => {
 
     let ret: ReactNode[] = []
     const order: SuggestOrder = suggest.order
-    
+
     order.forEach((item) => {
       if (item === 'songs') {
         ret.push(

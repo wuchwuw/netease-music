@@ -10,17 +10,7 @@ import { useContainer } from 'COMPONENTS/container/container'
 import { usePageForword } from 'ROUTER/hooks'
 import { setGlobalCSSVar, defaultMode } from 'UTIL/css-var'
 import { useSearchKeywords } from 'UTIL/search-keywords'
-
-const viodeSubPagePathMap: any = {
-  '/video/index': '视频',
-  '/video/mv': 'MV'
-}
-
-const starSubPagePathMap: any = {
-  '/star/album': '专辑',
-  '/star/artist': '歌手',
-  '/star/video': '视频',
-}
+import Icon from 'COMPONENTS/icon/icon'
 
 const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
@@ -127,7 +117,7 @@ const TopBar: React.SFC = () => {
             placeholder="搜索"
             value={keywords}
           />
-          { !!keywords && <i onClick={(e) => { onSearchClear(e) }} className="iconfont icon-close"></i> }
+          { !!keywords && <Icon onClick={(e) => { onSearchClear(e) }} name="icon-close"></Icon> }
         </div>
       </div>
       <div styleName="topbar-other">

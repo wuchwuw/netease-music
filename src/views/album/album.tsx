@@ -11,6 +11,9 @@ import './album.less'
 import { genArtists } from 'VIEWS/template/template'
 import { usePageForword } from 'ROUTER/hooks'
 import notificationApi from 'COMPONENTS/notification'
+import Button from 'COMPONENTS/button/button'
+import Icon from 'COMPONENTS/icon/icon'
+import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
 
 enum AlbumTab {
   SONG = 'SONG',
@@ -34,6 +37,7 @@ const Album = () => {
   const { getAlubmMenu } = useAlbumContextMenu()
   const { start, nextPlayPlaylist } = usePlayerController()
   const { goArtistDetail } = usePageForword()
+  const openShareDialog = createShareDialog()
 
   useEffect(() => {
     getAlbum()
@@ -59,7 +63,7 @@ const Album = () => {
   async function subAlbum () {
     const t = album.info.isSub ? 2 : 1
     try {
-      const res = await api.subAlbum({ t, id: album.id })
+      await api.subAlbum({ t, id: album.id })
       notificationApi.success({
         content: album.info.isSub ? '取消收藏专辑' : '收藏专辑成功'
       })
@@ -100,29 +104,29 @@ const Album = () => {
     }
   }
   return (
-    <div className="playlist-wrap">
-      <div className="playlist-info-wrap">
-        <div className="playlist-img" style={{backgroundImage: `url(${album.picUrl + '?param=200y200'})`}}></div>
-        <div className="playlist-info">
-          <div className="playlist-info-title">
-            <span className="playlist-info-title-icon">专辑</span>
+    <div styleName="playlist-wrap">
+      <div styleName="playlist-info-wrap">
+        <div styleName="playlist-img" style={{backgroundImage: `url(${album.picUrl + '?param=200y200'})`}}></div>
+        <div styleName="playlist-info">
+          <div styleName="playlist-info-title">
+            <span styleName="playlist-info-title-icon">专辑</span>
             {album.name}
           </div>
-          <div className="playlist-info-action">
-            <div className="playlist-info-action-playall">
+          <div styleName="playlist-info-action">
+            <div styleName="playlist-info-action-playall">
               <div onClick={() => { album.songs.length && musiclistStart(album.songs[0]) }}><i className="iconfont icon-play" ></i>播放全部</div>
               <i onClick={() => { nextPlayPlaylist({ id: `album-${album.id}`, name: album.name }, album.songs) }} className="iconfont icon-add"></i>
             </div>
-            <div onClick={ subAlbum } className="playlist-info-action-star"><i className="iconfont icon-star"></i>{album.info.isSub ? '已收藏' : '收藏'}({album.info.subCount})</div>
-            <div className="playlist-info-action-star"><i className="iconfont icon-share"></i>分享({album.info.shareCount})</div>
+            <Button onClick={ subAlbum } icon={<Icon name="icon-star"></Icon>}>{album.info.isSub ? '已收藏' : '收藏'}({album.info.subCount})</Button>
+            <Button onClick={() => { openShareDialog({type: ShareType.ALBUM, shareContent: album}) }} icon={<Icon name="icon-share"></Icon>}>分享({album.info.shareCount})</Button>
           </div>
-          <div className="playlist-info-num">
+          <div styleName="playlist-info-num">
             <div>歌手: { genArtists(album.artists, goArtistDetail, 'commen-link-blue') }</div>
             <div>时间: {album.publishTimeFormat}</div>
           </div>
         </div>
       </div>
-      <div className="playlist-tab-wrap">
+      <div styleName="playlist-tab-wrap">
         <div className="playlist-tab">
           {
             (Object.keys(AlbumTabMap) as AlbumTab[]).map((item => (

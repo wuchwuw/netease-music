@@ -99,18 +99,18 @@ const Message: React.SFC = () => {
 
   function genCommentNode () {
     return (
-      <ul className="panel-comment-list">
+      <ul styleName="panel-comment-list">
         {
           comment.map((item, index) => (
-            <li key={index} className="panel-comment-item">
-              <img className="panel-comment-avatar" src={item.user.avatarUrl} alt=""/>
-              <div className="panel-message-info">
-                <div className="panel-message-name">
+            <li key={index} styleName="panel-comment-item">
+              <img styleName="panel-comment-avatar" src={item.user.avatarUrl} alt=""/>
+              <div styleName="panel-message-info">
+                <div styleName="panel-message-name">
                   <span>{item.user.nickname}</span>
                   <span>{dayjs(item.lastMsgTime).format('YYYY年MM月DD日')}</span>
                 </div>
-                <div className="panel-comment-replay">回复我: {item.content}</div>
-                <div className="panel-comment-msg">{item.beRepliedContent}</div>
+                <div styleName="panel-comment-replay">回复我: {item.content}</div>
+                <div styleName="panel-comment-msg">{item.beRepliedContent}</div>
               </div>
             </li>
           ))
@@ -121,17 +121,17 @@ const Message: React.SFC = () => {
 
   function genMessageNode () {
     return (
-      <ul className="panel-message-list">
+      <ul>
         {
           message.map((item, index) => (
-            <li onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setCurrentChat(item.fromUser) }} key={index} className="panel-message-item" >
-              <img className="panel-message-avatar" src={item.fromUser.avatarUrl + '?param=100y100'} alt=""/>
-              <div className="panel-message-info">
-                <div className="panel-message-name">
+            <li onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setCurrentChat(item.fromUser) }} key={index} styleName="panel-message-item" >
+              <img styleName="panel-message-avatar" src={item.fromUser.avatarUrl + '?param=100y100'} alt=""/>
+              <div styleName="panel-message-info">
+                <div styleName="panel-message-name">
                   <span className="commen-link-blue">{item.fromUser.nickname}</span>
                   <span>{dayjs(item.lastMsgTime).format('YYYY年MM月DD日')}</span>
                 </div>
-                <div className="panel-message-msg">{getMessageLast(item.lastMsg)}</div>
+                <div styleName="panel-message-msg">{getMessageLast(item.lastMsg)}</div>
               </div>
             </li>
           ))
@@ -147,14 +147,14 @@ const Message: React.SFC = () => {
           notice.map((item, index) => {
             const notice = getNotice(item)
             return (
-              <li key={index} className="panel-message-item">
-                <img className="panel-message-avatar" src={notice.user.avatarUrl} alt=""/>
-                <div className="panel-message-info">
-                  <div className="panel-message-name">
+              <li key={index} styleName="panel-message-item">
+                <img styleName="panel-message-avatar" src={notice.user.avatarUrl} alt=""/>
+                <div styleName="panel-message-info">
+                  <div styleName="panel-message-name">
                     <span>{notice.user.nickname}{notice.msg}</span>
                     <span>{notice.time}</span>
                   </div>
-                  <div className="panel-message-msg">{notice.content}</div>
+                  <div styleName="panel-message-msg">{notice.content}</div>
                 </div>
               </li>
             )
@@ -165,17 +165,17 @@ const Message: React.SFC = () => {
   }
 
   return (
-    <div className="message-panel-container">
-      <div className="message-panel-tab ">
+    <div styleName="message-panel-container">
+      <div styleName="message-panel-tab ">
         {
           Object.keys(CURRENT_PLAYLIST_PANEL_TAB).map(key => (
-            <div onClick={() => selectTab(key)} key={key} className={classnames({ 'active': key === tab })}>
+            <div onClick={() => selectTab(key)} key={key} styleName={classnames({ 'active': key === tab })}>
               {CURRENT_PLAYLIST_PANEL_TAB[key]}
             </div>
           ))
         }
       </div>
-      <div className="message-panel-content">
+      <div styleName="message-panel-content">
         <Spin loading={loading} delay={0}>
           {
             genNode()

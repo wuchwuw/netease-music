@@ -1,11 +1,31 @@
 
 import React from 'react'
-import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
 import { RouteWithSubRoutes } from 'ROUTER/redirect'
+import PageTitle from 'COMPONENTS/page-title/page-title'
+import { NavLink } from 'react-router-dom'
 
-const VideoContainer: React.SFC<RouteConfigComponentProps> = ({ routes }) => {
+const viodeSubPagePathMap = {
+  '/video/index': '视频',
+  '/video/mv': 'MV'
+}
+
+const VideoContainer = ({ routes }) => {
   return (
     <>
+      <PageTitle>
+        {
+          (Object.keys(viodeSubPagePathMap) as Array<keyof typeof viodeSubPagePathMap>).map((key) => (
+            <NavLink
+              to={key}
+              activeClassName="active"
+              className="topbar-content-item"
+              key={key}
+            >
+              {viodeSubPagePathMap[key]}
+            </NavLink>
+          ))
+        }
+      </PageTitle>
       {routes.map((route, i) => (
         <RouteWithSubRoutes key={i} {...route} />
       ))}

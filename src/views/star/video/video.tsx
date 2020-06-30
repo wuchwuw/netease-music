@@ -3,6 +3,7 @@ import api from 'API/index'
 import { createVideoListWidthType, VideoWidthType } from 'UTIL/video'
 import { usePageForword } from 'ROUTER/hooks'
 import './video.less'
+import Icon from 'COMPONENTS/icon/icon'
 
 const StarVideo = () => {
   const [videos, setVideos] = useState<VideoWidthType[]>([])
@@ -39,16 +40,16 @@ const StarVideo = () => {
   }
 
   return (
-    <div className="star-video-container">
-      <div className="star-video-title">收藏的视频({count})</div>
+    <div styleName="star-video-container">
+      <div styleName="star-video-title">收藏的视频({count})</div>
       <div className="commen-area-content">
         {
           videos.map((video) => (
             <div key={video.vid} className="commen-area-item commen-area-item-large">
               <div onClick={() => { onVideoItemClick(video) }} className="commen-area-img-wrap">
                 <img src={video.coverUrl+'?param=500y282'} alt=""/>
-                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
-                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{video.playTime_format}</div>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
                 <div className="commen-area-duration">{video.duration_format}</div>
               </div>
               <div className="commen-area-text" onClick={() => { onVideoItemClick(video) }}>{video.title}</div>

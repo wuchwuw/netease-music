@@ -7,6 +7,7 @@ import LoadMore from 'COMPONENTS/load-more/load-more'
 import { usePageForword } from 'ROUTER/hooks'
 import { useContainer } from 'COMPONENTS/container/container'
 import Spin from 'COMPONENTS/spin/spin'
+import Icon from 'COMPONENTS/icon/icon'
 
 interface VideoCate {
   id: number
@@ -83,18 +84,18 @@ const Viode: React.SFC = () => {
 
   return (
     <LoadMore load={loadmore}>
-      <div className="video-container">
-        <div className="video-filter">
-          <div className="video-filter-btn-wrap">
-            <div className="video-filter-btn" onClick={open}>{currentCateName}<i className="iconfont icon-arrow-right"></i></div>
+      <div styleName="video-container">
+        <div styleName="video-filter">
+          <div styleName="video-filter-btn-wrap">
+            <div styleName="video-filter-btn" onClick={open}>{currentCateName}<Icon name="icon-arrow-right"></Icon></div>
             {
               visiable && (
-                <div className="video-cate">
-                  <div className="video-cate-all" onClick={() => { setCate(All_Cate) }}>全部视频</div>
-                  <div className="video-cate-item">
+                <div styleName="video-cate">
+                  <div styleName="video-cate-all" onClick={() => { setCate(All_Cate) }}>全部视频</div>
+                  <div styleName="video-cate-item">
                     {
                       tags.map(item => (
-                        <span key={item.id} className={classnames({'active': currentCate === item.id})} onClick={() => { setCate(item) }}>{item.name}</span>
+                        <span key={item.id} styleName={classnames({'active': currentCate === item.id})} onClick={() => { setCate(item) }}>{item.name}</span>
                       ))
                     }
                   </div>
@@ -106,7 +107,7 @@ const Viode: React.SFC = () => {
             {
               tags.slice(0, 8).map(cate => (
                 <span
-                  className={classnames('video-filter-item', {'active': currentCate === cate.id})}
+                  styleName={classnames('video-filter-item', {'active': currentCate === cate.id})}
                   key={cate.id}
                   onClick={() => { setCate(cate) }}
                 >
@@ -123,8 +124,8 @@ const Viode: React.SFC = () => {
                 <div key={video.vid} className="commen-area-item commen-area-item-large">
                   <div onClick={() => { goVideoDetail(video.vid) }} className="commen-area-img-wrap">
                     <img src={video.coverUrl+'?param=500y282'} alt=""/>
-                    <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{video.playTime_format}</div>
-                    <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                    <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{video.playTime_format}</div>
+                    <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
                     <div className="commen-area-duration">{video.duration_format}</div>
                   </div>
                   <div className="commen-area-text">{video.title}</div>

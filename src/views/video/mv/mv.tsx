@@ -4,6 +4,7 @@ import './mv.less'
 import { createMVList, MV } from 'UTIL/mv'
 import classnames from 'classnames'
 import Spin from 'COMPONENTS/spin/spin'
+import Icon from 'COMPONENTS/icon/icon'
 
 const MV_CATE = ['内地', '港台', '欧美', '日本', '韩国']
 
@@ -81,7 +82,7 @@ const MvRecomend: React.SFC = () => {
             <div className="commen-area-img-wrap">
               <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{mv.playCount_format}</div>
               <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-              <img src={mv.cover + '?param=230y130'} alt=""/>
+              <img src={mv.cover + '?param=500y282'} alt=""/>
             </div>
             <div className="commen-area-text text-overflow">{mv.name}</div>
             <div className="commen-area-artist text-overflow">{genArtist(mv)}</div>
@@ -92,9 +93,9 @@ const MvRecomend: React.SFC = () => {
   }
 
   return (
-    <div className="video-mv-container">
-      <div className="video-mv-title">
-        <span>最新MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
+    <div styleName="video-mv-container">
+      <div styleName="video-mv-title">
+        <span>最新MV<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
         <div className="commen-filter-item">
           {
             MV_CATE.map(item => (
@@ -103,25 +104,25 @@ const MvRecomend: React.SFC = () => {
           }
         </div>
       </div>
-      <div className="video-mv-content">
+      <div styleName="video-mv-content">
         <Spin loading={newLoading} delay={300}>
           <div className="commen-area-content">
             { genMVContent(newMv) }
           </div>
         </Spin>
       </div>
-      <div className="video-mv-title">
-        <span>热播MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
+      <div styleName="video-mv-title">
+        <span>热播MV<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
       </div>
-      <div className="video-mv-content">
+      <div styleName="video-mv-content">
         <Spin loading={hotLoading} delay={300}>
           <div className="commen-area-content">
             { genMVContent(hotMv) }
           </div>
         </Spin>
       </div>
-      <div className="video-mv-title">
-        <span>网易出品<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
+      <div styleName="video-mv-title">
+        <span>网易出品<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
       </div>
       <div className="video-mv-content">
         <Spin loading={exclusiveLoading} delay={300}>
@@ -130,8 +131,8 @@ const MvRecomend: React.SFC = () => {
           </div>
         </Spin>
       </div>
-      <div className="video-mv-title">
-        <span>MV排行榜<i className="iconfont icon-arrow-right home-icon-arrow"></i></span>
+      <div styleName="video-mv-title">
+        <span>MV排行榜<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
         <div className="commen-filter-item">
           {
             MV_CATE.map(item => (
@@ -140,17 +141,17 @@ const MvRecomend: React.SFC = () => {
           }
         </div>
       </div>
-      <div className="video-mv-content">
+      <div styleName="video-mv-content">
         <Spin loading={toplistLoading} delay={300}>
-          <div className="video-mv-toplist">
+          <div styleName="video-mv-toplist">
             {
               toplist.map((mv, index) => (
-                <div key={mv.id} className="video-mv-toplist-item ">
-                  <span className="video-mv-toplist-index">{index + 1}</span>
-                  <img className="video-mv-toplist-img" src={mv.cover + '?param=230y130'} alt=""/>
-                  <div className="video-mv-toplist-info">
-                    <div className="video-mv-toplist-name">{mv.name}</div>
-                    <div className="video-mv-toplist-artist">{genArtist(mv)}</div>
+                <div key={mv.id} styleName="video-mv-toplist-item ">
+                  <span styleName="video-mv-toplist-index">{index + 1}</span>
+                  <img styleName="video-mv-toplist-img" src={mv.cover + '?param=230y130'} alt=""/>
+                  <div styleName="video-mv-toplist-info">
+                    <div styleName="video-mv-toplist-name">{mv.name}</div>
+                    <div styleName="video-mv-toplist-artist">{genArtist(mv)}</div>
                   </div>
                 </div>
               ))

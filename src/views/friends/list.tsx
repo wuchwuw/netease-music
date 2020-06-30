@@ -5,6 +5,7 @@ import Comment from 'COMPONENTS/comment/comment'
 import { usePlayerController } from 'UTIL/player-controller'
 import classnames from 'classnames'
 import './list.less'
+import Icon from 'COMPONENTS/icon/icon'
 
 interface EventListProps {
   list: ActivityClassType[]
@@ -39,8 +40,8 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
     switch (act.type) {
       case ActivityType.Topic:
         return (
-          <div key={act.id} className="activity-list-topic">
-            <div className="activity-list-topic-info">
+          <div key={act.id} styleName="activity-list-topic">
+            <div styleName="activity-list-topic-info">
               <div>#{act.content.title}#</div>
               <div>{act.content.participateCount}人参与</div>
             </div>
@@ -49,20 +50,20 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       default:
         return (
-          <div key={act.id} className="activity-item">
-            <img className="activity-user-avatar" src={act.user.avatarUrl} alt=""/>
-            <div className="activity-user-info">
-              <div className="activity-use-info-name">
+          <div key={act.id} styleName="activity-item">
+            <img styleName="activity-user-avatar" src={act.user.avatarUrl} alt=""/>
+            <div styleName="activity-user-info">
+              <div styleName="activity-use-info-name">
                 <span>{act.user.nickname}</span>
                 {act.activityText}
               </div>
-              <div className="activity-use-info-time">{act.showTimeFormat}</div>
-              <div className="activity-use-info-message">{act.message}</div>
-              <div className="activity-content">{genActivityContent(act)}</div>
+              <div styleName="activity-use-info-time">{act.showTimeFormat}</div>
+              <div styleName="activity-use-info-message">{act.message}</div>
+              <div styleName="activity-content">{genActivityContent(act)}</div>
               {genActivityImages(act)}
               {genActivityOption(act)}
               { commentIndex === act.id &&
-                <div className="activity-comment-wrap">
+                <div styleName="activity-comment-wrap">
                   <Comment type="event" textareaType="deep" id={act.info.commentThread.id}></Comment>
                 </div>
               }
@@ -75,10 +76,10 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   const genActivityImages = (act: ActivityClassType) => {
     const images = act.pics
     return (
-      <div className="activity-image-content">
+      <div styleName="activity-image-content">
         {
           images.map((image) => (
-            <div className="activity-image-item">
+            <div styleName="activity-image-item">
               <img src={image.pcSquareUrl} alt=""/>
             </div>
           ))
@@ -90,10 +91,10 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   const genActivityOption = (act: ActivityClassType) => {
     const info: ActivityInfo = act.info
     return (
-      <div className="activity-option">
-        <span><i onClick={() => { activityLike(info) }} className={classnames('iconfont icon-zan', { 'active': info.liked })}></i>{!!info.likedCount ? info.likedCount : ''}</span>
-        <span><i className="iconfont icon-share"></i>{!!info.shareCount ? info.shareCount : ''}</span>
-        <span><i onClick={() => { showComment(act.id) }} className="iconfont icon-comment"></i>{!!info.commentCount ? info.commentCount : ''}</span>
+      <div styleName="activity-option">
+        <span><Icon fontSize={15} name="icon-zan" onClick={() => { activityLike(info) }} className={`icon-color-${info.liked ? 'main' : '9'} hover`}></Icon>{!!info.likedCount ? info.likedCount : ''}</span>
+        <span><Icon name="icon-share" className="icon-color-9 hover"></Icon>{!!info.shareCount ? info.shareCount : ''}</span>
+        <span><Icon onClick={() => { showComment(act.id) }} name="icon-comment" className="icon-color-9 hover"></Icon>{!!info.commentCount ? info.commentCount : ''}</span>
       </div>
     )
   }
@@ -102,12 +103,18 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
     switch (act.type) {
       case ActivityType.Song:
         return (
-          <div onDoubleClick={() => { start({ id: 'friends', name: '动态' }, act.content) }} className="activity-song">
-            <div className="activity-song-wrap">
-              <i onClick={() => { start({ id: 'friends', name: '动态' }, act.content) }} className="iconfont icon-triangle-full activity-play-icon activity-song-play-icon"></i>
+          <div onDoubleClick={() => { start({ id: 'friends', name: '动态' }, act.content) }} styleName="activity-song">
+            <div styleName="activity-song-wrap">
+              <Icon
+                onClick={() => { start({ id: 'friends', name: '动态' }, act.content) }}
+                name="icon-triangle-full"
+                styleName="activity-play-icon activity-song-play-icon"
+                fontSize={12}
+              >
+              </Icon>
               <img src={act.content.album.picUrl + '?param=100y100'} alt=""/>
             </div>
-            <div className="activity-song-info">
+            <div styleName="activity-song-info">
               <div>{act.content.name}</div>
               <div>{act.content.artistName}</div>
             </div>
@@ -116,39 +123,39 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
       case ActivityType.Video:
       case ActivityType.VideoShare:
         return (
-          <div className="activity-video">
-            <div className="activity-song-wrap">
-              <i className="iconfont icon-triangle-full activity-play-icon activity-video-play-icon"></i>
+          <div styleName="activity-video">
+            <div styleName="activity-song-wrap">
+              <Icon name="icon-triangle-full" styleName="activity-play-icon activity-video-play-icon"></Icon>
               <img src={act.content.coverUrl} alt=""/>
             </div>
-            <div className="activity-video-info">
-              <span><i className="iconfont icon-triangle"></i>{act.content.playTime_format}</span>
+            <div styleName="activity-video-info">
+              <span><Icon name="icon-triangle"></Icon>{act.content.playTime_format}</span>
               <span>{act.content.duration_format}</span>
             </div>
           </div>
         )
       case ActivityType.MV:
         return (
-          <div className="activity-video">
-            <div className="activity-song-wrap">
-              <i className="iconfont icon-triangle-full activity-play-icon activity-video-play-icon"></i>
+          <div styleName="activity-video">
+            <div styleName="activity-song-wrap">
+              <Icon name="icon-triangle-full" styleName="activity-play-icon activity-video-play-icon"></Icon>
               <img src={act.content.cover} alt=""/>
             </div>
-            <div className="activity-video-info">
-              <span><i className="iconfont icon-triangle"></i>{act.content.playCount_format}</span>
+            <div styleName="activity-video-info">
+              <span><Icon name="icon-triangle"></Icon>{act.content.playCount_format}</span>
               <span>{act.content.duration_format}</span>
             </div>
           </div>
         )
       case ActivityType.Forword:
         return (
-          <div className="activity-forword">
-            <div className="activity-forword-info"><span>{'@' + act.content.user.nickname}</span>{act.content.activityText + ': ' + act.content.message}</div>
-            <div className="activity-forword-content">{genActivityContent(act.content)}</div>
+          <div styleName="activity-forword">
+            <div styleName="activity-forword-info"><span>{'@' + act.content.user.nickname}</span>{act.content.activityText + ': ' + act.content.message}</div>
+            <div styleName="activity-forword-content">{genActivityContent(act.content)}</div>
             {genActivityImages(act.content)}
             {genActivityOption(act.content)}
             { commentIndex === act.content.id &&
-              <div className="activity-comment-wrap">
+              <div styleName="activity-comment-wrap">
                 <Comment type="event" textareaType="deep" id={act.content.info.commentThread.id}></Comment>
               </div>
             }
@@ -156,9 +163,9 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       case ActivityType.Album:
         return (
-          <div className="activity-song">
+          <div styleName="activity-song">
             <img src={act.content.picUrl} alt=""/>
-            <div className="activity-song-info">
+            <div styleName="activity-song-info">
               <div>{act.content.name}</div>
               <div>{act.content.artistName}</div>
             </div>
@@ -166,18 +173,18 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       case ActivityType.ARTIST:
         return (
-          <div className="activity-song">
+          <div styleName="activity-song">
             <img src={act.content.img1v1Url} alt=""/>
-            <div className="activity-song-info">
+            <div styleName="activity-song-info">
               <div>{act.content.name}</div>
             </div>
           </div>
         )
       case ActivityType.PLAYLIST:
         return (
-          <div className="activity-song">
+          <div styleName="activity-song">
             <img src={act.content.coverImgUrl} alt=""/>
-            <div className="activity-song-info">
+            <div styleName="activity-song-info">
               <div>{act.content.name}</div>
             </div>
           </div>

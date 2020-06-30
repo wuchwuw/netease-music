@@ -74,23 +74,23 @@ const Friends: React.SFC = () => {
           </Button>
         </div>
       </PageTitle>
-      <div className="activity-container">
-        <div className="activity-list">
+      <div styleName="activity-container">
+        <div styleName="activity-list">
           <Spin loading={activityLoading} delay={300}>
             <EventList list={activity} updateList={() => { setActivity([...activity]) }}></EventList>
           </Spin>
         </div>
-        <div className="activity-topic">
-        <div className="activity-topic-title">热门话题<i className="iconfont icon-arrow home-icon-arrow"></i></div>
+        <div styleName="activity-topic">
+        <div styleName="activity-topic-title">热门话题<Icon name="iconfont icon-arrow-right"></Icon></div>
           {
             topic.map(item => (
-              <div key={item.actId} className="activity-topic-item">
-                <img className="activity-topic-img" src={item.sharePicUrl + '?param=40y40'} alt=""/>
-                <div className="activity-topic-info">
-                  <div className="activity-topic-name">
+              <div key={item.actId} styleName="activity-topic-item">
+                <img styleName="activity-topic-img" src={item.sharePicUrl + '?param=40y40'} alt=""/>
+                <div styleName="activity-topic-info">
+                  <div styleName="activity-topic-name">
                     #<span>{item.title}</span>#
                   </div>
-                  <div className="activity-topic-count">{item.participateCount}人参与</div>
+                  <div>{item.participateCount}人参与</div>
                 </div>
               </div>
             ))

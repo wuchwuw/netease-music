@@ -45,7 +45,7 @@ const Chat = () => {
   }
 
   function initScrollTop () {
-    let content = document.querySelector('.chat-panel-content')
+    let content = document.querySelector('#chat-panel-content')
     const height = content!.clientHeight
     const scrollHeight = content!.scrollHeight
     content!.scrollTop = scrollHeight - height
@@ -67,7 +67,7 @@ const Chat = () => {
   }
 
   function initScroll () {
-    const content = document.querySelector('.chat-panel-content')
+    const content = document.querySelector('#chat-panel-content')
     function scroll () {
       if (content!.scrollTop < 100) {
         loadMore()
@@ -138,12 +138,12 @@ const Chat = () => {
   }
 
   return (
-    <div className="chat-panel-container">
-      <div className="chat-panel-title">
+    <div styleName="chat-panel-container">
+      <div styleName="chat-panel-title">
         <i onClick={(e) => { e.nativeEvent.stopImmediatePropagation(); setPanelType(PanelType.Message) }} className="iconfont icon-arrow-left chat-panel-icon-arrow"></i>
         <span>{currentChat.nickname}</span>
       </div>
-      <div className="chat-panel-content">
+      <div id="chat-panel-content" styleName="chat-panel-content">
         {
           chatList.map(chat => (
             <div key={chat.id} className={classnames('chat-panel-item', { 'me': isMe(chat) })}>

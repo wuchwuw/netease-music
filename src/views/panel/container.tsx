@@ -71,7 +71,7 @@ const PanelContainer: React.SFC = (props) => {
   }, [panelType])
 
   return (
-    <div className="panel-container">
+    <div styleName="panel-container">
       { genPanelNode(panelType) }
     </div>
   )

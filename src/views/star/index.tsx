@@ -1,9 +1,35 @@
 import React from 'react'
-import { renderRoutes, RouteConfigComponentProps } from 'react-router-config'
+import { RouteWithSubRoutes } from 'ROUTER/redirect'
+import PageTitle from 'COMPONENTS/page-title/page-title'
+import { NavLink } from 'react-router-dom'
 
-const StarContainer: React.SFC<RouteConfigComponentProps> = ({ route }) => {
+const starSubPagePathMap = {
+  '/star/album': '专辑',
+  '/star/artist': '歌手',
+  '/star/video': '视频',
+}
+
+const StarContainer = ({ routes }) => {
   return (
-    <>{renderRoutes(route!.routes)}</>
+    <>
+      <PageTitle>
+        {
+          (Object.keys(starSubPagePathMap) as Array<keyof typeof starSubPagePathMap>).map((key) => (
+            <NavLink
+              to={key}
+              activeClassName="active"
+              className="topbar-content-item"
+              key={key}
+            >
+              {starSubPagePathMap[key]}
+            </NavLink>
+          ))
+        }
+      </PageTitle>
+      {routes.map((route, i) => (
+        <RouteWithSubRoutes key={i} {...route} />
+      ))}
+    </>
   )
 }
 

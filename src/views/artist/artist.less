@@ -29,27 +29,10 @@
 .artist-info-option {
   flex: 0 0 240px;
   cursor: pointer;
-  > span {
-    display: inline-block;
-    border: 1px solid #D9D9D9;
-    border-radius: 20px;
-    font-size: 14px;
-    padding: 5px 10px;
-    font-size: 13px;
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
-    &:hover {
-      background: #F3F3F3;
-    }
-    i {
-      margin-right: 3px;
-      vertical-align: -1px;
-    }
+  margin-top: 20px;
+  > button {
+    margin-right: 5px;
   }
-}
-.artist-info-option {
-  margin-top: 20px
 }
 .artist-info-other {
   margin-top: 20px;
@@ -106,15 +89,7 @@
       text-align: center;
       color: #999999;
     }
-    &:nth-child(2) {
-      .icon-heart-full {
-        color: @color-main;
-      }
-      i {
-        vertical-align: 2px;
-        color: #999999;
-      }
-    }
+
     &:nth-child(3) {
       text-overflow: ellipsis;
       overflow: hidden;
@@ -125,9 +100,6 @@
       align-items: center;
       .artist-album-item-alia {
         color: #999999;
-      }
-      i {
-        color: @color-main;
       }
     }
     &:nth-child(4) {
@@ -149,7 +121,7 @@
   }
   i {
     color: #cccccc;
-    font-size: 18px;
+    font-size: 18px !important;
     font-weight: 200;
     margin: 0 8px;
     cursor: pointer;

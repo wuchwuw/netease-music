@@ -34,19 +34,19 @@ const StarAlbum = () => {
   }
 
   return (
-    <div className="star-album">
-      <div className="star-album-title">收藏的专辑({total})</div>
-      <div className="star-album-list">
+    <div styleName="star-album">
+      <div styleName="star-album-title">收藏的专辑({total})</div>
+      <div styleName="star-album-list">
         {
           albums.map(album => (
-            <div className="star-album-item" onClick={() => { goAlbumDetail(album.id) }}>
+            <div styleName="star-album-item" onClick={() => { goAlbumDetail(album.id) }}>
               <img src={album.picUrl + '?param=100y100'} alt=""/>
-              <div className="star-album-info">
-                <div className="star-album-info-name commen-link-333333 active">
+              <div styleName="star-album-info">
+                <div className="commen-link-333333 active">
                   {album.name}
-                  <span className="star-album-info-alia">{album.alia_string}</span>
+                  <span styleName="star-album-info-alia">{album.alia_string}</span>
                 </div>
-                <div className="star-album-info-artist">
+                <div styleName="star-album-info-artist">
                   { genArtists(album.artists, goArtistDetail, 'commen-link-666666')}
                 </div>
               </div>

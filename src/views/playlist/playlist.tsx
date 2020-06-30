@@ -16,8 +16,8 @@ import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
 import { getPlaylistCache, setPlaylistCache, getPlaylistTracksCache, setPlaylistTracksCache } from 'UTIL/playlist-cache'
 import Spin from 'COMPONENTS/spin/spin'
-import Button from 'COMPONENTS/Button/Button'
-import Icon from 'COMPONENTS/Icon/Icon'
+import Button from 'COMPONENTS/button/button'
+import Icon from 'COMPONENTS/icon/icon'
 import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
 
 enum PlaylistTab {

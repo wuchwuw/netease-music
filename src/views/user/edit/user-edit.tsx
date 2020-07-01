@@ -70,46 +70,44 @@ const UserEdit = () => {
   }
 
   return (
-    <div className="user-edit-container">
+    <div styleName="user-edit-container">
       <PageTitle>编辑个人信息</PageTitle>
       <div style={{display: 'flex'}}>
-        <div className="user-edit-form">
-          <div className="user-edit-form-item">
+        <div styleName="user-edit-form">
+          <div styleName="user-edit-form-item">
             <span>昵称:</span>
             <input onChange={(e) => { setNickname(e.target.value) }} value={nickname} type="text"/>
           </div>
-          <div className="user-edit-form-item">
+          <div styleName="user-edit-form-item">
             <span>简介:</span>
             <textarea onChange={(e) => { setSignature(e.target.value) }} rows={6} value={signature}/>
           </div>
-          <div className="user-edit-form-item">
+          <div styleName="user-edit-form-item">
             <span>性别:</span>
             {
               (Object.keys(genderOption) as genderType[]).map((item) => (
-                <div key={genderOption[item]} className="form-item-radio">
-                  <span onClick={() => { setGender(genderOption[item]) }} className={gender === genderOption[item] ? 'active' : ''}></span>
+                <div key={genderOption[item]} styleName="form-item-radio">
+                  <span onClick={() => { setGender(genderOption[item]) }} styleName={gender === genderOption[item] ? 'active' : ''}></span>
                   {item}
                 </div>
               ))
             }
           </div>
-          <div className="user-edit-form-item">
+          <div styleName="user-edit-form-item">
             <span>生日:</span>
             <Select options={yearOption} value={year} onChange={setYear}></Select>
             <Select options={monOption} value={month} onChange={setMonth}></Select>
             <Select options={dayOption} value={day} onChange={setDay}></Select>
           </div>
-          <div className="user-edit-form-item">
+          <div styleName="user-edit-form-item">
             <span>地区:</span>
             <Select valueName="id" labelName="name" options={area} value={provinceId} onChange={onProvinceChange}></Select>
             <Select valueName="id" labelName="name" options={cityOption} value={cityId} onChange={setCityId}></Select>
           </div>
         </div>
-        <img className="user-edit-avatar" src={user.avatarUrl} alt=""/>
+        <img styleName="user-edit-avatar" src={user.avatarUrl} alt=""/>
       </div>
-      <div className="user-edit-form-button">
-        <Button type="primary" onClick={()=> { updateUsertInfo() }}>保存</Button>
-      </div>
+      <Button type="primary" onClick={()=> { updateUsertInfo() }}>保存</Button>
     </div>
   )
 }

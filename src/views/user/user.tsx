@@ -56,19 +56,19 @@ const User = () => {
     if (auth) {
       auth.forEach(item => {
         if (item.type === 4) {
-          tags.push(<span className="user-tag-music"><i className="iconfont icon-neteastmusic"></i>{item.desc}</span>)
+          tags.push(<span styleName="user-tag-music"><Icon name="icon-neteastmusic"></Icon>{item.desc}</span>)
         } else if (item.type === 201) {
-          tags.push(<span className="user-tag-video"><i className="iconfont icon-star"></i>{item.desc}</span>)
+          tags.push(<span styleName="user-tag-video"><Icon name="icon-star"></Icon>{item.desc}</span>)
         } else if (item.desc){
-          tags.push(<span className="user-tag-music">{item.desc}</span>)
+          tags.push(<span styleName="user-tag-music">{item.desc}</span>)
         }
       })
     }
-    tags.push(<span className="user-tag-level">Lv.{user.level}</span>)
+    tags.push(<span styleName="user-tag-level">Lv.{user.level}</span>)
     if (user.gender > 0) {
       tags.push(
-        <span className={user.gender === 1 ? 'user-tag-boy' : 'user-tag-girl'}>
-          <i className={classNames('iconfont', user.gender === 1 ? 'icon-boy' : 'icon-girl')}></i>
+        <span styleName={user.gender === 1 ? 'user-tag-boy' : 'user-tag-girl'}>
+          <Icon name={user.gender === 1 ? 'icon-boy' : 'icon-girl'}></Icon>
         </span>
       )
     }
@@ -88,13 +88,13 @@ const User = () => {
     if (!user.userId) return null
     if (userId === u.userId) {
       return (
-        <div className="user-option">
+        <div styleName="user-option">
           <Button onClick={() => { goUserEdit() }} icon={<Icon name="icon-share"></Icon>}>编辑个人资料</Button>
         </div>
       )
     } else {
       return (
-        <div className="user-option">
+        <div styleName="user-option">
           { !!user.artistId && <Button icon={<Icon style={{marginRight: '3px'}} name="icon-artist"></Icon>} onClick={() => { goArtistDetail(user.artistId) }}>歌手页</Button>}
           <Button icon={<Icon style={{marginRight: '3px'}} name="icon-email"></Icon>} onClick={() => { setCurrentChat(user) }}>发私信</Button>
           <Button
@@ -109,35 +109,35 @@ const User = () => {
   }
 
   return (
-    <div className="user-container">
-      <div className="user-info-wrap">
-        <div className="user-info-avatar" style={{backgroundImage: `url(${user.avatarUrl})`}}></div>
-        <div className="user-info">
-          <div className="user-info-name">{user.nickname}</div>
-          <div className="user-tag-wrap">
-            <div className="user-tag">
+    <div styleName="user-container">
+      <div styleName="user-info-wrap">
+        <div styleName="user-info-avatar" style={{backgroundImage: `url(${user.avatarUrl})`}}></div>
+        <div styleName="user-info">
+          <div styleName="user-info-name">{user.nickname}</div>
+          <div styleName="user-tag-wrap">
+            <div styleName="user-tag">
               { genUserTag(user) }
             </div>
             {
               genUserOption()
             }
           </div>
-          <div className="user-social">
-            <div onClick={() => { goUserEvent(userId, { username: user.nickname }) }} className="user-social-item">
+          <div styleName="user-social">
+            <div onClick={() => { goUserEvent(userId, { username: user.nickname }) }} styleName="user-social-item">
               <div>{user.eventCount}</div>
               <div>动态</div>
             </div>
-            <div onClick={() => { goUserFollow(userId, { username: user.nickname }) }} className="user-social-item">
+            <div onClick={() => { goUserFollow(userId, { username: user.nickname }) }} styleName="user-social-item">
               <div>{user.follows}</div>
               <div>关注</div>
             </div>
-            <div onClick={() => { goUserFollowed(userId, { username: user.nickname }) }} className="user-social-item">
+            <div onClick={() => { goUserFollowed(userId, { username: user.nickname }) }} styleName="user-social-item">
               <div>{user.followeds}</div>
               <div>粉丝</div>
             </div>
           </div>
           <div>
-            <div className="user-other">
+            <div styleName="user-other">
               <span>所在地区：</span>
               <span>{user.provinceName} {user.cityName}</span>
             </div>
@@ -145,15 +145,15 @@ const User = () => {
               <span>社交网络:</span>
               <span>湖南省 长沙市</span>
             </div> */}
-            <div className="user-other">
+            <div styleName="user-other">
               <span>个人介绍：</span>
               <span>{user.signature}</span>
             </div>
           </div>
         </div>
       </div>
-      <div className="user-playlist">
-        <div className="user-playlist-title">
+      <div styleName="user-playlist">
+        <div styleName="user-playlist-title">
           歌单<span>({userPlaylist.length})</span>
         </div>
         <div className="commen-area-content">
@@ -161,9 +161,9 @@ const User = () => {
             userPlaylist.map(item => (
               <div key={item.id} className="commen-area-item commen-area-item-playlist">
                 <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
-                  <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                  <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
                   <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
-                  <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                  <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>
                 </div>
                 <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-text">{item.name}</div>
                 <div className="commen-area-artist">{item.trackCount + '首'}</div>
@@ -174,26 +174,26 @@ const User = () => {
       </div>
       {
         !!userSubPlaylist.length &&
-        <div className="user-star">
-        <div className="user-playlist-title">
-          收藏<span>({userSubPlaylist.length})</span>
-        </div>
-        <div className="commen-area-content">
-          {
-            userSubPlaylist.map(item => (
-              <div key={item.id} className="commen-area-item commen-area-item-playlist">
-                <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
-                  <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-                  <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
-                  <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+        <div>
+          <div styleName="user-playlist-title">
+            收藏<span>({userSubPlaylist.length})</span>
+          </div>
+          <div className="commen-area-content">
+            {
+              userSubPlaylist.map(item => (
+                <div key={item.id} className="commen-area-item commen-area-item-playlist">
+                  <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
+                    <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
+                    <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
+                    <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>
+                  </div>
+                  <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-text">{item.name}</div>
+                  <div className="commen-area-artist">{item.trackCount + '首'}</div>
                 </div>
-                <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-text">{item.name}</div>
-                <div className="commen-area-artist">{item.trackCount + '首'}</div>
-              </div>
-            ))
-          }
+              ))
+            }
+          </div>
         </div>
-      </div>
       }
     </div>
   )

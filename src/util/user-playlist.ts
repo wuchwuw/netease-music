@@ -105,6 +105,7 @@ export function useUserPlaylist () {
           notificationApi.success({ content: '已添加到歌单' })
         }
       }
+      // todo 成功添加再更新
       // 如果是最喜欢的歌单，则更新favoriteIds
       if (isMyFavotitePlaylist(playlistId)) {
         updateFavoriteIds(ids)

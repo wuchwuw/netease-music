@@ -32,9 +32,9 @@ const PanelContainer: React.SFC = (props) => {
   const dispatch = useDispatch()
   const panelType = useSelector((state: RootState) => state.commen.panelType)
   const nodeList = [
-    document.querySelector('.panel-container'),
-    document.querySelector('.bottom'),
-    document.querySelector('.topbar-search-content'),
+    document.querySelector('#panel-container'),
+    document.querySelector('#bottom'),
+    document.querySelector('#topbar-search-content'),
     document.querySelector('#message-icon')
   ]
 
@@ -71,7 +71,7 @@ const PanelContainer: React.SFC = (props) => {
   }, [panelType])
 
   return (
-    <div styleName="panel-container">
+    <div id="panel-container" styleName="panel-container">
       { genPanelNode(panelType) }
     </div>
   )

@@ -13,7 +13,7 @@ interface IconProps {
 
 const Icon: React.SFC<IconProps> = ({
   name,
-  fontSize = 16,
+  fontSize,
   onClick,
   className = '',
   style = {},
@@ -23,7 +23,7 @@ const Icon: React.SFC<IconProps> = ({
   const cls = classnames(`iconfont ${name} ${className}`)
 
   const s = {
-    fontSize: fontSize + 'px',
+    fontSize: fontSize && fontSize + 'px',
     ...style
   }
 

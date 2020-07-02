@@ -33,6 +33,7 @@ const VideoDetail = () => {
       const res = await Promise.all([api.getMVDetail({ mvid: mvId }), api.getMVInfo({ mvid: mvId })])
       setMV(new MV(mvCache = {
         ...res[0].data.data,
+        subed: res[0].data.subed,
         ...res[1].data
       }))
     } catch (e) {}
@@ -84,42 +85,42 @@ const VideoDetail = () => {
   }
 
   return (
-    <div className="video-detail">
-      <div className="video-detail-container">
-        <div className="video-detail-info">
-          <div onClick={() => { back() }} className="video-detail-title commen-link-333333 active">
+    <div styleName="video-detail">
+      <div styleName="video-detail-container">
+        <div styleName="video-detail-info">
+          <span onClick={() => { back() }} styleName="video-detail-title" className="commen-link-333333 active">
             <Icon fontSize={18} name="icon-arrow-left"></Icon>
             MV详情
-          </div>
-          <div className="video-detail-player">
+          </span>
+          <div styleName="video-detail-player">
             <video controls id="video" src={url}></video>
           </div>
-          <div className="video-detail-user">
-            <img src={mv.artists[0].img1v1Url} alt=""/>
-            <span>{mv.artists[0].name}</span>
+          <div styleName="video-detail-user">
+            <img src={mv.artists[0].img1v1Url + '?params=100y100'} alt=""/>
+            <span className="commen-link-333333 active">{mv.artists[0].name}</span>
           </div>
-          <div className="video-detail-info-title">{mv.name}</div>
-          <div className="video-detail-info-count">发布:&nbsp;{mv.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{mv.playCount}次</div>
-          <div className="video-detail-info-option">
+          <div styleName="video-detail-info-title">{mv.name}</div>
+          <div styleName="video-detail-info-count">发布:&nbsp;{mv.publishTime}&nbsp;&nbsp;&nbsp;&nbsp;播放:&nbsp;{mv.playCount}次</div>
+          <div styleName="video-detail-info-option">
             <Button onClick={like} icon={<Icon className={classnames({ 'icon-color-main': mv.liked })} name="icon-zan"></Icon>}>赞({mv.likedCount})</Button>
             <Button onClick={sub} icon={<Icon name="icon-star"></Icon>}>{mv.subed ? '已收藏' : '收藏'}({mv.subCount})</Button>
             <Button onClick={() => { openShareDialog({ type: ShareType.MV, shareContent: mv }) }} icon={<Icon name="icon-share"></Icon>}>分享({mv.shareCount})</Button>
           </div>
           <Comment type="mv" showTitle id={mvId}></Comment>
         </div>
-        <div className="video-detail-related">
-          <div className="video-detail-title">相关推荐</div>
-          <ul className="video-related-list">
+        <div styleName="video-detail-related">
+          <div styleName="video-detail-title">相关推荐</div>
+          <ul>
             {
               related.map(mv => (
-                <li className="video-related-list-item">
-                  <div className="video-related-list-item-img">
+                <li styleName="video-related-list-item">
+                  <div styleName="video-related-list-item-img">
                     <img src={mv.cover} alt=""/>
-                    <div className="video-related-list-item-duration">{mv.duration_format}</div>
-                    <div className="video-related-list-item-playcount"><i className="iconfont icon-triangle"></i>{mv.playCount_format}</div>
+                    <div styleName="video-related-list-item-duration">{mv.duration_format}</div>
+                    <div styleName="video-related-list-item-playcount"><Icon name="icon-triangle"></Icon>{mv.playCount_format}</div>
                   </div>
-                  <div className="video-related-list-item-info">
-                    <div>{mv.name}</div>
+                  <div styleName="video-related-list-item-info">
+                    <div styleName="video-related-list-item-info-title" className="commen-link-333333 active">{mv.name}</div>
                     <div>{genArtists(mv.artists, goArtistDetail, 'commen-link-999999')}</div>
                   </div>
                 </li>

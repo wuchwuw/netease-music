@@ -1,5 +1,6 @@
 import { timeFormat } from "./util"
 import User from "./user"
+import dayjs from "dayjs"
 
 export class VideoBaseClass {
   vid: string
@@ -30,10 +31,11 @@ export class VideoBaseClass {
 export class Video extends VideoBaseClass {
   creator: User
   publishTime: number
-  praisedCount: number
   commentCount: number
   shareCount: number
   subscribeCount: number
+  likedCount: number
+  liked: boolean
   constructor ({
     vid,
     title,
@@ -41,23 +43,30 @@ export class Video extends VideoBaseClass {
     duration,
     playTime,
     publishTime,
-    praisedCount = 0,
     commentCount = 0,
     shareCount = 0,
     subscribeCount = 0,
-    creator = {}
+    creator = {},
+    likedCount = 0,
+    liked = false
   }: any) {
     super({ vid, title, coverUrl, duration, playTime })
     this.creator = new User(creator)
     this.publishTime = publishTime
-    this.praisedCount = praisedCount
     this.commentCount = commentCount
     this.shareCount = shareCount
     this.subscribeCount = subscribeCount
+    this.likedCount = likedCount
+    this.liked = liked
+  }
+  
+  get publishTimeFormat () {
+    return this.publishTime ? dayjs(this.publishTime).format('YYYY-MM-DD') : ''
   }
 }
 
 type VideoType = 'video' | 'mv'
+
 interface CreateBy {
   userName: string
   userId: string

@@ -62,8 +62,8 @@ const FM = () => {
               className={`icon-color-${isFavorite(currentFM.song.id) ? 'main' : '6'}`}
               styleName="fm-action-item"
               onClick={() => { favorite(currentFM.song.id) }}
-              name={`${isFavorite(currentFM.song.id) ? 'icon-heart-full' : 'iconxin'}`}
-            ></Icon>
+              name={`${isFavorite(currentFM.song.id) ? 'icon-heart-full' : 'iconxin'}`}>
+            </Icon>
             <Icon className="icon-color-6" styleName="fm-action-item" onClick={() => { addFMTrash(currentFM.song.id) }} name="icon-delete"></Icon>
             <Icon className="icon-color-6" styleName="fm-action-item" onClick={() => { next() }} name="icon-fmnext"></Icon>
             <span onClick={open} styleName="fm-action-item fm-context-menu-wrap">

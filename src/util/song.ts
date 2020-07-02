@@ -42,7 +42,7 @@ export default class Song {
     this.album = al ? createBaseAlbum(al) : {} as AlbumBaseClass
     this.duration = dt
     this.lyric = null
-    this.alia = alia
+    this.alia = alia || []
     this.privilege = privilege
   }
 

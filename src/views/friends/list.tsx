@@ -6,6 +6,7 @@ import { usePlayerController } from 'UTIL/player-controller'
 import classnames from 'classnames'
 import './list.less'
 import Icon from 'COMPONENTS/icon/icon'
+import { usePageForword } from 'ROUTER/hooks'
 
 interface EventListProps {
   list: ActivityClassType[]
@@ -16,6 +17,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
 
   const [commentIndex, setCommentIndex] = useState(-1)
   const { start } = usePlayerController()
+  const { goUserDetail, goPlaylistDetail, goMVDetail, goVideoDetail, goAlbumDetail, goArtistDetail } = usePageForword()
 
   async function activityLike (info: ActivityInfo) {
     try {
@@ -54,7 +56,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
             <img styleName="activity-user-avatar" src={act.user.avatarUrl} alt=""/>
             <div styleName="activity-user-info">
               <div styleName="activity-use-info-name">
-                <span>{act.user.nickname}</span>
+                <span onClick={() => { goUserDetail(act.user.userId) }}>{act.user.nickname}</span>
                 {act.activityText}
               </div>
               <div styleName="activity-use-info-time">{act.showTimeFormat}</div>
@@ -78,8 +80,8 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
     return (
       <div styleName="activity-image-content">
         {
-          images.map((image) => (
-            <div styleName="activity-image-item">
+          images.map((image, index) => (
+            <div key={index} styleName="activity-image-item">
               <img src={image.pcSquareUrl} alt=""/>
             </div>
           ))
@@ -123,7 +125,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
       case ActivityType.Video:
       case ActivityType.VideoShare:
         return (
-          <div styleName="activity-video">
+          <div onClick={() => { goVideoDetail(act.content.vid) }} styleName="activity-video">
             <div styleName="activity-song-wrap">
               <Icon name="icon-triangle-full" styleName="activity-play-icon activity-video-play-icon"></Icon>
               <img src={act.content.coverUrl} alt=""/>
@@ -136,7 +138,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       case ActivityType.MV:
         return (
-          <div styleName="activity-video">
+          <div onClick={() => { goMVDetail(act.content.id) }} styleName="activity-video">
             <div styleName="activity-song-wrap">
               <Icon name="icon-triangle-full" styleName="activity-play-icon activity-video-play-icon"></Icon>
               <img src={act.content.cover} alt=""/>
@@ -163,7 +165,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       case ActivityType.Album:
         return (
-          <div styleName="activity-song">
+          <div onClick={() => { goAlbumDetail(act.content.id) }} styleName="activity-song">
             <img src={act.content.picUrl} alt=""/>
             <div styleName="activity-song-info">
               <div>{act.content.name}</div>
@@ -173,7 +175,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       case ActivityType.ARTIST:
         return (
-          <div styleName="activity-song">
+          <div onClick={() => { goArtistDetail(act.content.id) }} styleName="activity-song">
             <img src={act.content.img1v1Url} alt=""/>
             <div styleName="activity-song-info">
               <div>{act.content.name}</div>
@@ -182,7 +184,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         )
       case ActivityType.PLAYLIST:
         return (
-          <div styleName="activity-song">
+          <div onClick={() => { goPlaylistDetail(act.content.id) }} styleName="activity-song">
             <img src={act.content.coverImgUrl} alt=""/>
             <div styleName="activity-song-info">
               <div>{act.content.name}</div>

@@ -135,16 +135,67 @@
   &:hover {
     background: #D3D4D3;
   }
+  > div {
+    line-height: 1.5;
+  }
 }
 .chat-content-general-cover {
   height: 40px;
   width: 40px;
   border-radius: 4px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 .chat-content-promotion-cover {
   height: 40px;
   width: 60px;
   border-radius: 4px;
   margin-right: 5px;
+}
+
+.comment-textarea-wrap {
+  height: 70px;
+  border-radius: 5px;
+  padding: 5px 0 15px 8px;
+  position: relative;
+  background: #FAFAFA;
+  &.replied {
+    margin-top: 10px;
+  }
+  &.deep {
+    background: #EDEDED;
+    .comment-textarea {
+      background: #EDEDED;
+    }
+  }
+}
+.comment-textarea {
+  resize: none;
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: #FAFAFA;
+  font-size: 13px;
+  &::placeholder {
+    color: #999999;
+  }
+}
+.comment-textarea-reset {
+  position: absolute;
+  right: 12px;
+  bottom: 5px;
+  font-size: 13px;
+  color: #999999;
+}
+.comment-textarea-action {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  button {
+    margin-left: auto;
+  }
 }

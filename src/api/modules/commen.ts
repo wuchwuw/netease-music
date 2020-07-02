@@ -1,15 +1,5 @@
 import axios from '../request'
 
-interface GetPanelMessageParams {
-  limit: number
-}
-
-interface SearchParams {
-  keywords: string
-  type?: number
-  limit: number
-}
-
 export default {
   getSimi (params: any) {
     return axios.get(`simi/${params.type}`, { params: params.query })
@@ -26,19 +16,19 @@ export default {
   getSearchMultimatch () {
     return axios.get('search/multimatch')
   },
-  search (params: SearchParams) {
+  search (params: { keywords: string, type?: number, limit: number }) {
     return axios.get('search', { params })
   },
-  getPanelMessage (params: GetPanelMessageParams) {
+  getPanelMessage (params: { limit: number, offset: number }) {
     return axios.get('msg/private', { params })
   },
-  getPanelComments (params: GetPanelMessageParams) {
+  getPanelComments (params: { limit: number, before: number, uid: number }) {
     return axios.get('msg/comments', { params })
   },
-  getPanelForwards (params: GetPanelMessageParams) {
+  getPanelForwards (params: { limit: number, offset: number }) {
     return axios.get('msg/forwards', { params })
   },
-  getPanelNotices (params: GetPanelMessageParams) {
+  getPanelNotices (params: { limit: number, lasttime: number }) {
     return axios.get('msg/notices', { params })
   },
   getPrivateMessage (params: { uid: number, limit: number}) {
@@ -51,12 +41,6 @@ export default {
     return axios.get('send/text', { params })
   },
   likeResource (params: { t: number, type: number, id?: number | string, threadId?: string}) {
-    const type_map = {
-      'mv': 1,
-      'radio': 4,
-      'video': 5,
-      'activity': 6
-    }
     return axios.get('resource/like', { params })
   }
 }

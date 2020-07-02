@@ -66,7 +66,13 @@ export enum ShareType {
   ALBUM = 'album',
   PLAYLIST = 'playlist',
   MV = 'mv',
-  VIDEO = 'video'
+  VIDEO = 'video',
+  DETAULT = ''
+}
+
+interface DefaultShare {
+  tab: ShareType.DETAULT
+  result?: any
 }
 
 interface SongShare {
@@ -99,7 +105,7 @@ interface MVShare  {
   result: MV
 }
 
-export type SearchShare = SongShare | ArtistShare | PlaylistShare| AlbumShare | VideoShare | MVShare
+export type SearchShare = SongShare | ArtistShare | PlaylistShare| AlbumShare | VideoShare | MVShare | DefaultShare
 
 export interface ActivityPublishProps {
   type: ShareType

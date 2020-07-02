@@ -7,7 +7,7 @@ import LoadMore from 'COMPONENTS/load-more/load-more'
 import EventList from './list'
 import PageTitle from 'COMPONENTS/page-title/page-title'
 import Button from 'COMPONENTS/button/button'
-import { createActivityPublishDialog } from 'COMPONENTS/dialog/create'
+import { createActivityPublishDialog, ShareType } from 'COMPONENTS/dialog/create'
 import Icon from 'COMPONENTS/icon/icon'
 
 let hasmore = true
@@ -68,7 +68,7 @@ const Friends: React.SFC = () => {
           <Button
             icon={<Icon name="icon-share"></Icon>}
             type="primary"
-            onClick={() => { openActivityDialog({ shareSuccess }) }}
+            onClick={() => { openActivityDialog({ type: ShareType.DETAULT ,shareSuccess }) }}
           >
             发动态
           </Button>
@@ -85,12 +85,12 @@ const Friends: React.SFC = () => {
           {
             topic.map(item => (
               <div key={item.actId} styleName="activity-topic-item">
-                <img styleName="activity-topic-img" src={item.sharePicUrl + '?param=40y40'} alt=""/>
+                <img styleName="activity-topic-img" src={item.sharePicUrl + '?param=100y100'} alt=""/>
                 <div styleName="activity-topic-info">
                   <div styleName="activity-topic-name">
                     #<span>{item.title}</span>#
                   </div>
-                  <div>{item.participateCount}人参与</div>
+                  <div styleName="activity-topic-count">{item.participateCount}人参与</div>
                 </div>
               </div>
             ))

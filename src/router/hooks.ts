@@ -14,6 +14,7 @@ export function usePageForword () {
 
   return {
     goAlbumDetail (albumId: number) {
+      if (!albumId) return
       history.push(`/album/${albumId}`)
     },
     goArtistDetail (artistId: number) {

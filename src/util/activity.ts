@@ -121,7 +121,10 @@ export class ActivityVideoClass extends ActivityClass {
     super({user, info, id, eventTime, showTime, pics })
     this.type = type
     this.json = JSON.parse(json)
-    this.content = createVideo(this.json.video)
+    this.content = createVideo({
+      ...this.json.video,
+      vid: this.json.video.videoId
+    })
     this.message = this.json.msg
     this.activityText = type === ActivityType.Video ? '发布视频' : '分享视频'
   }

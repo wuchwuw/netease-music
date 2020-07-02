@@ -42,7 +42,7 @@ const UserList: React.SFC<UserListProps> = ({ users = [], type = 'follows', upda
                 <span>粉丝：{user.followeds}</span>
               </div>
             </div>
-            <div styleName="userlist-option">
+            <div>
               {
                 type === 'follows' ?
                 <Button icon={<Icon name="icon-email"></Icon>} onClick={(e) => { e.stopPropagation(); setCurrentChat(user) }}>私信</Button>

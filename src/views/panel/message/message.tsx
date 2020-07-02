@@ -32,17 +32,24 @@ function getNotice (noticeData) {
   }
 }
 
+enum TabType {
+  MESSAGE = 'message',
+  COMMENT = 'comment',
+  FORWARD = 'forward',
+  NOTICE = 'notice'
+}
+
+const CURRENT_PLAYLIST_PANEL_TAB = {
+  message: '私信',
+  comment: '评论',
+  forward: '@我',
+  notice: '通知'
+}
+
 const Message: React.SFC = () => {
 
   const { setCurrentChat } = useChat()
-
-  const CURRENT_PLAYLIST_PANEL_TAB = {
-    message: '私信',
-    comment: '评论',
-    forward: '@我',
-    notice: '通知'
-  }
-  const [tab, setTab] = useState('message')
+  const [tab, setTab] = useState(TabType.MESSAGE)
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState([])
   const [comment, setComment] = useState([])
@@ -168,7 +175,7 @@ const Message: React.SFC = () => {
     <div styleName="message-panel-container">
       <div styleName="message-panel-tab ">
         {
-          Object.keys(CURRENT_PLAYLIST_PANEL_TAB).map(key => (
+          (Object.keys(CURRENT_PLAYLIST_PANEL_TAB) as Array<TabType>).map(key => (
             <div onClick={() => selectTab(key)} key={key} styleName={classnames({ 'active': key === tab })}>
               {CURRENT_PLAYLIST_PANEL_TAB[key]}
             </div>

@@ -122,6 +122,20 @@
   }
 }
 
+.player-slider-enter {
+  transform: translateY(100%);
+}
+.player-slider-enter-active {
+  transform: translateY(0);
+  transition: transform 500ms;
+}
+.player-slider-exit {
+  transform: translateY(0);
+}
+.player-slider-exit-active {
+  transform: translateY(100%);
+  transition: transform 500ms;
+}
 .mini-player-voice-wrap {
   position: relative;
   margin-left: 20px;
@@ -173,21 +187,4 @@
   background: @color-main;
   bottom: 0;
   left: -3px;
-}
-
-:global {
-  .player-slider-enter {
-    transform: translateY(100%);
-  }
-  .player-slider-enter-active {
-    transform: translateY(0);
-    transition: transform 500ms;
-  }
-  .player-slider-exit {
-    transform: translateY(0);
-  }
-  .player-slider-exit-active {
-    transform: translateY(100%);
-    transition: transform 500ms;
-  }
 }

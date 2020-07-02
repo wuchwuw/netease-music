@@ -10,7 +10,6 @@ import { PlaylistClass, createPlaylistList } from "UTIL/playlist"
 import { MV, createMVList } from "UTIL/mv"
 import { Artist, createArtistList } from "UTIL/artist"
 import { usePlayerController } from "UTIL/player-controller"
-import Icon from "COMPONENTS/icon/icon"
 
 interface Suggest {
   songs: Song[]
@@ -110,10 +109,10 @@ const Search: React.SFC = () => {
       if (item === 'songs') {
         ret.push(
           <>
-            <div styleName="search-suggest-title"><Icon name="icon-neteastmusic"></Icon>单曲</div>
+            <div className="search-suggest-title"><i className="iconfont icon-neteastmusic"></i>单曲</div>
             {
               suggest.songs.map(item => (
-                <div onClick={() => { handleSuggestSong(item) }} key={item.id} styleName="search-suggest-item">{item.name} - {item.artists[0].name}</div>
+                <div onClick={() => { handleSuggestSong(item) }} key={item.id} className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -121,10 +120,10 @@ const Search: React.SFC = () => {
       } else if (item === 'artists') {
         ret.push(
           <>
-            <div styleName="search-suggest-title"><Icon name="icon-user"></Icon>歌手</div>
+            <div className="search-suggest-title"><i className="iconfont icon-user"></i>歌手</div>
             {
               suggest.artists.map(item => (
-                <div key={item.id} onClick={() => { goArtistDetail(item.id) }} styleName="search-suggest-item">{item.name}</div>
+                <div key={item.id} onClick={() => { goArtistDetail(item.id) }} className="search-suggest-item">{item.name}</div>
               ))
             }
           </>
@@ -132,10 +131,10 @@ const Search: React.SFC = () => {
       } else if (item === 'albums') {
         ret.push(
           <>
-            <div styleName="search-suggest-title"><Icon name="icon-playlist"></Icon>专辑</div>
+            <div className="search-suggest-title"><i className="iconfont icon-playlist"></i>专辑</div>
             {
               suggest.albums.map(item => (
-                <div key={item.id} onClick={() => { goAlbumDetail(item.id) }} styleName="search-suggest-item">{item.name} - {item.artists[0].name}</div>
+                <div key={item.id} onClick={() => { goAlbumDetail(item.id) }} className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -143,10 +142,10 @@ const Search: React.SFC = () => {
       } else if (item === 'mvs') {
         ret.push(
           <>
-            <div styleName="search-suggest-title"><Icon name="icon-mv"></Icon>视频</div>
+            <div className="search-suggest-title"><i className="iconfont icon-mv"></i>视频</div>
             {
               suggest.mvs.map(item => (
-                <div key={item.id} onClick={() => { goMVDetail(item.id) }} styleName="search-suggest-item">{item.name} - {item.artists[0].name}</div>
+                <div key={item.id} onClick={() => { goMVDetail(item.id) }} className="search-suggest-item">{item.name} - {item.artists[0].name}</div>
               ))
             }
           </>
@@ -154,10 +153,10 @@ const Search: React.SFC = () => {
       } else if (item === 'playlists') {
         ret.push(
           <>
-            <div styleName="search-suggest-title"><Icon name="icon-playlist"></Icon>歌单</div>
+            <div className="search-suggest-title"><i className="iconfont icon-playlist"></i>歌单</div>
             {
               suggest.playlists.map(item => (
-                <div key={item.id} onClick={() => { goPlaylistDetail(item.id) }} styleName="search-suggest-item">{item.name}</div>
+                <div key={item.id} onClick={() => { goPlaylistDetail(item.id) }} className="search-suggest-item">{item.name}</div>
               ))
             }
           </>
@@ -180,13 +179,13 @@ const Search: React.SFC = () => {
   }
 
   return (
-    <div styleName="search-panel-container">
+    <div className="search-panel-container">
       {
         !keywords ? (
           <>
-            <div styleName="search-panel-title">热门搜索</div>
+            <div className="search-panel-title">热门搜索</div>
             <Spin loading={loading} delay={0}>
-              <div styleName="search-panel-keyword">
+              <div className="search-panel-keyword">
                 {
                   hot.map((item: any) => (
                     <span onClick={() => { onKeywordItemClick(item.first) }} key={item.first}>{item.first}</span>
@@ -194,22 +193,22 @@ const Search: React.SFC = () => {
                 }
               </div>
             </Spin>
-            <div styleName="search-panel-title">搜索历史</div>
+            <div className="search-panel-title">搜索历史</div>
             {
               historyKeywords.length ? (
-                <div styleName="search-panel-keyword">
+                <div className="search-panel-keyword">
                   {
                     historyKeywords.map((item: any) => (
                       <span onClick={() => { onKeywordItemClick(item) }} key={item}>
                         {item}
-                        <Icon fontSize={13} onClick={(e) => { onSearchHistoryRemove(e, item) }} name="icon-close" className="icon-color-9 hover"></Icon>
+                        <i onClick={(e) => { onSearchHistoryRemove(e, item) }} className="iconfont icon-close"></i>
                       </span>
                     ))
                   }
                 </div>
               )
               :
-              <div styleName="search-panel-keyword-nodata">暂无搜索历史</div>
+              <div className="search-panel-keyword-nodata">暂无搜索历史</div>
             }
           </>
         ) :

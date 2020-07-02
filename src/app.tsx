@@ -36,7 +36,7 @@ const App = () => {
           </Switch>
         </div>
       </div>
-      <div id="bottom" className="bottom"><Player></Player></div>
+      <div className="bottom"><Player></Player></div>
       {/* <Prompt message={(l) => { console.log(l); return false;}}></Prompt> */}
       <PanelContainer></PanelContainer>
       <ScrollToTop></ScrollToTop>

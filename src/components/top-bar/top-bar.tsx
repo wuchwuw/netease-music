@@ -107,7 +107,7 @@ const TopBar: React.SFC = () => {
       </div>
       {/* <div styleName="topbar-content">{renderTopbarContent()}</div> */}
       <div styleName="topbar-search">
-        <div id="topbar-search-content" styleName="topbar-search-content">
+        <div styleName="topbar-search-content">
           <i className="iconfont icon-search"></i>
           <input
             onChange={(e) => onSearchChange(e.target.value) }

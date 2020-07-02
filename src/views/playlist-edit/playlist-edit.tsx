@@ -7,7 +7,6 @@ import { useParams } from 'react-router'
 import { PlaylistClass } from 'UTIL/playlist'
 import notificationApi from 'COMPONENTS/notification'
 import { usePageForword } from 'ROUTER/hooks'
-import PageTitle from 'COMPONENTS/page-title/page-title'
 
 const PlylistEdit = () => {
   const { id } = useParams()
@@ -77,34 +76,34 @@ const PlylistEdit = () => {
   } 
 
   return (
-    <div styleName="playlist-edit-container">
-      <PageTitle><span className="topbar-content-item active">编辑歌单信息</span></PageTitle>
-      <div styleName="playlist-form">
-        <div styleName="playlist-form-item">
+    <div className="playlist-edit-container">
+      <div className="playlist-edit-title">编辑歌单信息</div>
+      <div className="playlist-form">
+        <div className="playlist-form-item">
           <span>歌单名:</span>
           <input value={name} onChange={(e) => { setName(e.target.value) }} type="text"/>
         </div>
-        <div styleName="playlist-form-item">
+        <div className="playlist-form-item">
           <span>标签:</span>
-          <div styleName="playlist-edit-selected">
+          <div className="playlist-edit-selected">
             {
               selected.map(tag => (
                 <span key={tag}>{tag}</span>
               ))
             }
           </div>
-          <AddPlaylistTag onSave={onTagSave} selected={selected}><span styleName="playlist-form-addtag">添加标签</span></AddPlaylistTag>
+          <AddPlaylistTag onSave={onTagSave} selected={selected}><span className="playlist-form-addtag">添加标签</span></AddPlaylistTag>
         </div>
-        <div styleName="playlist-form-item">
+        <div className="playlist-form-item">
           <span>简介:</span>
           <textarea rows={5} value={desc} onChange={(e) => { setDesc(e.target.value) }}/>
         </div>
-        <div styleName="playlist-form-button">
+        <div className="playlist-form-button">
           <Button type="primary" onClick={()=> { updatePlaylistInfo() }}>保存</Button>
           <Button onClick={back}>取消</Button>
         </div>
       </div>
-      <img styleName="playlist-edit-cover" src={playlist.coverImgUrl} alt=""/>
+      <img className="playlist-edit-cover" src={playlist.coverImgUrl} alt=""/>
     </div>
   )
 }

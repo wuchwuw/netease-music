@@ -38,7 +38,7 @@ const Lyric: React.SFC<LyricProps> = ({
   }
 
   return (
-    <div styleName="player-info-lyrics">
+    <div>
       {
         lines.map((item: any, index: any) => (
           <div key={index} styleName={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>

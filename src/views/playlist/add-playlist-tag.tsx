@@ -24,7 +24,7 @@ interface AddPlaylistTagProps {
 
 const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [], onSave }) => {
   const [allCate, setAllCate] = useState<AllCate[]>([])
-  const { open, visiable, close } = useContainer(['#add-playlist-tag-container'])
+  const { open, visiable, close } = useContainer(['.add-playlist-tag-container'])
   const [select, setSelect] = useState(selected)
 
   useEffect(() => {
@@ -61,20 +61,20 @@ const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [
 
   return (
     <>
-      <span id="add-playlist-tag-container" styleName="add-playlist-tag-container" onClick={open}>
+      <span className="add-playlist-tag-container" onClick={open}>
         {children}
         {
           visiable && (
-            <div styleName="add-playlist-cate-wrap">
-              <div styleName="playlist-cate">
+            <div className="add-playlist-cate-wrap">
+              <div className="playlist-cate">
                 {
                   allCate.map(item => (
-                    <div key={item.cate} styleName="playlist-cate-item">
-                      <span styleName="playlist-cate-label">{item.cate}</span>
-                      <div styleName="playlist-cate-wrap">
+                    <div key={item.cate} className="playlist-cate-item">
+                      <span className="playlist-cate-label">{item.cate}</span>
+                      <div className="playlist-cate-wrap">
                         {
                           item.sub.map(scate => (
-                            <span key={scate.name} onClick={() => { onCateSelect(scate.name) }} styleName={classnames({'active': select.includes(scate.name)})}>{scate.name}</span>
+                            <span key={scate.name} onClick={() => { onCateSelect(scate.name) }} className={classnames({'active': select.includes(scate.name)})}>{scate.name}</span>
                           ))
                         }
                       </div>
@@ -82,7 +82,7 @@ const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [
                   ))
                 }
               </div>
-              <div styleName="add-playlist-tag-button"><Button onClick={(e) => { e.stopPropagation(); onSave(select); close() }} type="primary">保存</Button></div>
+              <div className="add-playlist-tag-button"><Button onClick={(e) => { e.stopPropagation(); onSave(select); close() }} type="primary">保存</Button></div>
             </div>
           )
         }

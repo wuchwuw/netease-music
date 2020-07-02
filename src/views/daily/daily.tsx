@@ -6,16 +6,11 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import { useSongContextMenu } from 'UTIL/menu'
 import { usePlayerController } from 'UTIL/player-controller'
 import Button from 'COMPONENTS/button/button'
-import Icon from 'COMPONENTS/icon/icon'
-import { createAddPlaylistSongDialog } from 'COMPONENTS/dialog/create'
-import { useUserPlaylist } from 'UTIL/user-playlist'
 
 const Daily = () => {
   const [songs, setSongs] = useState<Song[]>([])
   const { getSongMenu } = useSongContextMenu()
   const { start } = usePlayerController()
-  const openAddPlaylistSongDialog = createAddPlaylistSongDialog()
-  const { userPlaylist, addOrRemoveSong } = useUserPlaylist()
 
   useEffect(() => {
     getRecomendSong()
@@ -29,28 +24,29 @@ const Daily = () => {
     try {
       const res = await api.getRecomendSong()
       setSongs(createSongList(res.data.recommend))
+      console.log(createSongList(res.data.recommend))
     } catch (e) {}
   }
 
   function musiclistStart (song: Song) {
-    start({ id: '/daily', name: '每日歌曲推荐' }, song, songs)
+    start({ id: 'daily', name: '每日歌曲推荐' }, song, songs)
   }
 
   return (
-    <div styleName="daily-container">
-      <div styleName="daily-text">
-        <div styleName="daily-text-icon">
-          <div styleName="daily-text-day">星期{(['日', '一', '二', '三', '四', '五', '六'])[(new Date).getDay()]}</div>
-          <div styleName="daily-text-date">{(new Date).getDate()}</div>
+    <div className="daily-container">
+      <div className="daily-text">
+        <div className="daily-text-icon">
+          <div className="daily-text-day">星期{(['日', '一', '二', '三', '四', '五', '六'])[(new Date).getDay()]}</div>
+          <div className="daily-text-date">{(new Date).getDate()}</div>
         </div>
-        <div styleName="daily-text-tip">
+        <div className="daily-text-tip">
           <div>每日歌曲推荐</div>
           <div>根据你的音乐口味生成，每天6:00更新</div>
         </div>
       </div>
-      <div styleName="daily-option">
-        <Button onClick={() => { start({ id: '/daily', name: '每日歌曲推荐' }, songs[0], songs) }} icon={<Icon name="icon-play"></Icon>} type="primary">播放全部</Button>
-        <Button onClick={() => { openAddPlaylistSongDialog({ songs, userPlaylist, addOrRemoveSong }) }} icon={<Icon name="icon-add"></Icon>}>添加到歌单</Button>
+      <div className="daily-option">
+        <Button type="primary">播放全部</Button>
+        <Button>添加到歌单</Button>
       </div>
       <MusicList start={musiclistStart} list={songs} getMenu={getMenu} ></MusicList>
     </div>

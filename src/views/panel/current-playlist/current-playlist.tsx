@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import './current-playlist.less'
 import classnames from 'classnames'
 import { usePlayerController } from "UTIL/player-controller"
-import Icon from "COMPONENTS/icon/icon"
 
 const CurrentPlaylist: React.SFC = () => {
   const { currentSong, currentMusiclist, start, playHistory } = usePlayerController()
@@ -21,35 +20,35 @@ const CurrentPlaylist: React.SFC = () => {
   }
 
   return (
-    <div styleName="current-playlist-container">
-      <div styleName="current-playlist-tab">
+    <div className="current-playlist-container">
+      <div className="current-playlist-tab">
         {
           (Object.keys(CURRENT_PLAYLIST_PANEL_TAB) as Array<keyof typeof CURRENT_PLAYLIST_PANEL_TAB>).map((key) => (
-            <div onClick={() => selectTab(key)} key={key} styleName={classnames({ 'active': key === tab })}>
+            <div onClick={() => selectTab(key)} key={key} className={classnames({ 'active': key === tab })}>
               {CURRENT_PLAYLIST_PANEL_TAB[key]}
             </div>
           ))
         }
       </div>
-      <div styleName="current-playlist-action">
-        <span styleName="current-playlist-action-title">总{getLength()}首</span>
-        <span styleName="current-playlist-action-star"><Icon name="icon-add-folder"></Icon>收藏全部</span>
-        <span styleName="current-playlist-action-delete"><Icon name="icon-delete"></Icon>清空</span>
+      <div className="current-playlist-action">
+        <span className="current-playlist-action-title">总{getLength()}首</span>
+        <span className="current-playlist-action-star"><i className="iconfont icon-add-folder"></i>收藏全部</span>
+        <span className="current-playlist-action-delete"><i className="iconfont icon-delete"></i>清空</span>
       </div>
-      <ul styleName="current-music-list-wrap">
+      <ul className="current-music-list-wrap">
         {
           (getLength() !== 0) ? 
           (tab === 'playlist' ? currentMusiclist : playHistory).map(({song, source}) => (
-            <li onDoubleClick={() => start({id: '', name: ''}, song) } key={song.id} styleName="current-music-list-item">
+            <li onDoubleClick={() => start({id: '', name: ''}, song) } key={song.id} className="current-music-list-item">
               <div></div>
               <div>
-                <div className="text-overflow" styleName={classnames({ 'music-list-item-playing': song.id === currentSong.song.id })} title={song.name}>{song.name}</div>
+                <div className={classnames('text-overflow', { 'music-list-item-playing': song.id === currentSong.song.id })} title={song.name}>{song.name}</div>
               </div>
               <div>
                 <div className="text-overflow" title={song.artistName}>{song.artistName}</div>
               </div>
               <div>
-                <Icon name="icon-link"></Icon>
+                <i className="iconfont icon-link"></i>
               </div>
               <div>
               <div className="text-overflow">{song.duration_string}</div>
@@ -57,9 +56,9 @@ const CurrentPlaylist: React.SFC = () => {
             </li>
           ))
           :
-          <div styleName="current-playlist-nodata">
+          <div className="current-playlist-nodata">
             <div>你还没有{tab === 'playlist' ? '添加' : '播放' }任何歌曲</div>
-            <div styleName="current-playlist-nodata-text">去首页<span className="commen-link-333333 active">发现音乐</span></div>
+            <div className="current-playlist-nodata-text">去首页<span className="commen-link-333333 active">发现音乐</span></div>
           </div>
         }
       </ul>

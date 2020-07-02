@@ -51,8 +51,5 @@ export default {
   },
   subMV (params: { t: number, mvid: number }) {
     return axios.get('mv/sub', { params })
-  },
-  getVideoInfo (params: { vid: string }) {
-    return axios.get('video/detail/info', { params })
   }
 }

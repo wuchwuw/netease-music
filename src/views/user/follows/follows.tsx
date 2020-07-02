@@ -47,15 +47,11 @@ const Follows = () => {
     getUserFollows()
   }
 
-  function updateList () {
-    setFollows([...follows])
-  }
-
   return (
     <div style={{ height: '100%' }}>
       <PageTitle>{ query.username && <span>{query.username}的关注</span>}</PageTitle>
       <LoadMore load={loadmore}>
-        <UserList type="followeds" users={follows} updateList={updateList}></UserList>
+        <UserList type="followeds" users={follows}></UserList>
       </LoadMore>
     </div>
   )

@@ -5,8 +5,6 @@ import { useChat } from 'UTIL/chat-controller'
 import { usePageForword } from 'ROUTER/hooks'
 import api from 'API/index'
 import notificationApi from 'COMPONENTS/notification'
-import Button from 'COMPONENTS/button/button'
-import Icon from 'COMPONENTS/icon/icon'
 
 interface UserListProps {
   users: User[],
@@ -29,25 +27,25 @@ const UserList: React.SFC<UserListProps> = ({ users = [], type = 'follows', upda
   }
 
   return (
-    <div styleName="userlist-container">
+    <div className="userlist-container">
       {
         users.map(user => (
-          <div onClick={() => { goUserDetail(user.userId) }} key={user.userId} styleName="userlist-item">
+          <div onClick={() => { goUserDetail(user.userId) }} key={user.userId} className="userlist-item">
             <img src={user.avatarUrl + '?param=100y100'} alt=""/>
-            <div styleName="userlist-item-info">
-              <div styleName="userlist-item-name">{user.nickname}</div>
-              <div styleName="userlist-item-signature">{user.signature}</div>
-              <div styleName="userlist-item-count">
+            <div className="userlist-item-info">
+              <div className="userlist-item-name">{user.nickname}</div>
+              <div className="userlist-item-signature">{user.signature}</div>
+              <div className="userlist-item-count">
                 <span>歌单：{user.playlistCount}</span>
                 <span>粉丝：{user.followeds}</span>
               </div>
             </div>
-            <div styleName="userlist-option">
+            <div className="userlist-option">
               {
                 type === 'follows' ?
-                <Button icon={<Icon name="icon-email"></Icon>} onClick={(e) => { e.stopPropagation(); setCurrentChat(user) }}>私信</Button>
+                <span onClick={(e) => { e.stopPropagation(); setCurrentChat(user) }}><i className="iconfont icon-email"></i>私信</span>
                 :
-                <Button icon={<Icon name={user.followed ? 'icon-gou' : 'icon-add'}></Icon>} onClick={(e) => { e.stopPropagation(); follow(user) }}>{user.followed ? '已关注' : '关注'}</Button>
+                <span onClick={(e) => { e.stopPropagation(); follow(user) }}>{user.followed ? <><i className="iconfont icon-gou"></i>已关注</> : <><i className="iconfont icon-add"></i>关注</>}</span>
               }
             </div>
           </div>

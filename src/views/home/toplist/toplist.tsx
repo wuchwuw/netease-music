@@ -5,7 +5,9 @@ import { PlaylistClass, createPlaylistList } from 'UTIL/playlist'
 import Spin from 'COMPONENTS/spin/spin'
 import classNames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
-import Song from 'UTIL/song'
+import Icon from 'COMPONENTS/icon/icon'
+import { genArtists, genSongName } from 'VIEWS/template/template'
+import { usePlayerController } from 'UTIL/player-controller'
 
 let ToplistIndexCache: PlaylistClass[] = []
 let ToplistCache: PlaylistClass[] = []
@@ -15,6 +17,7 @@ const Toplist: React.SFC = () => {
   const [toplistIndex, setToplistIndex] = useState<PlaylistClass[]>([])
   const [toplistLoading, setToplistLoading] = useState(false)
   const { goPlaylistDetail, goArtistDetail } = usePageForword()
+  const { start } = usePlayerController()
 
   useEffect(() => {
     if (ToplistIndexCache.length && ToplistCache.length) {
@@ -45,39 +48,27 @@ const Toplist: React.SFC = () => {
     } catch (e) {}
   }
 
-  function genArtist (song: Song) {
-    let artists = song.artists
-    let ret: React.ReactNodeArray = []
-    artists.forEach((item, index) => {
-      ret.push(<span onClick={() => { goArtistDetail(item.id) }}>{item.name}</span>)
-      if (index !== artists.length - 1) {
-        ret.push('/')
-      }
-    })
-    return ret
-  }
-
   return (
-    <div className="toplist-container">
-      <div className="toplist-netease-wrap">
-        <div className="toplist-title">官方榜</div>
+    <div styleName="toplist-container">
+      <div styleName="toplist-netease-wrap">
+        <div styleName="toplist-title">官方榜</div>
         <Spin loading={toplistLoading} delay={300}>
           {
             toplistIndex.map(playlist => (
-              <div key={playlist.id} className="toplist-netease-item">
-                <img onClick={() => { goPlaylistDetail(playlist.id) }} className="toplist-netease-item-img" src={playlist.coverImgUrl} alt=""/>
-                <div className="toplist-netease-item-list">
+              <div key={playlist.id} styleName="toplist-netease-item">
+                <img onClick={() => { goPlaylistDetail(playlist.id) }} styleName="toplist-netease-item-img" src={playlist.coverImgUrl} alt=""/>
+                <div styleName="toplist-netease-item-list">
                   {
                     playlist.tracks.slice(0, 5).map((track, index) => (
-                      <div className="toplist-netease-item-list-item" key={track.id}>
-                        <span className={classNames({'active': index <= 2})}>{index + 1}</span>
-                        <span>{track.name}</span>
-                        <span>{genArtist(track)}</span>
+                      <div onDoubleClick={() => start({ name: playlist.name, id: `/playlist${playlist.id}` }, track, playlist.tracks)} styleName="toplist-netease-item-list-item" key={track.id}>
+                        <span styleName={classNames({'active': index <= 2})}>{index + 1}</span>
+                        <span>{genSongName(track)}</span>
+                        <span>{genArtists(track.artists, goArtistDetail, 'commen-link-999999')}</span>
                       </div>
                     ))
                   }
-                  <div className="toplist-netease-item-more">
-                    <span onClick={() => { goPlaylistDetail(playlist.id) }}>查看全部<i className="iconfont icon-arrow-right"></i></span>
+                  <div styleName="toplist-netease-item-more">
+                    <span onClick={() => { goPlaylistDetail(playlist.id) }}>查看全部<Icon name="icon-arrow-right"></Icon></span>
                   </div>
                 </div>
               </div>
@@ -86,13 +77,13 @@ const Toplist: React.SFC = () => {
         </Spin>
       </div>
       <div>
-        <div className="toplist-title">全球榜</div>
+        <div styleName="toplist-title">全球榜</div>
         <div className="commen-area-content toplist-world-wrap">
           { toplist.slice(4).map(playlist => (
               <div key={playlist.id} className="commen-area-item commen-area-item-medium">
                 <div onClick={() => { goPlaylistDetail(playlist.id) }} className="commen-area-img-wrap">
-                  <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-                  <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{playlist.playCount_string}</div>
+                  <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
+                  <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{playlist.playCount_string}</div>
                   <img src={playlist.coverImgUrl+'?param=250y250'} alt=""/>
                 </div>
                 <div className="commen-area-text">{playlist.name}</div>

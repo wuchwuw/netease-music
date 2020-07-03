@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import api from 'API/index'
 import './artist.less'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
 import classnames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
 import LoadMore from 'COMPONENTS/load-more/load-more'
+import Icon from 'COMPONENTS/icon/icon'
 
 const GenderMap = {
   '全部': -1,
@@ -59,7 +60,7 @@ const Artist: React.SFC = () => {
       loading = false
       hasmore = res.data.more
       !loadmore ? setArtists(createBaseArtistList(res.data.artists)) : setArtists(artists => artists.concat(createBaseArtistList(res.data.artists)))
-    } catch (e) { console.log(e) }
+    } catch (e) {}
   }
 
   function loadmore () {
@@ -71,47 +72,47 @@ const Artist: React.SFC = () => {
 
   return (
     <LoadMore load={loadmore}>
-      <div className="artist">
-        <div className="artist-filter">
-          <div className="artist-filter-item">
+      <div>
+        <div styleName="artist-filter">
+          <div styleName="artist-filter-item">
             <span>语种:</span>
             <div>
               {
                 (Object.getOwnPropertyNames(LangMap) as (keyof typeof LangMap)[]).map(key => (
-                  <span key={key} onClick={() => setLang(key)} className={classnames({ 'active': key === lang })}>{key}</span>
+                  <span key={key} onClick={() => setLang(key)} styleName={classnames({ 'active': key === lang })}>{key}</span>
                 ))
               }
             </div>
           </div>
-          <div className="artist-filter-item">
+          <div styleName="artist-filter-item">
             <span>分类:</span>
             <div>
               {
                 (Object.keys(GenderMap) as (keyof typeof GenderMap)[]).map(key => (
-                  <span key={key} onClick={() => setGender(key)} className={classnames({ 'active': key === gender })}>{key}</span>
+                  <span key={key} onClick={() => setGender(key)} styleName={classnames({ 'active': key === gender })}>{key}</span>
                 ))
               }
             </div>
           </div>
-          <div className="artist-filter-item">
+          <div styleName="artist-filter-item">
             <span>筛选:</span>
             <div>
               {
                 InitialMap.map(item => (
-                  <span key={item} onClick={() => setInitial(item)} className={classnames({ 'active': item === initial })}>{item}</span>
+                  <span key={item} onClick={() => setInitial(item)} styleName={classnames({ 'active': item === initial })}>{item}</span>
                 ))
               }
             </div>
           </div>
         </div>
-        <div className="artist-content">
+        <div styleName="artist-content">
           {
             artists.map(artist => (
-              <div key={artist.id} className="artist-item">
+              <div key={artist.id} styleName="artist-item">
                 <img onClick={ () => { goArtistDetail(artist.id) } } src={artist.picUrl + '?param=250y250'} alt=""/>
-                <div className="artist-item-info">
+                <div styleName="artist-item-info">
                   <span>{artist.name}</span>
-                  { artist.accountId && <i onClick={ (e) => { e.stopPropagation(); goUserDetail(artist.accountId) } } className="iconfont icon-user"></i>}
+                  { artist.accountId && <Icon onClick={ (e) => { e.stopPropagation(); goUserDetail(artist.accountId) } } name="icon-user"></Icon>}
                 </div>
               </div>
             ))

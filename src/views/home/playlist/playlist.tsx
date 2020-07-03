@@ -7,6 +7,7 @@ import { usePageForword, getQueryStringValue, setQueryStringValue } from 'ROUTER
 import Pagination from 'COMPONENTS/pagination/pagination'
 import { useContainer } from 'COMPONENTS/container/container'
 import { useHistory, useLocation } from 'react-router'
+import Icon from 'COMPONENTS/icon/icon'
 
 interface PlaylistHighQuality {
   coverImgUrl: string
@@ -36,7 +37,7 @@ const HomeAlbum: React.SFC = () => {
   const { goPlaylistDetail, goUserDetail } = usePageForword()
   const [total, setTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const { open, visiable } = useContainer(['.home-album-filter-btn'])
+  const { open, visiable } = useContainer(['#home-album-filter-btn'])
   const [allCate, setAllCate] = useState<AllCate[]>([])
   const history = useHistory()
   const location = useLocation()
@@ -112,12 +113,12 @@ const HomeAlbum: React.SFC = () => {
   }
 
   return (
-    <div className="playlist-container">
+    <div styleName="playlist-container">
       {
         highquality.name && (
-          <div className="home-album-hot" >
+          <div styleName="home-album-hot" >
             <div
-              className="home-album-hot-bg"
+              styleName="home-album-hot-bg"
               style={{
                 background: `url('${highquality.coverImgUrl}')`,
                 backgroundPosition: 'center',
@@ -125,32 +126,32 @@ const HomeAlbum: React.SFC = () => {
               }}
             >
             </div>
-            <img src={highquality.coverImgUrl} className="home-album-hot-img" />
-            <div className="home-album-hot-info">
-              <div className="home-album-hot-btn"><i className="iconfont icon-vip"></i>精品歌单</div>
-              <div className="home-album-hot-name">{highquality.name}</div>
-              <div className="home-album-hot-des">{highquality.copywriter}</div>
+            <img src={highquality.coverImgUrl} styleName="home-album-hot-img" />
+            <div styleName="home-album-hot-info">
+              <div styleName="home-album-hot-btn"><Icon name="icon-vip"></Icon>精品歌单</div>
+              <div styleName="home-album-hot-name">{highquality.name}</div>
+              <div styleName="home-album-hot-des">{highquality.copywriter}</div>
             </div>
           </div>
         )
       }
-      <div className="home-album-filter">
-        <div className="home-album-filter-btn-wrap">
-          <div className="home-album-filter-btn" onClick={open}>
-            {currentCate}<i className="iconfont icon-arrow-right"></i>
+      <div styleName="home-album-filter">
+        <div styleName="home-album-filter-btn-wrap">
+          <div id="home-album-filter-btn" styleName="home-album-filter-btn" onClick={open}>
+            {currentCate}<Icon name="icon-arrow-right"></Icon>
           </div>
           {
             visiable && (
-              <div className="playlist-cate">
-                <div className="playlist-cate-all" onClick={() => { setCate('全部') }}>全部歌单</div>
+              <div styleName="playlist-cate">
+                <div styleName="playlist-cate-all" onClick={() => { setCate('全部') }}>全部歌单</div>
                 {
                   allCate.map(item => (
-                    <div className="playlist-cate-item">
-                      <span className="playlist-cate-label">{item.cate}</span>
-                      <div className="playlist-cate-wrap">
+                    <div styleName="playlist-cate-item">
+                      <span styleName="playlist-cate-label">{item.cate}</span>
+                      <div styleName="playlist-cate-wrap">
                         {
                           item.sub.map(s => (
-                            <span onClick={() => { setCate(s.name) }} className={classnames({ 'active': currentCate === s.name})}>{s.name}</span>
+                            <span onClick={() => { setCate(s.name) }} styleName={classnames({ 'active': currentCate === s.name})}>{s.name}</span>
                           ))
                         }
                       </div>
@@ -161,10 +162,10 @@ const HomeAlbum: React.SFC = () => {
             )
           }
         </div>
-        <div className="home-album-filter">
+        <div styleName="home-album-filter">
           {
             hotCate.map(cate => (
-              <span onClick={() => { setCate(cate.name) }} className={classnames('home-album-filter-item', {'active': currentCate === cate.name})} key={cate.id}>{cate.name}</span>
+              <span onClick={() => { setCate(cate.name) }} styleName={classnames('home-album-filter-item', {'active': currentCate === cate.name})} key={cate.id}>{cate.name}</span>
             ))
           }
         </div>
@@ -174,9 +175,9 @@ const HomeAlbum: React.SFC = () => {
             <div onClick={() => { goPlaylistDetail(item.id, item) }} key={item.id} className="commen-area-item commen-area-item-playlist">
               <div className="commen-area-img-wrap">
                 <img src={item.coverImgUrl} alt=""/>
-                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
-                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
-                <div className="commen-area-user" onClick={(e) => { e.stopPropagation(); goUserDetail(item.creator.userId) }}><i className="iconfont icon-user"></i>{item.creator.nickname}</div>
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
+                <div className="commen-area-user" onClick={(e) => { e.stopPropagation(); goUserDetail(item.creator.userId) }}><Icon name="icon-user"></Icon>{item.creator.nickname}</div>
               </div>
               <div className="commen-area-text">{item.name}</div>
             </div>

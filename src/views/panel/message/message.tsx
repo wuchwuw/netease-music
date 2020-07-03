@@ -185,7 +185,7 @@ const Message: React.SFC = () => {
       <div styleName="message-panel-content">
         <Spin loading={loading} delay={0}>
           {
-            genNode()
+            !loading && genNode()
           }
         </Spin>
       </div>

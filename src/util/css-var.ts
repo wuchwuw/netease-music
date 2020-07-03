@@ -65,8 +65,8 @@ const TYPE_MAP = {
 }
 
 export function setGlobalCSSVar (type: 'light' | 'dark') {
-  const vars = TYPE_MAP[type]
-  Object.keys(vars).forEach((key) => {
+  const vars = TYPE_MAP[type] as typeof light
+  (Object.keys(vars) as Array<keyof typeof vars>).forEach((key) => {
     document.body.style.setProperty(key, vars[key])
   })
   localStorage.setItem('mode', type)

@@ -33,7 +33,7 @@ const PanelContainer: React.SFC = (props) => {
   const panelType = useSelector((state: RootState) => state.commen.panelType)
   const nodeList = [
     document.querySelector('#panel-container'),
-    document.querySelector('#bottom'),
+    document.querySelector('#playlist-icon'),
     document.querySelector('#topbar-search-content'),
     document.querySelector('#message-icon')
   ]

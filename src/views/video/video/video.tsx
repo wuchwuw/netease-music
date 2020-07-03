@@ -28,7 +28,7 @@ const Viode: React.SFC = () => {
   const [ currentCateName, setCurrentCateName ] = useState(All_Cate.name)
   const [ loading, setLoading ] = useState(false)
   const { goVideoDetail } = usePageForword()
-  const { open, visiable } = useContainer(['.video-filter-btn'])
+  const { open, visiable } = useContainer(['#video-filter-btn'])
 
   useEffect(() => {
     getVideoTags()
@@ -87,7 +87,7 @@ const Viode: React.SFC = () => {
       <div styleName="video-container">
         <div styleName="video-filter">
           <div styleName="video-filter-btn-wrap">
-            <div styleName="video-filter-btn" onClick={open}>{currentCateName}<Icon name="icon-arrow-right"></Icon></div>
+            <div id="video-filter-btn" styleName="video-filter-btn" onClick={open}>{currentCateName}<Icon name="icon-arrow-right"></Icon></div>
             {
               visiable && (
                 <div styleName="video-cate">

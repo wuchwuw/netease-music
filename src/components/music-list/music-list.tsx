@@ -64,7 +64,7 @@ const MusicList: React.SFC<MusicListProps> = ({ list = [], getMenu, start, delet
                     <div className="text-overflow" styleName={classnames({ 'music-list-item-playing': item.id === currentSong.song.id })} title={item.name}>
                       {item.name}<span className="music-list-item-alia">{item.alia_string}</span>
                     </div>
-                    { item.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                    { item.isHighQuality && <span className="icon-music-highquality">SQ</span> }
                     { !!item.mv && <Icon className="icon-color-main hover" style={{marginLeft: '2px'}} onClick={() => { goMVDetail(item.mv) }} name="icon-mv"></Icon> }
                   </div>
                   <div>

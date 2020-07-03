@@ -43,7 +43,7 @@
   }
   > span {
     &:nth-child(1) {
-      flex: 0 0 30px;
+      width: 5%;
       text-align: center;
       font-weight: bold;
       color: #999999;
@@ -52,11 +52,13 @@
         color: @color-main;
       }
     }
+    &:nth-child(2) {
+      width: 60%;
+    }
     &:nth-child(3) {
-      margin-left: auto;
+      text-align: right;
+      width: 35%;
       padding-right: 10px;
-      color: #999999;
-      cursor: pointer;
     }
   }
 }

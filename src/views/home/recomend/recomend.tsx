@@ -68,7 +68,7 @@ const HomeRecomend = () => {
         <Slider images={banners}></Slider>
       </div>
       <div styleName="home-personalized">
-        <div onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} styleName="home-recommend-title">推荐歌单<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} styleName="home-recommend-title">推荐歌单<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
         <div className="commen-area-content">
           <div className="commen-area-item">
             <div styleName="recomend-daily-icon" onClick={ goDaily }>
@@ -80,9 +80,9 @@ const HomeRecomend = () => {
           { playlistRecomend.map(item => (
             <div key={item.id} onClick={() => goPlaylistDetail(item.id, item)} className="commen-area-item commen-area-item-album">
               <div className="commen-area-img-wrap">
-                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_string}</div>
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>
                 <img className="commen-area-img" src={item.coverImgUrl+'?param=250y250'} alt=""/>
-                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
               </div>
               <div className="commen-area-text line-more">{item.name}</div>
             </div>
@@ -90,31 +90,34 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div>
-        <div onClick={ goNewSong } styleName="home-recommend-title">最新音乐<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={ goNewSong } styleName="home-recommend-title">最新音乐<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
         <div styleName="home-music-content">
           { song.map((item, index) => (
             <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} styleName="home-music-item">
-              <div styleName="home-music-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+              <div styleName="home-music-play-icon"><Icon name="icon-triangle-full"></Icon></div>
               <img styleName="home-music-img" src={item.album.picUrl+'?param=100y100'} alt=""/>
               <div styleName="home-music-num">{padZero(index + 1)}</div>
               <div styleName="home-music-info">
-                <div styleName="home-music-name" className="text-overflow">{item.name}</div>
+                <div styleName="home-music-name">
+                  <span className="text-overflow">{item.name}{item.alia_string}</span>
+                  {item.isHighQuality && <span className="icon-music-highquality">SQ</span>}
+                </div>
                 <div styleName="home-music-artist" className="text-overflow">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
               </div>
-              { !!item.mv && <i className="iconfont icon-mv"></i> }
+              { !!item.mv && <Icon onClick={() => { goMVDetail(item.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
             </div>
           ))}
         </div>
       </div>
       <div>
-        <div onClick={ goMVDiscover } styleName="home-recommend-title">推荐MV<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={ goMVDiscover } styleName="home-recommend-title">推荐MV<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
         <div className="commen-area-content">
           { mv.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
               <div onClick={() => { goMVDetail(item.id) }} className="commen-area-img-wrap">
-                <div className="commen-area-playcount"><i className="iconfont icon-triangle"></i>{item.playCount_format}</div>
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_format}</div>
                 <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
-                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
               </div>
               <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text line-one">{item.name}</div>
               <div className="commen-area-artist">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
@@ -123,13 +126,13 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div>
-        <div onClick={ goMVDiscover } styleName="home-recommend-title">独家放送<i className="iconfont icon-arrow-right home-icon-arrow"></i></div>
+        <div onClick={ goMVDiscover } styleName="home-recommend-title">独家放送<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
         <div className="commen-area-content">
           { privatecontent.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
               <div onClick={() => { goMVDetail(item.id) }} className="commen-area-img-wrap">
                 <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
-                <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle"></Icon></div>
               </div>
               <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text line-more">{item.name}</div>
             </div>

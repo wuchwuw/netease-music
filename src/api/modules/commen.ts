@@ -31,7 +31,7 @@ export default {
   getPanelNotices (params: { limit: number, lasttime: number }) {
     return axios.get('msg/notices', { params })
   },
-  getPrivateMessage (params: { uid: number, limit: number}) {
+  getPrivateMessage (params: { uid: number, limit: number, before?: number}) {
     return axios.get('msg/private/history', { params })
   },
   sendTextMessage (params: { user_ids: number[], msg: string }) {

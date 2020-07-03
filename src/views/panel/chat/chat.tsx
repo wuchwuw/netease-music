@@ -32,8 +32,7 @@ const Chat = () => {
   async function getPrivateMessage (before?: number) {
     try {
       loading = true
-      let params = { uid: currentChat.userId, limit: 10 }
-      before && (params.before = before)
+      let params = { uid: currentChat.userId, limit: 10, before }
       const res = await api.getPrivateMessage(params)
       setChatList(list => {
         return (createChatList(res.data.msgs).reverse()).concat(list)

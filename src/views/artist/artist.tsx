@@ -193,7 +193,7 @@ const Artist = () => {
                       </span>
                       <span>
                         {song.name}<span styleName="artist-album-item-alia">{song.alia_string}</span>
-                        { song.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                        { song.isHighQuality && <span className="icon-music-highquality">SQ</span> }
                         { !!song.mv && <Icon onClick={() => { goMVDetail(song.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
                       </span>
                       <span>{song.duration_string}</span>
@@ -238,7 +238,7 @@ const Artist = () => {
                           </span>
                           <span>
                             {song.name}<span styleName="artist-album-item-alia">{song.alia_string}</span>
-                            { song.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                            { song.isHighQuality && <span className="icon-music-highquality">SQ</span> }
                             { !!song.mv && <Icon onClick={() => { goMVDetail(song.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
                           </span>
                           <span>{song.duration_string}</span>
@@ -329,7 +329,7 @@ const Artist = () => {
                 </span>
                 <span>
                   {song.name}<span styleName="artist-album-item-alia">{song.alia_string}</span>
-                  { song.isHighQuality && <span styleName="music-list-item-highquality">SQ</span> }
+                  { song.isHighQuality && <span className="icon-music-highquality">SQ</span> }
                   { !!song.mv && <Icon onClick={() => { goMVDetail(song.mv) }} name="icon-mv" className="icon-color-main hover"></Icon> }
                 </span>
                 <span>{song.duration_string}</span>

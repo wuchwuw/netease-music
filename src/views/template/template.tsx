@@ -2,6 +2,8 @@ import { ArtistBaseClass } from 'UTIL/artist'
 import classnames from 'classnames'
 import React from 'react'
 import Song from 'UTIL/song'
+import Icon from 'COMPONENTS/icon/icon'
+import { padZero } from 'UTIL/util'
 
 export function genArtists (artists: ArtistBaseClass[], action: (id: number) => void, style: string) {
     if (!artists) return null
@@ -24,10 +26,14 @@ export function genSongName (song: Song) {
   return (
     <div style={{display: 'flex', alignItems: 'center'}}>
       <div className="text-overflow" title={song.name}>
-        {song.name}<span className="music-list-item-alia">{song.alia_string}</span>
+        {song.name}<span className="commen-link-666666">{song.alia_string}</span>
       </div>
-      { song.isHighQuality && <span className="music-list-item-highquality">SQ</span> }
-      { !!song.mv && <i className="iconfont icon-mv"></i> }
+      { song.isHighQuality && <span className="icon-music-highquality">SQ</span> }
+      { !!song.mv && <Icon style={{marginLeft: '2px'}} name="icon-mv" className="icon-color-main hover"></Icon> }
     </div>
   )
+}
+
+export function genSongNumber (songIndex: number, song: Song, currentSong: Song) {
+  return currentSong.id === song.id ? <Icon name="icon-sound" className="icon-color-main"></Icon> : padZero(songIndex + 1)
 }

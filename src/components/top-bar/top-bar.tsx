@@ -20,51 +20,6 @@ const TopBar: React.SFC = () => {
   const { goSearch } = usePageForword()
   const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
   const [mode, setMode] = useState(defaultMode)
-  // const m = useRouteMatch('/playlist/:id')
-  // const mm = matchPath(location.pathname, {
-  //   path: '/playlist/:id'
-  // })
-  function renderTopbarContent () {
-    let routePath = {}
-    if (fullScreen) {
-      return <></>
-    }
-    // if (location.pathname === '/allmv') {
-    //   return (
-    //     <div>
-    //       <span className="topbar-content-item active">全部MV</span>
-    //     </div>
-    //   )
-    // }
-    // if (/cloud/.test(location.pathname)) {
-    //   return (
-    //     <div>
-    //       <span className="topbar-content-item active">我的音乐云盘</span>
-    //     </div>
-    //   )
-    // }
-    // if (['/video/index', '/video/mv'].includes(location.pathname)) {
-    //   routePath = viodeSubPagePathMap
-    // } else if (/star/.test(location.pathname)) {
-    //   routePath = starSubPagePathMap
-    // }
-    // return (
-    //   <>
-    //     {
-    //       (Object.keys(routePath) as Array<keyof typeof routePath>).map((key) => (
-    //         <NavLink
-    //           to={key}
-    //           activeClassName="active"
-    //           className="topbar-content-item"
-    //           key={key}
-    //         >
-    //           {routePath[key]}
-    //         </NavLink>
-    //       ))
-    //     }
-    //   </>
-    // )
-  }
 
   function onSearchFocus () {
     // todo usePanelContaienr
@@ -101,7 +56,7 @@ const TopBar: React.SFC = () => {
             </div>
           :
             <div styleName="topbar-arrow-wrap right">
-              <i onClick={() => { dispatch({type: PLAYER_FULL_SCREEN, fullScreen: false}) }} className="iconfont icon-arrow-right topbar-arrow-down"></i>
+              <i onClick={() => { dispatch({type: PLAYER_FULL_SCREEN, fullScreen: false}) }} className="iconfont icon-arrow-right" styleName="topbar-arrow-down"></i>
             </div>
         }
       </div>
@@ -128,7 +83,6 @@ const TopBar: React.SFC = () => {
             visiable &&
             <div styleName="style-mode-wrap">
               <div styleName="style-mode-item"><div styleName={classnames('style-mode-light', { 'active': mode === 'light' })} onClick={() => { setMode('light'); setGlobalCSSVar('light') }}></div><span>浅色</span></div>
-              {/* <div className="style-mode-item"><div className="style-mode-red active"></div><span>红色</span></div> */}
               <div styleName="style-mode-item"><div styleName={classnames('style-mode-dark', { 'active': mode === 'dark' })}  onClick={() => { setMode('dark'); setGlobalCSSVar('dark') }}></div><span>深色</span></div>
             </div>
           }

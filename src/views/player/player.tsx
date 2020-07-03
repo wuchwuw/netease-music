@@ -171,7 +171,7 @@ export default function Player () {
           </div>
           <div styleName="mini-player-action">
             { genPlayerModeIcon() }
-            { playerStatus !== 'fm' && <Icon style={{marginLeft: '20px'}} onClick={() => { setPanelType(PanelType.CurrentPlaylist) }} name="iconlist" className={classnames({'icon-color-main': currentPanelType === PanelType.CurrentPlaylist})}></Icon>}
+            { playerStatus !== 'fm' && <span id="playlist-icon"><Icon style={{marginLeft: '20px'}} onClick={() => {setPanelType(PanelType.CurrentPlaylist) }} name="iconlist" className={classnames({'icon-color-main': currentPanelType === PanelType.CurrentPlaylist})}></Icon></span>}
             <span styleName="mini-player-voice-wrap">
               <Icon name="icon1"></Icon>
               <div styleName="mini-player-voice">

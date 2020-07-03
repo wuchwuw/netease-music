@@ -4,7 +4,7 @@
 .newsong-item {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 25px;
   height: 80px;
   font-size: 13px;
   &:nth-child(odd) {
@@ -22,12 +22,13 @@
     text-overflow: ellipsis;
     &:nth-child(1) {
       width: 5%;
+      color: var(--text-9);
     }
     &:nth-child(2) {
       width: 60px;
     }
     &:nth-child(3) {
-      width: 40%;
+      width: 50%;
       padding: 0 5px 0 10px;
     }
     &:nth-child(4) {
@@ -40,6 +41,7 @@
     }
     &:nth-child(6) {
       width: 40px;
+      color: var(--text-9);
     }
   }
 }
@@ -62,7 +64,9 @@
 .new-filter {
   margin-bottom: 5px;
   user-select: none;
-  padding: 0 10px;
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
   > span {
     margin-right: 25px;
     &.active {
@@ -72,4 +76,37 @@
       font-weight: bold;
     }
   }
+}
+.current-playlist-tab {
+  display: flex;
+  width: 210px;
+  margin: 20px auto;
+  border: 1px solid #BBBBBB;
+  border-radius: 20px;
+  font-size: 13px;
+  > div {
+    width: 50%;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    &.active {
+      background: #BBBBBB !important;
+      color: #fff;
+    }
+    &:hover {
+      background: #F1F2F2;
+    }
+  }
+}
+.new-filter-option {
+  margin-left: auto;
+  > button {
+    margin-left: 5px;
+  }
+}
+
+.new-album-container {
+  padding: 0 25px;
 }

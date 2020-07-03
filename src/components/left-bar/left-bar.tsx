@@ -94,6 +94,9 @@ const LeftBar: React.SFC = () => {
         <NavLink to={'/star'} activeClassName="leftbar-item-active" styleName="leftbar-item">
           <Icon name="icon-star"></Icon>我的收藏
         </NavLink>
+        <NavLink to={'/history'} activeClassName="leftbar-item-active" styleName="leftbar-item">
+          <Icon fontSize={17} name="icon-history"></Icon>播放历史
+        </NavLink>
         <div styleName="leftbar-item-title">
           创建的歌单
           <Icon className="icon-color-3 hover" onClick={() => createDialogProps.toggle()} name="icon-add"></Icon>

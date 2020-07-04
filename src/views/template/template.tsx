@@ -26,7 +26,7 @@ export function genSongName (song: Song) {
   return (
     <div style={{display: 'flex', alignItems: 'center'}}>
       <div className="text-overflow" title={song.name}>
-        {song.name}<span className="commen-link-666666">{song.alia_string}</span>
+        {song.name}<span className="commen-link-999999">{song.alia_string}</span>
       </div>
       { song.isHighQuality && <span className="icon-music-highquality">SQ</span> }
       { !!song.mv && <Icon style={{marginLeft: '2px'}} name="icon-mv" className="icon-color-main hover"></Icon> }

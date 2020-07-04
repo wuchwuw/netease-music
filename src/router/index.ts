@@ -346,6 +346,10 @@ const routes = [
   {
     path: '/allmv',
     component: loadable(() => import('VIEWS/mv/all/all-mv'))
+  },
+  {
+    path: '/history',
+    component: loadable(() => import('VIEWS/history/history'))
   }
 ]
 

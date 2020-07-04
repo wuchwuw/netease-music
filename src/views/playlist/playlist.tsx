@@ -119,11 +119,11 @@ const Playlist = () => {
   }
 
   function getMenu (song: Song) {
-    return getSongMenu({ id: `playlist-${playlist.id}`, name: playlist.name }, song, playlist, updatePlaylist)
+    return getSongMenu({ id: `/playlist/${playlist.id}`, name: playlist.name }, song, playlist, updatePlaylist)
   }
 
   function musiclistStart (song: Song) {
-    start({ id: `playlist-${playlist.id}`, name: playlist.name }, song, playlist.tracks)
+    start({ id: `/playlist/${playlist.id}`, name: playlist.name }, song, playlist.tracks)
   }
 
   function genTabComponent () {

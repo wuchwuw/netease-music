@@ -39,6 +39,7 @@ const PanelContainer: React.SFC = (props) => {
   ]
 
   function genPanelNode (type: PanelType) {
+    return <CurrentPlaylist></CurrentPlaylist>
     switch (type) {
       case PanelType.Search:
         return <Search></Search>

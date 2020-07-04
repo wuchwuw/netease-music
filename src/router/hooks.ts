@@ -13,6 +13,10 @@ export function usePageForword () {
   }
 
   return {
+    goPage (path: string) {
+      console.log(history.location.pathname)
+      history.push(path)
+    },
     goAlbumDetail (albumId: number) {
       if (!albumId) return
       history.push(`/album/${albumId}`)

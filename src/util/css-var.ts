@@ -1,8 +1,9 @@
 export const light = {
   '--main-color': '#D33931',
   '--main-background': '#FFFFFF',
+  '--main-background-deep': '#FFFFFF',
   /* topbar */
-  '--topbar-background': '#F8F8F9',
+  '--topbar-background': '#F9F9F9',
   '--topbar-search': '#EDEDED',
   /* leftbar */
   '--leftbar-background': '#EDEDED',
@@ -34,6 +35,7 @@ export const light = {
 export const dark = {
   '--main-color': '#D33931',
   '--main-background': '#252525',
+  '--main-background-deep': '#363636',
   /* topbar */
   '--topbar-background': '#2A2A2A',
   '--topbar-search': '#4C4C4C',

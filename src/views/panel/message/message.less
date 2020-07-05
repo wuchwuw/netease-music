@@ -4,7 +4,7 @@
   top: 50px;
   bottom: 60px;
   width: 360px;
-  background: #fff;
+  background: var(--main-background-deep);
   z-index: 10;
   box-shadow: -3px 0px 3px -3px rgba(0, 0, 0, .2);
   user-select: none;
@@ -12,7 +12,7 @@
 .message-panel-tab {
   display: flex;
   margin: 20px 20px 10px;
-  border: 1px solid #BBBBBB;
+  border: 1px solid var(--border-deep);
   border-radius: 20px;
   font-size: 13px;
   > div {
@@ -58,7 +58,7 @@
 .panel-message-item {
   padding: 0 20px;
   &:hover {
-    background: #F2F2F2;
+    background: var(--default-background);
   }
 }
 .panel-comment-avatar {
@@ -67,7 +67,7 @@
 .panel-message-info, .panel-comment-info {
   flex: 1;
   width: 0;
-  border-bottom: 1px solid #F3F3F3;
+  border-bottom: 1px solid var(--border-deep);
   padding: 13px 0;
 }
 

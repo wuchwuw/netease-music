@@ -78,7 +78,7 @@ const VideoDetail = () => {
     <div styleName="video-detail">
       <div styleName="video-detail-container">
         <div styleName="video-detail-info">
-          <span styleName="video-detail-title" className="commen-link-333333 active"><Icon fontSize={18} name="icon-arrow-left"></Icon>视频详情</span>
+          <span onClick={() => { back() }} styleName="video-detail-title" className="commen-link-333333 active"><Icon fontSize={18} name="icon-arrow-left"></Icon>视频详情</span>
           <div styleName="video-detail-player">
             <video onCanPlay={onVideoCanPlay} controls id="video" src={url}></video>
           </div>

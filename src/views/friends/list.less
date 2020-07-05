@@ -1,7 +1,7 @@
 .activity-item {
   display: flex;
   padding: 20px 0;
-  border-bottom: 1px solid #F3F3F3;
+  border-bottom: 1px solid var(--border);
 }
 
 .activity-user-avatar {
@@ -27,7 +27,7 @@
 .activity-use-info-time {
   font-size: 12px;
   margin: 8px 0 14px;
-  color: #999999;
+  color: var(--text-9);
 }
 .activity-use-info-message {
   font-size: 13px;
@@ -38,13 +38,13 @@
 .activity-song {
   display: flex;
   padding: 10px;
-  background: #F5F5F5;
+  background: var(--default-background);
   border-radius: 5px;
   &:hover {
-    background: #EDEDED;
+    background: var(--default-background-deep);
   }
   &.deep {
-    background: #EDEDED;
+    background: var(--default-background-deep);
   }
   img {
     height: 40px;
@@ -63,7 +63,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       &:last-child {
-        color: #999999;
+        color: var(--text-9);
         margin-top: 8px;
       }
     }
@@ -129,7 +129,7 @@
   }
 }
 .activity-forword {
-  background: #F5F5F5;
+  background: var(--default-background);
   padding: 20px;
   border-radius: 5px;
 }
@@ -155,7 +155,6 @@
   font-size: 12px;
   cursor: pointer;
 }
-@import '~STYLE/color.less';
 
 .activity-video-play-icon {
   height: 40px;
@@ -172,13 +171,13 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.8);
-  color: @color-main;
+  color: var(--main-color);
 }
 .activity-option {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
-  color: #999999;
+  color: var(--text-9);
   font-size: 14px;
   span {
     margin-left: 15px;
@@ -190,7 +189,7 @@
 .activity-comment-wrap {
   margin-top: 10px;
   padding: 15px;
-  background: #F5F5F5;
+  background: var(--default-background);
 }
 
 .activity-image-content {

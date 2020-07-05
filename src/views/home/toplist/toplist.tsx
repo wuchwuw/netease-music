@@ -63,7 +63,7 @@ const Toplist: React.SFC = () => {
                       <div onDoubleClick={() => start({ name: playlist.name, id: `/playlist${playlist.id}` }, track, playlist.tracks)} styleName="toplist-netease-item-list-item" key={track.id}>
                         <span styleName={classNames({'active': index <= 2})}>{index + 1}</span>
                         <span>{genSongName(track)}</span>
-                        <span>{genArtists(track.artists, goArtistDetail, 'commen-link-999999')}</span>
+                        <span>{genArtists(track.artists, goArtistDetail, 'commen-link-666666')}</span>
                       </div>
                     ))
                   }

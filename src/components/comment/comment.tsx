@@ -113,7 +113,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                 <img styleName="comment-item-user-avatar" src={comment.user.avatarUrl+'?param=100y100'} alt=""/>
                 <div styleName={ classnames('comment-item-info', { 'deep': textareaType === 'deep' })}>
                   <div styleName="comment-item-info-text">
-                    <span styleName="comment-item-info-name">{comment.user.nickname}:&nbsp;</span>{comment.content}
+                    <span className="commen-link-blue">{comment.user.nickname}:&nbsp;</span>{comment.content}
                   </div>
                   {
                     comment.replied && (
@@ -121,7 +121,7 @@ const Comment: React.SFC<CommentProps> = ({ id, type, showTitle = false, delay =
                         <div styleName="comment-item-info-text replied">
                           {
                             comment.replied.content ?
-                            <><span styleName="comment-item-info-name">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}</>
+                            <><span className="commen-link-blue">@{comment.replied.user.nickname}:&nbsp;</span>{comment.replied.content}</>
                             :
                             <div style={{textAlign: 'center'}}>该评论已删除</div>
                           }

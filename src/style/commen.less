@@ -13,7 +13,7 @@
       position: relative;
       cursor: pointer;
       &:hover {
-        color: @color-main;
+        color: var(--main-color);
       }
       &:not(:last-child) {
         margin-right: 15px;
@@ -22,12 +22,12 @@
           position: absolute;
           height: 10px;
           width: 1px;
-          background: #f2f2f2;
+          background: var(--border-deep);
           right: -7px;
         }
       }
       &.active {
-        color: @color-main;
+        color: var(--main-color);
         background: rgba(211, 57, 49, .1);
       }
     }
@@ -44,7 +44,7 @@
     font-size: 0;
     .commen-area-img-wrap {
       position: relative;
-      background-color: #F3F3F3;
+      background-color: var(--default-background);
       border-radius: 5px;
       &:hover {
         .commen-area-play-icon {
@@ -69,7 +69,7 @@
       background-color: rgba(255, 255, 255, 0);
       transition: background-color .3s;
       i {
-        color: @color-main;
+        color: var(--main-color);
         opacity: 0;
         transition: opacity .3s;
         font-size: 14px !important;
@@ -106,7 +106,7 @@
       line-height: 1.4;
       cursor: pointer;
       &:hover {
-        color: #000000;
+        color: var(--text-0);
       }
       &.line-one {
         text-overflow: ellipsis;
@@ -118,7 +118,7 @@
       }
     }
     .commen-area-artist {
-      color: #999999;
+      color: var(--text-9);
       font-size: 12px;
       margin-top: 5px;
       text-overflow: ellipsis;
@@ -220,31 +220,31 @@
   }
 
   .commen-link-333333 {
-    color: #333333;
+    color: var(--text-3);
     &.active {
       cursor: pointer;
       &:hover {
-        color: #000000;
+        color: var(--text-0);
       }
     }
   }
 
   .commen-link-666666 {
-    color: #666666;
+    color: var(--text-6);
     &.active {
       cursor: pointer;
       &:hover {
-        color: #333333;
+        color: var(--text-3);
       }
     }
   }
 
   .commen-link-999999 {
-    color: #999999;
+    color: var(--text-9);
     &.active {
       cursor: pointer;
       &:hover {
-        color: #666666;
+        color: var(--text-6);
       }
     }
   }
@@ -269,7 +269,7 @@
     }
     i {
       font-size: 12px;
-      color: #999999;
+      color: var(--text-9);
       float: right;
     }
   }
@@ -301,7 +301,7 @@
     user-select: none;
   }
   .music-list-item-alia {
-    color: #999999;
+    color: var(--text-9);
   }
 
   .playlist-tab {
@@ -313,7 +313,7 @@
       padding: 8px 0;
       font-weight: 500;
       &.active {
-        color: @color-main;
+        color: var(--main-color);
         position: relative;
         font-weight: 600;
         &:after {
@@ -321,13 +321,13 @@
           content: '';
           height: 2px;
           width: 100%;
-          background: @color-main;
+          background: var(--main-color);
           bottom: 0;
           left: 0;
         }
       }
       &:hover {
-        color: @color-main;
+        color: var(--main-color);
       }
     }
   }

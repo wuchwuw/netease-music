@@ -12,7 +12,7 @@
   height: 200px;
   flex: 0 0 200px;
   border-radius: 5px;
-  background-color: #F3F3F3;
+  background-color: var(--default-background);
   background-size: cover;
 }
 .playlist-info {
@@ -24,8 +24,8 @@
   height: 25px;
   width: 25px;
   border-radius: 50%;
-  border: 1px solid #F3F3F3;
-  background-color: #F3F3F3;
+  border: 1px solid var(--default-background);
+  background-color: var(--default-background);
   background-size: cover;
 }
 .playlist-info-title {
@@ -40,8 +40,8 @@
   line-height: 18px;
   width: 35px;
   font-size: 13px;
-  color: @color-main;
-  border: 1px solid @color-main;
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
   border-radius: 2px;
   margin-right: 10px;
 }
@@ -75,10 +75,10 @@
   border-radius: 20px;
   user-select: none;
   &.fail {
-    background: @color-main;
+    background: var(--main-color);
     opacity: .5;
     &:hover {
-      background: @color-main;
+      background: var(--main-color);
       opacity: .5;
     }
   }
@@ -95,7 +95,7 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     &:hover {
-      background: @color-main
+      background: var(--main-color)
     }
     i {
       margin-right: 3px;
@@ -108,7 +108,7 @@
     line-height: 30px;
     color: #fff;
     &:hover {
-      background: @color-main;
+      background: var(--main-color);
       border-top-right-radius: 20px;
       border-bottom-right-radius: 20px;
     }

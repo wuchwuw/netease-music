@@ -65,10 +65,10 @@
     font-size: 12px;
     cursor: pointer;
     &:hover {
-      color: @color-main;
+      color: var(--main-color);
     }
     &.active {
-      color: @color-main;
+      color: var(--main-color);
       background: rgba(211, 57, 49, .1);
     }
   }
@@ -80,12 +80,12 @@
   justify-content: center;
   line-height: 30px;
   height: 30px;
-  border: 1px solid #D9D9D9;
+  border: 1px solid var(--border-deep);
   border-radius: 20px;
   font-size: 14px;
   cursor: pointer;
   &:hover {
-    background: #F3F3F3;
+    background: var(--default-background);
   }
 }
 .home-album-content {
@@ -135,7 +135,7 @@
 }
 .playlist-cate-label {
   margin-right: 20px;
-  color: #999999;
+  color: var(--text-9);
   flex: 0 0 50px;
   padding-top: 4px
 }
@@ -149,10 +149,10 @@
     margin-right: 5px;
     border-radius: 15px;
     &:hover {
-      color: @color-main
+      color: var(--main-color);
     }
     &.active {
-      color: @color-main;
+      color: var(--main-color);
       background: rgba(211, 57, 49, .1);
     }
   }
@@ -161,6 +161,6 @@
   margin-bottom: 30px;
   cursor: pointer;
   &:hover {
-    color: @color-main
+    color: var(--main-color)
   }
 }

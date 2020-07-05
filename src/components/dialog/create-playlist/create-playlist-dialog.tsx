@@ -4,6 +4,7 @@ import './create-playlist-dialog.less'
 import { UseDialogProps } from '..'
 import classnames from 'classnames'
 import api from 'API/index'
+import Button from 'COMPONENTS/button/button'
 
 const CreatePlaylistDialog: React.SFC<UseDialogProps> = (props) => {
   const [isPersonal, setIsPersonal] = useState(false)
@@ -33,7 +34,9 @@ const CreatePlaylistDialog: React.SFC<UseDialogProps> = (props) => {
           </span>
           设置为隐私歌单
         </div>
-        <div onClick={() => { addPlaylist() }} styleName="create-playlist-button">创建</div>
+        <div styleName="create-playlist-button">
+          <Button type="primary" onClick={() => { addPlaylist() }}>创建</Button>
+        </div>
       </div>
     </Dialog>
   )

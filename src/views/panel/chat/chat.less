@@ -87,16 +87,16 @@
 .chat-content-playlist-info-name {
   > span {
     display: inline-block;
-    color: @color-main;
+    color: var(--main-color);
     font-size: 12px;
-    border: 1px solid @color-main;
+    border: 1px solid var(--main-color);
     padding: 2px 2px;
     transform: scale(0.8);
   }
 }
 .chat-content-playlist-info-user {
   margin-top: 5px;
-  color: #999999;
+  color: var(--text-9);
 }
 .chat-content-mv {
   position: relative;
@@ -162,9 +162,9 @@
     margin-top: 10px;
   }
   &.deep {
-    background: #EDEDED;
+    background: var(--default-background-deep);
     .comment-textarea {
-      background: #EDEDED;
+      background: var(--default-background-deep);
     }
   }
 }
@@ -177,7 +177,7 @@
   background: #FAFAFA;
   font-size: 13px;
   &::placeholder {
-    color: #999999;
+    color: var(--text-9);
   }
 }
 .comment-textarea-reset {
@@ -185,7 +185,7 @@
   right: 12px;
   bottom: 5px;
   font-size: 13px;
-  color: #999999;
+  color: var(--text-9);
 }
 .comment-textarea-action {
   display: flex;

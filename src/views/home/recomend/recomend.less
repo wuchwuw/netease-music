@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   &:hover {
-    color: #000000;
+    color: var(--text-0);
   }
 }
 .home-personalized-content, .home-privatecontent-content, .home-mv-content {
@@ -57,7 +57,7 @@
   background-color: rgba(255, 255, 255, 0);
   transition: background-color .3s;
   i {
-    color: @color-main;
+    color: var(--main-color);
     opacity: 0;
     transition: opacity .3s;
   }
@@ -120,10 +120,7 @@
   position: relative;
   margin-left: -10px;
   &:hover {
-    background: #F5F5F5;
-  }
-  .icon-mv {
-    color: @color-main;
+    background: var(--default-background);
   }
 }
 .home-music-play-icon {
@@ -138,7 +135,7 @@
   justify-content: center;
   background-color: rgba(255, 255, 255, .6);
   i {
-    color: @color-main;
+    color: var(--main-color);
     font-size: 13px;
   }
 }
@@ -149,7 +146,7 @@
 }
 .home-music-num {
   margin: 0 10px;
-  color: #999999;
+  color: var(--text-9);
   font-size: 12px;
 }
 .home-music-info {
@@ -161,7 +158,7 @@
   .home-music-artist {
     font-size: 12px;
     margin-top: 10px;
-    color: #999999;
+    color: var(--text-9);
   }
 }
 
@@ -181,13 +178,13 @@
   font-weight: 500;
 }
 .home-mv-artist {
-  color: #999999;
+  color: var(--text-9);
   font-size: 12px;
   margin-top: 5px;
 }
 .home-loading {
   position: absolute;
-  background: #fff;
+  background: var(--main-background);
   left: 0;
   right: 0;
   bottom: 0;
@@ -216,10 +213,10 @@
   border-radius: 5px;
   position: relative;
   &:hover {
-    background: #F5F5F5;
+    background: var(--default-background);
   }
   .icon-mv {
-    color: @color-main;
+    color: var(--main-color);
   }
 }
 .home-dj-img {
@@ -237,7 +234,7 @@
   .home-dj-artist {
     font-size: 12px;
     margin-top: 10px;
-    color: #999999;
+    color: var(--text-9);
   }
 }
 
@@ -251,6 +248,9 @@
     font-size: 55px;
     text-align: center;
     line-height: 90px;
+    background: #FFFFFF;
+    color: #000000;
+    border-radius: 0 0 4px 4px;
   }
   .recomend-daily-day {
     text-align: center;

@@ -10,6 +10,7 @@ export const light = {
   /* bottombar */
   '--player-progress-default': '#F5F5F5',
   /* text */
+  '--text-0': '#000000',
   '--text-3': '#333333',
   '--text-6': '#666666',
   '--text-9': '#999999',
@@ -24,7 +25,9 @@ export const light = {
 
   /* commen */
   '--border': '#F3F3F3',
-  '--default-background-hover': '#F5F5F5',
+  '--border-deep': '#D9D9D9',
+  '--default-background': '#F5F5F5',
+  '--default-background-deep': '#EDEDED',
   '--color-white': '#FFFFFF'
 }
 
@@ -40,8 +43,9 @@ export const dark = {
   /* bottombar */
   '--player-progress-default': '#232323',
   /* text */
+  '--text-0': '#FFFFFF',
   '--text-3': '#B2B2B2',
-  '--text-6': '#B6B6B6',
+  '--text-6': '#878787',
   '--text-9': '#5C5C5C',
   '--text-c': '#5F5F5F',
   /* musiclist */
@@ -55,7 +59,9 @@ export const dark = {
   /* commen */
   /* border */
   '--border': '#313131',
-  '--default-background-hover': '#232323',
+  '--border-deep': '#454545',
+  '--default-background': '#2F2F2F',
+  '--default-background-deep': '#3C3C3C',
   '--color-white': '#252525'
 }
 

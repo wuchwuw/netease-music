@@ -123,7 +123,7 @@
     padding: 0 10px;
     cursor: pointer;
     &:hover {
-      background: var(--default-background-hover);
+      background: var(--default-background);
     }
     &:nth-child(1) {
       border-top: 1px solid var(--border);
@@ -144,9 +144,9 @@
 :global {
   .leftbar-item-active {
     background: var(--leftbar-background-active);
-    color: @color-main;
+    color: var(--main-color);
     i {
-      color: @color-main;
+      color: var(--main-color);
     }
   }
 }

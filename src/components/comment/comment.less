@@ -1,18 +1,16 @@
-@import '~STYLE/color.less';
-
 .comment-textarea-wrap {
   height: 70px;
   border-radius: 5px;
   padding: 5px 0 15px 8px;
   position: relative;
-  background: #FAFAFA;
+  background: var(--default-background);
   &.replied {
     margin-top: 10px;
   }
   &.deep {
-    background: #EDEDED;
+    background: var(--default-background-deep);
     .comment-textarea {
-      background: #EDEDED;
+      background: var(--default-background-deep);
     }
   }
 }
@@ -22,10 +20,10 @@
   width: 100%;
   border: none;
   outline: none;
-  background: #FAFAFA;
+  background: var(--default-background);
   font-size: 13px;
   &::placeholder {
-    color: #999999;
+    color: var(--text-9);
   }
 }
 .comment-textarea-reset {
@@ -33,7 +31,7 @@
   right: 12px;
   bottom: 5px;
   font-size: 13px;
-  color: #999999;
+  color: var(--text-9);
 }
 .comment-textarea-action {
   display: flex;
@@ -55,16 +53,11 @@
 }
 .comment-item {
   display: flex;
-  // &:hover {
-  //   .comment-item-info-action-report {
-  //     display: block;
-  //   }
-  // }
   &:not(:last-child) {
     .comment-item-info {
-      border-bottom: 1px solid #F3F3F3;
+      border-bottom: 1px solid var(--border);
       &.deep {
-        border-bottom: 1px solid #ECECEC;
+        border-bottom: 1px solid var(--border-deep);
       }
     }
   }
@@ -83,24 +76,17 @@
 .comment-item-info-replay {
   padding: 10px;
   border-radius: 5px;
-  background: #F5F5F5;
+  background: var(--default-background);
   margin-top: 8px;
   &.deep {
-    background: #EDEDED;
+    background: var(--default-background-deep);
   }
 }
 .comment-item-info-text {
   font-size: 14px;
   line-height: 1.5;
   &.replied {
-    color: #666666;
-  }
-}
-.comment-item-info-name {
-  color: #507DAF;
-  cursor: pointer;
-  &:hover {
-    color: #0B59AF
+    color: var(--text-6);
   }
 }
 .comment-item-info-action {
@@ -114,7 +100,7 @@
   }
 }
 .comment-item-info-time {
-  color: #999999;
+  color: var(--text-9);
   font-size: 13px;
   margin-right: auto;
 }
@@ -122,7 +108,7 @@
   font-size: 13px;
   line-height: 13px;
   margin: 0 10px;
-  color: #666666;
+  color: var(--text-6);
   i {
     margin: 0 3px 0 0;
   }
@@ -134,7 +120,7 @@
   margin-bottom: 10px;
   font-weight: bold;
   > span {
-    color: #666666;
+    color: var(--text-6);
     font-size: 12px;
     margin-left: 10px;
     font-weight: normal;

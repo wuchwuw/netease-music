@@ -28,7 +28,7 @@
     font-size: 18px;
     font-weight: 600;
     &:hover {
-      background: var(--default-background-hover);
+      background: var(--default-background);
     }
   }
 }
@@ -90,11 +90,11 @@
     text-align: center;
     border-radius: 50%;
     &:hover {
-      background: var(--default-background-hover);
+      background: var(--default-background);
     }
     &.active {
-      color: @color-main;
-      background: var(--default-background-hover);
+      color: var(--main-color);
+      background: var(--default-background);
     }
   }
 }
@@ -147,8 +147,8 @@
       background: #F4F4F4;
       &.active {
         &:after {
-          border-left: 1px solid @color-main;
-          border-bottom: 1px solid @color-main;
+          border-left: 1px solid var(--main-color);
+          border-bottom: 1px solid var(--main-color);
         }
       }
     }

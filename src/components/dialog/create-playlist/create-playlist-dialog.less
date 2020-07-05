@@ -5,7 +5,7 @@
   padding: 10px;
   display: flex;
   align-items: center;
-  border: 1px solid #F3F3F3;
+  border: 1px solid var(--border);
   border-radius: 5px;
   margin-top: 30px;
   input {
@@ -13,6 +13,7 @@
     flex: 1;
     outline: none;
     border: none;
+    background: var(--main-background);
   }
 }
 
@@ -27,12 +28,12 @@
   display: inline-block;
   height: 16px;
   width: 16px;
-  border: 1px solid #F3F3F3;
+  border: 1px solid var(--border);
   border-radius: 5px;
   margin-right: 5px;
   &.active {
     position: relative;
-    background: @color-main;
+    background: var(--main-color);
     &:after {
       content: '';
       position: absolute;
@@ -49,14 +50,7 @@
 }
 
 .create-playlist-button {
-  width: 90px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  color: #FFFFFF;
-  background: @color-main;
-  border-radius: 20px;
-  margin: 20px auto;
-  font-size: 13px;
-  letter-spacing: 4px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }

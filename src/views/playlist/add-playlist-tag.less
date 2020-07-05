@@ -10,7 +10,7 @@
   height: 400px;
   width: 500px;
   background: #FFFFFF;
-  box-shadow: 0px 0px 5px #cccccc;
+  box-shadow: 0px 0px 5px var(--text-c);
   z-index: 1;
   border-radius: 4px;
 }
@@ -41,7 +41,7 @@
 }
 .playlist-cate-label {
   margin-right: 20px;
-  color: #999999;
+  color: var(--text-9);
   flex: 0 0 50px;
   padding-top: 4px
 }
@@ -55,16 +55,16 @@
     margin-right: 5px;
     border-radius: 15px;
     &:hover {
-      color: @color-main
+      color: var(--main-color)
     }
     &.active {
-      color: @color-main;
+      color: var(--main-color);
       background: rgba(211, 57, 49, .1);
     }
   }
 }
 .playlist-cate-button {
-  background: @color-main;
+  background: var(--main-color);
 }
 .add-playlist-tag-button {
   display: flex;

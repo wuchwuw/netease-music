@@ -3,6 +3,7 @@ import User from 'UTIL/user'
 import classNames from 'classnames'
 import { usePageForword } from 'ROUTER/hooks'
 import api from 'API/index'
+import './subscribers.less'
 
 const SUBSCRIBERS_LIMIT = 30
 
@@ -23,15 +24,15 @@ const Subscribers = ({ playlistId }) => {
   }
 
   return (
-    <div className="playlist-subscribers">
+    <div styleName="playlist-subscribers">
       {
         subscribers.map(user =>
-          <div key={user.userId} className="playlist-subscribers-item">
+          <div key={user.userId} styleName="playlist-subscribers-item">
             <img onClick={() => { goUserDetail(user.userId) }} src={user.avatarUrl + '?params=100y100'} alt=""/>
-            <div className="playlist-subscribers-info-wrap">
+            <div styleName="playlist-subscribers-info-wrap">
               <span onClick={() => { goUserDetail(user.userId) }}>{user.nickname}</span>
               <i className={classNames('iconfont', user.gender === 1 ? 'icon-boy' : 'icon-girl')}></i>
-              { user.signature && <div className="playlist-subscribers-signature">{user.signature}</div> }
+              { user.signature && <div styleName="playlist-subscribers-signature">{user.signature}</div> }
             </div>
           </div>
         )

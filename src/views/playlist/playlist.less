@@ -1,4 +1,3 @@
-@import '~STYLE/color.less';
 .playlist-wrap {
   padding: 18px 0 30px;
   min-width: 800px;
@@ -11,7 +10,7 @@
   height: 200px;
   flex: 0 0 200px;
   border-radius: 5px;
-  background-color: #F3F3F3;
+  background-color: var(--default-background);
   background-size: cover;
 }
 .playlist-info {
@@ -23,8 +22,8 @@
   height: 25px;
   width: 25px;
   border-radius: 50%;
-  border: 1px solid #F3F3F3;
-  background-color: #F3F3F3;
+  border: 1px solid var(--default-background);
+  background-color: var(--default-background);
   background-size: cover;
 }
 .playlist-info-title {
@@ -154,60 +153,4 @@
     text-overflow: ellipsis;
     height: 20px;
   }
-}
-
-.playlist-subscribers {
-  min-width: 820px;
-  padding: 0 30px;
-}
-
-.playlist-subscribers-item {
-  display: flex;
-  align-items: center;
-  width: 380px;
-  margin-top: 20px;
-  padding-right: 20px;
-  > img {
-    height: 90px;
-    width: 90px;
-    border-radius: 50%;
-    margin-right: 10px;
-    border: 1px solid #F3F3F3;
-    cursor: pointer;
-  }
-}
-.playlist-subscribers-signature {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--text-9);
-}
-.playlist-subscribers {
-  display: flex;
-  flex-wrap: wrap;
-}
-.playlist-subscribers-info-wrap {
-  flex: 1;
-  width: 0;
-  i {
-    margin-left: 5px;
-    border-radius: 50%;
-    padding: 2px;
-    font-size: 13px;
-  }
-  .icon-boy {
-    background: #CCF4FF;
-    color: #359CCF;
-  }
-  .icon-girl {
-    background: #FFD0E8;
-    color: #E3367A;
-  }
-  > span {
-    cursor: pointer;
-  }
-}
-.playlist-subscribers-signature {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }

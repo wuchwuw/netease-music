@@ -1,0 +1,55 @@
+.playlist-subscribers {
+  min-width: 820px;
+  padding: 0 30px;
+}
+
+.playlist-subscribers-item {
+  display: flex;
+  align-items: center;
+  width: 380px;
+  margin-top: 20px;
+  padding-right: 20px;
+  > img {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 1px solid #F3F3F3;
+    cursor: pointer;
+  }
+}
+.playlist-subscribers-signature {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-9);
+}
+.playlist-subscribers {
+  display: flex;
+  flex-wrap: wrap;
+}
+.playlist-subscribers-info-wrap {
+  flex: 1;
+  width: 0;
+  i {
+    margin-left: 5px;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 13px;
+  }
+  .icon-boy {
+    background: #CCF4FF;
+    color: #359CCF;
+  }
+  .icon-girl {
+    background: #FFD0E8;
+    color: #E3367A;
+  }
+  > span {
+    cursor: pointer;
+  }
+}
+.playlist-subscribers-signature {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

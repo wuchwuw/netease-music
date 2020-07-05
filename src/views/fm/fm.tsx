@@ -85,9 +85,7 @@ const FM = () => {
             <div>专辑:<span onClick={() => { goAlbumDetail(currentFM.song.album.id) }} styleName="fm-info-album-text" className="commen-link-blue">{currentFM.song.album.name}</span></div>
             <div>歌手:<span styleName="fm-info-album-text">{genArtists(currentFM.song.artists, goArtistDetail, 'commen-link-blue')}</span></div>
           </div>
-          <div styleName="fm-info-lyrics">
-            <Lyric song={currentFM.song}></Lyric>
-          </div>
+          <Lyric song={currentFM.song}></Lyric>
         </div>
       </div>
       { CommentComponent }

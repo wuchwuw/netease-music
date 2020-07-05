@@ -1,12 +1,11 @@
 .player {
-  background: #fff;
   position: fixed;
   top: 50px;
   bottom: 60px;
   left: 0;
   right: 0;
   z-index: 1;
-  background: #f9f9f9;
+  background: var(--topbar-background);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -30,7 +29,7 @@
   i {
     height: 40px;
     width: 40px;
-    background: #F0EFF0;
+    background: var(--default-background);
     text-align: center;
     line-height: 40px;
     font-size: 20px !important;
@@ -48,7 +47,7 @@
   border-radius: 50%;
   background: url('~ASSETS/images/album_default.jpg');
   background-size: cover;
-  border: 15px solid #F0EFF0;
+  border: 15px solid var(--default-background);
   z-index: -1;
   display: flex;
   align-items: center;

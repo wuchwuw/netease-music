@@ -149,7 +149,7 @@ const Chat = () => {
           chatList.map(chat => (
             <div key={chat.id} styleName={classnames('chat-panel-item', { 'me': isMe(chat) })}>
               <div styleName="chat-panel-item-wrap">
-                { !isMe(chat) && <img styleName="chat-panel-item-user-avatar" src={chat.fromUser.avatarUrl} alt=""/>}
+                { !isMe(chat) && <img styleName="chat-panel-item-user-avatar" src={chat.fromUser.avatarUrl + '?param=100y100'} alt=""/>}
                 <div styleName="chat-panel-item-content">
                   <div styleName="chat-panel-item-content-mesage">{chat.msg}</div>
                   { chat.content.content && <div styleName="chat-panel-item-content-other">{getContent(chat)}</div> }

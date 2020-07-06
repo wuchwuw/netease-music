@@ -39,7 +39,7 @@ const StarAlbum = () => {
       <div styleName="star-album-list">
         {
           albums.map(album => (
-            <div styleName="star-album-item" onClick={() => { goAlbumDetail(album.id) }}>
+            <div key={album.id} styleName="star-album-item" onClick={() => { goAlbumDetail(album.id) }}>
               <img src={album.picUrl + '?param=100y100'} alt=""/>
               <div styleName="star-album-info">
                 <div className="commen-link-333333 active">

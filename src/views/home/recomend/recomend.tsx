@@ -68,7 +68,7 @@ const HomeRecomend = () => {
         <Slider images={banners}></Slider>
       </div>
       <div styleName="home-personalized">
-        <div onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} styleName="home-recommend-title">推荐歌单<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
+        <span onClick={() => { goPlaylistDiscover({ cate: '全部'}) }} styleName="home-recommend-title">推荐歌单<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></span>
         <div className="commen-area-content">
           <div className="commen-area-item">
             <div styleName="recomend-daily-icon" onClick={ goDaily }>
@@ -90,7 +90,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div>
-        <div onClick={ goNewSong } styleName="home-recommend-title">最新音乐<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
+        <span onClick={ goNewSong } styleName="home-recommend-title">最新音乐<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></span>
         <div styleName="home-music-content">
           { song.map((item, index) => (
             <div onDoubleClick={() => { start({ id: 'home-index', name: '发现页' }, item, song) }} key={item.id} styleName="home-music-item">
@@ -110,7 +110,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div>
-        <div onClick={ goMVDiscover } styleName="home-recommend-title">推荐MV<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
+        <span onClick={ goMVDiscover } styleName="home-recommend-title">推荐MV<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></span>
         <div className="commen-area-content">
           { mv.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">
@@ -126,7 +126,7 @@ const HomeRecomend = () => {
         </div>
       </div>
       <div>
-        <div onClick={ goMVDiscover } styleName="home-recommend-title">独家放送<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></div>
+        <span onClick={ goMVDiscover } styleName="home-recommend-title">独家放送<Icon style={{fontWeight: 600}} name="icon-arrow-right"></Icon></span>
         <div className="commen-area-content">
           { privatecontent.map(item => (
             <div key={item.id} className="commen-area-item commen-area-item-170x95">

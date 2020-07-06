@@ -1,20 +1,44 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 import './message.less'
 import classnames from 'classnames'
 import api from 'API/index'
 import Spin from 'COMPONENTS/spin/spin'
 import dayjs from 'dayjs'
-import { useChat } from "UTIL/chat-controller"
+import { useChat } from 'UTIL/chat-controller'
+import { RootState } from 'STORE/index'
+import { useSelector } from 'react-redux'
+import User from 'UTIL/user'
+import LoadMore from 'COMPONENTS/load-more/load-more'
+
+interface Message {
+  fromUser: User
+  lastMsgTime: number
+  lastMsg: string
+}
+
+interface Comment {
+  user: User
+  beRepliedContent: string
+  content: string
+  lastMsgTime: number
+}
+
+interface Notice {
+  msg: string
+  content: string
+  user: User
+  time: string
+}
 
 function getMessageLast (last: string) {
   const lastMsg = JSON.parse(last)
   return lastMsg.msg
 }
 
-function getNotice (noticeData) {
+function getNotice (noticeData: any): Notice {
   const notice = JSON.parse(noticeData.notice)
-  let msg
-  let content
+  let msg = ''
+  let content = ''
 
   if (notice.playlist) {
     msg = '收藏了你的歌单'
@@ -46,14 +70,22 @@ const CURRENT_PLAYLIST_PANEL_TAB = {
   notice: '通知'
 }
 
+let offset = 0
+let limit = 30
+let lasttime = -1
+let before = -1
+let hasmore = true
+let moreLoading = false
+
 const Message: React.SFC = () => {
 
   const { setCurrentChat } = useChat()
   const [tab, setTab] = useState(TabType.MESSAGE)
   const [loading, setLoading] = useState(true)
-  const [message, setMessage] = useState([])
-  const [comment, setComment] = useState([])
+  const [message, setMessage] = useState<Message[]>([])
+  const [comment, setComment] = useState<Comment[]>([])
   const [notice, setNotice] = useState([])
+  const user = useSelector((state: RootState) => state.user.user)
 
   const api_map = {
     message: api.getPanelMessage,
@@ -64,23 +96,58 @@ const Message: React.SFC = () => {
 
   useEffect(() => {
     getData()
+    return () => {
+      offset = 0
+      lasttime = -1
+      before = -1
+      hasmore = true
+      moreLoading = false
+    }
   }, [tab])
+
+  function getParams() {
+    if (tab === TabType.COMMENT) {
+      return {
+        limit,
+        before,
+        uid: user.userId
+      }
+    } else if (tab === TabType.NOTICE) {
+      return {
+        limit,
+        lasttime
+      }
+    } else {
+      return {
+        offset,
+        limit
+      }
+    }
+   }
 
   async function getData () {
     try {
-      const res = await api_map[tab]({ limit: 30, uid: 98931610 })
+      moreLoading = true
+      const res = await api_map[tab](getParams())
       switch (tab) {
-        case 'message':
-          setMessage(res.data.msgs)
+        case TabType.MESSAGE:
+          setMessage(message => message.concat(res.data.msgs))
           break
-        case 'comment':
-          setComment(res.data.comments)
+        case TabType.COMMENT:
+          const commentLen = res.data.comments.length
+          commentLen && (before = res.data.comments[commentLen - 1].time)
+          setComment(comment => comment.concat(res.data.comments))
           break
-        case 'forward':
+        case TabType.FORWARD:
           break
-        case 'notice':
-          setNotice(res.data.notices)
+        case TabType.NOTICE:
+          const noticeLen = res.data.notices.length
+          noticeLen && (lasttime = res.data.notices[noticeLen - 1].time)
+          setNotice(notice => notice.concat(res.data.notices))
+          break
       }
+      hasmore = res.data.more
+      moreLoading = false
     } finally {
       setLoading(false)
     }
@@ -99,9 +166,16 @@ const Message: React.SFC = () => {
     }
   }
 
-  function selectTab (tab: string) {
+  function selectTab (tab: TabType) {
     setLoading(true)
     setTab(tab)
+  }
+
+  function load () {
+    if (moreLoading) return
+    if (!hasmore) return
+    offset = offset + limit
+    getData()
   }
 
   function genCommentNode () {
@@ -155,7 +229,7 @@ const Message: React.SFC = () => {
             const notice = getNotice(item)
             return (
               <li key={index} styleName="panel-message-item">
-                <img styleName="panel-message-avatar" src={notice.user.avatarUrl} alt=""/>
+                <img styleName="panel-message-avatar" src={notice.user.avatarUrl + '?param=100y100'} alt=""/>
                 <div styleName="panel-message-info">
                   <div styleName="panel-message-name">
                     <span>{notice.user.nickname}{notice.msg}</span>
@@ -183,11 +257,13 @@ const Message: React.SFC = () => {
         }
       </div>
       <div styleName="message-panel-content">
-        <Spin loading={loading} delay={0}>
-          {
-            !loading && genNode()
-          }
-        </Spin>
+        <LoadMore load={load}>
+          <Spin loading={loading} delay={0}>
+            {
+              !loading && genNode()
+            }
+          </Spin>
+        </LoadMore>
       </div>
     </div>
   )

@@ -102,6 +102,12 @@ const LeftBar: React.SFC = () => {
           <Icon className="icon-color-3 hover" onClick={() => createDialogProps.toggle()} name="icon-add"></Icon>
         </div>
         {
+          !isLogin ?
+          (
+            <div styleName="leftbar-item" onClick={() => openLoginDialog()}>
+              <Icon name="iconxin"></Icon>我喜欢的音乐
+            </div>
+          ) :
           userPlaylist.map(item => (
             <ContextMenuWrap key={item.id} id={MENU_NAME} menu={getPlaylistMenu(item)}>
               <NavLink onClick={() => { setPlaylistCacheOnce(item) }} key={item.id} to={`/playlist/${item.id}`} activeClassName="leftbar-item-active" styleName="leftbar-item">

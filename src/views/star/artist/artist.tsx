@@ -38,7 +38,7 @@ const StarArtist = () => {
       <div styleName="star-artist-list">
         {
           artists.map(artist => (
-            <div styleName="star-artist-item" onClick={() => { goArtistDetail(artist.id) }}>
+            <div key={artist.id} styleName="star-artist-item" onClick={() => { goArtistDetail(artist.id) }}>
               <img src={artist.picUrl + '?param=100y100'} alt=""/>
               <div styleName="star-artist-info">
                 <div className=" commen-link-333333 active">

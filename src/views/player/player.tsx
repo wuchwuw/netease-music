@@ -156,11 +156,17 @@ export default function Player () {
         </div>
         <div styleName="mini-player-content">
           <div styleName="mini-player-song">
-            <img onClick={setFullScreen} styleName="mini-player-song-img" src={currentSong.album.picUrl+'?param=100y100'} alt=""/>
-            <div styleName="mini-player-song-info">
-              <div styleName="mini-player-song-name">{getSongName()}</div>
-              <div styleName="mini-player-song-duration">{getCurrentTime()}</div>
-            </div>
+            {
+              currentSong.id && (
+                <>
+                  <img onClick={setFullScreen} styleName="mini-player-song-img" src={currentSong.album.picUrl+'?param=100y100'} alt=""/>
+                  <div styleName="mini-player-song-info">
+                    <div styleName="mini-player-song-name">{getSongName()}</div>
+                    <div styleName="mini-player-song-duration">{getCurrentTime()}</div>
+                  </div>
+                </>
+              )
+            }
           </div>
           <div styleName="mini-player-control">
             <Icon className={`icon-color-${isFavorite(currentSong.id) ? 'main' : '6'} hover`} style={{marginRight: '25px'}} onClick={() => { currentSongFavorite() } } name={isFavorite(currentSong.id) ? 'icon-heart-full' : 'iconxin'}></Icon>

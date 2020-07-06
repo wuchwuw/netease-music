@@ -242,7 +242,7 @@ const Search: React.SFC = () => {
 
   function genSearchArtistContent (artists: ArtistBaseClass[]) {
     return (
-      <div styleName="artist-content">
+      <div styleName="search-content">
         {
           artists.map(artist => (
             <div key={artist.id} styleName="artist-item">
@@ -275,7 +275,7 @@ const Search: React.SFC = () => {
 
   function genSearchVideoContent (videos: VideoBaseClass[]) {
     return (
-      <div className="commen-area-content">
+      <div className="commen-area-content" styleName="search-content">
         {
           videos.map((video) => (
             <div key={video.vid} className="commen-area-item commen-area-item-large">
@@ -295,7 +295,7 @@ const Search: React.SFC = () => {
 
   function genSearchPlaylistContent (playlists: PlaylistBaseClass[]) {
     return (
-      <div styleName="search-playlist-content">
+      <div styleName="search-content">
         { playlists.map((item) => (
             <div onClick={() => { goPlaylistDetail(item.id) }} key={item.id} className="commen-area-item commen-area-item-album">
               <div className="commen-area-img-wrap">

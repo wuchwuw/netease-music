@@ -35,7 +35,7 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
   }
 
   function next (index?: number) {
-    const current = round(index ? index : currentIndex + 1)
+    const current = round(typeof index !== 'undefined' ? index : currentIndex + 1)
     const prev = round(current - 1)
     const next = round(current + 1)
     setCurrentIndex(current)
@@ -74,7 +74,7 @@ const Slider: React.SFC<SliderProps> = ({ images = []}) => {
     const { targetType, targetId, url } = item
     if (targetType === 1) {
       const songs = await getSongList([targetId])
-      songs.length && start({id: '', name: '发现页'}, songs[0])
+      songs.length && start({id: '/home/index', name: '发现页'}, songs[0])
     } else if (targetType === 10) {
       goAlbumDetail(targetId)
     } else if (targetType === 1004) {

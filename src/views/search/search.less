@@ -17,7 +17,7 @@
 }
 .search-tab {
   padding-left: 30px;
-  border-bottom: 1px solid #f3f3f3;
+  border-bottom: 1px solid var(--border);
 }
 .search-tab-item {
   margin-right: 30px;
@@ -36,10 +36,10 @@
   align-items: center;
   padding: 10px 30px;
   &:nth-child(even) {
-    background: #FAFAFA;
+    background: var(--musiclist-background-even);
   }
   &:hover {
-    background: #F2F2F2;
+    background: var(--musiclist-background-hover);
   }
 }
 .search-artist-item-avatar {
@@ -98,12 +98,6 @@
   }
 }
 
-
-.artist-content {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px 10px;
-}
 .artist-item {
   margin: 0 10px 40px 10px;
   width: 133px;
@@ -139,7 +133,7 @@
   }
 }
 
-.search-playlist-content {
+.search-content {
   padding: 20px;
   display: flex;
   flex-wrap: wrap;

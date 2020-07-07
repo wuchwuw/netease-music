@@ -1,6 +1,7 @@
 import * as React from 'react'
 import classnames from 'classnames'
 import './button.less'
+import Loading from 'COMPONENTS/loading/loading'
 
 interface ButtonProps {
   type?: 'default' | 'primary'
@@ -61,6 +62,7 @@ const Button: React.SFC<ButtonProps> = ({
     >
       <div styleName='button-content'>
         {getChildren()}
+        <Loading></Loading>
       </div>
     </button>
   )

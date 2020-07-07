@@ -107,6 +107,17 @@ const Chat = () => {
             </div>
           </div>
         )
+      case ChatContentType.VIDEO:
+        return (
+          <div styleName="chat-content-mv">
+            <img styleName="chat-content-mv-cover" src={content.content.coverUrl + '?param=400y225'} alt=""/>
+            <div styleName="chat-content-mv-name">{content.content.title}</div>
+            <div styleName="chat-contnet-mv-info">
+              <span>播放{content.content.playTime_format}</span>
+              <span>{content.content.duration_format}</span>
+            </div>
+          </div>
+        )
       case ChatContentType.MV:
         return (
           <div styleName="chat-content-mv">

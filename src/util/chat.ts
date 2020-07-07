@@ -1,7 +1,7 @@
 import User from "./user"
-import { Album } from "./album"
-import { Video } from "./video"
-import { PlaylistClass } from "./playlist"
+import { Album, createAlbum } from "./album"
+import { Video, createVideo } from "./video"
+import { PlaylistClass, createPlaylist } from "./playlist"
 import { MV, createMV } from "./mv"
 
 export enum ChatContentType {
@@ -69,10 +69,10 @@ interface ChatPlaylistContent {
   content: PlaylistClass
 }
 
-type ChatContent = 
-  ChatAlbumContent | 
-  ChatMVContent | 
-  ChatTextContent | 
+type ChatContent =
+  ChatAlbumContent |
+  ChatMVContent |
+  ChatTextContent |
   ChatPlaylistContent |
   ChatGeneralContent |
   ChatPromotionContent |
@@ -91,7 +91,6 @@ export class Chat {
     this.fromUser = new User(fromUser)
     this.toUser = new User(toUser)
     const content = JSON.parse(msg)
-    console.log(content)
     this.msg = content.msg
     this.content = getContent(content)
   }
@@ -102,19 +101,22 @@ function getContent (data: any): ChatContent {
   let content: any
   switch (type) {
     case ChatContentType.ALBUM:
-      content = new Album(data.album)
+      content = createAlbum(data.album)
       break
     case ChatContentType.MV:
       content = createMV(data.mv)
       break
     case ChatContentType.PLAYLIST:
-      content = new PlaylistClass(data.playlist)
+      content = createPlaylist(data.playlist)
       break
     case ChatContentType.GENERAL:
       content = data.generalMsg
       break
     case ChatContentType.PROMOTION:
       content = data.promotionUrl
+      break
+    case ChatContentType.VIDEO:
+      content = createVideo(data.video)
       break
     case ChatContentType.TEXT:
     default:

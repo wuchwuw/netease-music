@@ -1,80 +1,37 @@
-.lds-spinner {
-  color: #000000;
-  display: inline-block;
+.cube-loading { display: block; }
+.cube-loading-spinners {
   position: relative;
-  width: 20px;
-  height: 20px;
-}
-.lds-spinner div {
-  transform-origin: 40px 40px;
-  animation: lds-spinner 1.2s linear infinite;
-  box-sizing: content-box;
-}
-.lds-spinner div:after {
-  content: " ";
   display: block;
+}
+.cube-loading-spinner {
   position: absolute;
-  top: 3px;
-  left: 37px;
-  width: 6px;
-  height: 18px;
-  border-radius: 20%;
-  background: #fff;
-  box-sizing: content-box;
+  left: 44.5%;
+  top: 37%;
+  width: 2px; // for rem
+  height: 25%;
+  border-radius: 50%/20%;
+  opacity: .25;
+  background: var(--text-0);
+  animation: spinner-fade 1s linear infinite;
+  .loopingClass(12);
 }
-.lds-spinner div:nth-child(1) {
-  transform: rotate(0deg);
-  animation-delay: -1.1s;
-}
-.lds-spinner div:nth-child(2) {
-  transform: rotate(30deg);
-  animation-delay: -1s;
-}
-.lds-spinner div:nth-child(3) {
-  transform: rotate(60deg);
-  animation-delay: -0.9s;
-}
-.lds-spinner div:nth-child(4) {
-  transform: rotate(90deg);
-  animation-delay: -0.8s;
-}
-.lds-spinner div:nth-child(5) {
-  transform: rotate(120deg);
-  animation-delay: -0.7s;
-}
-.lds-spinner div:nth-child(6) {
-  transform: rotate(150deg);
-  animation-delay: -0.6s;
-}
-.lds-spinner div:nth-child(7) {
-  transform: rotate(180deg);
-  animation-delay: -0.5s;
-}
-.lds-spinner div:nth-child(8) {
-  transform: rotate(210deg);
-  animation-delay: -0.4s;
-}
-.lds-spinner div:nth-child(9) {
-  transform: rotate(240deg);
-  animation-delay: -0.3s;
-}
-.lds-spinner div:nth-child(10) {
-  transform: rotate(270deg);
-  animation-delay: -0.2s;
-}
-.lds-spinner div:nth-child(11) {
-  transform: rotate(300deg);
-  animation-delay: -0.1s;
-}
-.lds-spinner div:nth-child(12) {
-  transform: rotate(330deg);
-  animation-delay: 0s;
-}
-@keyframes lds-spinner {
+
+@keyframes spinner-fade {
   0% {
-    opacity: 1;
+    opacity: .85
+  }
+  50% {
+    opacity: .25
   }
   100% {
-    opacity: 0;
+    opacity: .25
   }
+}
+
+.loopingClass (@index) when (@index > 0){
+  &:nth-child(@{index}) {
+    transform: rotate(30deg * (@index - 6)) translateY(-150%);
+    animation-delay: ((@index - 1) / 12) * 1s;
+  }
+  .loopingClass(@index - 1);
 }

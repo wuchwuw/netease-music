@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './spin.less'
+import Loading from 'COMPONENTS/loading/loading'
 
 interface SpinProps {
   children: React.ReactNode
@@ -28,12 +29,8 @@ const Spin: React.SFC<SpinProps> = (props) => {
       {
         spin ?
           <div styleName="spin-content">
-            <div styleName="spinner">
-              <div styleName="spinner-loading">
-                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-              </div>
-            </div>
-            <span>加载中</span>
+            <Loading></Loading>
+            <span styleName="spin-text">加载中</span>
           </div>
           :
           <>{props.children}</>

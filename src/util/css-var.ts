@@ -29,7 +29,8 @@ export const light = {
   '--border-deep': '#D9D9D9',
   '--default-background': '#F5F5F5',
   '--default-background-deep': '#EDEDED',
-  '--color-white': '#FFFFFF'
+  '--color-white': '#FFFFFF',
+  '--context-menu-background': '#F0F2F1'
 }
 
 export const dark = {
@@ -64,7 +65,8 @@ export const dark = {
   '--border-deep': '#454545',
   '--default-background': '#2F2F2F',
   '--default-background-deep': '#3C3C3C',
-  '--color-white': '#252525'
+  '--color-white': '#252525',
+  '--context-menu-background': '#333333'
 }
 
 const TYPE_MAP = {

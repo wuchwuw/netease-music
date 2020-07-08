@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 import NotificationContainer from 'COMPONENTS/notification/notification'
+import Icon from 'COMPONENTS/icon/icon'
 
 let instance: any = null
 const DEFAULT_DURATOIN = 1500
@@ -52,11 +53,11 @@ notificationType.forEach((type) => {
     switch (type) {
       case 'success':
         return (
-          <><i className="iconfont icon-gou notification-icon"></i>{content}</>
+          <><Icon name="icon-gou" className="notification-icon"></Icon>{content}</>
         )
       case 'error':
         return (
-          <><i className="iconfont icon-close notification-icon"></i>{content}</>
+          <><Icon name="icon-close" className="notification-icon"></Icon>{content}</>
         )
       default:
         return content

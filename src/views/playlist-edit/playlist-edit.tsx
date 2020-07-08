@@ -78,7 +78,7 @@ const PlylistEdit = () => {
 
   return (
     <div styleName="playlist-edit-container">
-      <PageTitle><span className="topbar-content-item active">编辑歌单信息</span></PageTitle>
+      <PageTitle><span className="topbar-content-title">编辑歌单信息</span></PageTitle>
       <div styleName="playlist-form">
         <div styleName="playlist-form-item">
           <span>歌单名:</span>

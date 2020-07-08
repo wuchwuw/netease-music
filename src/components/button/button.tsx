@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import classnames from 'classnames'
 import './button.less'
 import Loading from 'COMPONENTS/loading/loading'
@@ -22,19 +22,26 @@ const Button: React.SFC<ButtonProps> = ({
   disabled = false,
   block = false
 }) => {
-  const [innerLoading, setInnerLoading] = React.useState(!!loading)
+  const [innerLoading, setInnerLoading] = useState(!!loading)
   const classes = classnames('button-commen', {
     [`button-${type}`]: type,
     'button-disabled': disabled,
     'button-block': block
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     setInnerLoading(loading)
   }, [loading])
 
   const getChildren = () => {
-    // if (loading) {}
+    if (innerLoading) {
+      return (
+        <>
+          <Loading></Loading>
+          {children}
+        </>
+      )
+    }
     if (icon) {
       return (
         <>
@@ -62,7 +69,6 @@ const Button: React.SFC<ButtonProps> = ({
     >
       <div styleName='button-content'>
         {getChildren()}
-        <Loading></Loading>
       </div>
     </button>
   )

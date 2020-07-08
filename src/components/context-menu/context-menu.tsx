@@ -11,18 +11,18 @@ const Menu = ({id, trigger}: any) => {
       id={id}
       className="context-menu"
       onHide={() => {
-        target && target.classList.remove('context-menu-musiclist-selected')
+        target && target.classList.remove(id)
       }}
       onShow={(e) => {
         target = e.detail.target
-        target && target.classList.add('context-menu-musiclist-selected')
+        target && target.classList.add(id)
       }}
     >
       {
         menu.map((item) => {
           return (
             item.sub ?
-              <SubMenu title={<div>收藏<i className="iconfont icon-triangle-full"></i></div>} attributes={{className: 'context-menu-item'}}>
+              <SubMenu key={item.name} title={<div>收藏<i className="iconfont icon-triangle-full"></i></div>} attributes={{className: 'context-menu-item'}}>
                 {
                   item.sub.map(menu => (
                     <MenuItem key={menu.name} attributes={{className: 'context-menu-item'}} onClick={ () => { menu.trigger && menu.trigger() } }>{menu.name}</MenuItem>
@@ -30,7 +30,7 @@ const Menu = ({id, trigger}: any) => {
                 }
               </SubMenu>
               :
-              <MenuItem attributes={{className: 'context-menu-item'}} onClick={ () => { item.trigger && item.trigger() } } data={{ action: 'Added' }}>{item.name}</MenuItem>
+              <MenuItem key={item.name} attributes={{className: 'context-menu-item'}} onClick={ () => { item.trigger && item.trigger() } } data={{ action: 'Added' }}>{item.name}</MenuItem>
 
           )
         })

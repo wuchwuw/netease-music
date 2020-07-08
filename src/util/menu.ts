@@ -20,9 +20,9 @@ export function usePlaylistContextMenu () {
     getUserPlaylistDetail(playlist.id, (p) => {
       if (p.tracks.length !== 0) {
         next ?
-        nextPlayPlaylist({id: `playlist-${playlist.id}`, name: playlist.name}, p.tracks)
+        nextPlayPlaylist({id: `/playlist/${playlist.id}`, name: playlist.name}, p.tracks)
         :
-        start({id: `playlist-${playlist.id}`, name: playlist.name}, p.tracks[0], p.tracks)
+        start({id: `/playlist/${playlist.id}`, name: playlist.name}, p.tracks[0], p.tracks)
       }
     })
   }

@@ -7,6 +7,7 @@ import { Video, createVideo } from 'UTIL/video'
 import Icon from 'COMPONENTS/icon/icon'
 import Button from 'COMPONENTS/button/button'
 import classnames from 'classnames'
+import { usePageForword } from 'ROUTER/hooks'
 // import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
 
 let videoCache = {}
@@ -16,6 +17,7 @@ const VideoDetail = () => {
   const [video, setVideo] = useState<Video>(createVideo({}))
   const [related, setRelated] = useState<Video[]>([])
   const [url, setURL] = useState('')
+  const { back } = usePageForword()
   // const openShareDialog = createShareDialog()
 
   useEffect(() => {

@@ -64,7 +64,7 @@ const Friends: React.SFC = () => {
     <LoadMore load={loadmore}>
       <PageTitle>
         <div>
-          <span className="topbar-content-item active">动态</span>
+          <span className="topbar-content-title" style={{ marginRight: '20px' }}>动态</span>
           <Button
             icon={<Icon name="icon-share"></Icon>}
             type="primary"

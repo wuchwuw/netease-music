@@ -51,7 +51,7 @@ const Event = () => {
 
   return (
     <LoadMore load={loadmore}>
-      <PageTitle>{ query.username && <span>{query.username}的动态</span>}</PageTitle>
+      <PageTitle><span className="topbar-content-title">{ query.username && <span>{query.username}的动态</span>}</span></PageTitle>
       <div styleName="user-event-container">
         <Spin loading={activityLoading} delay={0}>
           <EventList list={activity} updateList={() => { setActivity([...activity]) }}></EventList>

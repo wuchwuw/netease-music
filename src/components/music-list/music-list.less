@@ -1,5 +1,3 @@
-@import '~STYLE/color.less';
-
 .music-list-item-wrap {
   &:nth-child(even) {
     background: var(--musiclist-background-even);
@@ -52,11 +50,6 @@
     margin: 0 10px 0 20px;
     flex: 0 0 30px;
   }
-  // > i {
-  //   height: 18px;
-  //   cursor: pointer;
-  //   color: #C0C0C0;
-  // }
 }
 
 .music-list-item-link {
@@ -69,4 +62,10 @@
 
 .muisc-list-item-duration {
   color: var(--text-9);
+}
+
+.music-list-loading-wrap {
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
 }

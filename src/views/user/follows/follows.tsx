@@ -53,7 +53,7 @@ const Follows = () => {
 
   return (
     <div style={{ height: '100%' }}>
-      <PageTitle>{ query.username && <span>{query.username}的关注</span>}</PageTitle>
+      <PageTitle><span className="topbar-content-title">{ query.username && <span>{query.username}的关注</span>}</span></PageTitle>
       <LoadMore load={loadmore}>
         <UserList type="followeds" users={follows} updateList={updateList}></UserList>
       </LoadMore>

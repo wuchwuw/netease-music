@@ -129,11 +129,7 @@ const Playlist = () => {
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
       return (
-        <div>
-          <Spin loading={trackloading} delay={0}>
-            <MusicList start={musiclistStart} getMenu={getMenu} list={tracks} {...deleteMyFavorite()}></MusicList>
-          </Spin>
-        </div>
+        <MusicList loading={trackloading} start={musiclistStart} getMenu={getMenu} list={tracks} {...deleteMyFavorite()}></MusicList>
       )
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
@@ -146,7 +142,7 @@ const Playlist = () => {
 
   function getSource () {
     return {
-      id: `playlist-${playlist.id}`,
+      id: `/playlist/${playlist.id}`,
       name: playlist.name
     }
   }

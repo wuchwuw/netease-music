@@ -71,7 +71,7 @@ const UserEdit = () => {
 
   return (
     <div styleName="user-edit-container">
-      <PageTitle>编辑个人信息</PageTitle>
+      <PageTitle><span className="topbar-content-title">编辑个人信息</span></PageTitle>
       <div style={{display: 'flex'}}>
         <div styleName="user-edit-form">
           <div styleName="user-edit-form-item">

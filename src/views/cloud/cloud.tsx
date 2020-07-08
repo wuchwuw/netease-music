@@ -80,7 +80,7 @@ const Cloud = () => {
 
   return (
     <div styleName="cloud-container">
-      <PageTitle>我的音乐云盘</PageTitle>
+      <PageTitle><span className="topbar-content-title">我的音乐云盘</span></PageTitle>
       <div styleName="cloud-title">
         <span>云盘容量</span>
         <span styleName="cloud-disk-bar">

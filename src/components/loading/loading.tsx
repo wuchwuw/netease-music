@@ -10,7 +10,7 @@ const Loading: React.SFC<LoadingProps> = ({ balde = 12 }) => {
     <div styleName="cube-loading">
       <span styleName="cube-loading-spinners" style={{ width: 16 + 'px', height: 16 + 'px'}}>
         {
-          Array.from({ length: balde }).map((index: any) => (
+          Array.from({ length: balde }).map((item: any, index: number) => (
             <i key={index} styleName="cube-loading-spinner"></i>
           ))
         }

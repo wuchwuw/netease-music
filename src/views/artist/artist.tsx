@@ -161,7 +161,7 @@ const Artist = () => {
   }
 
   function getMenu (song: Song) {
-    return getSongMenu({ id: `playlist-${artist.id}`, name: artist.name }, song)
+    return getSongMenu({ id: `/artist/${artist.id}`, name: artist.name }, song)
   }
 
   function genArtistAlbumContent () {

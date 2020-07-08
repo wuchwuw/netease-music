@@ -109,6 +109,10 @@ export function createSong (data: any): Song {
 export function getSongList (ids: number[]): Promise<Song[]> {
   return new Promise(async (resolve, reject) => {
     try {
+      if (!ids.length) {
+        resolve([])
+        return
+      }
       const res = await api.getSongDetail({ ids })
       const songs = res.data.songs.map((item: any, index: number) => {
         return createSong({

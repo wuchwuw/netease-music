@@ -129,7 +129,7 @@ const Playlist = () => {
   function genTabComponent () {
     if (tab === PlaylistTab.SONG) {
       return (
-        <MusicList loading={trackloading} start={musiclistStart} getMenu={getMenu} list={tracks} {...deleteMyFavorite()}></MusicList>
+        <MusicList noDataText="暂无歌曲，快去添加歌曲到歌单吧" loading={trackloading} start={musiclistStart} getMenu={getMenu} list={tracks} {...deleteMyFavorite()}></MusicList>
       )
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>

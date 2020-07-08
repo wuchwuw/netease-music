@@ -171,7 +171,9 @@ export default function Player () {
           <div styleName="mini-player-control">
             <Icon className={`icon-color-${isFavorite(currentSong.id) ? 'main' : '6'} hover`} style={{marginRight: '25px'}} onClick={() => { currentSongFavorite() } } name={isFavorite(currentSong.id) ? 'icon-heart-full' : 'iconxin'}></Icon>
             <Icon className="icon-color-main hover" style={{marginRight: '10px'}} fontSize={18} onClick={prev} name={classnames('iconfont iconforward', { 'fail': playerStatus === 'fm'})}></Icon>
-            <Icon className="icon-color-main hover" fontSize={40} onClick={togglePlay} name={!playing ? 'icon-play': 'iconzanting'}></Icon>
+            <span styleName="mini-player-icon" onClick={togglePlay}>
+              <Icon style={{ color: '#FFFFFF' }} fontSize={!playing ? 17 : 20} name={!playing ? 'icon-triangle-full': 'icon-pause'}></Icon>
+            </span>
             <Icon className="icon-color-main hover" style={{marginLeft: '10px'}} fontSize={18} onClick={next} name="iconfont iconforward1"></Icon>
             { playerStatus === 'fm' && <Icon onClick={() => { addFMTrash(currentSong.id) }} style={{fontSize: '19px', marginLeft: '20px'}} name="icon-delete"></Icon>}
           </div>

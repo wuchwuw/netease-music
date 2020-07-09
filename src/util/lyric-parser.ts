@@ -90,7 +90,6 @@ export default class Lyric {
       }
       index ++
     }
-
     // const offset = parseInt(this.tags['offset']) || 0
     // for (let i = 0; i < lines.length; i++) {
     //   const line = lines[i]

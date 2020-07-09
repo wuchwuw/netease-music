@@ -113,7 +113,7 @@ const Cloud = () => {
         </li>
         {
           songs.map((song, index) => (
-            <li onDoubleClick={() => { start({ id: 'cloud', name: '我的音乐云盘'}, song, songs) }} key={song.id} styleName="cloud-list-item-wrap">
+            <li onDoubleClick={() => { start({ id: '/cloud', name: '我的音乐云盘'}, song, songs) }} key={song.id} styleName="cloud-list-item-wrap">
               <div styleName="cloud-list-item">
                 <div><span>{padZero(index + 1)}</span></div>
                 <div><span>{song.name}{song.alia_string}</span></div>

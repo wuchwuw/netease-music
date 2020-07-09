@@ -227,11 +227,11 @@ const Search: React.SFC = () => {
   }
 
   function getMenu (song: Song) {
-    return getSongMenu({ id: `search-${keywords}-${tab}`, name: '搜索页' }, song)
+    return getSongMenu({ id: `/search?keywords=${keywords}&tab=${tab}`, name: '搜索页' }, song)
   }
 
   function musiclistStart (song: Song) {
-    start({ id: `search-${keywords}-${tab}`, name: '搜索页' }, song)
+    start({ id: `/search?keywords=${keywords}&tab=${tab}`, name: '搜索页' }, song)
   }
 
   function genSearchSongContent (songs: Song[]) {

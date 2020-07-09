@@ -20,15 +20,19 @@ const Lyric: React.SFC<LyricProps> = ({
   const list = useRef<HTMLDivElement[]>([])
   const { getPlayCurrentTime, playing } = usePlayerController()
   const lyric = useRef<LyricClass>()
+  const lyricHeightCache = useRef<number[]>([])
 
   useEffect(() => {
-    getLyric()
+    if (song.id) {
+      getLyric()
+    }
   }, [song.id])
 
   useEffect(() => {
     if (lyric.current) {
       if (playing) {
-        lyric.current.play(getPlayCurrentTime(), false)
+        console.log(getPlayCurrentTime())
+        lyric.current.play(getPlayCurrentTime() * 1000, false)
       } else {
         lyric.current.stop()
       }
@@ -40,30 +44,61 @@ const Lyric: React.SFC<LyricProps> = ({
       const res = await api.getLyric({ id: song.id })
       lyric.current = new LyricClass(res.data, handler)
       setLines(lyric.current.lines)
-      initScroll()
-      if (playing) {
-        lyric.current.play(getPlayCurrentTime(), false)
+      console.log(lyric.current.lines)
+      if (scroll.current) {
+        scroll.current.refresh()
+      } else {
+        initScroll()
       }
-    } catch (e) {}
+      setTimeout(() => {
+        initHeight()
+        if (playing) {
+          lyric.current && lyric.current.play(getPlayCurrentTime() * 1000, false)
+        }
+      }, 16.9)
+    } catch (e) { console.log(e) }
   }
 
   function initScroll () {
     scroll.current = new BScroll('#lyrics')
   }
 
+  function initHeight () {
+    let height = 0
+    list.current.forEach((item, index) => {
+      lyricHeightCache.current[index] = height
+      height += (item.clientHeight + 16)
+    })
+    console.log(lyricHeightCache.current)
+  }
+
   function handler (currentLineIndex: number) {
-    let a = list.current[currentLineIndex].scrollTop
-    console.log(a)
-    setCurrentLine(currentLineIndex)
-    if (currentLineIndex > 5) {
-      scroll.current && scroll.current.scrollToElement(list.current[currentLineIndex - 5], 1000)
+    // if (currentLineCache.current === currentLineIndex) return
+    // const currentEl = list.current[currentLineIndex]
+    // const elHeight = currentEl.clientHeight + 16
+    // console.log(currentEl.offsetTop)
+    // scrollHeight.current = currentEl.offsetTop
+    console.log(scroll.current!.maxScrollY)
+    console.log(currentLineIndex)
+    const height = lyricHeightCache.current[currentLineIndex]
+    const scrollTo = height - 140
+    // const scrollMax = Math.abs(scroll.current!.maxScrollY) - 160
+    if (scrollTo > 0) {
+      scroll.current && scroll.current.scrollTo(0, -scrollTo, 1000)
     }
-    // console.log(currentLineIndex)
-    // if (currentLineIndex > 3) {
-    //   const container = document.querySelector('.player-info-lyrics')
-    //   const lines = document.querySelectorAll('.player-info-lyrics-item')
-    //   container!.scrollTop += lines[currentLineIndex].clientHeight + 16
-    // }
+    setCurrentLine(currentLineIndex)
+  }
+
+  function play () {
+    lyric.current && lyric.current.play(getPlayCurrentTime(), false)
+  }
+
+  function stop () {
+    lyric.current && lyric.current.stop()
+  }
+
+  function reset () {
+
   }
 
   return (
@@ -71,7 +106,7 @@ const Lyric: React.SFC<LyricProps> = ({
       <div>
         {
           lines.map((item: any, index: any) => (
-            <div ref={el => list.current[index] = el} key={index} styleName={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>
+            <div ref={el => list.current[index] = el!} key={index} styleName={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>
               <div>{item.txt}</div>
               { item.translate && <div styleName="player-info-lyrics-item-translate">{item.translate}</div> }
             </div>

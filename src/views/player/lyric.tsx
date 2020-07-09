@@ -11,6 +11,9 @@ interface LyricProps {
   song: Song
 }
 
+const LYRIC_HEIGHT = 320
+const SCROLL_TO = 140
+
 const Lyric: React.SFC<LyricProps> = ({
   song
 }) => {
@@ -21,9 +24,13 @@ const Lyric: React.SFC<LyricProps> = ({
   const { getPlayCurrentTime, playing } = usePlayerController()
   const lyric = useRef<LyricClass>()
   const lyricHeightCache = useRef<number[]>([])
+  const first = useRef(true)
 
   useEffect(() => {
     if (song.id) {
+      lyric.current && lyric.current.stop()
+      scroll.current && scroll.current.scrollTo(0, 0)
+      setCurrentLine(0)
       getLyric()
     }
   }, [song.id])
@@ -31,7 +38,6 @@ const Lyric: React.SFC<LyricProps> = ({
   useEffect(() => {
     if (lyric.current) {
       if (playing) {
-        console.log(getPlayCurrentTime())
         lyric.current.play(getPlayCurrentTime() * 1000, false)
       } else {
         lyric.current.stop()
@@ -39,23 +45,25 @@ const Lyric: React.SFC<LyricProps> = ({
     }
   }, [playing])
 
+  useEffect(() => {
+    if (first.current) {
+      first.current = false
+      return
+    }
+    if (lines.length) {
+      initScroll()
+      initHeight()
+      if (playing) {
+        lyric.current && lyric.current.play(getPlayCurrentTime() * 1000, false)
+      }
+    }
+  }, [lines])
+
   async function getLyric () {
     try {
       const res = await api.getLyric({ id: song.id })
       lyric.current = new LyricClass(res.data, handler)
       setLines(lyric.current.lines)
-      console.log(lyric.current.lines)
-      if (scroll.current) {
-        scroll.current.refresh()
-      } else {
-        initScroll()
-      }
-      setTimeout(() => {
-        initHeight()
-        if (playing) {
-          lyric.current && lyric.current.play(getPlayCurrentTime() * 1000, false)
-        }
-      }, 16.9)
     } catch (e) { console.log(e) }
   }
 
@@ -64,26 +72,23 @@ const Lyric: React.SFC<LyricProps> = ({
   }
 
   function initHeight () {
+    console.log(list.current)
     let height = 0
     list.current.forEach((item, index) => {
-      lyricHeightCache.current[index] = height
-      height += (item.clientHeight + 16)
+      if (item) {
+        lyricHeightCache.current[index] = height
+        height += (item.clientHeight + 16)
+      }
     })
     console.log(lyricHeightCache.current)
   }
 
   function handler (currentLineIndex: number) {
-    // if (currentLineCache.current === currentLineIndex) return
-    // const currentEl = list.current[currentLineIndex]
-    // const elHeight = currentEl.clientHeight + 16
-    // console.log(currentEl.offsetTop)
-    // scrollHeight.current = currentEl.offsetTop
-    console.log(scroll.current!.maxScrollY)
-    console.log(currentLineIndex)
     const height = lyricHeightCache.current[currentLineIndex]
     const scrollTo = height - 140
-    // const scrollMax = Math.abs(scroll.current!.maxScrollY) - 160
-    if (scrollTo > 0) {
+    const maxHeight = scroll.current!.maxScrollY
+    const resetHeight = Math.abs(maxHeight) + 140
+    if (scrollTo > 0 && height < resetHeight) {
       scroll.current && scroll.current.scrollTo(0, -scrollTo, 1000)
     }
     setCurrentLine(currentLineIndex)

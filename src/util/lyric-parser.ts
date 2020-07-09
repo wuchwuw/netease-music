@@ -27,7 +27,7 @@ export default class Lyric {
   handler: () => void
   state: number
   curLine: number
-  constructor({ lrc, tlyric } : any, hanlder: (currentLineIndex: number ) => void = noop) {
+  constructor({ lrc = null, tlyric = null } : any, hanlder: (currentLineIndex: number ) => void = noop) {
     this.lrc = lrc.lyric
     this.tlrc = tlyric.lyric
     this.tags = {}
@@ -52,6 +52,9 @@ export default class Lyric {
   // }
 
   _initLines() {
+    if (!this.lrc) {
+      return
+    }
     const lines = this.lrc ? this.lrc.split('\n') : []
     const tLines = this.tlrc ? this.tlrc.split('\n') : []
     function getLine (lineStr: string) {

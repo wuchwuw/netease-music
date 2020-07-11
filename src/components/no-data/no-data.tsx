@@ -11,7 +11,7 @@ const NoData: React.SFC<NoDataProps> = ({
 }) => {
   return (
     <div styleName="nodata-container">
-      <Icon style={{fontWeight: 100}} className="icon-color-c" fontSize={100} name="icon-default"></Icon>
+      {/* <Icon style={{fontWeight: 100}} className="icon-color-c" fontSize={100} name="icon-default"></Icon> */}
       <p>{text}</p>
     </div>
   )

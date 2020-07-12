@@ -11,6 +11,7 @@ import { usePageForword } from 'ROUTER/hooks'
 import { padZero } from 'UTIL/util'
 import { usePlayerController } from 'UTIL/player-controller'
 import Icon from 'COMPONENTS/icon/icon'
+import { CommenPlaylistVertical } from 'COMPONENTS/commen/playlist'
 
 let loaded = false
 let bannersCache: ImageItem[] = []
@@ -78,14 +79,11 @@ const HomeRecomend = () => {
             <div className="commen-area-text line-more" onClick={ goDaily }>每日歌曲推荐</div>
           </div>
           { playlistRecomend.map(item => (
-            <div key={item.id} onClick={() => goPlaylistDetail(item.id, item)} className="commen-area-item commen-area-item-album">
-              <div className="commen-area-img-wrap">
-                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>
-                <img className="commen-area-img" src={item.coverImgUrl+'?param=250y250'} alt=""/>
-                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
-              </div>
-              <div className="commen-area-text line-more">{item.name}</div>
-            </div>
+            <CommenPlaylistVertical
+              playlist={item}
+              goPlaylistDetail={() => {goPlaylistDetail(item.id, item)}}
+            >
+            </CommenPlaylistVertical>
           ))}
         </div>
       </div>
@@ -119,7 +117,7 @@ const HomeRecomend = () => {
                 <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
                 <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
               </div>
-              <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text line-one">{item.name}</div>
+              <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text">{item.name}</div>
               <div className="commen-area-artist">{genArtists(item.artists, goArtistDetail, 'commen-link-666666')}</div>
             </div>
           ))}

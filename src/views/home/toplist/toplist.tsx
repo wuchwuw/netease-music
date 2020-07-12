@@ -39,7 +39,7 @@ const Toplist: React.SFC = () => {
   async function getToplistIndex () {
     try {
       setToplistLoading(true)
-      const p = [api.getToplistIndex({ idx: '3'}), api.getToplistIndex({ idx: '0'}), api.getToplistIndex({ idx: '2'}), api.getToplistIndex({ idx: '1'})]
+      const p = [api.getToplistIndex({ id: 19723756 }), api.getToplistIndex({ id: 3779629}), api.getToplistIndex({ id: 2884035 }), api.getToplistIndex({ id: 3778678})]
       const res = await Promise.all(p)
       setToplistIndex(ToplistIndexCache = res.map(item => {
         return new PlaylistClass(item.data.playlist)
@@ -63,7 +63,7 @@ const Toplist: React.SFC = () => {
                       <div onDoubleClick={() => start({ name: playlist.name, id: `/playlist${playlist.id}` }, track, playlist.tracks)} styleName="toplist-netease-item-list-item" key={track.id}>
                         <span styleName={classNames({'active': index <= 2})}>{index + 1}</span>
                         <span>{genSongName(track)}</span>
-                        <span>{genArtists(track.artists, goArtistDetail, 'commen-link-666666')}</span>
+                        <span className="text-overflow">{genArtists(track.artists, goArtistDetail, 'commen-link-666666')}</span>
                       </div>
                     ))
                   }

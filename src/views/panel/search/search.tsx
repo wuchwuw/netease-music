@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from "react"
+import React, { useState, useEffect, ReactNode, useCallback, useRef } from "react"
 import './search.less'
 import Spin from 'COMPONENTS/spin/spin'
 import api from 'API/index'
@@ -11,6 +11,7 @@ import { MV, createMVList } from "UTIL/mv"
 import { Artist, createArtistList } from "UTIL/artist"
 import { usePlayerController } from "UTIL/player-controller"
 import Icon from "COMPONENTS/icon/icon"
+import { useDebouncedEffect } from 'UTIL/hooks'
 
 interface Suggest {
   songs: Song[]
@@ -42,11 +43,11 @@ const Search: React.SFC = () => {
     getHotKey()
   }, [])
 
-  useEffect(() => {
+  useDebouncedEffect(() => {
     if (keywords) {
       getSearchSuggest()
     }
-  }, [keywords])
+  }, 1000, [keywords])
 
   async function getHotKey () {
     try {

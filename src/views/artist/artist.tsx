@@ -261,19 +261,16 @@ const Artist = () => {
   function genArtistMVContent () {
     return (
       <div className="commen-area-content">
-        {
-          mv.map(item => (
-            <div key={item.id} className="commen-area-item commen-area-item-large">
-              <div className="commen-area-img-wrap">
-                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
-                <img src={item.cover} alt=""/>
-                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_format}</div>
-                <div className="commen-area-duration">{item.duration_format}</div>
-              </div>
-              <div className="commen-area-text">{item.name}</div>
+        { mv.map(item => (
+          <div key={item.id} className="commen-area-item commen-area-item-170x95">
+            <div onClick={() => { goMVDetail(item.id) }} className="commen-area-img-wrap">
+              <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_format}</div>
+              <img className="commen-area-img" src={item.cover+'?param=500y282'} alt=""/>
+              <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
             </div>
-          ))
-        }
+            <div onClick={() => { goMVDetail(item.id) }} className="commen-area-text">{item.name}</div>
+          </div>
+        ))}
       </div>
     )
   }

@@ -1,6 +1,4 @@
 import React, { useMemo, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from 'STORE/index'
 import Comment from 'COMPONENTS/comment/comment'
 import './full-screen-player.less'
 import api from 'API/index'
@@ -13,38 +11,31 @@ import { scrollToTop } from 'COMPONENTS/scroll-to-top/scroll-to-top'
 import Icon from 'COMPONENTS/icon/icon'
 import { createShareDialog, ShareType, createAddPlaylistSongDialog } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from 'UTIL/user-playlist'
+import { usePageForword } from 'ROUTER/hooks'
+import { genArtists } from 'VIEWS/template/template'
 
-interface SimiUser {
-  recommendReason: string
-  userId: number
-  nickname: string
-  gender: number
-  avatarUrl: string
-}
+// interface SimiUser {
+//   recommendReason: string
+//   userId: number
+//   nickname: string
+//   gender: number
+//   avatarUrl: string
+// }
 
 const FullScrrenPlayer: React.SFC = () => {
-  // const { song: currentSong, source } = useSelector((state: RootState) => state.player.currentSong)
-  const { getPlayCurrentTime } = usePlayerController()
-  const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const [simiPlaylist, setSimiPlaylist] = useState<PlaylistBaseClass[]>([])
   const [simiSong, setSimiSong] = useState<Song[]>([])
-  const [simiUser, setSimiUser] = useState<SimiUser[]>([])
+  // const [simiUser, setSimiUser] = useState<SimiUser[]>([])
   const { favorite, isFavorite } = useFavorite()
   const openShareDialog = createShareDialog()
   const { userPlaylist, addOrRemoveSong } = useUserPlaylist()
   const openAddPlaylistSongDialog = createAddPlaylistSongDialog()
-  const { currentSong: { song, source }, next } = usePlayerController()
+  const { currentSong: { song, source }, next, start } = usePlayerController()
   const CommentComponent = useMemo(() => <Comment textareaType="deep" delay={500} showTitle={true} type="music" id={song.id} />, [song.id])
+  const { goAlbumDetail, goArtistDetail, goPage, goPlaylistDetail } = usePageForword()
 
   useEffect(() => {
     getSongSimi()
-    if (!song.lyric) {
-      song.getLyric(() => {
-        song.lyric.play(getPlayCurrentTime())
-      })
-    } else {
-      song.lyric.play(getPlayCurrentTime())
-    }
     scrollToTop(['#player'])
   }, [song.id])
 
@@ -57,11 +48,10 @@ const FullScrrenPlayer: React.SFC = () => {
         }
       }
     }
-    Promise.all([api.getSimi(getParams('song')), api.getSimi(getParams('playlist')), api.getSimi(getParams('user'))])
+    Promise.all([api.getSimi(getParams('song')), api.getSimi(getParams('playlist'))])
       .then(res => {
         setSimiSong(createSongList(res[0].data.songs))
         setSimiPlaylist(createBasePlaylist(res[1].data.playlists))
-        setSimiUser(res[2].data.userprofiles)
       })
   }
   return (
@@ -85,9 +75,9 @@ const FullScrrenPlayer: React.SFC = () => {
         <div styleName="player-info">
           <div styleName="player-info-name">{song.name}</div>
           <div styleName="player-info-album">
-            <div className="text-overflow">专辑:<span className="commen-link-blue">{song.album.name}</span></div>
-            <div className="text-overflow">歌手:<span className="commen-link-blue">{song.artistName}</span></div>
-            <div className="text-overflow">来源:<span className="commen-link-blue">{source.name}</span></div>
+            <div className="text-overflow">专辑:<span onClick={() => { goAlbumDetail(song.album.id) }} className="commen-link-blue">{song.album.name}</span></div>
+            <div className="text-overflow">歌手:<span>{genArtists(song.artists, goArtistDetail, 'commen-link-blue')}</span></div>
+            <div className="text-overflow">来源:<span onClick={() => { goPage(source.id) }} className="commen-link-blue">{source.name}</span></div>
           </div>
           <div>
             <Lyric song={song}></Lyric>
@@ -103,11 +93,11 @@ const FullScrrenPlayer: React.SFC = () => {
             <div styleName="player-other-list-title">包含这首歌的歌单</div>
             {
               simiPlaylist.map(item => (
-                <div key={item.id} styleName="player-other-list-item">
+                <div onClick={() => { goPlaylistDetail(item.id) }} key={item.id} styleName="player-other-list-item">
                   <img styleName="player-other-list-avatar" src={item.coverImgUrl+'?param=100y100'} alt=""/>
                   <div styleName="player-other-list-info">
                     <div styleName="player-other-list-info-name" className="text-overflow">{item.name}</div>
-                    <div styleName="player-other-list-info-text">{item.playCount_string}</div>
+                    <div styleName="player-other-list-info-text"><Icon style={{verticalAlign: '-1px'}} name="icon-triangle"></Icon>{item.playCount_string}</div>
                   </div>
                 </div>
               ))
@@ -117,17 +107,17 @@ const FullScrrenPlayer: React.SFC = () => {
             <div styleName="player-other-list-title">相似歌曲</div>
             {
               simiSong.map(item => (
-                <div key={item.id} styleName="player-other-list-item">
+                <div onClick={() => { start({name: item.album.name, id: `/album/${item.album.id}`}, item) }} key={item.id} styleName="player-other-list-item">
                   <img styleName="player-other-list-avatar" src={item.album.picUrl+'?param=100y100'} alt=""/>
                   <div styleName="player-other-list-info">
                     <div styleName="player-other-list-info-name" className="text-overflow">{item.name}</div>
-                    <div styleName="player-other-list-info-text">{item.artists[0].name}</div>
+                    <div styleName="player-other-list-info-text">{item.artistName}</div>
                   </div>
                 </div>
               ))
             }
           </div>
-          <div styleName="player-other-list-like">
+          {/* <div styleName="player-other-list-like">
             <div styleName="player-other-list-title">喜欢这首歌的人</div>
             {
               simiUser.map(user => (
@@ -140,7 +130,7 @@ const FullScrrenPlayer: React.SFC = () => {
                 </div>
               ))
             }
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

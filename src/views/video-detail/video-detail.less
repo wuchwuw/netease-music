@@ -1,3 +1,4 @@
+@import '~STYLE/var.less';
 .video-detail {
   position: fixed;
   left: 0;
@@ -5,7 +6,7 @@
   right: 0;
   top: 50px;
   background: var(--topbar-background);
-  z-index: 101;
+  z-index: @video-zindex;
   overflow: auto;
 }
 .video-detail-container {

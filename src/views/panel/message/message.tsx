@@ -9,6 +9,8 @@ import { RootState } from 'STORE/index'
 import { useSelector } from 'react-redux'
 import User from 'UTIL/user'
 import LoadMore from 'COMPONENTS/load-more/load-more'
+import Forward, { createForwardList, ForwordSource, ForwordSourceType } from 'UTIL/forword'
+import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
 
 interface Message {
   fromUser: User
@@ -84,6 +86,7 @@ const Message: React.SFC = () => {
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState<Message[]>([])
   const [comment, setComment] = useState<Comment[]>([])
+  const [forwords, setForwords] = useState<Forward[]>([])
   const [notice, setNotice] = useState([])
   const user = useSelector((state: RootState) => state.user.user)
 
@@ -139,6 +142,7 @@ const Message: React.SFC = () => {
           setComment(comment => comment.concat(res.data.comments))
           break
         case TabType.FORWARD:
+          setForwords(createForwardList(res.data.forwards))
           break
         case TabType.NOTICE:
           const noticeLen = res.data.notices.length
@@ -160,7 +164,7 @@ const Message: React.SFC = () => {
       case 'comment':
         return genCommentNode()
       case 'forward':
-        break
+        return genForwardNode()
       case 'notice':
         return genNoticeNode()
     }
@@ -243,6 +247,45 @@ const Message: React.SFC = () => {
         }
       </ul>
     )
+  }
+
+  function genForwardNode () {
+    return (
+      <ul>
+        {
+          forwords.map((forword) => (
+            <li styleName="message-forward-item">
+              <img styleName="forward-avatar" src={forword.comment.user.avatarUrl + '?param=100y100'} alt=""/>
+              <div styleName="forward-info-wrap">
+                <div styleName="forward-info">
+                  <div styleName="forward-info-name" className="commen-link-blue">{forword.comment.user.nickname}</div>
+                  <div styleName="forward-info-time">{forword.timeFormat}</div>
+                </div>
+                <div styleName="forward-text">{forword.comment.content}</div>
+                <div styleName="forward-resource">
+                  {genForwardResource(forword.resource)}
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  function genForwardResource (resource: ForwordSource) {
+    switch (resource.type) {
+      case ForwordSourceType.PLAYLIST:
+        return <MessageSourcePlaylist playlist={resource.content}></MessageSourcePlaylist>
+      case ForwordSourceType.ALBUM:
+        return <MessageSourceAlbum album={resource.content}></MessageSourceAlbum>
+      case ForwordSourceType.SONG:
+        return <MessageSourceSong song={resource.content}></MessageSourceSong>
+      case ForwordSourceType.VIDEO:
+        return <MessageSourceVideo video={resource.content}></MessageSourceVideo>
+      case ForwordSourceType.MV:
+        return <MessageSourceMV mv={resource.content}></MessageSourceMV>
+    }
   }
 
   return (

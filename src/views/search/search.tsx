@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import './search.less'
 import api from 'API/index'
 import qs from 'qs'
@@ -11,7 +11,7 @@ import MusicList from 'COMPONENTS/music-list/music-list'
 import { ArtistBaseClass, createBaseArtistList } from 'UTIL/artist'
 import { AlbumBaseClass, createBaseAlbumList } from 'UTIL/album'
 import { VideoBaseClass, createBaseVideoList} from 'UTIL/video'
-import { PlaylistBaseClass, createBasePlaylist} from 'UTIL/playlist'
+import { PlaylistClass, createPlaylistList} from 'UTIL/playlist'
 import { DjBaseClass, createBaseDjList } from 'UTIL/dj'
 import { UserBaseClass, createBaseUserList } from 'UTIL/user'
 import { useSongContextMenu } from 'UTIL/menu'
@@ -19,6 +19,7 @@ import { usePlayerController } from 'UTIL/player-controller'
 import Pagination from 'COMPONENTS/pagination/pagination'
 import { usePageForword } from 'ROUTER/hooks'
 import Icon from 'COMPONENTS/icon/icon'
+import { genArtists } from 'VIEWS/template/template'
 
 enum TabType {
   SONG = 'song',
@@ -51,9 +52,9 @@ interface VideoResult {
   result: VideoBaseClass[]
 }
 
-interface PlaylistSTResult {
+interface PlaylistResult {
   tab: TabType.PLAYLIST
-  result: PlaylistBaseClass[]
+  result: PlaylistClass[]
 }
 
 interface LyricResult {
@@ -104,8 +105,8 @@ const SEARCH_TAB_LIMIT_MAP = {
   [TabType.USER]: 20
 }
 
-type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistSTResult | LyricResult | DjResult | UserResult
-type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[] | PlaylistBaseClass[] | DjBaseClass[] | UserBaseClass[]
+type SearchResult = SongResult | ArtistResult | AlbumResult | VideoResult | PlaylistResult | LyricResult | DjResult | UserResult
+type ResultType = Song[] | ArtistBaseClass[] | AlbumBaseClass[] | VideoBaseClass[] | PlaylistClass[] | DjBaseClass[] | UserBaseClass[]
 
 enum URLQueryStringKey {
   TAB = 'tab',
@@ -125,7 +126,7 @@ const Search: React.SFC = () => {
   const { getSongMenu } = useSongContextMenu()
   const { start } = usePlayerController()
   const [currentPage, setCurrentPage] = useState(1)
-  const { goArtistDetail, goUserDetail, goPlaylistDetail, goVideoDetail } = usePageForword()
+  const { goArtistDetail, goAlbumDetail, goUserDetail, goPlaylistDetail, goVideoDetail } = usePageForword()
 
   useEffect(() => {
     search()
@@ -183,7 +184,7 @@ const Search: React.SFC = () => {
         setTotal(res.data.result.videoCount)
         break
       case TabType.PLAYLIST:
-        setResult(createBasePlaylist(fixResult(res.data.result.playlists)))
+        setResult(createPlaylistList(fixResult(res.data.result.playlists)))
         setTotal(res.data.result.playlistCount)
         break
       case TabType.DJ:
@@ -245,10 +246,10 @@ const Search: React.SFC = () => {
       <div styleName="search-content">
         {
           artists.map(artist => (
-            <div key={artist.id} styleName="artist-item">
+            <div key={artist.id} className="commen-item-artist">
               <img onClick={ () => { goArtistDetail(artist.id) } } src={artist.img1v1Url + '?param=250y250'} alt=""/>
-              <div styleName="artist-item-info">
-                <span>{artist.name}</span>
+              <div className="commen-item-artist-info">
+                <span className="commen-link-333333 active">{artist.name}</span>
                 { artist.accountId && <Icon onClick={ (e) => { e.stopPropagation(); goUserDetail(artist.accountId) } } name="icon-user"></Icon>}
               </div>
             </div>
@@ -260,16 +261,21 @@ const Search: React.SFC = () => {
 
   function genSearchAlbumContent (albums: AlbumBaseClass[]) {
     return (
-      <ul>
-        {
-          albums.map(album => (
-            <li styleName="search-artist-item" key={album.id}>
-              <img styleName="search-artist-item-avatar" src={album.picUrl + '?param=100y100'} alt=""/>
-              <span>{album.name}</span>
-            </li>
-          ))
-        }
-      </ul>
+      <div styleName="search-content">
+        <div className="commen-area-content">
+          {
+            albums.map(album => (
+              <div onClick={() => goAlbumDetail(album.id) } className={`commen-area-item commen-item-album`}>
+                <div className="commen-area-img-wrap">
+                  <img className="commen-area-img" src={album.picUrl +'?param=250y250'} alt=""/>
+                </div>
+                <div className="commen-area-text line-more">{album.name}</div>
+                <div className="commen-area-artist">{ genArtists(album.artists, goArtistDetail, 'commen-link-666666')}</div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
     )
   }
 
@@ -293,21 +299,20 @@ const Search: React.SFC = () => {
     )
   }
 
-  function genSearchPlaylistContent (playlists: PlaylistBaseClass[]) {
+  function genSearchPlaylistContent (playlists: PlaylistClass[]) {
     return (
       <div styleName="search-content">
-        { playlists.map((item) => (
-            <div onClick={() => { goPlaylistDetail(item.id) }} key={item.id} className="commen-area-item commen-area-item-album">
+        { playlists.map(playlist => (
+            <div onClick={() => goPlaylistDetail(playlist.id, playlist) } className={`commen-area-item commen-area-item-playlist-130`}>
               <div className="commen-area-img-wrap">
-                <img src={item.coverImgUrl +'?param=150y150'} alt=""/>
-                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>
-                {/* <div className="commen-area-play-icon"><i className="iconfont icon-triangle-full"></i></div> */}
-                <div onClick={(e) => { e.stopPropagation(); goUserDetail(item.creator.userId) }} className="commen-area-user"><Icon name="icon-user"></Icon>{item.creator.nickname}</div>
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{playlist.playCount_string}</div>
+                <img className="commen-area-img" src={playlist.coverImgUrl+'?param=250y250'} alt=""/>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
+                <div className="commen-area-user" onClick={(e) => { e.stopPropagation(); goUserDetail(playlist.creator.userId) }}><Icon name="icon-user"></Icon>{playlist.creator.nickname}</div>
               </div>
-              <div className="commen-area-text">{item.name}</div>
+              <div className="commen-area-text line-more">{playlist.name}</div>
             </div>
-          ))
-        }
+          ))}
       </div>
     )
   }

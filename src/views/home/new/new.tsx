@@ -33,7 +33,7 @@ let limit = 50
 const New: React.SFC = () => {
   const [tab, setTab] = useState('song')
   const [song, setSong] = useState<Song[]>([])
-  const [album, setAlbum] = useState<AlbumBaseClass[]>([])
+  const [albums, setAlbums] = useState<AlbumBaseClass[]>([])
   const [type, setType] = useState('0')
   const [loading, setLoading] = useState(true)
   const { goArtistDetail, goAlbumDetail } = usePageForword()
@@ -92,7 +92,7 @@ const New: React.SFC = () => {
         limit
       }
       const res = await api.getNewAlbum(params)
-      setAlbum(createBaseAlbumList(res.data.albums))
+      setAlbums(createBaseAlbumList(res.data.albums))
       setTotal(res.data.total)
       setLoading(false)
     } catch (e) {}
@@ -128,15 +128,15 @@ const New: React.SFC = () => {
   function genAlbumContent () {
     return (
       <div styleName="new-album-container">
-        <div styleName="newalbum">
+        <div className="commen-area-content">
           {
-            album.map(item => (
-              <div key={item.id} className="commen-area-item commen-area-item-album">
+            albums.map(album => (
+              <div key={album.id} onClick={() => goAlbumDetail(album.id) } className={`commen-area-item commen-item-album`}>
                 <div className="commen-area-img-wrap">
-                  <img src={item.picUrl + '?param=200y200'} alt=""/>
+                  <img className="commen-area-img" src={album.picUrl +'?param=250y250'} alt=""/>
                 </div>
-                <div className="commen-area-text">{item.name}</div>
-                <div className="commen-area-artist">{item.artistName}</div>
+                <div className="commen-area-text line-more">{album.name}</div>
+                <div className="commen-area-artist">{ genArtists(album.artists, goArtistDetail, 'commen-link-666666')}</div>
               </div>
             ))
           }

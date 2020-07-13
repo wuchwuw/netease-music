@@ -201,9 +201,6 @@ export default function Player () {
         </div>
         <audio ref={audioRef} id="player-audio" onTimeUpdate={onTimeUpdate} onEnded={onEnd}></audio>
       </div>
-      <CSSTransition in={fullScreen} timeout={500} unmountOnExit classNames="player-slider">
-        <FullScreenPlayer></FullScreenPlayer>
-      </CSSTransition>
     </>
   )
 }

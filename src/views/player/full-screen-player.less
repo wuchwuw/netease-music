@@ -1,10 +1,11 @@
+@import '~STYLE/var.less';
 .player {
   position: fixed;
   top: 50px;
   bottom: 60px;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: @fullScreenPlayer-zindex;
   background: var(--topbar-background);
   overflow-y: auto;
   overflow-x: hidden;

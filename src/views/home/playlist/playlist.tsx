@@ -172,7 +172,7 @@ const HomeAlbum: React.SFC = () => {
       </div>
       <div className="commen-area-content">
         { top.map((item) => (
-            <div onClick={() => { goPlaylistDetail(item.id, item) }} key={item.id} className="commen-area-item commen-area-item-playlist">
+            <div onClick={() => { goPlaylistDetail(item.id, item) }} key={item.id} className="commen-area-item commen-area-item-playlist-170">
               <div className="commen-area-img-wrap">
                 <img src={item.coverImgUrl} alt=""/>
                 <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{item.playCount_string}</div>

@@ -113,14 +113,7 @@
     }
   }
 
-  .commen-area-item-small {
-    width: 170px;
-    img {
-      width: 170px;
-      height: 95px;
-    }
-  }
-
+  // video
   .commen-area-item-170x95 {
     width: 170px;
     img {
@@ -128,7 +121,7 @@
       height: 95px;
     }
   }
-
+  // video
   .commen-area-item-large {
     width: 230px;
     img {
@@ -165,18 +158,46 @@
     }
   }
 
-  .commen-area-item-playlist {
-    width: 170px;
-    img {
-      width: 170px;
-      height: 170px;
+  .commen-item-artist {
+    margin: 0 10px 40px 10px;
+    width: 133px;
+    > img {
+      height: 133px;
+      width: 133px;
+      border-radius: 5px;
+      cursor: pointer;
+      background: var(--default-background);
     }
-    .commen-area-play-icon {
-      height: 30px;
-      width: 30px;
-      top: 130px;
-      left: 130px;
-      transform: none;
+    .commen-item-artist-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      > span {
+        font-size: 14px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      i {
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        line-height: 16px;
+        text-align: center;
+        font-size: 11px;
+        border-radius: 50%;
+        background: var(--main-color);
+        color: #FFFFFF;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .commen-item-album {
+    width: 130px;
+    img {
+      height: 130px;
+      width: 130px;
     }
   }
 }

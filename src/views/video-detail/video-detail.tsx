@@ -85,7 +85,7 @@ const VideoDetail = () => {
             <video onCanPlay={onVideoCanPlay} controls id="video" src={url}></video>
           </div>
           <div styleName="video-detail-user">
-            <img src={video.creator.avatarUrl + '?params=100y100'} alt=""/>
+            <img src={video.creator.avatarUrl + '?param=100y100'} alt=""/>
             <span className="commen-link-333333 active">{video.creator.nickname}</span>
           </div>
           <div styleName="video-detail-info-title">{video.title}</div>

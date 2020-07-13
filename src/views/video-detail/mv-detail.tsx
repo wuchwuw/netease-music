@@ -68,7 +68,7 @@ const VideoDetail = () => {
       }))
     } catch (e) { console.log(e) }
   }
-  
+
   async function sub () {
     try {
       const params = {
@@ -96,7 +96,7 @@ const VideoDetail = () => {
             <video controls id="video" src={url}></video>
           </div>
           <div styleName="video-detail-user">
-            <img src={mv.artists[0].img1v1Url + '?params=100y100'} alt=""/>
+            <img src={mv.artists[0].img1v1Url + '?param=100y100'} alt=""/>
             <span className="commen-link-333333 active">{mv.artists[0].name}</span>
           </div>
           <div styleName="video-detail-info-title">{mv.name}</div>

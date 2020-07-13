@@ -294,12 +294,13 @@ const Artist = () => {
     return (
       <div className="commen-area-content">
         {
-          simi.map(item => (
-            <div key={item.id} className="commen-area-item commen-area-item-album">
-              <div onClick={() => { goArtistDetail(item.id) }} className="commen-area-img-wrap">
-                <img src={item.img1v1Url + '?param=200y200'} alt=""/>
+          simi.map(artist => (
+            <div key={artist.id} className="commen-item-artist">
+              <img onClick={ () => { goArtistDetail(artist.id) } } src={artist.img1v1Url + '?param=250y250'} alt=""/>
+              <div className="commen-item-artist-info">
+                <span className="commen-link-333333 active">{artist.name}</span>
+                { artist.accountId && <Icon onClick={ (e) => { e.stopPropagation(); goUserDetail(artist.accountId) } } name="icon-user"></Icon>}
               </div>
-              <div onClick={() => { goArtistDetail(item.id) }} className="commen-area-text">{item.name}</div>
             </div>
           ))
         }

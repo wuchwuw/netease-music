@@ -1,0 +1,75 @@
+.message-default {
+  display: flex;
+  padding: 10px;
+  background: var(--default-background);
+  border-radius: 5px;
+  &:hover {
+    background: var(--default-background-deep);
+  }
+  &.deep {
+    background: var(--default-background-deep);
+  }
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+  }
+  .message-default-info {
+    flex: 1;
+    width: 0;
+    font-size: 13px;
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:last-child {
+        color: var(--text-9);
+        margin-top: 8px;
+      }
+    }
+  }
+  .message-default-info-tag {
+    display: inline-block;
+    font-size: 11px;
+    border: 1px solid var(--main-color);
+    padding: 2px;
+    color: var(--main-color);
+    transform: scale(0.8);
+  }
+}
+.message-default-title {}
+.message-default-user {}
+
+.message-video {
+  position: relative;
+}
+.message-video-cover {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+.message-video-name {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  color: #FFFFFF;
+  padding: 0 5px;
+  line-height: 1.4;
+  font-size: 12px;
+}
+.message-video-info {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  color: #FFFFFF;
+  padding: 0 5px;
+  font-size: 12px;
+}

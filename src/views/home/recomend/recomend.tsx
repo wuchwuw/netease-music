@@ -11,7 +11,6 @@ import { usePageForword } from 'ROUTER/hooks'
 import { padZero } from 'UTIL/util'
 import { usePlayerController } from 'UTIL/player-controller'
 import Icon from 'COMPONENTS/icon/icon'
-import { CommenPlaylistVertical } from 'COMPONENTS/commen/playlist'
 
 let loaded = false
 let bannersCache: ImageItem[] = []
@@ -78,12 +77,15 @@ const HomeRecomend = () => {
             </div>
             <div className="commen-area-text line-more" onClick={ goDaily }>每日歌曲推荐</div>
           </div>
-          { playlistRecomend.map(item => (
-            <CommenPlaylistVertical
-              playlist={item}
-              goPlaylistDetail={() => {goPlaylistDetail(item.id, item)}}
-            >
-            </CommenPlaylistVertical>
+          { playlistRecomend.map(playlist => (
+            <div onClick={() => goPlaylistDetail(playlist.id, playlist) } className={`commen-area-item commen-area-item-playlist-130`}>
+              <div className="commen-area-img-wrap">
+                <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{playlist.playCount_string}</div>
+                <img className="commen-area-img" src={playlist.coverImgUrl+'?param=250y250'} alt=""/>
+                <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
+              </div>
+              <div className="commen-area-text line-more">{playlist.name}</div>
+            </div>
           ))}
         </div>
       </div>

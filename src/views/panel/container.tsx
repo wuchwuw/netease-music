@@ -39,7 +39,6 @@ const PanelContainer: React.SFC = (props) => {
   ]
 
   function genPanelNode (type: PanelType) {
-    // return <CurrentPlaylist></CurrentPlaylist>
     switch (type) {
       case PanelType.Search:
         return <Search></Search>
@@ -55,7 +54,8 @@ const PanelContainer: React.SFC = (props) => {
   }
 
   function onCurrentPlaylistClick (e: MouseEvent) {
-    const isContain = nodeList.some(value => {
+    const node = nodeList.filter(item => item)
+    const isContain = node.some(value => {
       return value!.contains((e.target as Node))
     })
     if (isContain) return

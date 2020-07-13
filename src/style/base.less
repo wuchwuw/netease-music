@@ -1,3 +1,5 @@
+@import '~STYLE/var.less';
+
 :global {
   * {
     box-sizing: border-box;
@@ -44,7 +46,7 @@
     left: 0;
     right: 0;
     background: var(--topbar-background);
-    z-index: 2;
+    z-index: @top-zindex;
   }
 
   .main {
@@ -74,8 +76,11 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: @bottom-zindex;
     background: var(--main-background);
+    &.hide {
+      z-index: 0;
+    }
   }
 
   .container {

@@ -5,8 +5,14 @@ import { Album, createAlbum } from "./album"
 import Song, { createSong } from "./song"
 import Comment from './comment'
 import dayjs from "dayjs"
+import { ActivityClassType, cretaeActicity } from "./activity"
 
-export enum ForwordSourceType {
+export enum ForwardType {
+  EVENT = 1,
+  COMMENT = 3
+}
+
+export enum ForwardSourceType {
   SONG = 4,
   PLAYLIST = 0,
   ALBUM = 3,
@@ -15,77 +21,104 @@ export enum ForwordSourceType {
   DEFAULT = -1
 }
 
-interface ForwordSongSource {
-  type: ForwordSourceType.SONG
+interface ForwardSongSource {
+  type: ForwardSourceType.SONG
   content: Song
 }
-interface ForwordPlaylistSource {
-  type: ForwordSourceType.PLAYLIST
+interface ForwardPlaylistSource {
+  type: ForwardSourceType.PLAYLIST
   content: PlaylistClass
 }
-interface ForwordVideoSource {
-  type: ForwordSourceType.VIDEO
+interface ForwardVideoSource {
+  type: ForwardSourceType.VIDEO
   content: Video
 }
-interface ForwordAlbumSource {
-  type: ForwordSourceType.ALBUM
+interface ForwardAlbumSource {
+  type: ForwardSourceType.ALBUM
   content: Album
 }
-interface ForwordMVSource {
-  type: ForwordSourceType.MV
+interface ForwardMVSource {
+  type: ForwardSourceType.MV
   content: MV
 }
-interface ForwordDefaultSource {
-  type: ForwordSourceType.DEFAULT
-  content: {}
+interface ForwardDefaultSource {
+  type: ForwardSourceType.DEFAULT
+  content: null
 }
 
-export type ForwordSource =
-  ForwordSongSource |
-  ForwordPlaylistSource |
-  ForwordVideoSource |
-  ForwordAlbumSource |
-  ForwordMVSource |
-  ForwordDefaultSource
+export type ForwardSource = Song | PlaylistClass | Video | Album | MV | null
+export type ForwardSourceContentType = ForwardSongSource | ForwardPlaylistSource | ForwardVideoSource | ForwardMVSource | ForwardAlbumSource | ForwardDefaultSource
+export type ForwardClassType = ForwardComment | ForwardEvent
 
-class Forward {
-  type: number
-  resource: ForwordSource
-  comment: Comment
+export default class Forward {
+  id: number
+  userId: number
   time: number
-  constructor ({ type, json, time }: any) {
-    const resource = JSON.parse(json)
-    this.resource = createForwardSource(resource.resourceType, resource.resource)
-    this.comment = new Comment(resource.comment)
-    this.type = type
+  constructor ({ id, userId, time }: any) {
     this.time = time
+    this.id = id
+    this.userId = userId
   }
   get timeFormat () {
     return this.time ? dayjs(this.time).format('YYYY年MM月DD日 HH:MM') : ''
   }
 }
 
-function createForwardSource (resourceType: number, rsource: any): ForwordSource {
-  switch (resourceType) {
-    case ForwordSourceType.SONG:
-      return { type: resourceType, content: createSong(rsource) }
-    case ForwordSourceType.PLAYLIST:
-      return { type: resourceType, content: createPlaylist(rsource) }
-    case ForwordSourceType.ALBUM:
-      return { type: resourceType, content: createAlbum(rsource) }
-    case ForwordSourceType.VIDEO:
-      return { type: resourceType, content: createVideo(rsource) }
-    case ForwordSourceType.MV:
-      return { type: resourceType, content: createMV(rsource) }
-    default:
-      return { type: resourceType, content: {} }
+export class ForwardComment extends Forward {
+  resource: ForwardSourceContentType
+  comment: Comment
+  type: ForwardType.COMMENT
+  constructor ({ id, userId, type, json, time }: any) {
+    super({ id, userId, time})
+    const resource = JSON.parse(json)
+    this.resource = {
+      type: resource.resourceType,
+      content: createForwardSource(resource.resourceType, resource.resource)
+    }
+    this.comment = new Comment(resource.comment)
+    this.type = type
   }
 }
 
-export function createForwardList (data: any) {
-  return data.map((item: any) => (
-    new Forward(item)
-  ))
+export class ForwardEvent extends Forward {
+  type: ForwardType.EVENT
+  event: ActivityClassType
+  constructor ({ id, userId, type, json, time }: any) {
+    super({ id, userId, time})
+    const resource = JSON.parse(json)
+    this.event = cretaeActicity(resource)
+    this.type = type
+  }
 }
 
-export default Forward
+function createForwardSource (resourceType: number, rsource: any): ForwardSource {
+  switch (resourceType) {
+    case ForwardSourceType.SONG:
+      return createSong(rsource)
+    case ForwardSourceType.PLAYLIST:
+      return createPlaylist(rsource)
+    case ForwardSourceType.ALBUM:
+      return createAlbum(rsource)
+    case ForwardSourceType.VIDEO:
+      return createVideo(rsource)
+    case ForwardSourceType.MV:
+      return createMV(rsource)
+    default:
+      return null
+  }
+}
+
+export function createForward (data: any) {
+  switch (data.type) {
+    case ForwardType.COMMENT:
+      return new ForwardComment(data)
+    case ForwardType.EVENT:
+      return new ForwardEvent(data)
+  }
+}
+
+export function createForwardList (data: any): ForwardClassType[] {
+  return data.map((item: any) => (
+    createForward(item)
+  ))
+}

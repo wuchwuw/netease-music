@@ -9,7 +9,7 @@ import { RootState } from 'STORE/index'
 import { useSelector } from 'react-redux'
 import User from 'UTIL/user'
 import LoadMore from 'COMPONENTS/load-more/load-more'
-import Forward, { createForwardList, ForwordSource, ForwordSourceType } from 'UTIL/forword'
+import Forward, { createForwardList, ForwardSourceType, ForwardSourceContentType, ForwardType, ForwardClassType, ForwardComment } from 'UTIL/forword'
 import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
 
 interface Message {
@@ -86,7 +86,7 @@ const Message: React.SFC = () => {
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState<Message[]>([])
   const [comment, setComment] = useState<Comment[]>([])
-  const [forwords, setForwords] = useState<Forward[]>([])
+  const [forwords, setForwords] = useState<ForwardClassType[]>([])
   const [notice, setNotice] = useState([])
   const user = useSelector((state: RootState) => state.user.user)
 
@@ -236,7 +236,7 @@ const Message: React.SFC = () => {
                 <img styleName="panel-message-avatar" src={notice.user.avatarUrl + '?param=100y100'} alt=""/>
                 <div styleName="panel-message-info">
                   <div styleName="panel-message-name">
-                    <span>{notice.user.nickname}{notice.msg}</span>
+                    <span className="text-overflow"><span className="commen-link-blue">{notice.user.nickname}</span>{notice.msg}</span>
                     <span>{notice.time}</span>
                   </div>
                   <div styleName="panel-message-msg">{notice.content}</div>
@@ -253,40 +253,52 @@ const Message: React.SFC = () => {
     return (
       <ul>
         {
-          forwords.map((forword) => (
-            <li styleName="message-forward-item">
-              <img styleName="forward-avatar" src={forword.comment.user.avatarUrl + '?param=100y100'} alt=""/>
-              <div styleName="forward-info-wrap">
-                <div styleName="forward-info">
-                  <div styleName="forward-info-name" className="commen-link-blue">{forword.comment.user.nickname}</div>
-                  <div styleName="forward-info-time">{forword.timeFormat}</div>
-                </div>
-                <div styleName="forward-text">{forword.comment.content}</div>
-                <div styleName="forward-resource">
-                  {genForwardResource(forword.resource)}
-                </div>
-              </div>
-            </li>
-          ))
+          forwords.map(forword => {
+            if (forword.type === ForwardType.COMMENT) {
+              return genForwardCommentNode(forword)
+            } else if (forword.type === ForwardType.EVENT) {
+              return genForwardEventNode(forword)
+            }
+          })
         }
       </ul>
     )
   }
 
-  function genForwardResource (resource: ForwordSource) {
+  function genForwardCommentNode (forward: ForwardComment) {
+    return (
+      <li styleName="message-forward-item">
+        <img styleName="forward-avatar" src={forward.comment.user.avatarUrl + '?param=100y100'} alt=""/>
+        <div styleName="forward-info-wrap">
+          <div styleName="forward-info">
+            <div styleName="forward-info-name" className="commen-link-blue">{forward.comment.user.nickname}</div>
+            <div styleName="forward-info-time">{forward.timeFormat}</div>
+          </div>
+          <div styleName="forward-text">{forward.comment.content}</div>
+          <div styleName="forward-resource">
+            {genForwardResource(forward.resource)}
+          </div>
+        </div>
+      </li>
+    )
+  }
+
+  function genForwardResource (resource: ForwardSourceContentType) {
     switch (resource.type) {
-      case ForwordSourceType.PLAYLIST:
+      case ForwardSourceType.PLAYLIST:
         return <MessageSourcePlaylist playlist={resource.content}></MessageSourcePlaylist>
-      case ForwordSourceType.ALBUM:
+      case ForwardSourceType.ALBUM:
         return <MessageSourceAlbum album={resource.content}></MessageSourceAlbum>
-      case ForwordSourceType.SONG:
+      case ForwardSourceType.SONG:
         return <MessageSourceSong song={resource.content}></MessageSourceSong>
-      case ForwordSourceType.VIDEO:
+      case ForwardSourceType.VIDEO:
         return <MessageSourceVideo video={resource.content}></MessageSourceVideo>
-      case ForwordSourceType.MV:
+      case ForwardSourceType.MV:
         return <MessageSourceMV mv={resource.content}></MessageSourceMV>
     }
   }
+
+  function genForwardEventNode () {}
 
   return (
     <div styleName="message-panel-container">

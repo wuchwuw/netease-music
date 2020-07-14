@@ -36,7 +36,8 @@ const FM = () => {
   }
 
   function handleFMCoverClick (type: FMType) {
-    if (type === 'prev') {
+    const prev = fmScreenMusicList.find(item => item.type === 'prev')!
+    if (type === 'prev' && prev.song.id) {
       fmPrev()
     }
   }

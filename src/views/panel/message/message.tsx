@@ -9,8 +9,9 @@ import { RootState } from 'STORE/index'
 import { useSelector } from 'react-redux'
 import User from 'UTIL/user'
 import LoadMore from 'COMPONENTS/load-more/load-more'
-import Forward, { createForwardList, ForwardSourceType, ForwardSourceContentType, ForwardType, ForwardClassType, ForwardComment } from 'UTIL/forword'
+import Forward, { createForwardList, ForwardSourceType, ForwardSourceContentType, ForwardType, ForwardClassType, ForwardComment, ForwardEvent } from 'UTIL/forword'
 import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
+import { ActivityClassType, ActivityType } from 'UTIL/activity'
 
 interface Message {
   fromUser: User
@@ -283,22 +284,48 @@ const Message: React.SFC = () => {
     )
   }
 
-  function genForwardResource (resource: ForwardSourceContentType) {
+  function genForwardResource (resource: ForwardSourceContentType | ActivityClassType) {
     switch (resource.type) {
       case ForwardSourceType.PLAYLIST:
+      case ActivityType.PLAYLIST:
         return <MessageSourcePlaylist playlist={resource.content}></MessageSourcePlaylist>
       case ForwardSourceType.ALBUM:
+      case ActivityType.Album:
         return <MessageSourceAlbum album={resource.content}></MessageSourceAlbum>
       case ForwardSourceType.SONG:
+      case ActivityType.Song:
         return <MessageSourceSong song={resource.content}></MessageSourceSong>
       case ForwardSourceType.VIDEO:
+      case ActivityType.Video:
         return <MessageSourceVideo video={resource.content}></MessageSourceVideo>
       case ForwardSourceType.MV:
+      case ActivityType.MV:
         return <MessageSourceMV mv={resource.content}></MessageSourceMV>
+      case ActivityType.Forword:
+        return <div>
+          <div><span>{'@' + resource.content.user.nickname}</span>{resource.content.activityText + ': ' + resource.content.message}</div>
+          <div>{genForwardResource(resource.content)}</div>
+        </div>
     }
   }
 
-  function genForwardEventNode () {}
+  function genForwardEventNode (forward: ForwardEvent) {
+    return (
+      <li styleName="message-forward-item">
+        <img styleName="forward-avatar" src={forward.event.user.avatarUrl + '?param=100y100'} alt=""/>
+        <div styleName="forward-info-wrap">
+          <div styleName="forward-info">
+            <div styleName="forward-info-name" className="commen-link-blue">{forward.event.user.nickname}</div>
+            <div styleName="forward-info-time">{forward.timeFormat}</div>
+          </div>
+          <div styleName="forward-text">{forward.event.message}</div>
+          <div styleName="forward-resource">
+            {genForwardResource(forward.event)}
+          </div>
+        </div>
+      </li>
+    )
+  }
 
   return (
     <div styleName="message-panel-container">

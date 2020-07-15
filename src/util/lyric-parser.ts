@@ -109,9 +109,9 @@ export default class Lyric {
     //   }
     // }
 
-    // this.lines.sort((a, b) => {
-    //   return a.time - b.time
-    // })
+    this.lines.sort((a, b) => {
+      return a.time - b.time
+    })
   }
 
   _findCurNum(time: number) {

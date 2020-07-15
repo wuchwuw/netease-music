@@ -50,7 +50,7 @@ const Playlist = () => {
   const isEmpty = useMemo(() => playlist.trackCount === 0, [playlist.trackCount])
   const isPersonal = useMemo(() => isUserPlaylist(playlist.id), [playlist.id])
   const isOrigin = useMemo(() => isMyFavotitePlaylist(playlist.id), [playlist.id])
-  const [trackloading, setTrackLoading] = useState(true)
+  const [trackloading, setTrackLoading] = useState(tracksDefault.length === 0)
   const openShareDialog = createShareDialog()
   const time = useRef(0)
 
@@ -75,6 +75,7 @@ const Playlist = () => {
 
   useEffect(() => {
     setPlaylist(playlistDefault)
+    console.log(tracksDefault)
     if (tracksDefault.length) {
       setTracks(tracksDefault)
     } else {

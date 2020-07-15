@@ -30,7 +30,11 @@ export const light = {
   '--default-background': '#F5F5F5',
   '--default-background-deep': '#EDEDED',
   '--color-white': '#FFFFFF',
-  '--context-menu-background': '#F0F2F1'
+  '--context-menu-background': '#F0F2F1',
+
+  /* tab */
+  '--tab-background': '#BBBBBB',
+  '--tab-background-hover': '#F8F5F5'
 }
 
 export const dark = {
@@ -66,7 +70,11 @@ export const dark = {
   '--default-background': '#2F2F2F',
   '--default-background-deep': '#3C3C3C',
   '--color-white': '#252525',
-  '--context-menu-background': '#333333'
+  '--context-menu-background': '#333333',
+
+  /* tab */
+  '--tab-background': '#666666',
+  '--tab-background-hover': '#3F3F3F'
 }
 
 const TYPE_MAP = {

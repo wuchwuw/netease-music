@@ -5,7 +5,7 @@ import Loading from 'COMPONENTS/loading/loading'
 interface SpinProps {
   children: React.ReactNode
   loading: boolean
-  delay: number
+  delay?: number
 }
 
 const Spin: React.SFC<SpinProps> = (props) => {

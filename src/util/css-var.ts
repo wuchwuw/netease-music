@@ -1,7 +1,6 @@
 export const light = {
   '--main-color': '#D33931',
   '--main-background': '#FFFFFF',
-  '--main-background-deep': '#FFFFFF',
   /* topbar */
   '--topbar-background': '#F9F9F9',
   '--topbar-search': '#EDEDED',
@@ -27,6 +26,7 @@ export const light = {
   /* commen */
   '--border': '#F3F3F3',
   '--border-deep': '#D9D9D9',
+  '--default-background-light': 'rbga(245, 245, 245, .4)',
   '--default-background': '#F5F5F5',
   '--default-background-deep': '#EDEDED',
   '--color-white': '#FFFFFF',
@@ -34,13 +34,15 @@ export const light = {
 
   /* tab */
   '--tab-background': '#BBBBBB',
-  '--tab-background-hover': '#F8F5F5'
+  '--tab-background-hover': '#F8F5F5',
+
+  // panel
+  '--panel-background': '#FFFFFF',
 }
 
 export const dark = {
   '--main-color': '#D33931',
   '--main-background': '#252525',
-  '--main-background-deep': '#363636',
   /* topbar */
   '--topbar-background': '#2A2A2A',
   '--topbar-search': '#4C4C4C',
@@ -67,6 +69,7 @@ export const dark = {
   /* border */
   '--border': '#313131',
   '--border-deep': '#454545',
+  '--default-background-light': 'rgba(0, 0, 0, .1)',
   '--default-background': '#2F2F2F',
   '--default-background-deep': '#3C3C3C',
   '--color-white': '#252525',
@@ -74,7 +77,10 @@ export const dark = {
 
   /* tab */
   '--tab-background': '#666666',
-  '--tab-background-hover': '#3F3F3F'
+  '--tab-background-hover': '#3F3F3F',
+
+  // panel
+  '--panel-background': '#363636',
 }
 
 const TYPE_MAP = {

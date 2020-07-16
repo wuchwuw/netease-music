@@ -302,10 +302,12 @@ const Message: React.SFC = () => {
       case ActivityType.MV:
         return <MessageSourceMV mv={resource.content}></MessageSourceMV>
       case ActivityType.Forword:
-        return <div>
-          <div><span>{'@' + resource.content.user.nickname}</span>{resource.content.activityText + ': ' + resource.content.message}</div>
-          <div>{genForwardResource(resource.content)}</div>
-        </div>
+        return (
+          <div styleName="forward-activity-forward">
+            <div styleName="forward-activity-forward-text"><span>{'@' + resource.content.user.nickname}</span>{resource.content.activityText + ': ' + resource.content.message}</div>
+            <div styleName="forward-activity-forward-content">{genForwardResource(resource.content)}</div>
+          </div>
+        )
     }
   }
 

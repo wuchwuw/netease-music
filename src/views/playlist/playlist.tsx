@@ -75,7 +75,6 @@ const Playlist = () => {
 
   useEffect(() => {
     setPlaylist(playlistDefault)
-    console.log(tracksDefault)
     if (tracksDefault.length) {
       setTracks(tracksDefault)
     } else {
@@ -108,9 +107,7 @@ const Playlist = () => {
     } catch (e) {}
   }
 
-  function updatePlaylist () {
-    // getPlaylist()
-  }
+  function updatePlaylist () {}
 
   async function follow () {
     if (isPersonal) return

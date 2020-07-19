@@ -27,6 +27,7 @@ export default class Lyric {
   handler: () => void
   state: number
   curLine: number
+  isPure: boolean
   constructor({ lrc = null, tlyric = null } : any, hanlder: (currentLineIndex: number ) => void = noop) {
     this.lrc = lrc.lyric
     this.tlrc = tlyric.lyric

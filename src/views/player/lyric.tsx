@@ -72,7 +72,6 @@ const Lyric: React.SFC<LyricProps> = ({
   }
 
   function initHeight () {
-    console.log(list.current)
     let height = 0
     list.current.forEach((item, index) => {
       if (item) {
@@ -80,7 +79,6 @@ const Lyric: React.SFC<LyricProps> = ({
         height += (item.clientHeight + 16)
       }
     })
-    console.log(lyricHeightCache.current)
   }
 
   function handler (currentLineIndex: number) {

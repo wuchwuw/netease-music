@@ -26,7 +26,7 @@ export const light = {
   /* commen */
   '--border': '#F3F3F3',
   '--border-deep': '#D9D9D9',
-  '--default-background-light': 'rbga(245, 245, 245, .4)',
+  '--default-background-light': 'rgba(245, 245, 245, .4)',
   '--default-background': '#F5F5F5',
   '--default-background-deep': '#EDEDED',
   '--color-white': '#FFFFFF',
@@ -38,6 +38,11 @@ export const light = {
 
   // panel
   '--panel-background': '#FFFFFF',
+  '--panel-list-background' : '#FAFAFA',
+  '--panel-list-background-hover' : '#F2F2F2',
+
+  // input
+  '--input-background': '#FFFFFF'
 }
 
 export const dark = {
@@ -47,7 +52,7 @@ export const dark = {
   '--topbar-background': '#2A2A2A',
   '--topbar-search': '#4C4C4C',
   /* leftbar */
-  '--leftbar-background': '#2C2C2C',
+  '--leftbar-background': '#202020',
   '--leftbar-background-active': '#191919',
   /* bottombar */
   '--player-progress-default': '#232323',
@@ -69,7 +74,7 @@ export const dark = {
   /* border */
   '--border': '#313131',
   '--border-deep': '#454545',
-  '--default-background-light': 'rgba(0, 0, 0, .1)',
+  '--default-background-light': 'rgba(0, 0, 0, .2)',
   '--default-background': '#2F2F2F',
   '--default-background-deep': '#3C3C3C',
   '--color-white': '#252525',
@@ -81,6 +86,11 @@ export const dark = {
 
   // panel
   '--panel-background': '#363636',
+  '--panel-list-background' : '#3A3A3A',
+  '--panel-list-background-hover' : '#3E3E3E',
+
+  // input
+  '--input-background': '#343434'
 }
 
 const TYPE_MAP = {

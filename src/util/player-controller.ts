@@ -211,6 +211,7 @@ export function usePlayerController () {
       randomPlaylist = getShufflePlaylist(musiclistWidthSource)
       sourceIds = [source.id]
     } else {
+      if (!source.id) return
       if (getSongIndexInMusiclist(currentMusiclist, songWidthSource) === -1) {
         let insertIndex = getSongIndexInMusiclist(currentMusiclist, currentSong)
         currentMusiclist.splice(++insertIndex, 0, songWidthSource)

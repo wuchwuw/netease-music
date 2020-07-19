@@ -9,7 +9,7 @@ import { RootState } from 'STORE/index'
 import { useSelector } from 'react-redux'
 import User from 'UTIL/user'
 import LoadMore from 'COMPONENTS/load-more/load-more'
-import Forward, { createForwardList, ForwardSourceType, ForwardSourceContentType, ForwardType, ForwardClassType, ForwardComment, ForwardEvent } from 'UTIL/forword'
+import { createForwardList, ForwardSourceType, ForwardSourceContentType, ForwardType, ForwardClassType, ForwardComment, ForwardEvent } from 'UTIL/forword'
 import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
 import { ActivityClassType, ActivityType } from 'UTIL/activity'
 
@@ -91,15 +91,8 @@ const Message: React.SFC = () => {
   const [notice, setNotice] = useState([])
   const user = useSelector((state: RootState) => state.user.user)
 
-  const api_map = {
-    message: api.getPanelMessage,
-    comment: api.getPanelComments,
-    forward: api.getPanelForwards,
-    notice: api.getPanelNotices
-  }
-
   useEffect(() => {
-    getData()
+    getData(false)
     return () => {
       offset = 0
       lasttime = -1
@@ -109,46 +102,36 @@ const Message: React.SFC = () => {
     }
   }, [tab])
 
-  function getParams() {
-    if (tab === TabType.COMMENT) {
-      return {
-        limit,
-        before,
-        uid: user.userId
-      }
-    } else if (tab === TabType.NOTICE) {
-      return {
-        limit,
-        lasttime
-      }
-    } else {
-      return {
-        offset,
-        limit
-      }
+  function getApi () {
+    const api_map = {
+      message: () => api.getPanelMessage({ offset, limit }),
+      comment: () => api.getPanelComments({ uid: user.userId, limit, before }),
+      forward: () => api.getPanelForwards({ offset, limit }),
+      notice: () => api.getPanelNotices({ lasttime, limit })
     }
-   }
+    return api_map[tab]
+  }
 
-  async function getData () {
+  async function getData (loadmore: boolean) {
     try {
       moreLoading = true
-      const res = await api_map[tab](getParams())
+      const res = await getApi()()
       switch (tab) {
         case TabType.MESSAGE:
-          setMessage(message => message.concat(res.data.msgs))
+          setMessage(loadmore ? message => message.concat(res.data.msgs) : res.data.msgs)
           break
         case TabType.COMMENT:
           const commentLen = res.data.comments.length
           commentLen && (before = res.data.comments[commentLen - 1].time)
-          setComment(comment => comment.concat(res.data.comments))
+          setComment(loadmore ? comment => comment.concat(res.data.comments) : res.data.comments)
           break
         case TabType.FORWARD:
-          setForwords(createForwardList(res.data.forwards))
+          setForwords(loadmore ? forward => forward.concat(createForwardList(res.data.forwards)) : createForwardList(res.data.forwards))
           break
         case TabType.NOTICE:
           const noticeLen = res.data.notices.length
           noticeLen && (lasttime = res.data.notices[noticeLen - 1].time)
-          setNotice(notice => notice.concat(res.data.notices))
+          setNotice(loadmore ? notice => notice.concat(res.data.notices) : res.data.notices)
           break
       }
       hasmore = res.data.more
@@ -160,13 +143,13 @@ const Message: React.SFC = () => {
 
   function genNode () {
     switch (tab) {
-      case 'message':
+      case TabType.MESSAGE:
         return genMessageNode()
-      case 'comment':
+      case TabType.COMMENT:
         return genCommentNode()
-      case 'forward':
+      case TabType.FORWARD:
         return genForwardNode()
-      case 'notice':
+      case TabType.NOTICE:
         return genNoticeNode()
     }
   }
@@ -177,10 +160,11 @@ const Message: React.SFC = () => {
   }
 
   function load () {
+    console.log(111)
     if (moreLoading) return
     if (!hasmore) return
     offset = offset + limit
-    getData()
+    getData(true)
   }
 
   function genCommentNode () {
@@ -340,15 +324,15 @@ const Message: React.SFC = () => {
           ))
         }
       </div>
-      <div styleName="message-panel-content">
-        <LoadMore load={load}>
-          <Spin loading={loading} delay={0}>
-            {
-              !loading && genNode()
-            }
-          </Spin>
+        <LoadMore load={load} el="#message-panel-content">
+           <div id="message-panel-content" styleName="message-panel-content">
+            <Spin loading={loading} delay={0}>
+              {
+                !loading && genNode()
+              }
+            </Spin>
+          </div>
         </LoadMore>
-      </div>
     </div>
   )
 }

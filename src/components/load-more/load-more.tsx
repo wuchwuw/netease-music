@@ -3,13 +3,14 @@ import './load-more.less'
 
 interface LoadMoreProps {
   children: React.ReactNodeArray | React.ReactNode
+  el?: string | HTMLElement
   load: () => void
 }
 
-const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
+const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {}, el = '#loadmore-container' }) => {
 
   useEffect(() => {
-    const target = document.querySelector('#loadmore-container')
+    const target = typeof el === 'string' ? document.querySelector(el) : el
     function onScroll () {
       const scrollTop = window.pageYOffset
       || target!.scrollTop
@@ -21,8 +22,8 @@ const LoadMore: React.SFC<LoadMoreProps> = ({ children, load = () => {} }) => {
         load()
       }
     }
-    target!.addEventListener('scroll', onScroll)
-    return () => { target!.removeEventListener('scroll', onScroll) }
+    target && target.addEventListener('scroll', onScroll)
+    return () => { target && target.removeEventListener('scroll', onScroll) }
   })
 
   return <div id="loadmore-container" styleName="loadmore-container">{children}</div>

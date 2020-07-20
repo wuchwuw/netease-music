@@ -1,7 +1,6 @@
 const { resolve } = require('./util')
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
-// const isProd = process.env.NODE_ENV === 'production'
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = [
   // {
@@ -22,7 +21,7 @@ module.exports = [
   {
     test: /\.less$/,
     use: [
-      { loader: 'style-loader' },
+      { loader: isProd ? MiniCssExtractPlugin.loader : 'style-loader' },
       {
         loader: "css-loader",
         options: {
@@ -37,14 +36,6 @@ module.exports = [
       }
     ]
   },
-  // {
-  //   test: /\.less$/,
-  //   use: [
-  //     'style-loader',
-  //     'css-loader',
-  //     'less-loader'
-  //   ]
-  // },
   {
     test: /\.css$/,
     use: [
@@ -68,28 +59,4 @@ module.exports = [
       limit: 2000
     }
   }
-  // {
-  //   test: /\.styl$/,
-  //   use: [
-  //     isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-  //     'css-loader',
-  //     'stylus-loader'
-  //   ]
-  // },
-  // {
-  //   test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-  //   loader: 'url-loader',
-  //   options: {
-  //     limit: 1,
-  //     name: 'fonts/[name].[hash].[ext]'
-  //   }
-  // },
-  // {
-  //   test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-  //   loader: 'url-loader',
-  //   options: {
-  //     name: `images/[name].[hash].[ext]`,
-  //     limit: 2000
-  //   }
-  // }
 ]

@@ -21,50 +21,6 @@ let plugins = [
     template: resolve('public/index.html'),
     inject: true
   })
-  // new WorkboxPlugin.InjectManifest({
-  //   swSrc: resolve('sw.js'),
-  // }),
-  // new WorkboxPlugin.GenerateSW({
-  //   swDest: 'server-work.js',
-  //   // importWorkboxFrom: 'local',
-  //   skipWaiting: true,
-  //   runtimeCaching: [
-  //     {
-  //       urlPattern: /\.(js|css)$/,
-  //       handler: 'StaleWhileRevalidate',
-  //       options: {
-  //         cacheName: 'chunck'
-  //       }
-  //     },
-  //     {
-  //       urlPattern: /\.(html)$/,
-  //       handler: 'CacheFirst',
-  //       options: {
-  //         cacheName: 'page'
-  //       }
-  //     },
-  //     {
-  //       urlPattern: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-  //       handler: 'CacheFirst',
-  //       options: {
-  //         cacheName: 'fonts'
-  //       }
-  //     },
-  //     {
-  //       urlPattern: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-  //       handler: 'CacheFirst',
-  //       options: {
-  //         cacheName: 'images'
-  //       }
-  //     }
-  //   ]
-  // })
-  // new webpack.ProvidePlugin({
-  //   mapActions: ['vuex', 'mapActions'],
-  //   mapMutations: ['vuex', 'mapMutations'],
-  //   mapGetters: ['vuex', 'mapGetters'],
-  //   mapState: ['vuex', 'mapState']
-  // })
 ]
 
 // if (isProd) {

@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --config build/webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --progress --colors --config ./build/webpack.config.js",
     "commit": "git-cz"
   },
   "devDependencies": {

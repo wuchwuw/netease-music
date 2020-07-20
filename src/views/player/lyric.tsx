@@ -25,6 +25,7 @@ const Lyric: React.SFC<LyricProps> = ({
   const lyric = useRef<LyricClass>()
   const lyricHeightCache = useRef<number[]>([])
   const first = useRef(true)
+  const [isPure, setIsPure] = useState(false)
 
   useEffect(() => {
     if (song.id) {
@@ -63,7 +64,12 @@ const Lyric: React.SFC<LyricProps> = ({
     try {
       const res = await api.getLyric({ id: song.id })
       lyric.current = new LyricClass(res.data, handler)
-      setLines(lyric.current.lines)
+      if (lyric.current.isPure) {
+        setIsPure(true)
+      } else {
+        setIsPure(false)
+        setLines(lyric.current.lines)
+      }
     } catch (e) { console.log(e) }
   }
 
@@ -106,16 +112,21 @@ const Lyric: React.SFC<LyricProps> = ({
 
   return (
     <div id="lyrics" styleName="player-info-lyrics">
-      <div>
-        {
-          lines.map((item: any, index: any) => (
-            <div ref={el => list.current[index] = el!} key={index} styleName={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>
-              <div>{item.txt}</div>
-              { item.translate && <div styleName="player-info-lyrics-item-translate">{item.translate}</div> }
-            </div>
-          ))
-        }
-      </div>
+      {
+        isPure ?
+        <div>纯音乐，请您欣赏</div>
+        :
+        <div>
+          {
+            lines.map((item: any, index: any) => (
+              <div ref={el => list.current[index] = el!} key={index} styleName={classnames('player-info-lyrics-item', { 'active': index === currentLine})}>
+                <div>{item.txt}</div>
+                { item.translate && <div styleName="player-info-lyrics-item-translate">{item.translate}</div> }
+              </div>
+            ))
+          }
+        </div>
+      }
     </div>
   )
 }

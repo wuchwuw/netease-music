@@ -24,11 +24,11 @@ export default class Lyric {
   tlrc: string
   tags: any
   lines: LyricLine[]
-  handler: () => void
+  handler: (currentLineIndex: number) => void
   state: number
   curLine: number
   isPure: boolean
-  constructor({ lrc = null, tlyric = null } : any, hanlder: (currentLineIndex: number ) => void = noop) {
+  constructor({ lrc = {}, tlyric = {}, nolyric = false } : any, hanlder: (currentLineIndex: number ) => void = noop) {
     this.lrc = lrc.lyric
     this.tlrc = tlyric.lyric
     this.tags = {}
@@ -36,8 +36,12 @@ export default class Lyric {
     this.handler = hanlder
     this.state = STATE_PAUSE
     this.curLine = 0
-
-    this._init()
+    if (nolyric) {
+      this.isPure = true
+    } else {
+      this._init()
+      this.isPure = false
+    }
   }
 
   _init() {

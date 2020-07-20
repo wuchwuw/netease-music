@@ -3,75 +3,92 @@ import qs from 'qs'
 import { PlaylistClass } from 'UTIL/playlist'
 import { setPlaylistCacheOnce } from 'UTIL/playlist-cache'
 import * as H from 'history'
+import { PLAYER_FULL_SCREEN } from 'STORE/player/types'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'STORE/index'
+import { usePlayerController } from 'UTIL/player-controller'
 
 export function usePageForword () {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
+  const { playing, togglePlay } = usePlayerController()
 
   function getQueryString (query: any) {
     const queryString = qs.stringify(query)
     return queryString ? `?${queryString}` : ''
   }
 
+  function goPage (path: string) {
+    if (fullScreen) {
+      dispatch({ type: PLAYER_FULL_SCREEN, fullScreen: false })
+    }
+    history.push(path)
+  }
+
   return {
-    goPage (path: string) {
-      console.log(history.location.pathname)
-      history.push(path)
-    },
+    goPage,
     goAlbumDetail (albumId: number) {
       if (!albumId) return
-      history.push(`/album/${albumId}`)
+      goPage(`/album/${albumId}`)
     },
     goArtistDetail (artistId: number) {
-      history.push(`/artist/${artistId}`)
+      goPage(`/artist/${artistId}`)
     },
     goPlaylistDetail (playlistId: number, playlist?: PlaylistClass) {
       playlist && setPlaylistCacheOnce(playlist)
-      history.push(`/playlist/${playlistId}`)
+      goPage(`/playlist/${playlistId}`)
     },
     goUserDetail (userId: number) {
-      history.push(`/user/${userId}`)
+      goPage(`/user/${userId}`)
     },
     goNewSong () {
-      history.push('/home/new')
+      goPage('/home/new')
     },
     goMVDiscover () {
-      history.push('/video/mv')
+      goPage('/video/mv')
     },
     goSearch (query: any) {
-      history.push(`/search${getQueryString(query)}`)
+      goPage(`/search${getQueryString(query)}`)
     },
     goPlaylistDiscover (query: { cate: string }) {
-      history.push(`/home/playlist${getQueryString(query)}`)
+      goPage(`/home/playlist${getQueryString(query)}`)
     },
     goVideoDetail (videoId: string) {
-      history.push(`/v/${videoId}`)
+      if (playing) {
+        togglePlay()
+      }
+      goPage(`/v/${videoId}`)
     },
     goMVDetail (mvId: number | string) {
-      history.push(`/m/${mvId}`)
+      if (playing) {
+        togglePlay()
+      }
+      goPage(`/m/${mvId}`)
     },
     goPlaylistEdit (playlistId: number) {
-      history.push(`/playlist-edit/${playlistId}`)
+      goPage(`/playlist-edit/${playlistId}`)
     },
     back () {
       history.goBack()
     },
     goDaily () {
-      history.push('/daily')
+      goPage('/daily')
     },
     goUserEdit () {
-      history.push('/user-edit')
+      goPage('/user-edit')
     },
     goUserFollow (userId: number, query: { username: string }) {
-      history.push(`/follows/${userId}${getQueryString(query)}`)
+      goPage(`/follows/${userId}${getQueryString(query)}`)
     },
     goUserFollowed (userId: number, query: { username: string }) {
-      history.push(`/followeds/${userId}${getQueryString(query)}`)
+      goPage(`/followeds/${userId}${getQueryString(query)}`)
     },
     goUserEvent (userId: number, query: { username: string }) {
-      history.push(`/event/${userId}${getQueryString(query)}`)
+      goPage(`/event/${userId}${getQueryString(query)}`)
     },
     goFM () {
-      history.push('/fm')
+      goPage('/fm')
     }
   }
 }

@@ -15,7 +15,6 @@ import Song, { getSongList } from 'UTIL/song'
 import { usePageForword } from 'ROUTER/hooks'
 import Subscribers from './subscribers'
 import { getPlaylistCache, setPlaylistCache, getPlaylistTracksCache, setPlaylistTracksCache } from 'UTIL/playlist-cache'
-import Spin from 'COMPONENTS/spin/spin'
 import Button from 'COMPONENTS/button/button'
 import Icon from 'COMPONENTS/icon/icon'
 import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
@@ -100,6 +99,8 @@ const Playlist = () => {
       }
       const songs = await getSongList(res.data.playlist.trackIds.map((item: any) => item.id))
       if (time.current === currentTime) {
+        console.log(songs)
+        console.log(p.id)
         setTracks(songs)
         setPlaylistTracksCache(p.id, songs)
       }
@@ -121,7 +122,7 @@ const Playlist = () => {
   }
 
   function musiclistStart (song: Song) {
-    start({ id: `/playlist/${playlist.id}`, name: playlist.name }, song, playlist.tracks)
+    start({ id: `/playlist/${playlist.id}`, name: playlist.name }, song, tracks)
   }
 
   function genTabComponent () {

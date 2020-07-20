@@ -127,7 +127,7 @@ export function usePlayerController () {
       let res = await api.getSongUrl({ id: currentSong.song.id })
       audio.src = res.data.data[0].url
       setCurrentSongWidthSource(currentSong)
-      currentSong.source.id !== 'fm' && setPlayHistory(currentSong)
+      currentSong.source.id && currentSong.source.id !== 'fm' && setPlayHistory(currentSong)
       play()
     } catch (e) {}
   }
@@ -206,6 +206,7 @@ export function usePlayerController () {
     dispatch({ type: SET_PLAYERSTATUS, playerStatus: 'default' })
     if (musiclist) {
       // 替换列表
+      if (sourceIds.includes(source.id)) return
       let musiclistWidthSource = getSonglistWidthSource(musiclist, source)
       setCurrentMusiclistWidthSource(musiclistWidthSource)
       randomPlaylist = getShufflePlaylist(musiclistWidthSource)

@@ -107,19 +107,41 @@ export function createSong (data: any): Song {
 }
 
 export function getSongList (ids: number[]): Promise<Song[]> {
+  function getApi (max_id_num: number) {
+    if (ids.length > max_id_num) {
+      const apis = []
+      while (ids.length > 0) {
+        apis.push(api.getSongDetail({ ids: ids.slice(0, max_id_num) }))
+        ids = ids.slice(max_id_num)
+      }
+      return apis
+    } else {
+      return [api.getSongDetail({ ids })]
+    }
+  }
   return new Promise(async (resolve, reject) => {
     try {
       if (!ids.length) {
         resolve([])
         return
       }
-      const res = await api.getSongDetail({ ids })
-      const songs = res.data.songs.map((item: any, index: number) => {
-        return createSong({
-          ...item,
-          privilege: res.data.privileges[index]
-        })
+      const resArray = await Promise.all(getApi(500))
+      console.log(resArray)
+      let songs: Song[] = []
+      resArray.forEach(res => {
+        songs = songs.concat(res.data.songs.map((item: any, index: number) => {
+          return createSong({
+            ...item,
+            privilege: res.data.privileges[index]
+          })
+        }))
       })
+      // const songs = res.data.songs.map((item: any, index: number) => {
+      //   return createSong({
+      //     ...item,
+      //     privilege: res.data.privileges[index]
+      //   })
+      // })
       resolve(songs)
     } catch (e) {
       reject(e)

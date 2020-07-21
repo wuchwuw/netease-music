@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './chat.less'
 import api from 'API/index'
 import { Chat as ChatClass, createChatList, ChatContentType} from 'UTIL/chat'
@@ -9,6 +9,7 @@ import { useChat } from 'UTIL/chat-controller'
 import { usePanelContaienr, PanelType } from '../container'
 import Icon from 'COMPONENTS/icon/icon'
 import Button from 'COMPONENTS/button/button'
+import { useUpdateEffect } from 'UTIL/hooks'
 
 let hasMore = false
 let loading = false
@@ -19,6 +20,7 @@ const Chat = () => {
   const user = useSelector((state: RootState) => state.user.user)
   const { currentChat } = useChat()
   const { setPanelType } = usePanelContaienr()
+  const contentScrollHeight = useRef(0)
 
   useEffect(() => {
     getPrivateMessage()
@@ -39,17 +41,31 @@ const Chat = () => {
       })
       hasMore = res.data.more
       loading = false
-      !before && initScrollTop()
+      // !before && initScrollTop()
     } catch (e) {
       console.log(e)
     }
   }
+
+  useUpdateEffect(() => {
+    console.log(11111)
+    const content = document.querySelector('#chat-panel-content')
+    const height = content!.clientHeight
+    const scrollHeight = content!.scrollHeight
+    if (contentScrollHeight.current === 0) {
+      content!.scrollTop = scrollHeight - height
+    } else {
+      content!.scrollTop = scrollHeight - contentScrollHeight.current
+    }
+    contentScrollHeight.current = scrollHeight
+  }, [chatList.length])
 
   function initScrollTop () {
     let content = document.querySelector('#chat-panel-content')
     const height = content!.clientHeight
     const scrollHeight = content!.scrollHeight
     content!.scrollTop = scrollHeight - height
+    contentScrollHeight.current = scrollHeight
   }
 
   function isMe (chat: ChatClass) {

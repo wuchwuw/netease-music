@@ -252,7 +252,7 @@ const Message: React.SFC = () => {
 
   function genForwardCommentNode (forward: ForwardComment) {
     return (
-      <li styleName="message-forward-item">
+      <li styleName="message-forward-item" key={forward.id}>
         <img styleName="forward-avatar" src={forward.comment.user.avatarUrl + '?param=100y100'} alt=""/>
         <div styleName="forward-info-wrap">
           <div styleName="forward-info">
@@ -297,7 +297,7 @@ const Message: React.SFC = () => {
 
   function genForwardEventNode (forward: ForwardEvent) {
     return (
-      <li styleName="message-forward-item">
+      <li styleName="message-forward-item" key={forward.id}>
         <img styleName="forward-avatar" src={forward.event.user.avatarUrl + '?param=100y100'} alt=""/>
         <div styleName="forward-info-wrap">
           <div styleName="forward-info">

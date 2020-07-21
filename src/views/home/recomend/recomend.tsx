@@ -78,7 +78,7 @@ const HomeRecomend = () => {
             <div className="commen-area-text line-more" onClick={ goDaily }>每日歌曲推荐</div>
           </div>
           { playlistRecomend.map(playlist => (
-            <div onClick={() => goPlaylistDetail(playlist.id, playlist) } className={`commen-area-item commen-area-item-playlist-130`}>
+            <div key={playlist.id} onClick={() => goPlaylistDetail(playlist.id, playlist) } className={`commen-area-item commen-area-item-playlist-130`}>
               <div className="commen-area-img-wrap">
                 <div className="commen-area-playcount"><Icon name="icon-triangle"></Icon>{playlist.playCount_string}</div>
                 <img className="commen-area-img" src={playlist.coverImgUrl+'?param=250y250'} alt=""/>

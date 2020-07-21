@@ -158,7 +158,7 @@ const User = () => {
         <div className="commen-area-content">
           {
             userPlaylist.map(item => (
-              <div key={item.id} className="commen-area-item commen-area-item-playlist">
+              <div key={item.id} className="commen-area-item commen-area-item-playlist-170">
                 <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
                   <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
                   <img src={item.coverImgUrl + '?param=130y130'} alt=""/>
@@ -180,7 +180,7 @@ const User = () => {
           <div className="commen-area-content">
             {
               userSubPlaylist.map(item => (
-                <div key={item.id} className="commen-area-item commen-area-item-playlist">
+                <div key={item.id} className="commen-area-item commen-area-item-playlist-170">
                   <div onClick={() => { goPlaylistDetail(item.id) }} className="commen-area-img-wrap">
                     <div className="commen-area-play-icon"><Icon name="icon-triangle-full"></Icon></div>
                     <img src={item.coverImgUrl + '?param=130y130'} alt=""/>

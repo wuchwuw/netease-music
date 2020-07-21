@@ -14,8 +14,10 @@ export function useDebouncedEffect (effect: EffectCallback, delay: number, deps:
 export function useUpdateEffect (effect: EffectCallback, deps?: DependencyList) {
   const first = useRef(true)
   useEffect(() => {
-    if (!first.current) {
-      return effect()
+    if (first.current) {
+      first.current = false
+      return
     }
+    return effect()
   }, deps)
 }

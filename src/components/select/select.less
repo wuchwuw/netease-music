@@ -1,7 +1,7 @@
 .select {
   width: 130px;
   height: 35px;
-  border: 1px solid var(--text-c);
+  border: 1px solid var(--border-deep);
   position: relative;
   border-radius: 5px;
   user-select: none;
@@ -17,7 +17,8 @@
     padding-left: 10px;
     width: 0;
     outline: none;
-    background: transparent;
+    background: var(--input-background);
+    color: var(--text-3);
   }
   .select-content-icon {
     flex: 0 0 20px;
@@ -35,7 +36,7 @@
 .select-option {
   max-height: 250px;
   width: 100%;
-  background: #FFFFFF;
+  background: var(--input-background);
   position: absolute;
   z-index: 2;
   overflow-y: auto;

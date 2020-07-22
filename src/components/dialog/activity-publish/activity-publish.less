@@ -6,7 +6,7 @@
   border-top: none;
   padding: 0 10px;
   &:hover {
-    background: var(--defalut-background);
+    background: var(--default-background-deep);
   }
 }
 .activity-dialog-textarea-wrap {
@@ -20,7 +20,8 @@
   border: none;
   outline: none;
   resize: none;
-  background: var(--main-background);
+  background: var(--panel-background);
+  color: var(--text-3);
 }
 .activity-dialog-textarea-option {
   display: flex;
@@ -67,7 +68,7 @@
   height: 30px;
   display: flex;
   align-items: center;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-deep);
   padding: 0 10px;
   border-radius: 5px;
   flex: 1;
@@ -76,6 +77,8 @@
     outline: none;
     font-size: 13px;
     width: 100%;
+    background: var(--panel-background);
+    color: var(--text-3);
     &::placeholder {
       font-size: 13px;
     }
@@ -109,11 +112,11 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   &:hover {
-    background: var(--defalut-background);
+    background: var(--default-background-deep);
   }
 }
 .activity-dialog-selected-content {
-  background: var(--main-background);
+  background: var(--panel-background);
   width: 50px;
   top: 20px;
   box-shadow: 0px 0px 3px -3px rgba(0, 0, 0, .2);

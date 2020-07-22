@@ -10,7 +10,7 @@ interface NotificationContent {
 let timer: NodeJS.Timeout | null = null
 
 const NotificationContainer = forwardRef((porps, ref) => {
-  const [visiable, setVisiable] = useState(false)
+  const [visible, setVisiable] = useState(false)
   const [contnet, setContent] = useState<string | ReactNode>('')
 
   useImperativeHandle(ref, () => ({
@@ -30,7 +30,7 @@ const NotificationContainer = forwardRef((porps, ref) => {
 
   return (
     <div styleName="notifiaction-container">
-      <CSSTransition in={visiable} unmountOnExit timeout={300} classNames="notification-transition">
+      <CSSTransition in={visible} unmountOnExit timeout={300} classNames="notification-transition">
         <div styleName="notifiaction">
           {contnet}
         </div>

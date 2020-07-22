@@ -173,7 +173,7 @@ export default function Player () {
               <Icon style={{ color: '#FFFFFF' }} fontSize={!playing ? 17 : 20} name={!playing ? 'icon-triangle-full': 'icon-pause'}></Icon>
             </span>
             <Icon className="icon-color-main hover" style={{marginLeft: '10px'}} fontSize={18} onClick={next} name="iconfont iconforward1"></Icon>
-            { playerStatus === 'fm' && <Icon onClick={() => { addFMTrash(currentSong.id) }} style={{fontSize: '19px', marginLeft: '20px'}} name="icon-delete"></Icon>}
+            { playerStatus === 'fm' && <Icon className="icon-color-9 hover" onClick={() => { addFMTrash(currentSong.id) }} style={{fontSize: '19px', marginLeft: '20px'}} name="icon-delete"></Icon>}
           </div>
           <div styleName="mini-player-action">
             { genPlayerModeIcon() }

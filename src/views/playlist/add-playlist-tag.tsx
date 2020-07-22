@@ -24,7 +24,7 @@ interface AddPlaylistTagProps {
 
 const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [], onSave }) => {
   const [allCate, setAllCate] = useState<AllCate[]>([])
-  const { open, visiable, close } = useContainer(['#add-playlist-tag-container'])
+  const { open, visible, close } = useContainer(['#add-playlist-tag-container'])
   const [select, setSelect] = useState(selected)
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const AddPlaylistTag: React.SFC<AddPlaylistTagProps> = ({ children, selected = [
       <span id="add-playlist-tag-container" styleName="add-playlist-tag-container" onClick={open}>
         {children}
         {
-          visiable && (
+          visible && (
             <div styleName="add-playlist-cate-wrap">
               <div styleName="playlist-cate">
                 {

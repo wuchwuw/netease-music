@@ -16,7 +16,7 @@ const TopBar: React.SFC = () => {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const dispatch = useDispatch()
   const { setPanelType, currentPanelType } = usePanelContaienr()
-  const { visiable, open } = useContainer(['#style-mode'])
+  const { visible, open } = useContainer(['#style-mode'])
   const { goSearch } = usePageForword()
   const { keywords, setKeywords, addKeywordsHistory } = useSearchKeywords()
   const [mode, setMode] = useState(defaultMode)
@@ -78,9 +78,9 @@ const TopBar: React.SFC = () => {
       <div styleName="topbar-other">
         <i className="iconfont icon-setting"></i>
         <i id="message-icon" onClick={() => { setPanelType(PanelType.Message) }} className={classnames('iconfont icon-email', {'active': currentPanelType === PanelType.Message})}></i>
-        <i id="style-mode" styleName="style-mode" className={classnames('iconfont icon-style', { 'active': visiable })} onClick={() => { open() }}>
+        <i id="style-mode" styleName="style-mode" className={classnames('iconfont icon-style', { 'active': visible })} onClick={() => { open() }}>
           {
-            visiable &&
+            visible &&
             <div styleName="style-mode-wrap">
               <div styleName="style-mode-item"><div styleName={classnames('style-mode-light', { 'active': mode === 'light' })} onClick={() => { setMode('light'); setGlobalCSSVar('light') }}></div><span>浅色</span></div>
               <div styleName="style-mode-item"><div styleName={classnames('style-mode-dark', { 'active': mode === 'dark' })}  onClick={() => { setMode('dark'); setGlobalCSSVar('dark') }}></div><span>深色</span></div>

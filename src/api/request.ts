@@ -9,7 +9,12 @@ declare module 'axios' {
 }
 
 const CancelToken = axios.CancelToken
-const source = CancelToken.source()
+let source = CancelToken.source()
+
+function updataCancelToken () {
+  source = CancelToken.source()
+  axios.defaults.cancelToken = source.token
+}
 
 axios.defaults.baseURL = 'http://localhost:3000/'
 axios.defaults.cancelToken = source.token
@@ -19,6 +24,7 @@ axios.interceptors.request.use((config) => {
   if (config.needLogin && !checkLoginStatus()) {
     openLoginDialog()
     source.cancel()
+    updataCancelToken()
   }
   if (!config.params) {
     config.params = {}

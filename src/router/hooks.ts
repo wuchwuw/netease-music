@@ -89,6 +89,9 @@ export function usePageForword () {
     },
     goFM () {
       goPage('/fm')
+    },
+    goAllMV (query: any) {
+      goPage(`/allmv${getQueryString(query)}`)
     }
   }
 }

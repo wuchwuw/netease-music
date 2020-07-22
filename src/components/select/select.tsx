@@ -20,7 +20,7 @@ const Select: React.SFC<SelectProps> = ({
   value,
   placeholder = '请选择'
 }) => {
-  const { visiable, open } = useContainer([])
+  const { visible, open } = useContainer([])
   const [label, setLabel] = useState('')
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Select: React.SFC<SelectProps> = ({
         <span styleName="select-content-icon"><Icon name="icon-triangle-full"></Icon></span>
       </div>
       {
-        visiable && (
+        visible && (
           <ul styleName="select-option">
             {
               options.map(option => (

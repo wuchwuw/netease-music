@@ -37,7 +37,7 @@ const HomeAlbum: React.SFC = () => {
   const { goPlaylistDetail, goUserDetail } = usePageForword()
   const [total, setTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const { open, visiable } = useContainer(['#home-album-filter-btn'])
+  const { open, visible } = useContainer(['#home-album-filter-btn'])
   const [allCate, setAllCate] = useState<AllCate[]>([])
   const history = useHistory()
   const location = useLocation()
@@ -141,7 +141,7 @@ const HomeAlbum: React.SFC = () => {
             {currentCate}<Icon name="icon-arrow-right"></Icon>
           </div>
           {
-            visiable && (
+            visible && (
               <div styleName="playlist-cate">
                 <div styleName="playlist-cate-all" onClick={() => { setCate('全部') }}>全部歌单</div>
                 {

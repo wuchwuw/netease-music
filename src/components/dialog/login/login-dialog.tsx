@@ -44,7 +44,9 @@ const LoignDialog = () => {
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
       dialogProps.close()
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
@@ -61,7 +63,7 @@ const LoignDialog = () => {
             <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder="请输入密码"/>
           </div>
         </div>
-        <div styleName="login-dialog-btn" onClick={() => { login() }}>登录</div>
+        <div styleName="login-dialog-btn" onClick={() => login() }>登录</div>
         <div styleName="login-dialog-tip">本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
       </div>
     </Dialog>

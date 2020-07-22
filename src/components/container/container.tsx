@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 export function useContainer (filterNode: string[]) {
-  const [visiable, seVisiable] = useState(false)
+  const [visible, seVisiable] = useState(false)
 
   function open () {
     seVisiable(true)
@@ -21,16 +21,16 @@ export function useContainer (filterNode: string[]) {
   }
 
   useEffect(() => {
-    if (visiable) {
+    if (visible) {
       document.addEventListener('click', onContainerClick)
     }
     return () => {
       document.removeEventListener('click', onContainerClick)
     }
-  }, [visiable])
+  }, [visible])
 
   return {
-    visiable,
+    visible,
     open,
     close
   }

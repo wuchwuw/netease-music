@@ -10,6 +10,8 @@ import { usePanelContaienr, PanelType } from '../container'
 import Icon from 'COMPONENTS/icon/icon'
 import Button from 'COMPONENTS/button/button'
 import { useUpdateEffect } from 'UTIL/hooks'
+import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
+import { usePageForword } from 'ROUTER/hooks'
 
 let hasMore = false
 let loading = false
@@ -21,6 +23,7 @@ const Chat = () => {
   const { currentChat } = useChat()
   const { setPanelType } = usePanelContaienr()
   const contentScrollHeight = useRef(0)
+  const { goPlaylistDetail, goAlbumDetail, goMVDetail, goVideoDetail } = usePageForword()
 
   useEffect(() => {
     getPrivateMessage()
@@ -41,14 +44,12 @@ const Chat = () => {
       })
       hasMore = res.data.more
       loading = false
-      // !before && initScrollTop()
     } catch (e) {
       console.log(e)
     }
   }
 
   useUpdateEffect(() => {
-    console.log(11111)
     const content = document.querySelector('#chat-panel-content')
     const height = content!.clientHeight
     const scrollHeight = content!.scrollHeight
@@ -104,47 +105,13 @@ const Chat = () => {
     const content = chat.content
     switch (content.type) {
       case ChatContentType.PLAYLIST:
-        return (
-          <div styleName="chat-content-playlist">
-            <img styleName="chat-content-playlist-cover" src={content.content.coverImgUrl + '?param=100y100'} alt=""/>
-            <div>
-              <div styleName="chat-content-playlist-info-name"><span>歌单</span>{content.content.name}</div>
-              <div styleName="chat-content-playlist-info-user">by {content.content.creator.nickname}</div>
-            </div>
-          </div>
-        )
+        return <MessageSourcePlaylist onClick={() => goPlaylistDetail(content.content.id)} playlist={content.content}></MessageSourcePlaylist>
       case ChatContentType.ALBUM:
-        return (
-          <div styleName="chat-content-playlist">
-            <img styleName="chat-content-playlist-cover" src={content.content.picUrl + '?param=100y100'} alt=""/>
-            <div>
-              <div styleName="chat-content-playlist-info-name"><span>专辑</span>{content.content.name}</div>
-              <div styleName="chat-content-playlist-info-user">by {content.content.artistName}</div>
-            </div>
-          </div>
-        )
+        return <MessageSourceAlbum onClick={() => goAlbumDetail(content.content.id)} album={content.content}></MessageSourceAlbum>
       case ChatContentType.VIDEO:
-        return (
-          <div styleName="chat-content-mv">
-            <img styleName="chat-content-mv-cover" src={content.content.coverUrl + '?param=400y225'} alt=""/>
-            <div styleName="chat-content-mv-name">{content.content.title}</div>
-            <div styleName="chat-contnet-mv-info">
-              <span>播放{content.content.playTime_format}</span>
-              <span>{content.content.duration_format}</span>
-            </div>
-          </div>
-        )
+        return <MessageSourceVideo onClick={() => goVideoDetail(content.content.vid)} video={content.content}></MessageSourceVideo>
       case ChatContentType.MV:
-        return (
-          <div styleName="chat-content-mv">
-            <img styleName="chat-content-mv-cover" src={content.content.cover + '?param=400y225'} alt=""/>
-            <div styleName="chat-content-mv-name">{content.content.name}</div>
-            <div styleName="chat-contnet-mv-info">
-              <span>播放{content.content.playCount_format}</span>
-              <span>{content.content.duration_format}</span>
-            </div>
-          </div>
-        )
+        return <MessageSourceMV onClick={() => goMVDetail(content.content.id)} mv={content.content}></MessageSourceMV>
       case ChatContentType.PROMOTION:
         return (
           <div styleName="chat-content-promotion" onClick={() => { window.open(content.content.url) }}>

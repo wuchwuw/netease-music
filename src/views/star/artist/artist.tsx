@@ -3,6 +3,7 @@ import api from 'API/index'
 import { createArtistList, Artist} from 'UTIL/artist'
 import './artist.less'
 import { usePageForword } from 'ROUTER/hooks'
+import Icon from 'COMPONENTS/icon/icon'
 // import Pagination from 'COMPONENTS/pagination/pagination'
 
 // let offset = 0
@@ -10,7 +11,7 @@ import { usePageForword } from 'ROUTER/hooks'
 
 const StarArtist = () => {
   const [artists, setArtists] = useState<Artist[]>([])
-  const { goArtistDetail } = usePageForword()
+  const { goArtistDetail, goUserDetail } = usePageForword()
   const [total, setTotal] = useState(0)
   // const [currentPage, setCurrentPage] = useState(1)
 
@@ -38,17 +39,11 @@ const StarArtist = () => {
       <div styleName="star-artist-list">
         {
           artists.map(artist => (
-            <div key={artist.id} styleName="star-artist-item" onClick={() => { goArtistDetail(artist.id) }}>
-              <img src={artist.picUrl + '?param=100y100'} alt=""/>
-              <div styleName="star-artist-info">
-                <div className=" commen-link-333333 active">
-                  {artist.name}
-                  <span styleName="star-artist-info-alia">{artist.alia_string}</span>
-                </div>
-                <div styleName="star-artist-info-artist">
-                  <span>专辑：{artist.albumSize}</span>
-                  <span>MV：{artist.mvSize}</span>
-                </div>
+            <div key={artist.id} className="commen-item-artist">
+              <img onClick={ () => { goArtistDetail(artist.id) } } src={artist.img1v1Url + '?param=250y250'} alt=""/>
+              <div className="commen-item-artist-info">
+                <span className="commen-link-333333 active">{artist.name}</span>
+                { artist.accountId && <Icon onClick={ (e) => { e.stopPropagation(); goUserDetail(artist.accountId) } } name="icon-user"></Icon>}
               </div>
             </div>
           ))

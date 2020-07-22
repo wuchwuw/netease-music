@@ -82,34 +82,34 @@ const AllMV = () => {
 
   return (
     <LoadMore load={loadmore}>
-      <div className="allmv-container">
-        <div className="artist-filter">
-          <div className="artist-filter-item">
+      <div styleName="allmv-container">
+        <div>
+          <div styleName="artist-filter-item">
             <span>语种:</span>
             <div>
               {
                 AreaOption.map(item => (
-                  <span key={item} onClick={() => { setTab('area', item) }} className={classnames({ 'active': item === area })}>{item}</span>
+                  <span key={item} onClick={() => { setTab('area', item) }} styleName={classnames({ 'active': item === area })}>{item}</span>
                 ))
               }
             </div>
           </div>
-          <div className="artist-filter-item">
+          <div styleName="artist-filter-item">
             <span>类型:</span>
             <div>
               {
                 TypeOption.map(item => (
-                  <span key={item} onClick={() => { setTab('type', item) }} className={classnames({ 'active': item === type })}>{item}</span>
+                  <span key={item} onClick={() => { setTab('type', item) }} styleName={classnames({ 'active': item === type })}>{item}</span>
                 ))
               }
             </div>
           </div>
-          <div className="artist-filter-item">
+          <div styleName="artist-filter-item">
             <span>排序:</span>
             <div>
               {
                 orderOption.map(item => (
-                  <span key={item} onClick={() => { setTab('order', item) }} className={classnames({ 'active': item === order })}>{item}</span>
+                  <span key={item} onClick={() => { setTab('order', item) }} styleName={classnames({ 'active': item === order })}>{item}</span>
                 ))
               }
             </div>

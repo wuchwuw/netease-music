@@ -18,7 +18,7 @@ const FM = () => {
   const CommentComponent = useMemo(() => <Comment delay={500} showTitle={true} type="music" id={currentFM.song.id} />, [currentFM.song.id])
   const { favorite, isFavorite } = useFavorite()
   const { goArtistDetail, goAlbumDetail } = usePageForword()
-  const { open, visiable } = useContainer([])
+  const { open, visible } = useContainer([])
   const openAddPlaylistSongDialog = createAddPlaylistSongDialog()
   const openShareDialog = createShareDialog()
   const { userPlaylist, addOrRemoveSong } = useUserPlaylist()
@@ -70,7 +70,7 @@ const FM = () => {
             <span onClick={open} styleName="fm-action-item fm-context-menu-wrap">
               <Icon className="icon-color-6" name="icon-menu"></Icon>
               {
-                visiable && (
+                visible && (
                   <ul styleName="fm-context-menu">
                     <li onClick={() => { openAddPlaylistSongDialog({ songs: [currentFM.song], userPlaylist, addOrRemoveSong }) }} className="fm-context-menu-item">收藏</li>
                     <li onClick={() => { openShareDialog({ shareContent: currentFM.song, type: ShareType.SONG }) }} className="fm-context-menu-item">分享</li>

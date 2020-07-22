@@ -1,7 +1,7 @@
 import React from 'react'
 import './left-bar.less'
 import { NavLink } from 'react-router-dom'
-import { useDialog, LoginDialog } from 'COMPONENTS/dialog/index'
+import { useDialog } from 'COMPONENTS/dialog/index'
 import { useSelector } from 'react-redux'
 import { RootState } from 'STORE/index'
 import { useContainer } from 'COMPONENTS/container/container'
@@ -22,10 +22,10 @@ const LeftBar: React.SFC = () => {
   const createDialogProps = useDialog()
   const user = useSelector((state: RootState) => state.user.user)
   const isLogin = useSelector((state: RootState) => state.user.isLogin)
-  const { visiable, open } = useContainer(['#leftbar-user'])
+  const { visible, open } = useContainer([])
   const { getPlaylistMenu } = usePlaylistContextMenu()
   const { userPlaylist, subPlaylist, isMyFavotitePlaylist } = useUserPlaylist()
-  const { goUserDetail } = usePageForword()
+  const { goUserDetail, goUserEdit, goUserEvent, goUserFollow, goUserFollowed } = usePageForword()
 
   return (
     <div styleName='leftbar-wrap'>
@@ -39,29 +39,29 @@ const LeftBar: React.SFC = () => {
             {user.nickname}
             <Icon fontSize={12} name="icon-triangle-full"></Icon>
             {
-              visiable &&
+              visible &&
               <div id="leftbar-user" styleName="leftbar-user-panel">
                 <div styleName="leftbar-user-social">
-                  <div styleName="leftbar-user-social-item">
+                  <div onClick={() => { goUserEvent(user.userId, { username: user.nickname }) }} styleName="leftbar-user-social-item">
                     <div>{user.eventCount}</div>
                     <div>动态</div>
                   </div>
-                  <div styleName="leftbar-user-social-item">
+                  <div onClick={() => { goUserFollow(user.userId, { username: user.nickname }) }}  styleName="leftbar-user-social-item">
                     <div>{user.follows}</div>
                     <div>关注</div>
                   </div>
-                  <div styleName="leftbar-user-social-item">
+                  <div onClick={() => { goUserFollowed(user.userId, { username: user.nickname }) }}  styleName="leftbar-user-social-item">
                     <div>{user.followeds}</div>
                     <div>粉丝</div>
                   </div>
                 </div>
                 <div styleName="leftbar-user-panel-item">
-                  <div><Icon fontSize={18} name="icon-vip"></Icon>会员中心</div>
-                  <div><Icon fontSize={19} name="icon-level"></Icon>等级</div>
-                  <div><Icon name="icon-mail"></Icon>商城</div>
-                  <div><Icon name="icon-setting"></Icon>个人信息设置</div>
-                  <div><Icon name="icon-phone"></Icon>绑定社交账号</div>
-                  <div onClick={() => { logout() }}><Icon name="icon-logout"></Icon>退出登录</div>
+                  <div onClick={() => { window.open('https://music.163.com/#/member') }}><Icon fontSize={15} name="icon-vip"></Icon>会员中心</div>
+                  <div onClick={() => { window.open('https://music.163.com/#/user/level') }}><Icon fontSize={15} name="icon-level"></Icon>等级</div>
+                  <div onClick={() => { window.open('https://music.163.com/store/product') }}><Icon name="icon-mail"></Icon>商城</div>
+                  <div onClick={() => { goUserEdit() }}><Icon name="icon-setting"></Icon>个人信息设置</div>
+                  {/* <div><Icon name="icon-phone"></Icon>绑定社交账号</div> */}
+                  <div onClick={() => { logout() }}><Icon fontSize={15} name="icon-logout"></Icon>退出登录</div>
                 </div>
               </div>
             }
@@ -128,7 +128,6 @@ const LeftBar: React.SFC = () => {
           ))
         }
       </div>
-      <LoginDialog></LoginDialog>
       <CreatePlaylistDialog {...createDialogProps}></CreatePlaylistDialog>
       <Menu></Menu>
     </div>

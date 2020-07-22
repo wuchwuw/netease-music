@@ -5,6 +5,8 @@ import { createMVList, MV } from 'UTIL/mv'
 import classnames from 'classnames'
 import Spin from 'COMPONENTS/spin/spin'
 import Icon from 'COMPONENTS/icon/icon'
+import { usePageForword } from 'ROUTER/hooks'
+import { genArtists } from 'VIEWS/template/template'
 
 const MV_CATE = ['内地', '港台', '欧美', '日本', '韩国']
 
@@ -19,6 +21,7 @@ const MvRecomend: React.SFC = () => {
   const [exclusiveLoading, setExclusiveLoading] = useState(true)
   const [toplistLoading, setToplistLoading] = useState(true)
   const [hotLoading, setHotLoading] = useState(true)
+  const { goAllMV, goArtistDetail } = usePageForword()
 
   useEffect(() => {
     getExclusiveMv()
@@ -69,11 +72,6 @@ const MvRecomend: React.SFC = () => {
     } catch (e) {}
   }
 
-  function genArtist (mv: MV) {
-    const artists = mv.artists
-    return artists.map((item, index) => <><span>{item.name}</span> {index !== artists.length - 1 ? '/' : ''} </>)
-  }
-
   function genMVContent (mvs: MV[]) {
     return <>
       {
@@ -85,7 +83,7 @@ const MvRecomend: React.SFC = () => {
               <img src={mv.cover + '?param=500y282'} alt=""/>
             </div>
             <div className="commen-area-text text-overflow">{mv.name}</div>
-            <div className="commen-area-artist text-overflow">{genArtist(mv)}</div>
+            <div className="commen-area-artist text-overflow">{genArtists(mv.artists, goArtistDetail, 'commen-link-999999')}</div>
           </div>
         ))
       }
@@ -95,11 +93,11 @@ const MvRecomend: React.SFC = () => {
   return (
     <div styleName="video-mv-container">
       <div styleName="video-mv-title">
-        <span>最新MV<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
+        <span onClick={() => goAllMV({ order: '最新' }) }>最新MV<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
         <div className="commen-filter-item">
           {
             MV_CATE.map(item => (
-              <span onClick={() => { setNewMVCate(item) }} className={classnames({'active': newMVCate === item})}>{item}</span>
+              <span key={item} onClick={() => { setNewMVCate(item) }} className={classnames({'active': newMVCate === item})}>{item}</span>
             ))
           }
         </div>
@@ -112,7 +110,7 @@ const MvRecomend: React.SFC = () => {
         </Spin>
       </div>
       <div styleName="video-mv-title">
-        <span>热播MV<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
+        <span onClick={() => goAllMV({ order: '最热' }) }>热播MV<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
       </div>
       <div styleName="video-mv-content">
         <Spin loading={hotLoading} delay={300}>
@@ -122,7 +120,7 @@ const MvRecomend: React.SFC = () => {
         </Spin>
       </div>
       <div styleName="video-mv-title">
-        <span>网易出品<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
+        <span onClick={() => goAllMV({ type: '网易出品', order: '最新' }) }>网易出品<Icon name="icon-arrow-right" fontSize={18}></Icon></span>
       </div>
       <div className="video-mv-content">
         <Spin loading={exclusiveLoading} delay={300}>
@@ -136,7 +134,7 @@ const MvRecomend: React.SFC = () => {
         <div className="commen-filter-item">
           {
             MV_CATE.map(item => (
-              <span onClick={() => { setToplistCate(item) }} className={classnames({'active': toplistCate === item})}>{item}</span>
+              <span key={item} onClick={() => { setToplistCate(item) }} className={classnames({'active': toplistCate === item})}>{item}</span>
             ))
           }
         </div>
@@ -151,7 +149,7 @@ const MvRecomend: React.SFC = () => {
                   <img styleName="video-mv-toplist-img" src={mv.cover + '?param=230y130'} alt=""/>
                   <div styleName="video-mv-toplist-info">
                     <div styleName="video-mv-toplist-name">{mv.name}</div>
-                    <div styleName="video-mv-toplist-artist">{genArtist(mv)}</div>
+                    <div styleName="video-mv-toplist-artist">{genArtists(mv.artists, goArtistDetail, 'commen-link-999999')}</div>
                   </div>
                 </div>
               ))

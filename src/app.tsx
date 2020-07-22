@@ -16,6 +16,7 @@ import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import { useSelector } from 'react-redux'
 import { RootState } from './store/index'
+import { LoginDialog } from 'COMPONENTS/dialog/index'
 
 const App = () => {
   const math = useRouteMatch({
@@ -54,6 +55,7 @@ const App = () => {
       {/* <Prompt message={(l) => { console.log(l); return false;}}></Prompt> */}
       <PanelContainer></PanelContainer>
       <ScrollToTop></ScrollToTop>
+      <LoginDialog></LoginDialog>
     </div>
   )
 }

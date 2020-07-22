@@ -12,6 +12,8 @@ import LoadMore from 'COMPONENTS/load-more/load-more'
 import { createForwardList, ForwardSourceType, ForwardSourceContentType, ForwardType, ForwardClassType, ForwardComment, ForwardEvent } from 'UTIL/forword'
 import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
 import { ActivityClassType, ActivityType } from 'UTIL/activity'
+import { usePageForword } from 'ROUTER/hooks'
+import { usePlayerController } from 'UTIL/player-controller'
 
 interface Message {
   fromUser: User
@@ -90,6 +92,8 @@ const Message: React.SFC = () => {
   const [forwords, setForwords] = useState<ForwardClassType[]>([])
   const [notice, setNotice] = useState([])
   const user = useSelector((state: RootState) => state.user.user)
+  const { goPlaylistDetail, goAlbumDetail, goMVDetail, goVideoDetail } = usePageForword()
+  const { start } = usePlayerController()
 
   useEffect(() => {
     getData(false)
@@ -272,19 +276,19 @@ const Message: React.SFC = () => {
     switch (resource.type) {
       case ForwardSourceType.PLAYLIST:
       case ActivityType.PLAYLIST:
-        return <MessageSourcePlaylist playlist={resource.content}></MessageSourcePlaylist>
+        return <MessageSourcePlaylist onClick={() => goPlaylistDetail(resource.content.id)} playlist={resource.content}></MessageSourcePlaylist>
       case ForwardSourceType.ALBUM:
       case ActivityType.Album:
-        return <MessageSourceAlbum album={resource.content}></MessageSourceAlbum>
+        return <MessageSourceAlbum onClick={() => goAlbumDetail(resource.content.id)} album={resource.content}></MessageSourceAlbum>
       case ForwardSourceType.SONG:
       case ActivityType.Song:
-        return <MessageSourceSong song={resource.content}></MessageSourceSong>
+        return <MessageSourceSong onClick={() => start({ name: resource.content.album.name, id: `/album/${resource.content.album.id}`}, resource.content)} song={resource.content}></MessageSourceSong>
       case ForwardSourceType.VIDEO:
       case ActivityType.Video:
-        return <MessageSourceVideo video={resource.content}></MessageSourceVideo>
+        return <MessageSourceVideo onClick={() => goVideoDetail(resource.content.vid)} video={resource.content}></MessageSourceVideo>
       case ForwardSourceType.MV:
       case ActivityType.MV:
-        return <MessageSourceMV mv={resource.content}></MessageSourceMV>
+        return <MessageSourceMV onClick={() => goMVDetail(resource.content.id)} mv={resource.content}></MessageSourceMV>
       case ActivityType.Forword:
         return (
           <div styleName="forward-activity-forward">

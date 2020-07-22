@@ -7,44 +7,7 @@
   margin-bottom: 20px;
 }
 
-.star-artist-item {
-  display: flex;
-  align-items: center;
-  height: 80px;
-  padding: 0 20px;
-  > img {
-    height: 60px;
-    width: 60px;
-    border-radius: 5px;
-  }
-  &:nth-child(odd) {
-    background: var(--musiclist-background-even);
-  }
-  &:hover {
-    background: var(--musiclist-background-hover);
-  }
-}
 .star-artist-list {
-  margin: 0 -20px;
-}
-
-.star-artist-info {
-  margin-left: 10px;
-}
-
-.star-artist-info-artist {
-  margin-top: 10px;
-  color: var(--text-9);
-  font-size: 13px;
-  > span {
-    display: inline-block;
-    margin-right: 20px;
-  }
-}
-.star-artist-size {
-  margin-left: auto;
-  color: var(--text-9);
-}
-.star-artist-info-alia {
-  color: var(--text-9);
+  display: flex;
+  flex-wrap: wrap;
 }

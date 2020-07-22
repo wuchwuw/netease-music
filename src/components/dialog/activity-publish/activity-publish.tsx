@@ -120,7 +120,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
   const [tab, setTab] = useState(TabType.SONG)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<ResultType>([])
-  const { open, visiable } = useContainer([])
+  const { open, visible } = useContainer([])
   const [share, setShare] = useState<SearchShare>({
     tab: props.type,
     result: props.shareContent as any
@@ -322,7 +322,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
                 <span>{SEARCH_TAB_NAME_MAP[tab]}</span>
                 <Icon fontSize={12} name="icon-triangle-full"></Icon>
                 {
-                  visiable && (
+                  visible && (
                     <ul styleName="activity-dialog-selected-content">
                       {
                         (Object.keys(SEARCH_TAB_NAME_MAP) as TabType[]).map(item => (

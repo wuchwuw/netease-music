@@ -9,5 +9,8 @@ export default {
   },
   share (params: { type: string, id: number | string, msg: string}) {
     return axios.get('share/resource', { params })
+  },
+  forward (params: { evId: number, uid: number, forwards: string }) {
+    return axios.get('event/forward', { params })
   }
 }

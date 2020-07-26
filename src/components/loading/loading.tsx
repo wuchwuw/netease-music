@@ -3,12 +3,13 @@ import './loading.less'
 
 interface LoadingProps {
   balde?: number
+  size?: number
 }
 
-const Loading: React.SFC<LoadingProps> = ({ balde = 12 }) => {
+const Loading: React.SFC<LoadingProps> = ({ balde = 12, size = 16 }) => {
   return (
     <div styleName="cube-loading">
-      <span styleName="cube-loading-spinners" style={{ width: 16 + 'px', height: 16 + 'px'}}>
+      <span styleName="cube-loading-spinners" style={{ width: size + 'px', height: size + 'px'}}>
         {
           Array.from({ length: balde }).map((item: any, index: number) => (
             <i key={index} styleName="cube-loading-spinner"></i>

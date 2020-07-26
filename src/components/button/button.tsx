@@ -37,7 +37,9 @@ const Button: React.SFC<ButtonProps> = ({
     if (innerLoading) {
       return (
         <>
-          <Loading></Loading>
+          <span style={{ marginRight: '3px' }}>
+            <Loading></Loading>
+          </span>
           {children}
         </>
       )

@@ -11,7 +11,7 @@ import { useFavorite } from 'UTIL/favorite'
 import { useUserPlaylist } from 'UTIL/user-playlist'
 import { RootState, store } from 'STORE/index'
 import { SET_LOGIN_DIALOG_VISIBLE } from 'STORE/commen/types'
-
+import Button from 'COMPONENTS/button/button'
 
 export function openLoginDialog () {
   store.dispatch({ type: SET_LOGIN_DIALOG_VISIBLE, loginDialogVisible: true })
@@ -24,6 +24,7 @@ const LoignDialog = () => {
   const { getFavoriteIds } = useFavorite()
   const { getUserPlaylist } = useUserPlaylist()
   const loginDialogVisible = useSelector((state: RootState) => state.commen.loginDialogVisible)
+  const [loading, setLoading] = useState(false)
   const dialogProps: UseDialogProps = {
     visible: loginDialogVisible,
     open: () => {
@@ -37,12 +38,14 @@ const LoignDialog = () => {
 
   async function login () {
     try {
+      setLoading(true)
       const res = await api.login({ phone, password })
       const user = new User(res.data.profile)
       getUserPlaylist(user.userId)
       getFavoriteIds(user.userId)
       dispatch({ type: SET_LOGIN_STATUS, isLogin: true })
       dispatch({ type: SET_USER_PROFILE, user: new User(res.data.profile) })
+      setLoading(false)
       dialogProps.close()
     } catch (e) {
       console.log(e)
@@ -63,7 +66,9 @@ const LoignDialog = () => {
             <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder="请输入密码"/>
           </div>
         </div>
-        <div styleName="login-dialog-btn" onClick={() => login() }>登录</div>
+        <div styleName="login-dialog-button-wrap">
+          <Button loading={loading} block type="primary" onClick={() => login() }>登录</Button>
+        </div>
         <div styleName="login-dialog-tip">本应用仅为学习用途，不会保存任何用户的相关信息，请放心使用。</div>
       </div>
     </Dialog>

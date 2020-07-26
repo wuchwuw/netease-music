@@ -4,6 +4,7 @@ import { createComfirmDialog } from 'COMPONENTS/dialog/create'
 import { useUserPlaylist } from './user-playlist'
 import Song from './song'
 import { Album } from './album'
+import { usePageForword } from 'ROUTER/hooks'
 
 export interface MenuType {
   name: string
@@ -15,6 +16,7 @@ export function usePlaylistContextMenu () {
   const { start, nextPlayPlaylist } = usePlayerController()
   const confirm = createComfirmDialog()
   const { deletePlaylist, subscribePlaylist, getUserPlaylistDetail } = useUserPlaylist()
+  const { goPlaylistEdit } = usePageForword()
 
   function play (playlist: PlaylistClass, next: boolean) {
     getUserPlaylistDetail(playlist.id, (p) => {
@@ -48,7 +50,7 @@ export function usePlaylistContextMenu () {
 
     const deleteMenu: MenuType = { name: '删除歌单', trigger: () => { deletePlaylistConfirm(playlist) } }
 
-    const editMenu: MenuType = { name: '编辑歌单信息', trigger: () => {} }
+    const editMenu: MenuType = { name: '编辑歌单信息', trigger: () => { goPlaylistEdit(playlist.id) } }
 
     if (playlist && playlist.name === '我喜欢的音乐') {
       return [...defaultMenu]

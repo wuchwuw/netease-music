@@ -1,38 +1,77 @@
-import React from 'react'
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import Icon from 'COMPONENTS/icon/icon'
 import './image-viewer.less'
+import Loading from 'COMPONENTS/loading/loading'
 
-interface ImageViewerProps {
-  visible: boolean
-}
+interface ImageViewerProps {}
 
-const ImageViewer: React.SFC<ImageViewerProps>  = (props) => {
+const ImageViewer: React.SFC<ImageViewerProps>  = forwardRef((props, ref) => {
+  const [images, setImages] = useState<string[]>([])
+  const [current, setCurrent] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   const currentImageStyle = {
-    background: 'url(http://p3.music.126.net/xxBaeq-cvQ7w3-WD0ibOAA==/109951165154789504.jpg) no-repeat',
+    backgroundImage: `url(${current})`,
+    backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
-    width: '100%'
+    backgroundPosition: 'center',
+    backgroundClip: 'content-box'
+  }
+
+  useImperativeHandle(ref, () => ({
+    open (url: string, images: string[]) {
+      setImages(images)
+      createImage(url)
+      setVisible(true)
+    }
+  }), [])
+
+  function createImage (url: string) {
+    const img = new Image()
+    img.src = url
+    if (!img.complete) {
+      setLoading(true)
+    }
+    img.onload = () => {
+      if (img.complete) {
+        setLoading(false)
+        setCurrent(url)
+      }
+    }
+  }
+
+  function next (type: 'next' | 'prev') {
+    let index = images.indexOf(current)
+    let currentIndex = type === 'next' ? ++index : --index
+    setCurrent(images[Math.min(Math.max(0, currentIndex), images.length - 1)])
   }
 
   return (
     <>
       {
-        props.visible && (
+        visible && (
           <div styleName="viewer-container">
+            <Icon onClick={() => setVisible(false)} styleName="viewer-close" name="icon-close"></Icon>
             <div styleName="viewer-container-left">
-              <Icon fontSize={30} name="icon-arrow-left"></Icon>
+              <Icon onClick={() => next('prev')} fontSize={30} name="icon-arrow-left"></Icon>
             </div>
             <div styleName="viewer-container-content">
-              <div style={currentImageStyle}></div>
+              {
+                loading ?
+                  <Loading size={40}></Loading>
+                :
+                  <div styleName="viewer-container-content-background" style={currentImageStyle}></div>
+              }
             </div>
             <div styleName="viewer-container-right">
-              <Icon fontSize={30} name="icon-arrow-right"></Icon>
+              <Icon onClick={() => next('next')} fontSize={30} name="icon-arrow-right"></Icon>
             </div>
           </div>
         )
       }
     </>
   )
-}
+})
 
 export default ImageViewer

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import api from 'API/index'
 import { AxiosResponse } from 'axios'
 
 type BeforeFetchReturnType<T> =

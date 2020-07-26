@@ -78,7 +78,16 @@ export function useUserPlaylist () {
     }
   }
 
-  function createPlaylist () {}
+  async function createPlaylist (name: string, isPersonal: boolean, callback?: () => void) {
+    try {
+      await api.addPlaylist({
+        name,
+        privacy: isPersonal ? 10 : ''
+      })
+      getUserPlaylist()
+      callback && callback()
+    } catch (e) {}
+  }
 
   function removeSongWidthComfirm (playlistId: number, song: Song, callback?: () => void) {
     confirm({
@@ -160,6 +169,7 @@ export function useUserPlaylist () {
     shouldUpdateUserFavoritePlaylist,
     isUserPlaylist,
     isMyFavotitePlaylist,
-    removeSongWidthComfirm
+    removeSongWidthComfirm,
+    createPlaylist
   }
 }

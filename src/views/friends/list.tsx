@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { ActivityInfo, ActivityClassType, ActivityType } from 'UTIL/activity'
 import api from 'API/index'
 import Comment from 'COMPONENTS/comment/comment'
@@ -23,6 +23,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   const { goUserDetail, goPlaylistDetail, goMVDetail, goVideoDetail, goAlbumDetail, goArtistDetail } = usePageForword()
   const acticityForwardProps = useDialog()
   const [forwardEventId, setForwardEventId] = useState(0)
+  const imageEl = useRef(null)
 
   async function activityLike (info: ActivityInfo) {
     try {
@@ -45,6 +46,10 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   function forward (eventId: number) {
     setForwardEventId(eventId)
     acticityForwardProps.open()
+  }
+
+  function openImage (current: string, images: string[]) {
+    imageEl.current && imageEl.current.open(current, images)
   }
 
   const genActivityItem = (act: ActivityClassType, index: number) => {
@@ -88,13 +93,13 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   }
 
   const genActivityImages = (act: ActivityClassType) => {
-    const images = act.pics
+    const images = act.pics.map(item => item.pcSquareUrl)
     return (
       <div styleName="activity-image-content">
         {
           images.map((image, index) => (
-            <div key={index} styleName="activity-image-item">
-              <img src={image.pcSquareUrl} alt=""/>
+            <div onClick={() => openImage(image, images)} key={index} styleName="activity-image-item">
+              <img src={image} alt=""/>
             </div>
           ))
         }
@@ -177,7 +182,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
         ))
       }
       <ActivityForwardDialog evId={forwardEventId} {...acticityForwardProps}></ActivityForwardDialog>
-      <ImageViewer visible={true}></ImageViewer>
+      <ImageViewer ref={imageEl}></ImageViewer>
     </div>
   )
 }

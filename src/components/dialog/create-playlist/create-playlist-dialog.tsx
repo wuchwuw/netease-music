@@ -3,21 +3,18 @@ import Dialog from 'COMPONENTS/dialog/dialog'
 import './create-playlist-dialog.less'
 import { UseDialogProps } from '..'
 import classnames from 'classnames'
-import api from 'API/index'
 import Button from 'COMPONENTS/button/button'
+import { useUserPlaylist } from 'UTIL/user-playlist'
 
 const CreatePlaylistDialog: React.SFC<UseDialogProps> = (props) => {
   const [isPersonal, setIsPersonal] = useState(false)
   const [name, setName] = useState('')
+  const { createPlaylist } = useUserPlaylist()
 
-  async function addPlaylist () {
-    try {
-      await api.addPlaylist({
-        name,
-        privacy: isPersonal ? 10 : ''
-      })
+  function addPlaylist () {
+    createPlaylist(name, isPersonal, () => {
       props.close()
-    } catch (e) {}
+    })
   }
 
   return (

@@ -6,6 +6,7 @@ import { Album, AlbumBaseClass } from 'UTIL/album'
 import { MV } from 'UTIL/mv'
 import { Video, VideoBaseClass } from 'UTIL/video'
 import Icon from 'COMPONENTS/icon/icon'
+import { Artist, ArtistBaseClass } from 'UTIL/artist'
 // import { genArtists } from 'VIEWS/template/template'
 
 interface CommenProps {
@@ -136,6 +137,24 @@ export const MessageSourceMV: React.SFC<MVProps & CommenProps> = ({
       <div styleName="message-video-info">
         <span>播放{mv.playCount_format}</span>
         <span>{mv.duration_format}</span>
+      </div>
+    </div>
+  )
+}
+
+interface ArtistProps {
+  artist: ArtistBaseClass
+}
+
+export const MessageSourceArtist: React.SFC<ArtistProps & CommenProps> = ({
+  artist,
+  onClick
+}) => {
+  return (
+    <div styleName="message-default" onClick={onClick}>
+      <img src={artist.picUrl + '?param=100y100'} alt=""/>
+      <div styleName="message-default-info">
+        <div styleName="message-default-title">{artist.name}</div>
       </div>
     </div>
   )

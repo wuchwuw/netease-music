@@ -6,10 +6,10 @@ import { usePlayerController } from 'UTIL/player-controller'
 import './list.less'
 import Icon from 'COMPONENTS/icon/icon'
 import { usePageForword } from 'ROUTER/hooks'
-import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV } from 'COMPONENTS/commen/message-source'
+import { MessageSourcePlaylist, MessageSourceAlbum, MessageSourceSong, MessageSourceVideo, MessageSourceMV, MessageSourceArtist } from 'COMPONENTS/commen/message-source'
 import ActivityForwardDialog from 'COMPONENTS/dialog/activity-forward/activity-forward'
 import { useDialog } from 'COMPONENTS/dialog/index'
-import ImageViewer from 'COMPONENTS/image-viewer/image-viewer'
+import ImageViewer, { ImageViewerRef } from 'COMPONENTS/image-viewer/image-viewer'
 
 interface EventListProps {
   list: ActivityClassType[]
@@ -23,7 +23,7 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   const { goUserDetail, goPlaylistDetail, goMVDetail, goVideoDetail, goAlbumDetail, goArtistDetail } = usePageForword()
   const acticityForwardProps = useDialog()
   const [forwardEventId, setForwardEventId] = useState(0)
-  const imageEl = useRef(null)
+  const imageEl = useRef<ImageViewerRef>(null)
 
   async function activityLike (info: ActivityInfo) {
     try {
@@ -121,24 +121,6 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
   const genActivityContent = (act: ActivityClassType) => {
     switch (act.type) {
       case ActivityType.Song:
-        // return (
-        //   <div onDoubleClick={() => { start({ id: 'friends', name: '动态' }, act.content) }} styleName="activity-song">
-        //     <div styleName="activity-song-wrap">
-        //       <Icon
-        //         onClick={() => { start({ id: 'friends', name: '动态' }, act.content) }}
-        //         name="icon-triangle-full"
-        //         styleName="activity-play-icon activity-song-play-icon"
-        //         fontSize={12}
-        //       >
-        //       </Icon>
-        //       <img src={act.content.album.picUrl + '?param=100y100'} alt=""/>
-        //     </div>
-        //     <div styleName="activity-song-info">
-        //       <div>{act.content.name}</div>
-        //       <div>{act.content.artistName}</div>
-        //     </div>
-        //   </div>
-        // )
         return <MessageSourceSong onClick={() => { start({ id: '/friends', name: '动态' }, act.content) }} song={act.content}></MessageSourceSong>
       case ActivityType.Video:
       case ActivityType.VideoShare:
@@ -160,16 +142,9 @@ const EventList: React.SFC<EventListProps> = ({ list = [], updateList }) => {
           </div>
         )
       case ActivityType.Album:
-        return <MessageSourceAlbum onClick={() => { goPlaylistDetail(act.content.id) }} album={act.content}></MessageSourceAlbum>
+        return <MessageSourceAlbum onClick={() => { goAlbumDetail(act.content.id) }} album={act.content}></MessageSourceAlbum>
       case ActivityType.ARTIST:
-        return (
-          <div onClick={() => { goArtistDetail(act.content.id) }} styleName="activity-song">
-            <img src={act.content.img1v1Url} alt=""/>
-            <div styleName="activity-song-info">
-              <div>{act.content.name}</div>
-            </div>
-          </div>
-        )
+        return <MessageSourceArtist onClick={() => { goArtistDetail(act.content.id) }} artist={act.content}></MessageSourceArtist>
       case ActivityType.PLAYLIST:
         return <MessageSourcePlaylist onClick={() => { goPlaylistDetail(act.content.id) }} playlist={act.content}></MessageSourcePlaylist>
     }

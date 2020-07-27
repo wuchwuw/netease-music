@@ -68,7 +68,7 @@ const Friends: React.SFC = () => {
           <Button
             icon={<Icon name="icon-share"></Icon>}
             type="primary"
-            onClick={() => { openActivityDialog({ type: ShareType.DETAULT ,shareSuccess }) }}
+            onClick={() => { openActivityDialog({ share: { type: ShareType.DETAULT }, shareSuccess}) }}
           >
             发动态
           </Button>

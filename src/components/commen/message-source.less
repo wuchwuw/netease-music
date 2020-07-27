@@ -30,10 +30,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      &:last-child {
-        color: var(--text-9);
-        margin-top: 8px;
-      }
     }
   }
   .message-default-info-tag {
@@ -46,7 +42,11 @@
   }
 }
 .message-default-title {}
-.message-default-user {}
+.message-default-user {
+  color: var(--text-9);
+  margin-top: 8px;
+  font-size: 12px;
+}
 
 .message-video {
   position: relative;

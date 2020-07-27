@@ -118,7 +118,7 @@ const Album = () => {
               <i onClick={() => { nextPlayPlaylist({ id: `album-${album.id}`, name: album.name }, album.songs) }} className="iconfont icon-add"></i>
             </div>
             <Button onClick={ subAlbum } icon={<Icon name="icon-star"></Icon>}>{album.info.isSub ? '已收藏' : '收藏'}({album.info.subCount})</Button>
-            <Button onClick={() => { openShareDialog({type: ShareType.ALBUM, shareContent: album}) }} icon={<Icon name="icon-share"></Icon>}>分享({album.info.shareCount})</Button>
+            <Button onClick={() => { openShareDialog({ share: { type: ShareType.ALBUM, content: album } }) }} icon={<Icon name="icon-share"></Icon>}>分享({album.info.shareCount})</Button>
           </div>
           <div styleName="playlist-info-num">
             <div>歌手: { genArtists(album.artists, goArtistDetail, 'commen-link-blue') }</div>

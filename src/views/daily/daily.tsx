@@ -28,7 +28,8 @@ const Daily = () => {
   async function getRecomendSong () {
     try {
       const res = await api.getRecomendSong()
-      setSongs(createSongList(res.data.recommend))
+      console.log(res)
+      setSongs(createSongList(res.data.data.dailySongs))
     } catch (e) {}
   }
 

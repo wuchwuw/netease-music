@@ -9,6 +9,7 @@ import Spin from 'COMPONENTS/spin/spin'
 import LoadMore from 'COMPONENTS/load-more/load-more'
 import { getQueryStringValue, setQueryStringValue } from 'ROUTER/hooks'
 import { useHistory, useLocation } from 'react-router'
+import PageTitle from 'COMPONENTS/page-title/page-title'
 
 const AreaOption = ['全部', '内地', '欧美', '日本', '韩国']
 const TypeOption = ['全部', '官方版', '原声', '现场版', '网易出品']
@@ -82,6 +83,7 @@ const AllMV = () => {
 
   return (
     <LoadMore load={loadmore}>
+      <PageTitle><span className="topbar-content-title">全部MV</span></PageTitle>
       <div styleName="allmv-container">
         <div>
           <div styleName="artist-filter-item">

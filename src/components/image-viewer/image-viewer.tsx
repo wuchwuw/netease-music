@@ -1,11 +1,14 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import Icon from 'COMPONENTS/icon/icon'
 import './image-viewer.less'
 import Loading from 'COMPONENTS/loading/loading'
 
 interface ImageViewerProps {}
+export interface ImageViewerRef {
+  open: (url: string, images: string[]) => void
+}
 
-const ImageViewer: React.SFC<ImageViewerProps>  = forwardRef((props, ref) => {
+const ImageViewer = forwardRef((props: ImageViewerProps, ref) => {
   const [images, setImages] = useState<string[]>([])
   const [current, setCurrent] = useState('')
   const [loading, setLoading] = useState(false)

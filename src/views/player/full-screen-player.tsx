@@ -69,7 +69,7 @@ const FullScrrenPlayer: React.SFC = () => {
             </Icon>
             <Icon name="icon-add" onClick={() => { openAddPlaylistSongDialog({ songs: [song], addOrRemoveSong, userPlaylist }) }}></Icon>
             <Icon name="icon-fmnext" onClick={ next }></Icon>
-            <Icon name="icon-share" onClick={() => { openShareDialog({ type: ShareType.SONG, shareContent: song }) }}></Icon>
+            <Icon name="icon-share" onClick={() => { openShareDialog({ share: { type: ShareType.SONG, content: song } }) }}></Icon>
           </div>
         </div>
         <div styleName="player-info">

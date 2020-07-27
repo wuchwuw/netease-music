@@ -71,45 +71,44 @@ export enum ShareType {
 }
 
 interface DefaultShare {
-  tab: ShareType.DETAULT
-  result?: any
+  type: ShareType.DETAULT
+  content?: any
 }
 
 interface SongShare {
-  tab: ShareType.SONG
-  result: Song
+  type: ShareType.SONG
+  content: Song
 }
 
 interface ArtistShare  {
-  tab: ShareType.ARTIST
-  result: ArtistBaseClass
+  type: ShareType.ARTIST
+  content: ArtistBaseClass
 }
 
 interface PlaylistShare  {
-  tab: ShareType.PLAYLIST
-  result: PlaylistBaseClass
+  type: ShareType.PLAYLIST
+  content: PlaylistBaseClass
 }
 
 interface AlbumShare  {
-  tab: ShareType.ALBUM
-  result: AlbumBaseClass
+  type: ShareType.ALBUM
+  content: AlbumBaseClass
 }
 
 interface VideoShare  {
-  tab: ShareType.VIDEO
-  result: Video
+  type: ShareType.VIDEO
+  content: Video
 }
 
 interface MVShare  {
-  tab: ShareType.MV
-  result: MV
+  type: ShareType.MV
+  content: MV
 }
 
 export type SearchShare = SongShare | ArtistShare | PlaylistShare| AlbumShare | VideoShare | MVShare | DefaultShare
 
 export interface ActivityPublishProps {
-  type: ShareType
-  shareContent?: Song | ArtistBaseClass | PlaylistBaseClass | AlbumBaseClass
+  share: SearchShare
   shareSuccess?: (a: ActivityClassType) => void
 }
 
@@ -121,10 +120,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<ResultType>([])
   const { open, visible } = useContainer([])
-  const [share, setShare] = useState<SearchShare>({
-    tab: props.type,
-    result: props.shareContent as any
-  })
+  const [share, setShare] = useState<SearchShare>(props.share)
 
   useEffect(() => {
     if (keywords === '') return
@@ -137,13 +133,13 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
       let params: any = {
         msg: content
       }
-      if (share.tab) {
-        if (share.tab === ShareType.VIDEO) {
-          params.vid = share.result.vid
+      if (share.type) {
+        if (share.type === ShareType.VIDEO) {
+          params.vid = share.content.vid
         } else {
-          params.id = share.result.id
+          params.id = share.content.id
         }
-        params.type = share.tab
+        params.type = share.type
       }
       const res = await api.share(params)
       props.shareSuccess && props.shareSuccess(cretaeActicity(res.data.event))
@@ -199,7 +195,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
           <ul styleName="activity-dialog-search-list">
             {
               res.result.map(song => (
-                <li onClick={() => { setShareData(song) }} key={song.id} styleName="activity-dialog-search-item">
+                <li onClick={() => { setShareData({ type: ShareType.SONG, content: song }) }} key={song.id} styleName="activity-dialog-search-item">
                   <span>{song.name}</span> - <span>{song.artistName}</span>
                 </li>
               ))
@@ -211,7 +207,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
           <ul styleName="activity-dialog-search-list">
             {
               res.result.map(album => (
-                <li onClick={() => { setShareData(album) }} key={album.id} styleName="activity-dialog-search-item">
+                <li onClick={() => { setShareData({ type: ShareType.ALBUM, content: album }) }} key={album.id} styleName="activity-dialog-search-item">
                   {album.name} - {album.artistName}
                 </li>
               ))
@@ -223,7 +219,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
           <ul styleName="activity-dialog-search-list">
             {
               res.result.map(artist => (
-                <li onClick={() => { setShareData(artist) }} key={artist.id} styleName="activity-dialog-search-item">
+                <li onClick={() => { setShareData({ type: ShareType.ARTIST, content: artist }) }} key={artist.id} styleName="activity-dialog-search-item">
                   {artist.name}
                 </li>
               ))
@@ -235,7 +231,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
             <ul styleName="activity-dialog-search-list">
               {
                 res.result.map(playlist => (
-                  <li onClick={() => { setShareData(playlist) }} key={playlist.id} styleName="activity-dialog-search-item">
+                  <li onClick={() => { setShareData({ type: ShareType.PLAYLIST, content: playlist }) }} key={playlist.id} styleName="activity-dialog-search-item">
                     {playlist.name}
                   </li>
                 ))
@@ -246,7 +242,7 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
   }
 
   function genShareContent () {
-    if (!share.tab) {
+    if (!share.type) {
       return (
         <div onClick={() => { setSelected(true) }} styleName="activity-dialog-add-content">
           <span styleName="activity-dialog-add-icon"><Icon fontSize={14} name="icon-neteastmusic"></Icon></span>
@@ -263,27 +259,27 @@ const ActivityPublish: React.SFC<UseDialogProps & ActivityPublishProps> = (props
         </div>
       )
     }
-    switch (share.tab) {
+    switch (share.type) {
       case ShareType.SONG:
-        return genContent(share.result.album.picUrl, `${share.result.name}-${share.result.artistName}`)
+        return genContent(share.content.album.picUrl, `${share.content.name}-${share.content.artistName}`)
       case ShareType.ALBUM:
-        return genContent(share.result.picUrl, `${share.result.name}-${share.result.artistName}`)
+        return genContent(share.content.picUrl, `${share.content.name}-${share.content.artistName}`)
       case ShareType.PLAYLIST:
-        return genContent(share.result.coverImgUrl, share.result.name)
+        return genContent(share.content.coverImgUrl, share.content.name)
       case ShareType.ARTIST:
-        return genContent(share.result.img1v1Url, share.result.name)
+        return genContent(share.content.img1v1Url, share.content.name)
       case ShareType.MV:
-        return genContent(share.result.cover, share.result.name)
+        return genContent(share.content.cover, share.content.name)
       case ShareType.VIDEO:
-        return genContent(share.result.coverUrl, share.result.title)
+        return genContent(share.content.coverUrl, share.content.title)
     }
   }
 
-  async function setShareData (data: any) {
-    setShare({ tab, result: data })
+  async function setShareData (data: SearchShare) {
+    setShare(data)
     if (tab === TabType.SONG) {
-      const songs = await getSongList([data.id])
-      songs.length && setShare({ tab, result: songs[0] })
+      const songs = await getSongList([data.content.song.id])
+      songs.length && setShare({ type: ShareType.SONG, content: songs[0] })
     }
     setSelected(false)
   }

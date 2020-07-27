@@ -13,7 +13,7 @@
 .activity-user-info {
   flex: 1;
 }
-.activity-use-info-name{
+.activity-use-info-name {
   font-size: 13px;
   > span {
     color: #507DAF;
@@ -35,40 +35,6 @@
   line-height: 1.5;
 }
 
-.activity-song {
-  display: flex;
-  padding: 10px;
-  background: var(--default-background);
-  border-radius: 5px;
-  &:hover {
-    background: var(--default-background-deep);
-  }
-  &.deep {
-    background: var(--default-background-deep);
-  }
-  img {
-    height: 40px;
-    width: 40px;
-    border-radius: 5px;
-  }
-  .activity-song-info {
-    flex: 1;
-    font-size: 13px;
-    margin-left: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    > div {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      &:last-child {
-        color: var(--text-9);
-        margin-top: 8px;
-      }
-    }
-  }
-}
 .activity-list-topic-wrap {
   border-bottom: 1px solid var(--border);
   padding: 20px 0 20px 50px;
@@ -107,29 +73,6 @@
   }
 }
 
-.activity-video {
-  position: relative;
-  width: 370px;
-  img {
-    width: 100%;
-    border-radius: 5px;
-  }
-}
-.activity-video-info {
-  position: absolute;
-  bottom: 10px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  color: #fff;
-  padding: 0 10px;
-  font-size: 11px;
-  i {
-    font-weight: bold;
-    margin-right: 3px;
-    font-size: 11px;
-  }
-}
 .activity-forword {
   background: var(--default-background-light);
   padding: 20px;
@@ -148,33 +91,7 @@
     }
   }
 }
-.activity-song-wrap {
-  position: relative;
-}
-.activity-song-play-icon {
-  height: 20px;
-  width: 20px;
-  font-size: 12px;
-  cursor: pointer;
-}
 
-.activity-video-play-icon {
-  height: 40px;
-  width: 40px;
-  font-size: 18px;
-}
-.activity-play-icon {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  color: var(--main-color);
-}
 .activity-option {
   display: flex;
   justify-content: flex-end;

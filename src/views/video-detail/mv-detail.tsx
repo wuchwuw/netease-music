@@ -104,7 +104,7 @@ const VideoDetail = () => {
           <div styleName="video-detail-info-option">
             <Button onClick={like} icon={<Icon className={classnames({ 'icon-color-main': mv.liked })} name="icon-zan"></Icon>}>赞({mv.likedCount})</Button>
             <Button onClick={sub} icon={<Icon name="icon-star"></Icon>}>{mv.subed ? '已收藏' : '收藏'}({mv.subCount})</Button>
-            <Button onClick={() => { openShareDialog({ type: ShareType.MV, shareContent: mv }) }} icon={<Icon name="icon-share"></Icon>}>分享({mv.shareCount})</Button>
+            <Button onClick={() => { openShareDialog({ share:{ type: ShareType.MV, content: mv }}) }} icon={<Icon name="icon-share"></Icon>}>分享({mv.shareCount})</Button>
           </div>
           <Comment type="mv" showTitle id={mvId}></Comment>
         </div>

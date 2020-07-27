@@ -4,18 +4,17 @@ import './share-dialog.less'
 import { UseDialogProps } from '..'
 import Icon from 'COMPONENTS/icon/icon'
 import { createActivityPublishDialog } from 'COMPONENTS/dialog/create'
-import { ShareType } from 'COMPONENTS/dialog/activity-publish/activity-publish'
+import { SearchShare } from 'COMPONENTS/dialog/activity-publish/activity-publish'
 
 export interface ShareDialogProps {
-  type: ShareType
-  shareContent: any
+  share: SearchShare
 }
 
 const ShareDialog: React.SFC<ShareDialogProps & UseDialogProps> = (props) => {
   const openActivityPublishDialog = createActivityPublishDialog()
 
   function handleActivityClick () {
-    openActivityPublishDialog({ shareContent: props.shareContent, type: props.type })
+    openActivityPublishDialog({ share: props.share })
     props.close()
   }
 

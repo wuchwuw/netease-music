@@ -50,7 +50,7 @@ const CurrentPlaylist: React.SFC = () => {
                   >
                   </Icon>
                   <Icon onClick={() => { openAddPlaylistSongDialog({songs: [song], addOrRemoveSong, userPlaylist})}} className="icon-color-6 hover" name="icon-add"></Icon>
-                  <Icon onClick={() => { openPlaylistSongDialog({type: ShareType.SONG, shareContent: song})}} className="icon-color-6 hover" name="icon-share"></Icon>
+                  <Icon onClick={() => { openPlaylistSongDialog({ share: { type: ShareType.SONG, content: song } }) }} className="icon-color-6 hover" name="icon-share"></Icon>
                   <Icon onClick={() => { goPage(source.id) }} className="icon-color-6 hover" name="icon-link"></Icon>
                 </div>
               </div>

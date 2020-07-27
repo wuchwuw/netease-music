@@ -73,7 +73,7 @@ const FM = () => {
                 visible && (
                   <ul styleName="fm-context-menu">
                     <li onClick={() => { openAddPlaylistSongDialog({ songs: [currentFM.song], userPlaylist, addOrRemoveSong }) }} styleName="fm-context-menu-item">收藏</li>
-                    <li onClick={() => { openShareDialog({ shareContent: currentFM.song, type: ShareType.SONG }) }} styleName="fm-context-menu-item">分享</li>
+                    <li onClick={() => { openShareDialog({ share: { type: ShareType.SONG, content: currentFM.song } }) }} styleName="fm-context-menu-item">分享</li>
                   </ul>
                 )
               }

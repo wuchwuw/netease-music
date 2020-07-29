@@ -111,8 +111,7 @@ const Playlist = () => {
   function updatePlaylist () {}
 
   async function follow () {
-    if (isPersonal) return
-    subscribePlaylist(playlist, (p) => {
+    subscribePlaylist.fn(playlist, (p) => {
       setPlaylist(new PlaylistClass({ ...playlistCache, subscribedCount: p.subscribedCount, subscribed: p.subscribed }))
     })
   }
@@ -210,6 +209,8 @@ const Playlist = () => {
             </div>
             <Button
               onClick={() => { follow() }}
+              disabled={isPersonal}
+              loading={subscribePlaylist.loading}
               // className={classnames('playlist-info-action-star', { 'fail': isPersonal })}
               icon={<Icon name="icon-star"></Icon>}
             >

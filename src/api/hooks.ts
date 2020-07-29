@@ -13,7 +13,7 @@ export function useLoadMoreParams (limitInit?: number) {
   const limit = useRef(limitInit || 0)
   const hasmore = useRef(true)
   const moreloading = useRef(false)
-  const {} = useFetch<typeof api.addOrRemoveSong>(api.addOrRemoveSong)
+  // const {} = useRequest<typeof api.addOrRemoveSong>(api.addOrRemoveSong)
 
   function setHasMore (more: boolean) {
     hasmore.current = more
@@ -50,12 +50,12 @@ export function useLoadMoreParams (limitInit?: number) {
   }
 }
 
-export function useFetch<T> (api: ApiType<T>) {
+export function useRequest<T> (api: ApiType<T>) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
-  const [timeout, setTimeout] = useState(false)
+  // const [timeout, setTimeout] = useState(false)
 
-  async function fetch (beforeFetch: () => BeforeFetchReturnType<T>, afterFetch?: (res: AxiosResponse<any>) => void, handleError?: (e: any) => void) {
+  async function fetch (beforeFetch: () => BeforeFetchReturnType<T>, afterFetch?: (res?: AxiosResponse<any>) => void, handleError?: (e: any) => void) {
     try {
       setLoading(true)
       const res = await api(beforeFetch())
@@ -63,6 +63,7 @@ export function useFetch<T> (api: ApiType<T>) {
       setLoading(false)
     } catch (e) {
       setError(true)
+      setLoading(false)
       handleError && handleError(e)
       console.log(e)
     }
@@ -71,7 +72,7 @@ export function useFetch<T> (api: ApiType<T>) {
   return {
     fetch,
     loading,
-    timeout,
+    // timeout,
     error
   }
 }

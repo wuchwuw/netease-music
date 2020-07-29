@@ -39,7 +39,9 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
   return response
 }, (error) => {
-  console.log(error)
+  console.log(error.message)
+  console.log(error.code)
+  console.log(error.stack)
   return Promise.reject(error.response)
 })
 

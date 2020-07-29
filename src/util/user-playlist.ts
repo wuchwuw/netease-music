@@ -10,6 +10,7 @@ import { useFavorite } from './favorite'
 import notificationApi from 'COMPONENTS/notification'
 import Song from './song'
 import { getPlaylistTracksCache, setPlaylistTracksCache } from './playlist-cache'
+import { useRequest } from 'API/hooks'
 
 export function useUserPlaylist () {
   const playlist = useSelector((state: RootState) => state.user.playlist)
@@ -20,6 +21,7 @@ export function useUserPlaylist () {
   const dispatch = useDispatch()
   const confirm = createComfirmDialog()
   const { updateFavoriteIds } = useFavorite()
+  const { fetch: apiPlaylistSubscribers, loading: subLoading } = useRequest<typeof api.playlistSubscribers>(api.playlistSubscribers)
 
   async function getUserPlaylist (userId?: number) {
     try {
@@ -45,23 +47,19 @@ export function useUserPlaylist () {
 
   function subscribePlaylist (subPlaylist: PlaylistClass, callback?: (p: PlaylistClass) => void) {
     async function sub (cb?: () => void) {
-      try {
-        const t = subPlaylist.subscribed ? 2 : 1
-        const subscribedCount = subPlaylist.subscribed ? -- subPlaylist.subscribedCount : ++ subPlaylist.subscribedCount
-        await api.playlistSubscribers({ t, id: subPlaylist.id })
+      apiPlaylistSubscribers(() => ({ id: subPlaylist.id, t: subPlaylist.subscribed ? 2 : 1 }), () => {
         setUserPlaylist(subPlaylist.subscribed ? playlist.filter(item => item.id !== subPlaylist.id) : [subPlaylist].concat(playlist))
-        subPlaylist.subscribedCount = subscribedCount
+        subPlaylist.subscribedCount = subPlaylist.subscribed ? -- subPlaylist.subscribedCount : ++ subPlaylist.subscribedCount
         subPlaylist.subscribed = !subPlaylist.subscribed
         callback && callback(subPlaylist)
         cb && cb()
-      } catch (e) {
-        console.log(e)
-      }
+      })
     }
     if (subPlaylist.subscribed) {
       confirm({
         text: '确定不再收藏该歌单?',
         buttonText: '确定',
+        confirmLoading: true,
         confirm: (confirmCallback) => {
           sub(() => {
             confirmCallback && confirmCallback()
@@ -165,7 +163,7 @@ export function useUserPlaylist () {
     subPlaylist,
     getUserPlaylist,
     deletePlaylist,
-    subscribePlaylist,
+    subscribePlaylist: { fn: subscribePlaylist, loading: subLoading },
     addOrRemoveSong,
     getUserPlaylistDetail,
     shouldUpdateUserFavoritePlaylist,

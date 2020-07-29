@@ -113,6 +113,7 @@ export function usePlayerController () {
   }
 
   function togglePlay () {
+    if (!currentSong.song.id) return
     if (playing) {
       pause()
     } else {

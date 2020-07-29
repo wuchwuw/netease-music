@@ -19,6 +19,7 @@ function updataCancelToken () {
 axios.defaults.baseURL = 'http://localhost:3000/'
 axios.defaults.cancelToken = source.token
 axios.defaults.withCredentials = true
+axios.defaults.timeout = 6000
 
 axios.interceptors.request.use((config) => {
   if (config.needLogin && !checkLoginStatus()) {
@@ -38,6 +39,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
   return response
 }, (error) => {
+  console.log(error)
   return Promise.reject(error.response)
 })
 

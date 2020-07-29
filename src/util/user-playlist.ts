@@ -54,7 +54,9 @@ export function useUserPlaylist () {
         subPlaylist.subscribed = !subPlaylist.subscribed
         callback && callback(subPlaylist)
         cb && cb()
-      } catch (e) {}
+      } catch (e) {
+        console.log(e)
+      }
     }
     if (subPlaylist.subscribed) {
       confirm({

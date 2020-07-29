@@ -215,7 +215,7 @@ const Playlist = () => {
             >
               {playlist.subscribed ? '已收藏' : '收藏'}({playlist.subscribedCount_string})
             </Button>
-            <Button onClick={() => { openShareDialog({ type: ShareType.PLAYLIST, shareContent: playlist }) }} icon={<Icon name="icon-share"></Icon>}>分享({playlist.shareCount_string})</Button>
+            <Button onClick={() => { openShareDialog({ share: { type: ShareType.PLAYLIST, content: playlist }}) }} icon={<Icon name="icon-share"></Icon>}>分享({playlist.shareCount_string})</Button>
           </div>
           <div styleName="playlist-info-num">
             {genPlaylistTag(playlist)}

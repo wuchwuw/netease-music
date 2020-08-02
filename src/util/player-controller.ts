@@ -5,7 +5,7 @@ import api from "API/index"
 import { SET_PLAY_STATUS, SET_CURRENT_SONG, SET_PLAYLIST, SET_PLAY_HISTORY, SET_FM_SCREEN_MUSIC, FMType, SET_PLAYERSTATUS } from 'STORE/player/types'
 import { PlyerMode, FM } from 'STORE/player/types'
 import notificationApi from "COMPONENTS/notification"
-import { createCheckVipDialog, VIP_DIALOG } from 'COMPONENTS/dialog/create'
+import { createCheckVipDialog, VipDialogType } from 'COMPONENTS/dialog/create'
 
 // 歌曲来源
 // id -> page path
@@ -69,8 +69,11 @@ export function usePlayerController () {
       return false
     }
     if(song.isVip) {
-      openVipDialog()
+      openVipDialog({ type: VipDialogType.Song })
       return false
+    }
+    if (song.shouldBuy) {
+      openVipDialog({ type: VipDialogType.BuyPlaylist, albumId: song.album.id })
     }
     return true
   }

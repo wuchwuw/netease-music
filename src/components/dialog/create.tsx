@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Confirm, { ConfirmProps } from 'COMPONENTS/dialog/confirm/confirm'
-import VipDialog from 'COMPONENTS/dialog/vip/vip-dialog'
+import VipDialog, { VipDialogProps } from 'COMPONENTS/dialog/vip/vip-dialog'
 import ActivityPublish, { ActivityPublishProps } from 'COMPONENTS/dialog/activity-publish/activity-publish'
 import AddPlaylistDialog, { AddPlaylistDialogProps } from 'COMPONENTS/dialog/add-playlist/add-playlist'
 import ShareDialog, { ShareDialogProps } from 'COMPONENTS/dialog/share/share-dialog'
 export { ShareType } from 'COMPONENTS/dialog/activity-publish/activity-publish'
+export { VipDialogType } from 'COMPONENTS/dialog/vip/vip-dialog'
 
 export const COMFIRM_DIALOG = 'confirm-container'
 export const VIP_DIALOG = 'vip-container'
@@ -13,10 +14,10 @@ export const SHARE_ACTIVITY_DIALOG = 'share_activity_dialog'
 export const ADD_PLAYLIST_SONGS_DIALOG = 'ADD_PLAYLIST_SONGS_DIALOG'
 export const SHARE_DIALOG = 'SHARE_DIALOG'
 
-type DialogNameType = 
-  typeof COMFIRM_DIALOG | 
-  typeof VIP_DIALOG | 
-  typeof SHARE_ACTIVITY_DIALOG | 
+type DialogNameType =
+  typeof COMFIRM_DIALOG |
+  typeof VIP_DIALOG |
+  typeof SHARE_ACTIVITY_DIALOG |
   typeof ADD_PLAYLIST_SONGS_DIALOG |
   typeof SHARE_DIALOG
 
@@ -52,8 +53,8 @@ export function createComfirmDialog () {
 
 export function createCheckVipDialog () {
   const defaultProps = getDefaultProps(VIP_DIALOG)
-  return () => {
-    ReactDOM.render(<VipDialog {...defaultProps}></VipDialog>, createContainer(VIP_DIALOG))
+  return (props: VipDialogProps) => {
+    ReactDOM.render(<VipDialog {...props} {...defaultProps}></VipDialog>, createContainer(VIP_DIALOG))
   }
 }
 

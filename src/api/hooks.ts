@@ -36,12 +36,12 @@ export function useLoadMoreParams (limitInit?: number) {
   }
 
   return {
-    offset,
-    before,
-    lasttime,
-    limit,
-    hasmore,
-    moreloading,
+    offset: offset,
+    before: before,
+    lasttime: lasttime,
+    limit: limit,
+    hasmore: hasmore,
+    moreloading: moreloading,
     setHasMore,
     setMoreLoading,
     setOffset,

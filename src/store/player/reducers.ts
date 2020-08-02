@@ -11,7 +11,8 @@ import {
   SET_FM_SCREEN_MUSIC,
   FMType,
   FM,
-  SET_PLAYERSTATUS
+  SET_PLAYERSTATUS,
+  SET_CURRENTTIME_CHANGE
 } from './types'
 import Song from 'UTIL/song'
 
@@ -25,7 +26,8 @@ const initialState: PlayerState = {
   fullScreen: false,
   mode: PlyerMode.LOOP,
   fmScreenMusicList: FM_TYPE.map(item => { return { song: new Song({}), type: item } }),
-  playerStatus: 'default'
+  playerStatus: 'default',
+  onCurrentTimeChange: false
 }
 
 export function playerReducer (state = initialState, action: PlayerActionTypes): PlayerState {
@@ -53,6 +55,9 @@ export function playerReducer (state = initialState, action: PlayerActionTypes):
       return state
     case SET_PLAYERSTATUS:
       state.playerStatus = action.playerStatus
+      return state
+    case SET_CURRENTTIME_CHANGE:
+      state.onCurrentTimeChange = action.onCurrentTimeChange
       return state
     default:
       return state

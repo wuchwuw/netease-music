@@ -26,7 +26,7 @@ export const light = {
   /* commen */
   '--border': '#F3F3F3',
   '--border-deep': '#D9D9D9',
-  '--default-background-light': 'rgba(245, 245, 245, .4)',
+  '--default-background-light': 'rgba(245, 245, 245, .5)',
   '--default-background': '#F5F5F5',
   '--default-background-deep': '#EDEDED',
   '--color-white': '#FFFFFF',

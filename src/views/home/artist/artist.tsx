@@ -23,8 +23,6 @@ const LangMap = {
   '其他': 0
 }
 
-console.log(Object.keys(LangMap))
-
 const InitialMap = ['热门', ...String.fromCharCode(...Array.from({ length: 25 }, (item, index) =>  index + 65)), '#']
 const ARTIST_LIMIT = 30
 let loading = false

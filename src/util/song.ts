@@ -69,7 +69,12 @@ export default class Song {
 
   get isVip (): boolean {
     const { cp, fee, payed } = this.privilege
-    return cp === 0 && fee > 0 && payed === 0
+    return cp === 0 && fee === 1 && payed === 0
+  }
+
+  get shouldBuy (): boolean {
+    const { cp, fee, payed } = this.privilege
+    return cp === 0 && fee === 4 && payed === 0
   }
 
   get hasPublish (): boolean {
@@ -126,7 +131,6 @@ export function getSongList (ids: number[]): Promise<Song[]> {
         return
       }
       const resArray = await Promise.all(getApi(500))
-      console.log(resArray)
       let songs: Song[] = []
       resArray.forEach(res => {
         songs = songs.concat(res.data.songs.map((item: any, index: number) => {

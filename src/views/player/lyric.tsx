@@ -6,6 +6,9 @@ import Song from 'UTIL/song'
 import './lyric.less'
 import BScroll from 'better-scroll'
 import { usePlayerController } from 'UTIL/player-controller'
+import { useSelector } from 'react-redux'
+import { RootState } from 'STORE/index'
+import { useUpdateEffect } from 'UTIL/hooks'
 
 interface LyricProps {
   song: Song
@@ -26,6 +29,8 @@ const Lyric: React.SFC<LyricProps> = ({
   const lyricHeightCache = useRef<number[]>([])
   const first = useRef(true)
   const [isPure, setIsPure] = useState(false)
+  const [uncollected, setUncollected] = useState(false)
+  const onCurrentTimeChange = useSelector((state: RootState) => state.player.onCurrentTimeChange)
 
   useEffect(() => {
     if (song.id) {
@@ -36,12 +41,16 @@ const Lyric: React.SFC<LyricProps> = ({
     }
   }, [song.id])
 
+  useUpdateEffect(() => {
+    play()
+  }, [onCurrentTimeChange])
+
   useEffect(() => {
     if (lyric.current) {
       if (playing) {
-        lyric.current.play(getPlayCurrentTime() * 1000, false)
+        play()
       } else {
-        lyric.current.stop()
+        stop()
       }
     }
   }, [playing])
@@ -55,7 +64,7 @@ const Lyric: React.SFC<LyricProps> = ({
       initScroll()
       initHeight()
       if (playing) {
-        lyric.current && lyric.current.play(getPlayCurrentTime() * 1000, false)
+        play()
       }
     }
   }, [lines])
@@ -64,10 +73,9 @@ const Lyric: React.SFC<LyricProps> = ({
     try {
       const res = await api.getLyric({ id: song.id })
       lyric.current = new LyricClass(res.data, handler)
-      if (lyric.current.isPure) {
-        setIsPure(true)
-      } else {
-        setIsPure(false)
+      setIsPure(lyric.current.isPure)
+      setUncollected(lyric.current.uncollected)
+      if (!lyric.current.isPure && !lyric.current.uncollected) {
         setLines(lyric.current.lines)
       }
     } catch (e) { console.log(e) }
@@ -99,22 +107,26 @@ const Lyric: React.SFC<LyricProps> = ({
   }
 
   function play () {
-    lyric.current && lyric.current.play(getPlayCurrentTime(), false)
+    lyric.current && lyric.current.play(getPlayCurrentTime() * 1000, false)
   }
 
   function stop () {
     lyric.current && lyric.current.stop()
   }
 
-  function reset () {
-
+  function getNoLyricText () {
+    if (isPure) {
+      return '纯音乐，请您欣赏'
+    } else if (uncollected) {
+      return '还没有歌词哦~'
+    }
   }
 
   return (
     <div id="lyrics" styleName="player-info-lyrics">
       {
-        isPure ?
-        <div>纯音乐，请您欣赏</div>
+        isPure || uncollected ?
+        <div>{getNoLyricText()}</div>
         :
         <div>
           {

@@ -3,7 +3,7 @@ import './player.less'
 import { useSelector, useDispatch } from 'react-redux'
 import { timeFormat } from 'UTIL/util'
 import { RootState } from 'STORE/index'
-import { PLAYER_FULL_SCREEN, SET_MODE } from 'STORE/player/types'
+import { PLAYER_FULL_SCREEN, SET_MODE, SET_CURRENTTIME_CHANGE } from 'STORE/player/types'
 import classnames from 'classnames'
 import { usePanelContaienr, PanelType } from 'VIEWS/panel/container'
 import { usePlayerController } from 'UTIL/player-controller'
@@ -22,6 +22,7 @@ const voice_shared = {
 export default function Player () {
   const fullScreen = useSelector((state: RootState) => state.player.fullScreen)
   const mode = useSelector((state: RootState) => state.player.mode)
+  const onCurrentTimeChange = useSelector((state: RootState) => state.player.onCurrentTimeChange)
   const dispatch = useDispatch()
   const [currentTime, setCurrentTime] = useState(0)
   const [precent, setPrecent] = useState(0)
@@ -43,6 +44,10 @@ export default function Player () {
   const voiceBar = useRef<HTMLDivElement>(null)
 
   function onPointerDown (e: React.PointerEvent<HTMLDivElement>) {
+    if (!currentSong.id) {
+      e.preventDefault()
+      return
+    }
     setMoved(true)
     setPageX(e.pageX)
     setLeft(precent / 100 * progressWrapRef.current!.clientWidth)
@@ -55,6 +60,7 @@ export default function Player () {
   }
   function onPointerUp (e: React.PointerEvent<HTMLDivElement>) {
     audioRef.current!.currentTime = precent / 100 * currentSong.duration / 1000
+    dispatch({ type: SET_CURRENTTIME_CHANGE, onCurrentTimeChange: !onCurrentTimeChange})
     setMoved(false)
   }
 

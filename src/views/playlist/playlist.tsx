@@ -13,11 +13,12 @@ import { useUserPlaylist } from 'UTIL/user-playlist'
 import { useSongContextMenu } from 'UTIL/menu'
 import Song, { getSongList } from 'UTIL/song'
 import { usePageForword } from 'ROUTER/hooks'
-import Subscribers from './subscribers'
+import Subscribers, { SubscribersRef } from './subscribers'
 import { getPlaylistCache, setPlaylistCache, getPlaylistTracksCache, setPlaylistTracksCache } from 'UTIL/playlist-cache'
 import Button from 'COMPONENTS/button/button'
 import Icon from 'COMPONENTS/icon/icon'
 import { createShareDialog, ShareType } from 'COMPONENTS/dialog/create'
+import LoadMore from 'COMPONENTS/load-more/load-more'
 
 enum PlaylistTab {
   SONG = 'SONG',
@@ -52,6 +53,8 @@ const Playlist = () => {
   const [trackloading, setTrackLoading] = useState(tracksDefault.length === 0)
   const openShareDialog = createShareDialog()
   const time = useRef(0)
+  const subElRef = useRef<SubscribersRef>(null)
+  const [descHidden, setDescHidden] = useState(true)
 
   useEffect(() => {
     return () => {
@@ -99,8 +102,6 @@ const Playlist = () => {
       }
       const songs = await getSongList(res.data.playlist.trackIds.map((item: any) => item.id))
       if (time.current === currentTime) {
-        console.log(songs)
-        console.log(p.id)
         setTracks(songs)
         setPlaylistTracksCache(p.id, songs)
       }
@@ -132,10 +133,15 @@ const Playlist = () => {
     } else if (tab === PlaylistTab.COMMENT) {
       return <div style={{padding: '30px'}}><Comment type="playlist" id={playlistId}></Comment></div>
     } else if (tab === PlaylistTab.SUB) {
-      return <Subscribers playlistId={playlistId}></Subscribers>
+      return <Subscribers ref={subElRef} playlistId={playlistId}></Subscribers>
     } else {
       return
     }
+  }
+
+  function subLoadMore () {
+    if (tab !== PlaylistTab.SUB) return
+    subElRef.current && subElRef.current.loadmore()
   }
 
   function getSource () {
@@ -177,13 +183,22 @@ const Playlist = () => {
   function genPlaylistDesc (playlist: PlaylistClass) {
     const isShowEdit = !isOrigin && isPersonal
     if (playlist.description) {
-      return <div styleName="playlist-info-desc clid"><span styleName="playlist-info-num-label">简介：</span>{playlist.description}<Icon fontSize={12} name="icon-triangle-full" styleName="down"></Icon></div>
+      return <div styleName={classnames('playlist-info-desc', { 'clid': descHidden })}><span styleName="playlist-info-num-label">简介：</span>
+        {playlist.description}
+        <Icon
+          onClick={() => { setDescHidden(!descHidden) }}
+          fontSize={12} name="icon-triangle-full"
+          styleName={descHidden ? 'down' : 'up'}
+        >
+        </Icon>
+        </div>
     } else {
       return isShowEdit ? <div styleName="playlist-info-desc clid"><span styleName="playlist-info-num-label">简介：</span><span onClick={() => { goPlaylistEdit(playlistId) }} className="commen-link-blue">添加简介</span></div> : null
     }
   }
 
   return (
+    <LoadMore load={subLoadMore}>
     <div styleName="playlist-wrap">
       <div styleName="playlist-info-wrap">
         <img styleName="playlist-img" src={playlist.coverImgUrl} alt=""/>
@@ -238,6 +253,7 @@ const Playlist = () => {
       </div>
       {genTabComponent()}
     </div>
+    </LoadMore>
   )
 }
 

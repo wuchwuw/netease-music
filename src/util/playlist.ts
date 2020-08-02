@@ -137,7 +137,6 @@ export function createPlaylist (data: any): PlaylistClass {
 }
 
 export async function createPlaylistWidthTracks (data: any, cb: (songs: Song[]) => void) {
-  console.log(data)
   let songs: Song[] = []
   if (data.trackIds) {
     songs = await getSongList(data.trackIds.map((item: any) => item.id))

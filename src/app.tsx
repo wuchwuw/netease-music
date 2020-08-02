@@ -29,7 +29,6 @@ const App = () => {
   }, [])
 
   function inVideo () {
-    console.log(math)
     return !!math
   }
 

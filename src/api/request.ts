@@ -18,7 +18,7 @@ function updataCancelToken () {
   axios.defaults.cancelToken = source.token
 }
 
-axios.defaults.baseURL = isProd ? 'http://47.115.35.49:3000/' : 'http://localhost:3000/'
+axios.defaults.baseURL = isProd ? 'http://www.wuchong.xyz:3000/' : 'http://localhost:3000/'
 axios.defaults.cancelToken = source.token
 axios.defaults.withCredentials = true
 axios.defaults.timeout = 6000

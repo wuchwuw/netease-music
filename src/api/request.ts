@@ -2,6 +2,8 @@ import axios from 'axios'
 import { checkLoginStatus } from 'UTIL/account'
 import { openLoginDialog } from 'COMPONENTS/dialog/login/login-dialog'
 
+const isProd = process.env.NODE_ENV === 'production'
+
 declare module 'axios' {
   interface AxiosRequestConfig {
     needLogin?: boolean
@@ -16,7 +18,7 @@ function updataCancelToken () {
   axios.defaults.cancelToken = source.token
 }
 
-axios.defaults.baseURL = 'http://localhost:3000/'
+axios.defaults.baseURL = isProd ? 'http://47.115.35.49:3000/' : 'http://localhost:3000/'
 axios.defaults.cancelToken = source.token
 axios.defaults.withCredentials = true
 axios.defaults.timeout = 6000

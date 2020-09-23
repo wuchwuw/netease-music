@@ -2,6 +2,7 @@ const { resolve } = require('./util')
 const loaders = require('./loaders')
 const plugins = require('./plugins')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 // const axios = require('axios')
 // const bodyParser = require('body-parser')
 
@@ -41,25 +42,13 @@ const config = {
   plugins,
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
-        uglifyOptions: {
-          compress: {
-            warnings: false,
-            // 删除所有的 `console` 语句
-            drop_console: true,
-            // 内嵌定义了但是只用到一次的变量
-            collapse_vars: true,
-            // 提取出出现多次但是没有定义成变量去引用的静态值
-            reduce_vars: true
-          },
-          // 去掉注释
-          output: {
-            comments: false
-          }
-        },
-        sourceMap: true
+        sourceMap: true, // 如果在生产环境中使用 source-maps，必须设置为 true
+        terserOptions: {
+          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        }
       })
     ],
     runtimeChunk: {

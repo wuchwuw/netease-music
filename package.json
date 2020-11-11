@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --config build/webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --progress --colors --config ./build/webpack.config.js",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "lint": "eslint --ext .js,.ts,.tsx src",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
@@ -17,6 +19,8 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.1",
     "@types/classnames": "^2.2.9",
     "@types/qs": "^6.9.0",
     "@types/react": "^16.9.13",
@@ -28,9 +32,11 @@
     "@types/react-transition-group": "^4.2.3",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
+    "babel-jest": "^26.6.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-react-css-modules": "^5.2.6",
+    "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.0.3",
     "cross-env": "^7.0.2",
     "css-loader": "^3.2.0",
@@ -40,6 +46,9 @@
     "eslint-plugin-react": "^7.17.0",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.3.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
@@ -57,6 +66,9 @@
   },
   "dependencies": {
     "@loadable/component": "^5.12.0",
+    "@sentry/react": "^5.27.3",
+    "@sentry/tracing": "^5.27.3",
+    "@sentry/webpack-plugin": "^1.13.0",
     "@types/js-cookie": "^2.2.6",
     "@types/loadable__component": "^5.10.0",
     "axios": "^0.19.2",
@@ -75,5 +87,11 @@
     "react-router-dom": "^5.1.2",
     "react-transition-group": "^4.3.0",
     "redux": "^4.0.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "npm test"
+    }
   }
 }

@@ -1,23 +1,20 @@
 const { resolve } = require('./util')
 const loaders = require('./loaders')
 const plugins = require('./plugins')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-// const axios = require('axios')
-// const bodyParser = require('body-parser')
 
 const isProd = process.env.NODE_ENV === 'production'
 
 const config = {
   mode: isProd ? 'production' : 'development',
   entry: {
-    main: resolve('src/index.tsx'),
-    // vendor: ['react', 'react-dom', 'redux', 'react-router', 'react-router-dom']
+    main: resolve('src/index.tsx')
   },
   output: {
     path: resolve('dist'),
-    publicPath: '/',
     filename: '[name].js',
+    publicPath: '/',
+    // sourceMapFilename: "[name].[id].[hash:8].js.map",
     chunkFilename: '[name].[id].[hash:8].js'
   },
   resolve: {
@@ -31,9 +28,6 @@ const config = {
       'UTIL': resolve('src/util'),
       'STORE': resolve('src/store'),
       'ROUTER': resolve('src/router')
-      // 'api': resolve('src/api'),
-      // 'base': resolve('src/base'),
-      // 'router': resolve('src/router')
     }
   },
   module: {
@@ -71,7 +65,7 @@ const config = {
       }
     }
   },
-  devtool: isProd ? '' : 'cheap-module-eval-source-map',
+  devtool: isProd ? 'source-map' : 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
     publicPath: '/',

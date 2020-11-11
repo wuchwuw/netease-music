@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import './button.less'
 import Loading from 'COMPONENTS/loading/loading'
 
-interface ButtonProps {
+export interface ButtonProps {
   type?: 'default' | 'primary'
   disabled?: boolean
   loading?: boolean
@@ -13,7 +13,7 @@ interface ButtonProps {
   block?: boolean
 }
 
-const Button: React.SFC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   type = 'default',
   loading = false,
   icon,

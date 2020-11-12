@@ -15,4 +15,4 @@ install:
 script:
 - yarn build
 after_success:
-- scp -o stricthostkeychecking=no dist root@47.115.35.49:/app
+- scp -r -o stricthostkeychecking=no dist root@47.115.35.49:/app

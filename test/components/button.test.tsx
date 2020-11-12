@@ -9,7 +9,7 @@ const props: ButtonProps = {
 
 let wrap: RenderResult, buttonEl: HTMLElement
 describe('test button components', () => {
-  it('test basic Button behavior', () => {
+  it('test basic Button behavior ', () => {
     wrap = render(<Button {...props}>Button Test</Button>)
     buttonEl = wrap.queryByText('Button Test')
     expect(buttonEl).toBeTruthy()

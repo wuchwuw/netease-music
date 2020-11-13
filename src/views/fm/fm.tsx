@@ -50,7 +50,7 @@ const FM = () => {
             {
               fmScreenMusicList.map(fm => (
                 <div onClick={() => { handleFMCoverClick(fm.type) }} key={fm.song.id} styleName={`fm-song-cover-content ${fm.type}`}>
-                  <img src={fm.song.album.picUrl + '?param=400y400'} alt=""/>
+                  { fm.song.id && <img src={fm.song.album.picUrl + '?param=400y400'} alt=""/> }
                 </div>
               ))
             }

@@ -71,7 +71,7 @@
     "@sentry/webpack-plugin": "^1.13.0",
     "@types/js-cookie": "^2.2.6",
     "@types/loadable__component": "^5.10.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "better-scroll": "^2.0.0-beta.10",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.17",
